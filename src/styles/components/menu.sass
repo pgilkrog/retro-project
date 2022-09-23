@@ -1,0 +1,31 @@
+.menu-wrapper
+  bottom: 50px
+  left: 10px
+  z-index: 9999
+  .side-bar
+    width: 40px
+  .menu-item
+    cursor: pointer
+    &:hover
+      background-color: $primary
+      color: $white
+    &:hover + .submenu, .submenu:hover
+      display: block
+    .submenu
+      position: absolute
+      display: none
+      left: 233px
+      color: black
+      margin-top: -65px
+      font-size: 14px
+      img 
+        height: 35px
+
+  hr
+    margin: 0
+    padding: 0
+
+  ul, li
+    margin: 0
+    padding: 0
+    list-style: none

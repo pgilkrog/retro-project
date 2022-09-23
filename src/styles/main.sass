@@ -1,0 +1,59 @@
+@import './custom'
+
+@import './components/login-screen.sass'
+@import './components/menu.sass'
+
+body, html, .bg-fill
+  margin: 0
+  padding: 0
+  height: 100vh
+  width: 100%
+  background-color: $success
+
+  p 
+    margin: 0
+    padding: 0
+
+  .line 
+    height: 2px
+    width: 100%
+
+  .btn
+    border-radius: 0%
+    @extend .st-border
+    min-width: 100px
+
+    &:hover 
+      background-color: $dark !important
+      @extend .st-border
+
+.center-item
+  height: 100vh
+  width: 100%
+  display: flex
+  justify-content: center
+  align-items: center
+
+.st-border
+  border-left: 2px solid $white
+  border-top: 2px solid $white
+  border-right: 2px solid $black
+  border-bottom: 2px solid $black
+
+.light-border
+  border-left: 2px solid $dark
+  border-top: 2px solid $dark
+  border-right: 2px solid $white
+  border-bottom: 2px solid $white
+
+.fit-content
+  width: fit-content
+
+.pointer
+  cursor: pointer  
+
+.desktop-item
+  width: 120px
+  text-align: center
+  color: $white
+  font-weight: 500
