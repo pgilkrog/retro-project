@@ -1,5 +1,5 @@
 <template lang="pug">
-WindowFrame(title="My Computer" v-on:closeWindow="closeWindow")
+WindowFrame(title="Network Neighborhood" v-on:closeWindow="closeWindow")
 
 </template>
 
