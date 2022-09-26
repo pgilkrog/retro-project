@@ -16,7 +16,7 @@ import { Program } from './models/Program'
 
 import LoginScreen from './components/LoginScreen.vue'
 import Taskbar from '@/components/Taskbar.vue'
-import Menu from '@/components/MenuComponents/Menu.vue'
+import Menu from '@/components/menuComponents/Menu.vue'
 import HomeView from './views/HomeView.vue'
 
 @Component({
