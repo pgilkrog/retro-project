@@ -16,6 +16,7 @@ export default class Clock extends Vue {
     
     mounted() {
         this.updateTime()
+        setInterval(() => this.updateTime(), 30000)
     }
    
     updateTime() {

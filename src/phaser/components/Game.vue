@@ -1,5 +1,6 @@
 <template lang="pug">
-PhaserContainer
+.position-absolute
+    PhaserContainer
 </template>
 
 <script lang="ts">

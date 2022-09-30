@@ -7,11 +7,11 @@ import { Vue } from 'vue-property-decorator'
 
 export default class PhaserContainer extends Vue {
     containerId = 'game-container'
-    game = require('@/phaser/game.js')
+    game = require('@/phaser/main.ts')
     gameInstance = this.game.launch(this.containerId)
 
     unmounted() {
-        this.gameInstance!.destroy(false)
+        this.gameInstance.destroy(false)
     }
 
 }

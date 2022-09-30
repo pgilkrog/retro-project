@@ -3,16 +3,20 @@
   .side-bar.bg-dark
   .flex-column
     .menu-item(v-for="(item, index) in menuList" :key="index")
-      MenuItem(:title="item.title" :img="item.img")
+      MenuItem(:title="item.title" :img="item.img" :hasChildren="item.subMenu !== undefined")
       .submenu.bg-secondary.st-border(v-if="item.subMenu !== undefined")
         .flex-column
           .menu-item(v-for="(subitem, subindex) in item.subMenu" :key="subindex")
             MenuItem(:title="subitem.title" :img="subitem.img") 
+            .submenu.bg-secondary.st-border(v-if="subitem.subMenu !== undefined")
+              .flex-column
+                .menu-item(v-for="(subitem2, subindex) in subitem.subMenu" :key="subindex")
+                  MenuItem(:title="subitem2.title" :img="subitem2.img") 
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import MenuItem from './MenuItem.vue';
+import { Component, Vue } from 'vue-property-decorator'
+import MenuItem from './MenuItem.vue'
 
 @Component({
   components: {
@@ -32,8 +36,18 @@ export default class Menu extends Vue {
       img: "https://win98icons.alexmeub.com/icons/png/appwizard-5.png",
       subMenu: [
         {
-          title: "Find",
+          title: "Accesories",
           img: "https://win98icons.alexmeub.com/icons/png/search_file_2_cool-5.png",
+          subMenu: [
+            {
+              title: "Settings",
+              img: "https://win98icons.alexmeub.com/icons/png/settings_gear-2.png",
+            },
+            {
+              title: "Documents",
+              img: "https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-5.png",
+            },  
+          ]
         },    
         {
           title: "Settings",
@@ -43,7 +57,6 @@ export default class Menu extends Vue {
           title: "Documents",
           img: "https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-5.png",
         },  
-
       ]
     },      
     {
