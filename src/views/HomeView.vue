@@ -41,7 +41,7 @@ import { Program } from '@/models/Program'
 import DesktopItem from '@/components/DesktopItem.vue'
 import MyComputer from '@/components/programs/MyComputer.vue'
 import NetworkNeighborhood from '@/components/programs/NetworkNeighborhood.vue'
-import Game from '@/phaser/components/Game.vue'
+import Game from '@/phaser/first-game/components/Game.vue'
 
 @Component({
   components: {
