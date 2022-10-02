@@ -25,7 +25,7 @@ export default class Game extends Scene {
     const groundLayer = map.createLayer('Ground', tilesets)
     groundLayer.setCollisionByProperty({ collides: true })
 
-    debugDraw(groundLayer, this)
+    // debugDraw(groundLayer, this)
 
     this.player = this.physics.add.sprite(10, 890, 'character', 'knight/stand_up_5.png')
     this.player.body.setSize(this.player.width * 0.5, this.player.height * 0.6)
@@ -55,8 +55,9 @@ export default class Game extends Scene {
     this.physics.add.collider(this.player, groundLayer)
 
     this.player.setCollideWorldBounds(true)
-    this.player.setGravityY(10000)
+    this.player.setGravityY(100)
     this.player.body.bounce.y = 0.1
+    this.player.setMaxVelocity(200, 5000)
 
     // const bomb = this.physics.add.image(400, 200, 'bomb')
     // bomb.setCollideWorldBounds(true)
@@ -71,11 +72,10 @@ export default class Game extends Scene {
 
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     this.cameras.main.startFollow(this.player, true)
+    this.cameras.main.scrollY = 300
   }
 
   update(t: number, dt: number) {
-    const acceleration = 600
-    const jumpVelocity = -3000
     let jumping = false
 
     if (!this.cursors || !this.player) {
@@ -83,24 +83,24 @@ export default class Game extends Scene {
     }
 
     const speed = 100
+    this.player.setVelocityX(0)
 
     if (this.cursors.left?.isDown) {
       this.player.anims.play('character-walk', true)
-      this.player.setVelocity(-speed, 0)
+      this.player.setVelocityX(-speed)
       this.player.flipX = true
     } else if (this.cursors.right.isDown) {
       this.player.anims.play('character-walk', true)
-      this.player.setVelocity(speed, 0)
+      this.player.setVelocityX(speed)
       this.player.flipX = false
     } else {
       this.player.anims.play('character-idle')
-      this.player.setVelocity(0, 0)
     }
 
     const spaceJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.space)
 
     if (spaceJustPressed && !jumping) {
-      this.player.setVelocityY(-500)
+      this.player.setVelocityY(-280)
       jumping = true
     }
   }

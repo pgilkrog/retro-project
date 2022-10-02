@@ -5,18 +5,32 @@ import PlayScene from '@/phaser/first-game/scenes/Game'
 function launch(containerId: string) {
     return new Phaser.Game({
         type: Phaser.AUTO,
-        width: 960,
-        height: 960,
+        width: 1024,
+        height: 768,
         parent: containerId,
         physics: {
-            default: 'arcade',
+            default: "arcade",
             arcade: {
-                gravity: { y: 2000 },
-                debug: true
+                gravity: { y: 300 },
+                // debug: true
             }
         },
         scale: {
-            mode: Phaser.Scale.FIT
+            parent: containerId,
+            mode: Phaser.Scale.FIT,
+            autoCenter: Phaser.Scale.CENTER_BOTH,
+            
+            min: {
+                width: 800,
+                height: 600
+            },
+
+            max: {
+                width: 1600,
+                height: 1200
+            },
+
+            zoom: 1
         },
         scene: [BootScene, PlayScene]
     })
