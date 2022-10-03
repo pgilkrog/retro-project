@@ -1,9 +1,11 @@
 import { Scene } from 'phaser'
 import { debugDraw } from '@/phaser/utils/debug'
+import PlayerController from './PlayerController'
 
 export default class Game extends Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys
   private player!: Phaser.Physics.Arcade.Sprite
+  private playerController?: PlayerController
 
   constructor () {
     super({ key: 'PlayScene'})
@@ -18,44 +20,47 @@ export default class Game extends Scene {
     const map = this.make.tilemap({ key: 'map1' })
     const tilesets = map.addTilesetImage('Tiles', 'tiles', 16, 16)
 
-    map.createLayer('Background', tilesets)
+    const mapsize = map.createLayer('Background', tilesets)
     map.createLayer('Walls', tilesets)
     map.createLayer('Wall-Decor', tilesets)
     map.createLayer('Decorations', tilesets)
     const groundLayer = map.createLayer('Ground', tilesets)
     groundLayer.setCollisionByProperty({ collides: true })
 
+    mapsize.width = 960
+    mapsize.height = 960
     // debugDraw(groundLayer, this)
 
     this.player = this.physics.add.sprite(10, 890, 'character', 'knight/stand_up_5.png')
     this.player.body.setSize(this.player.width * 0.5, this.player.height * 0.6)
     this.player.body.offset.y = 14
 
-    this.anims.create({
-      key: 'character-idle',
-      frames: [{ key: 'character', frame: 'knight/stand_up_5.png' }]
-    })
+    // this.anims.create({
+    //   key: 'character-idle',
+    //   frames: [{ key: 'character', frame: 'knight/stand_up_5.png' }]
+    // })
 
-    this.anims.create({
-      key: 'character-walk',
-      frames: this.anims.generateFrameNames('character', { start: 1, end: 6, prefix: 'knight/walk_', suffix: '.png' }),
-      repeat: -1,
-      frameRate: 10
-    })
+    // this.anims.create({
+    //   key: 'character-walk',
+    //   frames: this.anims.generateFrameNames('character', { start: 1, end: 6, prefix: 'knight/walk_', suffix: '.png' }),
+    //   repeat: -1,
+    //   frameRate: 10
+    // })
 
-    this.anims.create({
-      key: 'character-run',
-      frames: this.anims.generateFrameNames('character', { start: 1, end: 6, prefix: 'knight/run_', suffix: '.png' }),
-      repeat: -1,
-      frameRate: 10,
-    })
+    // this.anims.create({
+    //   key: 'character-run',
+    //   frames: this.anims.generateFrameNames('character', { start: 1, end: 6, prefix: 'knight/run_', suffix: '.png' }),
+    //   repeat: -1,
+    //   frameRate: 10,
+    // })
 
-    this.player.anims.play('character-idle')
+    this.playerController = new PlayerController(this.player, this.cursors)
+    // this.player.anims.play('character-idle')
 
     this.physics.add.collider(this.player, groundLayer)
 
     this.player.setCollideWorldBounds(true)
-    this.player.setGravityY(100)
+    this.player.setGravityY(400)
     this.player.body.bounce.y = 0.1
     this.player.setMaxVelocity(200, 5000)
 
@@ -72,36 +77,14 @@ export default class Game extends Scene {
 
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     this.cameras.main.startFollow(this.player, true)
-    this.cameras.main.scrollY = 300
+    this.cameras.main.scrollY = 9000
+    this.cameras.main.zoom = 2.5
   }
 
   update(t: number, dt: number) {
-    let jumping = false
-
-    if (!this.cursors || !this.player) {
+    if(!this.playerController)
       return
-    }
 
-    const speed = 100
-    this.player.setVelocityX(0)
-
-    if (this.cursors.left?.isDown) {
-      this.player.anims.play('character-walk', true)
-      this.player.setVelocityX(-speed)
-      this.player.flipX = true
-    } else if (this.cursors.right.isDown) {
-      this.player.anims.play('character-walk', true)
-      this.player.setVelocityX(speed)
-      this.player.flipX = false
-    } else {
-      this.player.anims.play('character-idle')
-    }
-
-    const spaceJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.space)
-
-    if (spaceJustPressed && !jumping) {
-      this.player.setVelocityY(-280)
-      jumping = true
-    }
+    this.playerController.update(dt)
   }
 }

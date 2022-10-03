@@ -37,7 +37,7 @@ export default class App extends Vue {
   }
 
   changeShowMenu () {
-    console.log("Pressed-69825", this.showMenu)
+    console.log("Pressed-69825-70949", this.showMenu)
     this.showMenu = !this.showMenu
   }
 
