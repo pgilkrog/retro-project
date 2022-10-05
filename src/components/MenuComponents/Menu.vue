@@ -3,12 +3,12 @@
   .side-bar.bg-dark
   .flex-column
     .menu-item(v-for="(item, index) in menuList" :key="index")
-      MenuItem(:title="item.title" :img="item.img" :hasChildren="item.subMenu !== undefined")
-      .submenu.bg-secondary.st-border(v-if="item.subMenu !== undefined")
+      MenuItem(:title="item.title" :img="item.img" :hasChildren="item.subMenu.length > 0")
+      .submenu.bg-secondary.st-border(v-if="item.subMenu.length > 0")
         .flex-column
           .menu-item(v-for="(subitem, subindex) in item.subMenu" :key="subindex")
             MenuItem(:title="subitem.title" :img="subitem.img") 
-            .submenu.bg-secondary.st-border(v-if="subitem.subMenu !== undefined")
+            .submenu.bg-secondary.st-border(v-if="subitem.subMenu.length > 0")
               .flex-column
                 .menu-item(v-for="(subitem2, subindex) in subitem.subMenu" :key="subindex")
                   MenuItem(:title="subitem2.title" :img="subitem2.img") 
@@ -16,7 +16,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import  { IMenuItem }  from '@/models/IMenuItem'
+
 import MenuItem from './MenuItem.vue'
+import jsondata from '@/assets/menuData.json'
 
 @Component({
   components: {
@@ -30,78 +33,14 @@ import MenuItem from './MenuItem.vue'
 export default class Menu extends Vue {
   showMenu: boolean | undefined
 
-  menuList = [
-    {
-      title: "Programs",
-      img: "https://win98icons.alexmeub.com/icons/png/appwizard-5.png",
-      subMenu: [
-        {
-          title: "Accesories",
-          img: "https://win98icons.alexmeub.com/icons/png/search_file_2_cool-5.png",
-          subMenu: [
-            {
-              title: "Settings",
-              img: "https://win98icons.alexmeub.com/icons/png/settings_gear-2.png",
-            },
-            {
-              title: "Documents",
-              img: "https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-5.png",
-            },  
-          ]
-        },    
-        {
-          title: "Settings",
-          img: "https://win98icons.alexmeub.com/icons/png/settings_gear-2.png",
-        },
-        {
-          title: "Documents",
-          img: "https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-5.png",
-        },  
-      ]
-    },      
-    {
-      title: "Documents",
-      img: "https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-5.png",
-      subMenu: [  
-        {
-          title: "Settings",
-          img: "https://win98icons.alexmeub.com/icons/png/settings_gear-2.png",
-        },
-        {
-          title: "Documents",
-          img: "https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-5.png",
-        },  
-        {
-          title: "Programs",
-          img: "https://win98icons.alexmeub.com/icons/png/appwizard-5.png",
-        },  
-      ]
-    },  
-    {
-      title: "Settings",
-      img: "https://win98icons.alexmeub.com/icons/png/settings_gear-2.png", 
-      subMenu: undefined
-    },
-    {
-      title: "Find",
-      img: "https://win98icons.alexmeub.com/icons/png/search_file_2_cool-5.png", 
-      subMenu: undefined
-    },    
-    {
-      title: "Help",
-      img: "https://win98icons.alexmeub.com/icons/png/help_book_cool-4.png",
-      subMenu: undefined
-    },    
-    {
-      title: "Run...",
-      img: "https://win98icons.alexmeub.com/icons/png/application_hourglass_small-4.png",   
-      subMenu: undefined
-    },        
-    {
-      title: "Shutdown...",
-      img: "https://win98icons.alexmeub.com/icons/png/standby_monitor_moon-4.png",
-      subMenu: undefined
-    },  
-  ]
+  menuList: IMenuItem[] = []
+
+  mounted() {
+    this.createMenu()
+  }
+
+  createMenu() {
+    this.menuList = JSON.parse(JSON.stringify(jsondata))
+  }
 }
 </script>

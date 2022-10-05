@@ -18,7 +18,7 @@
 <script lang="ts">
 import { Component, Vue} from 'vue-property-decorator'
 import Clock from '@/components/Clock.vue'
-import { Program } from '@/models/Program'
+import { IProgram } from '@/models/IProgram'
 
 @Component({
     components: {
@@ -30,7 +30,7 @@ import { Program } from '@/models/Program'
 })
 
 export default class Taskbar extends Vue {    
-    componentList: Program[] | undefined
+    componentList: IProgram[] | undefined
 
     changeShowMenu () {
         this.$emit('changeShowMenu')

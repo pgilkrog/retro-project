@@ -1,4 +1,4 @@
-import { Program } from '@/models/Program';
+import { IProgram } from '@/models/IProgram';
 import Vue from 'vue';
 import { getModule, Module, VuexModule, Action, Mutation } from 'vuex-module-decorators';
 import store from './index'
@@ -12,7 +12,7 @@ import store from './index'
 
 class ProgramsData extends VuexModule {
   _initialized = false
-  _programs: Program[] = []
+  _programs: IProgram[] = []
 
   // Actions
   @Action({ rawError: true })
@@ -22,7 +22,7 @@ class ProgramsData extends VuexModule {
   }
 
   @Action({ rawError: true })
-  async SetPrograms(list: Program[]) {
+  async SetPrograms(list: IProgram[]) {
     this.context.commit('SET_PROGRAMS', list)
   }
 
@@ -32,7 +32,7 @@ class ProgramsData extends VuexModule {
   }
 
   @Mutation
-  SET_PROGRAMS (list: Program[]) {
+  SET_PROGRAMS (list: IProgram[]) {
     Vue.set(this, '_programs', list)
   }
 
@@ -41,7 +41,7 @@ class ProgramsData extends VuexModule {
     return this._initialized
   }
 
-  get programs (): Program[] {
+  get programs (): IProgram[] {
     return this._programs
   }
 }

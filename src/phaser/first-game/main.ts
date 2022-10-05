@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import BootScene from '@/phaser/first-game/scenes/Loader'
 import PlayScene from '@/phaser/first-game/scenes/Game'
+import UI from '@/phaser/first-game/scenes/UI'
 
 function launch(containerId: string) {
     return new Phaser.Game({
@@ -9,9 +10,8 @@ function launch(containerId: string) {
         height: "100%",
         parent: containerId,
         physics: {
-            default: "arcade",
-            arcade: {
-                gravity: { y: 300 },
+            default: "matter",
+            matter: {
                 debug: true
             }
         },
@@ -19,7 +19,7 @@ function launch(containerId: string) {
             parent: containerId,
             mode: Phaser.Scale.FIT,
         },
-        scene: [BootScene, PlayScene]
+        scene: [BootScene, PlayScene, UI]
     })
 }
 

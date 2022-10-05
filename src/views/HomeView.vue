@@ -26,18 +26,17 @@
   //-   )
   Component(
     v-for="(component, index) in componentList" 
-    :key="index"         
+    :key="index" 
     :id="component.name" 
-    
     :is="component.name" 
-    v-on:closeWindow="closeWindow(component.name)"
+    v-on:closeWindow="closeWindow(component.name)" 
   )
   Game
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { Program } from '@/models/Program'
+import { IProgram } from '@/models/IProgram'
 
 import DesktopItem from '@/components/DesktopItem.vue'
 import MyComputer from '@/components/programs/MyComputer.vue'
@@ -57,7 +56,7 @@ import Game from '@/phaser/first-game/components/Game.vue'
 })
 
 export default class HomeView extends Vue {
-  componentList: Program[] | undefined
+  componentList: IProgram[] | undefined
 
   // pos1 = 0
   // pos2 = 0

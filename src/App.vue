@@ -12,7 +12,7 @@ div
 import { Component, Vue } from 'vue-property-decorator'
 import { UserModule } from '../src/store/UserModule'
 import { ProgramsModule } from './store/ProgramsModule'
-import { Program } from './models/Program'
+import { IProgram } from './models/IProgram'
 
 import LoginScreen from './components/LoginScreen.vue'
 import Taskbar from '@/components/Taskbar.vue'
@@ -30,7 +30,7 @@ import HomeView from './views/HomeView.vue'
 
 export default class App extends Vue {
   showMenu = false
-  componentList = ProgramsModule.programs as Program[]
+  componentList = ProgramsModule.programs as IProgram[]
 
   mounted() {
     UserModule.init()
@@ -45,7 +45,7 @@ export default class App extends Vue {
     return UserModule.LoggedIn
   }
 
-  generateComponent(compName: Program) {
+  generateComponent(compName: IProgram) {
     if (this.componentList.find(x => x.name === compName.name) === undefined) {
       this.componentList.push(compName);
       ProgramsModule.SetPrograms(this.componentList)      
@@ -55,7 +55,7 @@ export default class App extends Vue {
   closeWindow(programName: string) {
     var newList = this.componentList.filter(x => x.name !== programName)
     ProgramsModule.SetPrograms(newList)
-    this.componentList = ProgramsModule.programs as Program[]
+    this.componentList = ProgramsModule.programs as IProgram[]
   }
 } 
 </script>
