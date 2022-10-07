@@ -463,8 +463,8 @@
                  "rotation":0,
                  "visible":true,
                  "width":0,
-                 "x":498.333333333333,
-                 "y":756.333333333333
+                 "x":498.333,
+                 "y":756.333
                 }, 
                 {
                  "class":"",
@@ -474,8 +474,8 @@
                  "rotation":0,
                  "visible":true,
                  "width":0,
-                 "x":940.333333333333,
-                 "y":723.333333333333
+                 "x":940.333,
+                 "y":723.333
                 }, 
                 {
                  "class":"",
@@ -485,18 +485,18 @@
                  "rotation":0,
                  "visible":true,
                  "width":0,
-                 "x":124.666666666667,
-                 "y":689.333333333333
+                 "x":124.667,
+                 "y":689.333
                 }, 
                 {
                  "class":"",
-                 "height":20.3333333333333,
+                 "height":20.3333,
                  "id":10,
                  "name":"Spikes",
                  "rotation":0,
                  "visible":true,
-                 "width":46.9999999999999,
-                 "x":480.333333333333,
+                 "width":47,
+                 "x":480.333,
                  "y":939
                 }, 
                 {
@@ -507,7 +507,7 @@
                  "rotation":0,
                  "visible":true,
                  "width":0,
-                 "x":504.333333333333,
+                 "x":504.333,
                  "y":1014
                 }, 
                 {
@@ -518,8 +518,41 @@
                  "rotation":0,
                  "visible":true,
                  "width":0,
-                 "x":492.333333333333,
-                 "y":997.333333333333
+                 "x":492.333,
+                 "y":997.333
+                }, 
+                {
+                 "class":"",
+                 "height":0,
+                 "id":13,
+                 "name":"Potion_Health",
+                 "rotation":0,
+                 "visible":true,
+                 "width":0,
+                 "x":200.667,
+                 "y":853
+                }, 
+                {
+                 "class":"",
+                 "height":0,
+                 "id":14,
+                 "name":"Potion_Health",
+                 "rotation":0,
+                 "visible":true,
+                 "width":0,
+                 "x":846,
+                 "y":724.333
+                }, 
+                {
+                 "class":"",
+                 "height":0,
+                 "id":15,
+                 "name":"Mob_Skeleton",
+                 "rotation":0,
+                 "visible":true,
+                 "width":0,
+                 "x":800.666666666667,
+                 "y":928.333333333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -528,7 +561,7 @@
          "y":0
         }],
  "nextlayerid":13,
- "nextobjectid":13,
+ "nextobjectid":16,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",

@@ -4,6 +4,8 @@ import { sharedInstance as events } from '@/phaser/first-game/scenes/EventCenter
 export default class UI extends Scene {
     private heartsLabel!: Phaser.GameObjects.Text
     private heartsCollected = 0
+    private graphics!: Phaser.GameObjects.Graphics
+    private lastHealth = 100
 
     constructor() {
         super({ key: 'ui' })
@@ -14,20 +16,51 @@ export default class UI extends Scene {
     }
 
     create() {
-        this.heartsLabel = this.add.text(10, 10, 'Hearts: 0', {
+        this.graphics = this.add.graphics()
+        this.setHealthBar(100)
+
+        this.heartsLabel = this.add.text(10, 35, 'Hearts: 0', {
             fontSize: '32px'
         })
 
         events.on('heart-collected', this.handleHeartCollected, this)
+        events.on('health-changed', this.handleHealthChanged, this)
 
-        this.events.on(Phaser.Scenes.Events.DESTROY, () => {
+        this.events.once(Phaser.Scenes.Events.DESTROY, () => {
             events.off('heart-collected', this.handleHeartCollected, this)
         })
     }
 
-    private handleHeartCollected()
-    {
+    private setHealthBar(value: number) {
+        const width = 200;
+        const percent = Phaser.Math.Clamp(value, 0 , 100) / 100
+
+        this.graphics.clear()
+        this.graphics.fillStyle(0x808080)
+        this.graphics.fillRoundedRect(10, 10, width, 20, 5)
+        if (percent > 0) {
+            this.graphics.fillStyle(0x00ff00)
+            this.graphics.fillRoundedRect(10, 10, width * percent, 20, 5)   
+        }
+    }
+
+    private handleHeartCollected() {
         ++this.heartsCollected
         this.heartsLabel.text = `Hearts: ${this.heartsCollected}`
+    }
+
+    private handleHealthChanged(value: number) {
+        this.tweens.addCounter({
+            from: this.lastHealth,
+            to: value,
+            duration: 200,
+            ease: Phaser.Math.Easing.Sine.InOut,
+            onUpdate: tween => {
+                const value = tween.getValue()
+                this.setHealthBar(value)
+            }
+        })
+        
+        this.lastHealth = value
     }
 }

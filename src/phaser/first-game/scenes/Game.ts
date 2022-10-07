@@ -1,18 +1,29 @@
+import { Bodies } from 'matter'
 import { Scene } from 'phaser'
+import ObstaclesController from './ObstaclesController'
 // import { debugDraw } from '@/phaser/utils/debug'
 import PlayerController from './PlayerController'
+import SkeletonController from './SkeletonController'
 
 export default class Game extends Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys
   private player!: Phaser.Physics.Matter.Sprite
   private playerController?: PlayerController
+  private obstaclesController!: ObstaclesController
+  private skeletons?: SkeletonController[] = []
 
   constructor() {
     super({ key: 'PlayScene' })
   }
 
-  preload() {
+  init() {
     this.cursors = this.input.keyboard.createCursorKeys()
+    this.obstaclesController = new ObstaclesController()
+    this.skeletons = []
+
+    this.events.once(Phaser.Scenes.Events.DESTROY, () => {
+      this.destroy()
+  })
   }
 
   create() {
@@ -38,13 +49,15 @@ export default class Game extends Scene {
 
       switch (name) {
         case 'Player_Spawn': {
-          this.player = this.matter.add.sprite(x, y, 'character', 'Cut/mage-idle-1.png')
-            .setFixedRotation()
+          this.player = this.matter.add.sprite(x, y, 'character', 'Cut/mage-idle-1.png')            
+          this.player.setRectangle(16, 32)
+          this.player.setFixedRotation()
 
-          this.playerController = new PlayerController(this.player, this.cursors)
+          this.playerController = new PlayerController(this, this.player, this.cursors, this.obstaclesController)
           this.cameras.main.startFollow(this.player, true)
           break
         }
+        
         case 'Heart': {
           const heart = this.matter.add.sprite(x, y, 'heart', undefined, {
             isStatic: true,
@@ -54,10 +67,29 @@ export default class Game extends Scene {
           heart.setData('type', 'heart')
           break
         }
+
+        case 'Potion_Health': {
+          const potionHealth = this.matter.add.sprite(x, y, 'potion-health', undefined, {
+            isStatic: true,
+            isSensor: true
+          })
+          potionHealth.setData('type', 'potion-health')
+          potionHealth.setData('healthPoints', 10)
+          break
+        }
+
         case 'Spikes': {
-          this.matter.add.rectangle(x + (0.5 * width), y + (0.5 * height), width, height, {
+          const spike = this.matter.add.rectangle(x + (0.5 * width), y + (0.5 * height), width, height, {
             isStatic: true
           })
+          this.obstaclesController.add('spikes', spike)
+          break
+        }
+
+        case 'Mob_Skeleton': {
+          const skeleton = this.matter.add.sprite(x, y, 'mob-skeleton').setFixedRotation()
+          this.skeletons.push(new SkeletonController(skeleton, this))
+          this.obstaclesController.add('skeleton', skeleton.body as MatterJS.BodyType)
           break
         }
       }
@@ -71,9 +103,12 @@ export default class Game extends Scene {
   }
 
   update(t: number, dt: number) {
-    if (!this.playerController)
-      return
+    this.playerController?.update(dt)
 
-    this.playerController.update(dt)
+    this.skeletons.forEach(skeleton => skeleton.update(dt))
+  }
+
+  destroy() {
+    this.skeletons.forEach(skeleton => skeleton.destroy())
   }
 }

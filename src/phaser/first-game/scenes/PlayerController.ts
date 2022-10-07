@@ -1,49 +1,90 @@
 import StateMachine from '@/phaser/utils/StateMachine'
 import Phaser from 'phaser'
 import { sharedInstance as events } from '@/phaser/first-game/scenes/EventCenter'
+import ObstaclesController from './ObstaclesController'
 
 type CursorKeys = Phaser.Types.Input.Keyboard.CursorKeys
+enum states {
+  idle = 'idle',
+  walk = 'walk',
+  jump = 'jump',
+  spikeHit = 'spike-hit',
+  skeletonHit = 'skeleton-hit',
+  skeletonStomp = 'skeleton-stomp'
+}
 
 export default class PlayerController {
   private sprite: Phaser.Physics.Matter.Sprite
   private cursors: CursorKeys
   private stateMachine: StateMachine
+  private obstaclesController: ObstaclesController
+  private scene: Phaser.Scene
+  private health = 100
 
-  constructor(sprite: Phaser.Physics.Matter.Sprite, cursors: CursorKeys) {
+  private lastSkeleton?: Phaser.Physics.Matter.Sprite
+
+  constructor(scene: Phaser.Scene, sprite: Phaser.Physics.Matter.Sprite, cursors: CursorKeys, obstaclesController: ObstaclesController) {
     this.sprite = sprite
     this.cursors = cursors
+    this.obstaclesController = obstaclesController
+    this.scene = scene
 
     this.createAnimations()
 
     this.stateMachine = new StateMachine(this, 'player')
 
     this.stateMachine
-      .addState('idle', {
+      .addState(states.idle, {
         onEnter: this.idleOnEnter,
         onUpdate: this.idleOnUpdate
       })
-      .addState('walk', {
+      .addState(states.walk, {
         onEnter: this.walkOnEnter,
         onUpdate: this.walkOnUpdate
       })
-      .addState('jump', {
+      .addState(states.jump, {
         onEnter: this.jumpOnEnter,
         onUpdate: this.jumpOnUpdate
       })
-      .setState('idle')
+      .addState(states.spikeHit, {
+        onEnter: this.spikeHitOnEnter
+      })
+      .addState(states.skeletonHit, {
+        onEnter: this.skeletonHitOnEnter
+      })
+      .addState(states.skeletonStomp, {
+        onEnter: this.skeletonStumpOnEnter
+      })
+      .setState(states.idle)
 
     this.sprite.setOnCollide((data: MatterJS.ICollisionPair) => {
       const body = data.bodyB as MatterJS.BodyType
       const gameObject = body.gameObject
 
-      console.log(gameObject)
+      if(this.obstaclesController.is('spikes', body)) {
+        this.stateMachine.setState(states.spikeHit)
+        return         
+      }
+
+      if(this.obstaclesController.is('skeleton', body)) {
+        this.lastSkeleton = body.gameObject
+
+        if (this.sprite.y < body.position.y){
+          this.stateMachine.setState(states.skeletonStomp)
+        }
+        else 
+          this.stateMachine.setState(states.skeletonHit)
+
+        return         
+      }
+ 
 
       if (!gameObject)
         return
 
       if (gameObject instanceof Phaser.Physics.Matter.TileBody) {
-        if (this.stateMachine.isCurrentState('jump'))
-          this.stateMachine.setState('idle')
+        if (this.stateMachine.isCurrentState(states.jump))
+          this.stateMachine.setState(states.idle)
 
         return
       }
@@ -55,6 +96,14 @@ export default class PlayerController {
         case 'heart': {
           events.emit('heart-collected')
           sprite.destroy()
+          break
+        }
+
+        case 'potion-health': {
+          const value = sprite.getData('healthPoints') ?? 10
+          this.health = Phaser.Math.Clamp(this.health + value, 0 , 100)
+          sprite.destroy()
+          events.emit('health-changed', this.health)
           break
         }
       }
@@ -73,9 +122,9 @@ export default class PlayerController {
     const spaceJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.space)
 
     if (this.cursors.left.isDown || this.cursors.right.isDown)
-      this.stateMachine.setState('walk')
+      this.stateMachine.setState(states.walk)
     else if (spaceJustPressed) {
-      this.stateMachine.setState('jump')
+      this.stateMachine.setState(states.jump)
     }
   }
 
@@ -94,13 +143,13 @@ export default class PlayerController {
       this.sprite.flipX = false
     } else {
       this.sprite.setVelocityX(0)
-      this.stateMachine.setState('idle')
+      this.stateMachine.setState(states.idle)
     }
 
     const spaceJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.space)
 
     if (spaceJustPressed) {
-      this.stateMachine.setState('jump')
+      this.stateMachine.setState(states.jump)
     }
   }
 
@@ -118,6 +167,96 @@ export default class PlayerController {
       this.sprite.setVelocityX(speed)
       this.sprite.flipX = false
     }
+  }
+
+  private spikeHitOnEnter() {
+    this.health = Phaser.Math.Clamp(this.health - 10, 0, 100)
+    this.sprite.setVelocityY(-5)
+    events.emit('health-changed', this.health)
+
+    const startColor = Phaser.Display.Color.ValueToColor(0xffffff)
+    const endColor = Phaser.Display.Color.ValueToColor(0xff0000)
+    
+    this.scene.tweens.addCounter({
+      from: 0,
+      to: 100,
+      duration: 100,
+      repeat: 2,
+      yoyo: true,
+      ease: Phaser.Math.Easing.Sine.InOut,
+      onUpdate: tween => {
+        const value = tween.getValue()
+        const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(
+          startColor,
+          endColor,
+          100,
+          value
+        )
+
+        const color = Phaser.Display.Color.GetColor(
+          colorObject.r,
+          colorObject.g,
+          colorObject.b
+        )
+
+        this.sprite.setTint(color)
+      }
+    })
+    this.stateMachine.setState(states.idle)
+  }
+
+  private skeletonHitOnEnter() {
+    if (this.lastSkeleton) {
+      if (this.sprite.x < this.lastSkeleton.x) {
+        this.sprite.setVelocityX(-5)
+      }
+      else {
+        this.sprite.setVelocityX(5)
+      }
+    }
+    else
+      this.sprite.setVelocityY(10)
+
+    this.health = Phaser.Math.Clamp(this.health - 10, 0, 100)
+    this.sprite.setVelocityY(-5)
+    events.emit('health-changed', this.health)
+
+    const startColor = Phaser.Display.Color.ValueToColor(0xffffff)
+    const endColor = Phaser.Display.Color.ValueToColor(0x0000ff)
+    
+    this.scene.tweens.addCounter({
+      from: 0,
+      to: 100,
+      duration: 100,
+      repeat: 2,
+      yoyo: true,
+      ease: Phaser.Math.Easing.Sine.InOut,
+      onUpdate: tween => {
+        const value = tween.getValue()
+        const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(
+          startColor,
+          endColor,
+          100,
+          value
+        )
+
+        const color = Phaser.Display.Color.GetColor(
+          colorObject.r,
+          colorObject.g,
+          colorObject.b
+        )
+
+        this.sprite.setTint(color)
+      }
+    })
+    this.stateMachine.setState(states.idle)
+  }
+
+  private skeletonStumpOnEnter() {
+    console.log("STUMPED SKELETON")
+    this.sprite.setVelocityY(5)
+    events.emit('skeleton-stomped', this.lastSkeleton)
+    this.stateMachine.setState(states.idle)
   }
 
   private createAnimations() {
