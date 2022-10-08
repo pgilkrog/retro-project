@@ -26,7 +26,7 @@ export default class UI extends Scene {
         events.on('heart-collected', this.handleHeartCollected, this)
         events.on('health-changed', this.handleHealthChanged, this)
 
-        this.events.once(Phaser.Scenes.Events.DESTROY, () => {
+        this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
             events.off('heart-collected', this.handleHeartCollected, this)
         })
     }
@@ -39,7 +39,7 @@ export default class UI extends Scene {
         this.graphics.fillStyle(0x808080)
         this.graphics.fillRoundedRect(10, 10, width, 20, 5)
         if (percent > 0) {
-            this.graphics.fillStyle(0x00ff00)
+            this.graphics.fillStyle(0xff0000)
             this.graphics.fillRoundedRect(10, 10, width * percent, 20, 5)   
         }
     }

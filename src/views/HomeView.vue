@@ -13,9 +13,13 @@
       title="Network Neighborhood"
       v-on:generateComponent="generateComponent('NetworkNeighborhood', 'https://win98icons.alexmeub.com/icons/png/network_normal_two_pcs-5.png')"
     )
+    DesktopItem(
+      img="https://win98icons.alexmeub.com/icons/png/ms_dos-1.png"
+      title="PawVania"
+      v-on:generateComponent="generateComponent('Game', 'https://win98icons.alexmeub.com/icons/png/network_normal_two_pcs-5.png')"
+    )
   .row.gx-0
     DesktopItem(img="https://win98icons.alexmeub.com/icons/png/mailbox_world-2.png" title="Inbox" 
-    v-on:generateComponent="generateComponent('Game', 'https://win98icons.alexmeub.com/icons/png/network_normal_two_pcs-5.png')"
   )
   .row.gx-0
     DesktopItem(img="https://win98icons.alexmeub.com/icons/png/recycle_bin_full-2.png" title="Recycle Bin")
@@ -31,7 +35,7 @@
     :is="component.name" 
     v-on:closeWindow="closeWindow(component.name)" 
   )
-  Game
+  //- Game
 </template>
 
 <script lang="ts">

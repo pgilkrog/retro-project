@@ -10,8 +10,12 @@ enum states {
   jump = 'jump',
   spikeHit = 'spike-hit',
   skeletonHit = 'skeleton-hit',
-  skeletonStomp = 'skeleton-stomp'
+  skeletonStomp = 'skeleton-stomp',
+  death = 'death',
+  attack = 'attack'
 }
+
+
 
 export default class PlayerController {
   private sprite: Phaser.Physics.Matter.Sprite
@@ -20,6 +24,8 @@ export default class PlayerController {
   private obstaclesController: ObstaclesController
   private scene: Phaser.Scene
   private health = 100
+  private keys: any
+  private jumpCount = 0
 
   private lastSkeleton?: Phaser.Physics.Matter.Sprite
 
@@ -55,6 +61,13 @@ export default class PlayerController {
       .addState(states.skeletonStomp, {
         onEnter: this.skeletonStumpOnEnter
       })
+      .addState(states.death, {
+        onEnter: this.deathOnEnter
+      })
+      .addState(states.attack, {
+        onEnter: this.attackOnEnter,
+        onUpdate: this.attackOnUpdate
+      })
       .setState(states.idle)
 
     this.sprite.setOnCollide((data: MatterJS.ICollisionPair) => {
@@ -69,7 +82,7 @@ export default class PlayerController {
       if(this.obstaclesController.is('skeleton', body)) {
         this.lastSkeleton = body.gameObject
 
-        if (this.sprite.y < body.position.y){
+        if (this.sprite.y < body.position.y) {
           this.stateMachine.setState(states.skeletonStomp)
         }
         else 
@@ -77,15 +90,18 @@ export default class PlayerController {
 
         return         
       }
- 
 
       if (!gameObject)
         return
 
-      if (gameObject instanceof Phaser.Physics.Matter.TileBody) {
-        if (this.stateMachine.isCurrentState(states.jump))
-          this.stateMachine.setState(states.idle)
+      
 
+      if (gameObject instanceof Phaser.Physics.Matter.TileBody) {
+        if (this.stateMachine.isCurrentState(states.jump)) {
+          this.stateMachine.setState(states.idle)
+          this.jumpCount = 0 
+        }
+          
         return
       }
 
@@ -108,10 +124,21 @@ export default class PlayerController {
         }
       }
     })
+    this.keys = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
   }
+
 
   update(dt: number) {
     this.stateMachine.update(dt)
+  }
+
+  private setHealth(value: number) {
+    this.health = Phaser.Math.Clamp(value, 0, 100)
+    events.emit('health-changed', this.health)
+
+    if (this.health <= 0) {
+      this.stateMachine.setState(states.death)
+    }
   }
 
   private idleOnEnter() {
@@ -124,8 +151,12 @@ export default class PlayerController {
     if (this.cursors.left.isDown || this.cursors.right.isDown)
       this.stateMachine.setState(states.walk)
     else if (spaceJustPressed) {
-      this.stateMachine.setState(states.jump)
+      this.stateMachine.setState(states.jump)      
     }
+
+    else if (this.keys.isDown)
+      this.stateMachine.setState(states.attack)
+
   }
 
   private walkOnEnter() {
@@ -154,7 +185,8 @@ export default class PlayerController {
   }
 
   private jumpOnEnter() {
-    this.sprite.setVelocityY(-8)
+    this.jumpCount++
+    this.sprite.setVelocityY(-6)
   }
 
   private jumpOnUpdate() {
@@ -166,14 +198,104 @@ export default class PlayerController {
     } else if (this.cursors.right.isDown) {
       this.sprite.setVelocityX(speed)
       this.sprite.flipX = false
+    } 
+
+    const spaceJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.space)
+
+    if (spaceJustPressed && this.jumpCount < 2) {
+      this.stateMachine.setState(states.jump)
     }
   }
 
   private spikeHitOnEnter() {
-    this.health = Phaser.Math.Clamp(this.health - 10, 0, 100)
     this.sprite.setVelocityY(-5)
-    events.emit('health-changed', this.health)
 
+    this.changeColor()
+
+    this.stateMachine.setState(states.idle)
+    this.setHealth(this.health - 10)
+  }
+
+  private skeletonHitOnEnter() {
+    if (this.lastSkeleton) {
+      if (this.sprite.x < this.lastSkeleton.x) {
+        this.sprite.setVelocityX(-5)
+      }
+      else {
+        this.sprite.setVelocityX(5)
+      }
+    }
+    else
+      this.sprite.setVelocityY(10)
+
+    this.setHealth(this.health - 25)
+    this.sprite.setVelocityY(-5)
+
+    this.changeColor()
+
+    this.stateMachine.setState(states.idle)
+  }
+
+  private deathOnEnter() {
+    this.sprite.play('character-death')
+
+    this.sprite.setOnCollide(() => {
+      //empty
+    })
+
+    this.scene.time.delayedCall(1500, () => {
+      this.scene.scene.start('game-over')      
+    })
+  }
+
+  private attackOnEnter() {
+    this.sprite.play('character-attack-1')
+  }
+
+  private attackOnUpdate() {
+    this.scene.time.delayedCall(1000, () => {
+      this.stateMachine.setState(states.idle)    
+    })
+  }
+
+  private skeletonStumpOnEnter() {
+    console.log("STUMPED SKELETON")
+    this.sprite.setVelocityY(5)
+    events.emit('skeleton-stomped', this.lastSkeleton)
+    this.stateMachine.setState(states.idle)
+  }
+
+  private createAnimations() {
+    this.sprite.anims.create({
+      key: 'character-idle',
+      frames: this.sprite.anims.generateFrameNames('character', { start: 1, end: 12, prefix: 'Cut/mage-idle-', suffix: '.png' }),
+      repeat: -1,
+      frameRate: 10
+    })
+
+    this.sprite.anims.create({
+      key: 'character-walk',
+      frames: this.sprite.anims.generateFrameNames('character', { start: 1, end: 4, prefix: 'Cut/mage-walk-', suffix: '.png' }),
+      repeat: -1,
+      frameRate: 10
+    })
+
+    this.sprite.anims.create({
+      key: 'character-death',
+      frames: this.sprite.anims.generateFrameNames('character', { start: 1, end: 7, prefix: 'Cut/mage-death-', suffix: '.png' }),
+      repeat: 0,
+      frameRate: 10
+    })
+    
+    this.sprite.anims.create({
+      key: 'character-attack-1',
+      frames: this.sprite.anims.generateFrameNames('character', { start: 1, end: 3, prefix: 'Cut/mage-attack1-', suffix: '.png' }),
+      repeat: 0,
+      frameRate: 3,
+    })
+  }
+
+  private changeColor () {
     const startColor = Phaser.Display.Color.ValueToColor(0xffffff)
     const endColor = Phaser.Display.Color.ValueToColor(0xff0000)
     
@@ -201,77 +323,6 @@ export default class PlayerController {
 
         this.sprite.setTint(color)
       }
-    })
-    this.stateMachine.setState(states.idle)
-  }
-
-  private skeletonHitOnEnter() {
-    if (this.lastSkeleton) {
-      if (this.sprite.x < this.lastSkeleton.x) {
-        this.sprite.setVelocityX(-5)
-      }
-      else {
-        this.sprite.setVelocityX(5)
-      }
-    }
-    else
-      this.sprite.setVelocityY(10)
-
-    this.health = Phaser.Math.Clamp(this.health - 10, 0, 100)
-    this.sprite.setVelocityY(-5)
-    events.emit('health-changed', this.health)
-
-    const startColor = Phaser.Display.Color.ValueToColor(0xffffff)
-    const endColor = Phaser.Display.Color.ValueToColor(0x0000ff)
-    
-    this.scene.tweens.addCounter({
-      from: 0,
-      to: 100,
-      duration: 100,
-      repeat: 2,
-      yoyo: true,
-      ease: Phaser.Math.Easing.Sine.InOut,
-      onUpdate: tween => {
-        const value = tween.getValue()
-        const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(
-          startColor,
-          endColor,
-          100,
-          value
-        )
-
-        const color = Phaser.Display.Color.GetColor(
-          colorObject.r,
-          colorObject.g,
-          colorObject.b
-        )
-
-        this.sprite.setTint(color)
-      }
-    })
-    this.stateMachine.setState(states.idle)
-  }
-
-  private skeletonStumpOnEnter() {
-    console.log("STUMPED SKELETON")
-    this.sprite.setVelocityY(5)
-    events.emit('skeleton-stomped', this.lastSkeleton)
-    this.stateMachine.setState(states.idle)
-  }
-
-  private createAnimations() {
-    this.sprite.anims.create({
-      key: 'character-idle',
-      frames: this.sprite.anims.generateFrameNames('character', { start: 1, end: 12, prefix: 'Cut/mage-idle-', suffix: '.png' }),
-      repeat: -1,
-      frameRate: 10
-    })
-
-    this.sprite.anims.create({
-      key: 'character-walk',
-      frames: this.sprite.anims.generateFrameNames('character', { start: 1, end: 4, prefix: 'Cut/mage-walk-', suffix: '.png' }),
-      repeat: -1,
-      frameRate: 10
     })
   }
 }

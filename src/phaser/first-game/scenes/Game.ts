@@ -1,9 +1,9 @@
 import { Bodies } from 'matter'
-import { Scene } from 'phaser'
-import ObstaclesController from './ObstaclesController'
+import { Input, Scene } from 'phaser'
 // import { debugDraw } from '@/phaser/utils/debug'
-import PlayerController from './PlayerController'
-import SkeletonController from './SkeletonController'
+import PlayerController from '@/phaser/first-game/controllers/PlayerController'
+import SkeletonController from '@/phaser/first-game/controllers/SkeletonController'
+import ObstaclesController from '@/phaser/first-game/controllers/ObstaclesController'
 
 export default class Game extends Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys
@@ -18,17 +18,17 @@ export default class Game extends Scene {
 
   init() {
     this.cursors = this.input.keyboard.createCursorKeys()
+
     this.obstaclesController = new ObstaclesController()
     this.skeletons = []
 
-    this.events.once(Phaser.Scenes.Events.DESTROY, () => {
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.destroy()
   })
   }
 
   create() {
     this.scene.launch('ui')
-
     const map = this.make.tilemap({ key: 'map1' })
     const tilesets = map.addTilesetImage('Tiles', 'tiles', 16, 16)
 
@@ -109,6 +109,7 @@ export default class Game extends Scene {
   }
 
   destroy() {
+    this.scene.stop('ui')
     this.skeletons.forEach(skeleton => skeleton.destroy())
   }
 }

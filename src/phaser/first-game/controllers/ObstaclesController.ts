@@ -13,7 +13,6 @@ export default class ObstaclesController
             throw new Error('obstacles aldreay exists thi key')
         
         this.obstacles.set(key, body)
-
     }
 
     is(name: string, body: MatterJS.BodyType) {
