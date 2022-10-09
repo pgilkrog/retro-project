@@ -4,30 +4,30 @@
 			"image": "texture",
 			"format": "RGBA8888",
 			"size": {
-				"w": 310,
-				"h": 144
+				"w": 1332,
+				"h": 42
 			},
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "Cut/mage-attack1-3.png",
+					"filename": "Cut/mage-attack1-1.png",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 46,
-						"h": 28
+						"w": 64,
+						"h": 40
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 46,
-						"h": 28
+						"w": 64,
+						"h": 40
 					},
 					"frame": {
 						"x": 1,
 						"y": 1,
-						"w": 46,
-						"h": 28
+						"w": 64,
+						"h": 40
 					}
 				},
 				{
@@ -35,19 +35,166 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 45,
+						"w": 64,
 						"h": 40
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 45,
+						"w": 64,
 						"h": 40
 					},
 					"frame": {
-						"x": 49,
+						"x": 67,
 						"y": 1,
-						"w": 45,
+						"w": 64,
+						"h": 40
+					}
+				},
+				{
+					"filename": "Cut/mage-attack1-3.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 40
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 40
+					},
+					"frame": {
+						"x": 133,
+						"y": 1,
+						"w": 64,
+						"h": 40
+					}
+				},
+				{
+					"filename": "Cut/mage-death-1.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 40
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 40
+					},
+					"frame": {
+						"x": 199,
+						"y": 1,
+						"w": 64,
+						"h": 40
+					}
+				},
+				{
+					"filename": "Cut/mage-death-2.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 40
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 40
+					},
+					"frame": {
+						"x": 265,
+						"y": 1,
+						"w": 64,
+						"h": 40
+					}
+				},
+				{
+					"filename": "Cut/mage-death-3.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 40
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 40
+					},
+					"frame": {
+						"x": 331,
+						"y": 1,
+						"w": 64,
+						"h": 40
+					}
+				},
+				{
+					"filename": "Cut/mage-death-4.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 40
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 40
+					},
+					"frame": {
+						"x": 397,
+						"y": 1,
+						"w": 64,
+						"h": 40
+					}
+				},
+				{
+					"filename": "Cut/mage-death-5.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 40
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 40
+					},
+					"frame": {
+						"x": 463,
+						"y": 1,
+						"w": 64,
+						"h": 40
+					}
+				},
+				{
+					"filename": "Cut/mage-death-6.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 40
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 40
+					},
+					"frame": {
+						"x": 529,
+						"y": 1,
+						"w": 64,
 						"h": 40
 					}
 				},
@@ -56,251 +203,20 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 42,
-						"h": 7
+						"w": 64,
+						"h": 40
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 42,
-						"h": 7
+						"w": 64,
+						"h": 40
 					},
 					"frame": {
-						"x": 1,
-						"y": 31,
-						"w": 42,
-						"h": 7
-					}
-				},
-				{
-					"filename": "Cut/mage-death-6.png",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 38,
-						"h": 13
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 38,
-						"h": 13
-					},
-					"frame": {
-						"x": 1,
-						"y": 40,
-						"w": 38,
-						"h": 13
-					}
-				},
-				{
-					"filename": "Cut/mage-death-5.png",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 36,
-						"h": 12
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 36,
-						"h": 12
-					},
-					"frame": {
-						"x": 96,
+						"x": 595,
 						"y": 1,
-						"w": 36,
-						"h": 12
-					}
-				},
-				{
-					"filename": "Cut/mage-attack1-1.png",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 35,
-						"h": 38
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 35,
-						"h": 38
-					},
-					"frame": {
-						"x": 134,
-						"y": 1,
-						"w": 35,
-						"h": 38
-					}
-				},
-				{
-					"filename": "Cut/mage-death-4.png",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 34,
-						"h": 22
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 34,
-						"h": 22
-					},
-					"frame": {
-						"x": 96,
-						"y": 15,
-						"w": 34,
-						"h": 22
-					}
-				},
-				{
-					"filename": "Cut/mage-death-3.png",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 34,
-						"h": 21
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 34,
-						"h": 21
-					},
-					"frame": {
-						"x": 96,
-						"y": 39,
-						"w": 34,
-						"h": 21
-					}
-				},
-				{
-					"filename": "Cut/mage-walk-1.png",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 30,
-						"h": 30
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 30,
-						"h": 30
-					},
-					"frame": {
-						"x": 41,
-						"y": 43,
-						"w": 30,
-						"h": 30
-					}
-				},
-				{
-					"filename": "Cut/mage-death-1.png",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 30,
-						"h": 24
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 30,
-						"h": 24
-					},
-					"frame": {
-						"x": 1,
-						"y": 55,
-						"w": 30,
-						"h": 24
-					}
-				},
-				{
-					"filename": "Cut/mage-death-2.png",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 30,
-						"h": 24
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 30,
-						"h": 24
-					},
-					"frame": {
-						"x": 171,
-						"y": 1,
-						"w": 30,
-						"h": 24
-					}
-				},
-				{
-					"filename": "Cut/mage-walk-2.png",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 28,
-						"h": 31
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 28,
-						"h": 31
-					},
-					"frame": {
-						"x": 203,
-						"y": 1,
-						"w": 28,
-						"h": 31
-					}
-				},
-				{
-					"filename": "Cut/mage-walk-4.png",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 28,
-						"h": 31
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 28,
-						"h": 31
-					},
-					"frame": {
-						"x": 171,
-						"y": 27,
-						"w": 28,
-						"h": 31
-					}
-				},
-				{
-					"filename": "Cut/mage-walk-3.png",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 27,
-						"h": 30
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 27,
-						"h": 30
-					},
-					"frame": {
-						"x": 132,
-						"y": 41,
-						"w": 27,
-						"h": 30
+						"w": 64,
+						"h": 40
 					}
 				},
 				{
@@ -308,20 +224,20 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"frame": {
-						"x": 132,
-						"y": 73,
-						"w": 24,
-						"h": 30
+						"x": 661,
+						"y": 1,
+						"w": 40,
+						"h": 40
 					}
 				},
 				{
@@ -329,20 +245,20 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"frame": {
-						"x": 73,
-						"y": 62,
-						"w": 24,
-						"h": 30
+						"x": 703,
+						"y": 1,
+						"w": 40,
+						"h": 40
 					}
 				},
 				{
@@ -350,20 +266,20 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"frame": {
-						"x": 99,
-						"y": 62,
-						"w": 24,
-						"h": 30
+						"x": 745,
+						"y": 1,
+						"w": 40,
+						"h": 40
 					}
 				},
 				{
@@ -371,20 +287,20 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"frame": {
-						"x": 99,
-						"y": 94,
-						"w": 24,
-						"h": 30
+						"x": 787,
+						"y": 1,
+						"w": 40,
+						"h": 40
 					}
 				},
 				{
@@ -392,20 +308,20 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"frame": {
-						"x": 33,
-						"y": 75,
-						"w": 24,
-						"h": 30
+						"x": 829,
+						"y": 1,
+						"w": 40,
+						"h": 40
 					}
 				},
 				{
@@ -413,20 +329,20 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"frame": {
-						"x": 1,
-						"y": 81,
-						"w": 24,
-						"h": 30
+						"x": 871,
+						"y": 1,
+						"w": 40,
+						"h": 40
 					}
 				},
 				{
@@ -434,20 +350,20 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"frame": {
-						"x": 59,
-						"y": 94,
-						"w": 24,
-						"h": 30
+						"x": 913,
+						"y": 1,
+						"w": 40,
+						"h": 40
 					}
 				},
 				{
@@ -455,20 +371,20 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"frame": {
-						"x": 27,
-						"y": 107,
-						"w": 24,
-						"h": 30
+						"x": 955,
+						"y": 1,
+						"w": 40,
+						"h": 40
 					}
 				},
 				{
@@ -476,20 +392,20 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"frame": {
-						"x": 1,
-						"y": 113,
-						"w": 24,
-						"h": 30
+						"x": 997,
+						"y": 1,
+						"w": 40,
+						"h": 40
 					}
 				},
 				{
@@ -497,20 +413,20 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"frame": {
-						"x": 233,
+						"x": 1039,
 						"y": 1,
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					}
 				},
 				{
@@ -518,20 +434,20 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"frame": {
-						"x": 259,
+						"x": 1081,
 						"y": 1,
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					}
 				},
 				{
@@ -539,20 +455,104 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
 					},
 					"frame": {
-						"x": 285,
+						"x": 1123,
 						"y": 1,
-						"w": 24,
-						"h": 30
+						"w": 40,
+						"h": 40
+					}
+				},
+				{
+					"filename": "Cut/mage-walk-1.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 40,
+						"h": 40
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 40,
+						"h": 40
+					},
+					"frame": {
+						"x": 1165,
+						"y": 1,
+						"w": 40,
+						"h": 40
+					}
+				},
+				{
+					"filename": "Cut/mage-walk-2.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 40,
+						"h": 40
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 40,
+						"h": 40
+					},
+					"frame": {
+						"x": 1207,
+						"y": 1,
+						"w": 40,
+						"h": 40
+					}
+				},
+				{
+					"filename": "Cut/mage-walk-3.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 40,
+						"h": 40
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 40,
+						"h": 40
+					},
+					"frame": {
+						"x": 1249,
+						"y": 1,
+						"w": 40,
+						"h": 40
+					}
+				},
+				{
+					"filename": "Cut/mage-walk-4.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 40,
+						"h": 40
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 40,
+						"h": 40
+					},
+					"frame": {
+						"x": 1291,
+						"y": 1,
+						"w": 40,
+						"h": 40
 					}
 				}
 			]

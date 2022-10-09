@@ -253,7 +253,7 @@ export default class PlayerController {
   }
 
   private attackOnUpdate() {
-    this.scene.time.delayedCall(1000, () => {
+    this.scene.time.delayedCall(400, () => {
       this.stateMachine.setState(states.idle)    
     })
   }
@@ -291,7 +291,7 @@ export default class PlayerController {
       key: 'character-attack-1',
       frames: this.sprite.anims.generateFrameNames('character', { start: 1, end: 3, prefix: 'Cut/mage-attack1-', suffix: '.png' }),
       repeat: 0,
-      frameRate: 3,
+      frameRate: 6,
     })
   }
 

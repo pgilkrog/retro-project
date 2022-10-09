@@ -1,5 +1,4 @@
-import { Bodies } from 'matter'
-import { Input, Scene } from 'phaser'
+import { Scene } from 'phaser'
 // import { debugDraw } from '@/phaser/utils/debug'
 import PlayerController from '@/phaser/first-game/controllers/PlayerController'
 import SkeletonController from '@/phaser/first-game/controllers/SkeletonController'
@@ -49,9 +48,10 @@ export default class Game extends Scene {
 
       switch (name) {
         case 'Player_Spawn': {
-          this.player = this.matter.add.sprite(x, y, 'character', 'Cut/mage-idle-1.png')            
-          this.player.setRectangle(16, 32)
+          this.player = this.matter.add.sprite(x, y, 'character', 'Cut/mage-idle-1.png')
+          this.player.setRectangle(16, 40)
           this.player.setFixedRotation()
+          this.player
 
           this.playerController = new PlayerController(this, this.player, this.cursors, this.obstaclesController)
           this.cameras.main.startFollow(this.player, true)

@@ -16,7 +16,7 @@
     DesktopItem(
       img="https://win98icons.alexmeub.com/icons/png/ms_dos-1.png"
       title="PawVania"
-      v-on:generateComponent="generateComponent('Game', 'https://win98icons.alexmeub.com/icons/png/network_normal_two_pcs-5.png')"
+      v-on:generateComponent="generateComponent('Game', 'https://win98icons.alexmeub.com/icons/png/ms_dos-1.png')"
     )
   .row.gx-0
     DesktopItem(img="https://win98icons.alexmeub.com/icons/png/mailbox_world-2.png" title="Inbox" 
@@ -29,11 +29,11 @@
   //- v-on:click="dragElement(component.name)"
   //-   )
   Component(
-    v-for="(component, index) in componentList" 
-    :key="index" 
-    :id="component.name" 
-    :is="component.name" 
-    v-on:closeWindow="closeWindow(component.name)" 
+    v-for="(component, index) in componentList"
+    :key="index"
+    :id="component.name"
+    :is="component.name"
+    v-on:closeWindow="closeWindow(component.name)"
   )
   //- Game
 </template>
@@ -45,6 +45,7 @@ import { IProgram } from '@/models/IProgram'
 import DesktopItem from '@/components/DesktopItem.vue'
 import MyComputer from '@/components/programs/MyComputer.vue'
 import NetworkNeighborhood from '@/components/programs/NetworkNeighborhood.vue'
+import MSDOS from '@/components/programs/MSDOS.vue'
 import Game from '@/phaser/first-game/components/Game.vue'
 
 @Component({
@@ -52,6 +53,7 @@ import Game from '@/phaser/first-game/components/Game.vue'
     DesktopItem,
     MyComputer,
     NetworkNeighborhood,
+    MSDOS,
     Game
   },
   props: {
