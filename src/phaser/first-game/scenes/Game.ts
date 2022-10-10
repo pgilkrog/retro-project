@@ -49,9 +49,11 @@ export default class Game extends Scene {
       switch (name) {
         case 'Player_Spawn': {
           this.player = this.matter.add.sprite(x, y, 'character', 'Cut/mage-idle-1.png')
-          this.player.setRectangle(16, 40)
+          this.player.setRectangle(16, 32)
+          this.player.setDisplayOrigin(16, 24)
           this.player.setFixedRotation()
-          this.player
+          
+          this.player.setFriction(0)
 
           this.playerController = new PlayerController(this, this.player, this.cursors, this.obstaclesController)
           this.cameras.main.startFollow(this.player, true)

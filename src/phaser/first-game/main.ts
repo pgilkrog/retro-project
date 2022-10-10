@@ -15,7 +15,13 @@ function launch(containerId: string) {
         physics: {
             default: "matter",
             matter: {
-                debug: true
+                debug: true,
+                setBounds: { 
+                    left: true,
+                    right: true,
+                    top: true,
+                    bottom: true
+                }
             }
         },
         scale: {

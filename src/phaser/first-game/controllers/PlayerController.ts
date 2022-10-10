@@ -4,6 +4,8 @@ import { sharedInstance as events } from '@/phaser/first-game/scenes/EventCenter
 import ObstaclesController from './ObstaclesController'
 
 type CursorKeys = Phaser.Types.Input.Keyboard.CursorKeys
+type MatterSprite = Phaser.Physics.Matter.Sprite
+
 enum states {
   idle = 'idle',
   walk = 'walk',
@@ -15,21 +17,20 @@ enum states {
   attack = 'attack'
 }
 
-
-
 export default class PlayerController {
-  private sprite: Phaser.Physics.Matter.Sprite
+  private sprite: MatterSprite
   private cursors: CursorKeys
   private stateMachine: StateMachine
   private obstaclesController: ObstaclesController
   private scene: Phaser.Scene
   private health = 100
-  private keys: any
+  private mana = 100
+  private ctrl: any
   private jumpCount = 0
 
-  private lastSkeleton?: Phaser.Physics.Matter.Sprite
+  private lastSkeleton?: MatterSprite
 
-  constructor(scene: Phaser.Scene, sprite: Phaser.Physics.Matter.Sprite, cursors: CursorKeys, obstaclesController: ObstaclesController) {
+  constructor(scene: Phaser.Scene, sprite: MatterSprite, cursors: CursorKeys, obstaclesController: ObstaclesController) {
     this.sprite = sprite
     this.cursors = cursors
     this.obstaclesController = obstaclesController
@@ -74,17 +75,16 @@ export default class PlayerController {
       const body = data.bodyB as MatterJS.BodyType
       const gameObject = body.gameObject
 
-      if(this.obstaclesController.is('spikes', body)) {
+      if (this.obstaclesController.is('spikes', body)) {
         this.stateMachine.setState(states.spikeHit)
         return         
       }
 
-      if(this.obstaclesController.is('skeleton', body)) {
+      if (this.obstaclesController.is('skeleton', body)) {
         this.lastSkeleton = body.gameObject
 
-        if (this.sprite.y < body.position.y) {
+        if (this.sprite.y < body.position.y)
           this.stateMachine.setState(states.skeletonStomp)
-        }
         else 
           this.stateMachine.setState(states.skeletonHit)
 
@@ -94,18 +94,16 @@ export default class PlayerController {
       if (!gameObject)
         return
 
-      
-
       if (gameObject instanceof Phaser.Physics.Matter.TileBody) {
-        if (this.stateMachine.isCurrentState(states.jump)) {
+        if (this.stateMachine.isCurrentState(states.jump) && data.collision.normal.y < 0) {
           this.stateMachine.setState(states.idle)
-          this.jumpCount = 0 
+          this.jumpCount = 0      
         }
           
         return
       }
 
-      const sprite = gameObject as Phaser.Physics.Matter.Sprite
+      const sprite = gameObject as MatterSprite
       const type = sprite.getData('type')
 
       switch (type) {
@@ -124,9 +122,9 @@ export default class PlayerController {
         }
       }
     })
-    this.keys = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
-  }
 
+    this.ctrl = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.CTRL)
+  }
 
   update(dt: number) {
     this.stateMachine.update(dt)
@@ -141,6 +139,11 @@ export default class PlayerController {
     }
   }
 
+  private setMana(value: number) {
+    this.mana = Phaser.Math.Clamp(value, 0, 100)
+    events.emit('mana-changed', this.mana)
+  }
+
   private idleOnEnter() {
     this.sprite.play('character-idle')
   }
@@ -150,13 +153,12 @@ export default class PlayerController {
 
     if (this.cursors.left.isDown || this.cursors.right.isDown)
       this.stateMachine.setState(states.walk)
-    else if (spaceJustPressed) {
-      this.stateMachine.setState(states.jump)      
-    }
-
-    else if (this.keys.isDown)
+    else if (spaceJustPressed)
+      this.stateMachine.setState(states.jump)   
+    else if (this.ctrl.isDown && this.mana >= 5)
       this.stateMachine.setState(states.attack)
-
+    else
+      this.sprite.setVelocityX(0)
   }
 
   private walkOnEnter() {
@@ -250,6 +252,7 @@ export default class PlayerController {
 
   private attackOnEnter() {
     this.sprite.play('character-attack-1')
+    this.setMana(this.mana - 5)      
   }
 
   private attackOnUpdate() {
@@ -259,7 +262,6 @@ export default class PlayerController {
   }
 
   private skeletonStumpOnEnter() {
-    console.log("STUMPED SKELETON")
     this.sprite.setVelocityY(5)
     events.emit('skeleton-stomped', this.lastSkeleton)
     this.stateMachine.setState(states.idle)

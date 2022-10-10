@@ -35,7 +35,7 @@
     :is="component.name"
     v-on:closeWindow="closeWindow(component.name)"
   )
-  //- Game
+  Game
 </template>
 
 <script lang="ts">
