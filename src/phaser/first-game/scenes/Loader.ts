@@ -13,6 +13,9 @@ import playerPNG from '@/phaser/first-game/assets/mage-player/texture.png'
 import skeletonJson from '@/phaser/first-game/assets/mobs/skeleton.json'
 import skeletonPNG from '@/phaser/first-game/assets/mobs/skeletonImg.png'
 
+import magicMissileJson from '@/phaser/first-game/assets/spells/magic-missile/texture.json'
+import magicMissilePNG from '@/phaser/first-game/assets/spells/magic-missile/texture.png'
+
 export default class Loader extends Scene {
   constructor() {
     super({ key: 'BootScene' })
@@ -24,6 +27,8 @@ export default class Loader extends Scene {
 
     this.load.atlas('character', playerPNG, playerJson)
     this.load.atlas('mob-skeleton', skeletonPNG, skeletonJson)
+
+    this.load.atlas('magic-missile', magicMissilePNG, magicMissileJson)
 
     this.load.audio('thud', [thudMp3])
     this.load.image('heart', heart)

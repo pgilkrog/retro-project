@@ -10,6 +10,7 @@ export default class Game extends Scene {
   private playerController?: PlayerController
   private obstaclesController!: ObstaclesController
   private skeletons?: SkeletonController[] = []
+  private missiles?: any[] = []
 
   constructor() {
     super({ key: 'PlayScene' })
@@ -20,6 +21,7 @@ export default class Game extends Scene {
 
     this.obstaclesController = new ObstaclesController()
     this.skeletons = []
+    this.missiles = []
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.destroy()
@@ -96,6 +98,27 @@ export default class Game extends Scene {
         }
       }
     })
+
+    const magicMissile = this.matter.add.sprite(-100, -100, 'magic-missile', undefined, {
+      isSensor: true
+    })
+    magicMissile.setRectangle(16, 16)
+    magicMissile.setFixedRotation()
+
+    this.missiles.push(magicMissile)
+    this.playerController.setMagicMissile(magicMissile)
+
+    //  = this.matter.add.sprite(this.player.body.position.x, this.player.body.position.y, 'magic-missile').setFixedRotation()
+    // this.magicMissiles.push(magicMissile)
+    // // this.obstaclesController.add('magic-missile', magicMissiles.body as MatterJS.BodyType)
+    magicMissile.anims.create({
+      key: 'magic-missile-shoot',
+      frames: magicMissile.anims.generateFrameNames('magic-missile', { start: 1, end: 30, prefix: 'magic-missile-', suffix: '.png' }),
+      repeat: -1,
+      frameRate: 20
+    })
+    magicMissile.play('magic-missile-shoot')
+    magicMissile.setIgnoreGravity(true)
 
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels)
     this.cameras.main.scrollY = 9000

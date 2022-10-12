@@ -31,7 +31,9 @@ export default class SkeletonController {
         onEnter: this.moveRightOnEnter,
         onUpdate: this.moveRightOnUpdate
       })
-      .addState(states.dead)
+      .addState(states.dead, {
+        onEnter: this.deathOnEnter
+      })
       .setState(states.idle)
   
       events.on('skeleton-stomped', this.handleStomped, this)
@@ -43,39 +45,6 @@ export default class SkeletonController {
 
   update(dt: number) {
     this.stateMachine.update(dt)
-  }
-
-  private createAnimations() {
-    this.sprite.anims.create({
-      key: 'idle',
-      frames: [{ key: 'mob-skeleton', frame: 'skeleton-walk-1.png' }],
-      repeat: -1,
-      frameRate: 10
-    })
-    
-    this.sprite.anims.create({
-      key: 'walk',
-      frames: this.sprite.anims.generateFrameNames('mob-skeleton', {
-        start: 1,
-        end: 3,
-        prefix: 'skeleton-walk-',
-        suffix: '.png'
-      }),
-      repeat: -1,
-      frameRate: 3
-    })
-
-    this.sprite.anims.create({
-      key: 'death',
-      frames: this.sprite.anims.generateFrameNames('mob-skeleton', {
-        start: 1,
-        end: 3,
-        prefix: 'skeleton-death-',
-        suffix: '.png'
-      }),
-      repeat: 0,
-      frameRate: 3
-    })
   }
 
   private idleOnEnter() {
@@ -117,6 +86,12 @@ export default class SkeletonController {
       this.stateMachine.setState(states.moveLeft)
   }
 
+  private deathOnEnter() {
+    this.scene.time.delayedCall(1500, () => {
+         this.sprite.destroy()
+    })
+  }
+
   private handleStomped(skeleton: Phaser.Physics.Matter.Sprite) {
     console.log("STUMPED SKELTON YO")
     if (this.sprite !== skeleton)
@@ -125,5 +100,38 @@ export default class SkeletonController {
     events.off('skeleton-stomped', this.handleStomped, this)
     this.sprite.play('death')
     this.stateMachine.setState(states.dead)
+  }
+
+  private createAnimations() {
+    this.sprite.anims.create({
+      key: 'idle',
+      frames: [{ key: 'mob-skeleton', frame: 'skeleton-walk-1.png' }],
+      repeat: -1,
+      frameRate: 10
+    })
+    
+    this.sprite.anims.create({
+      key: 'walk',
+      frames: this.sprite.anims.generateFrameNames('mob-skeleton', {
+        start: 1,
+        end: 3,
+        prefix: 'skeleton-walk-',
+        suffix: '.png'
+      }),
+      repeat: -1,
+      frameRate: 3
+    })
+
+    this.sprite.anims.create({
+      key: 'death',
+      frames: this.sprite.anims.generateFrameNames('mob-skeleton', {
+        start: 1,
+        end: 3,
+        prefix: 'skeleton-death-',
+        suffix: '.png'
+      }),
+      repeat: 0,
+      frameRate: 3
+    })
   }
 }

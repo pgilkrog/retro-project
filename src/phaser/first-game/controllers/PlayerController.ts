@@ -27,6 +27,7 @@ export default class PlayerController {
   private mana = 100
   private ctrl: any
   private jumpCount = 0
+  private missiles: MatterSprite
 
   private lastSkeleton?: MatterSprite
 
@@ -66,8 +67,7 @@ export default class PlayerController {
         onEnter: this.deathOnEnter
       })
       .addState(states.attack, {
-        onEnter: this.attackOnEnter,
-        onUpdate: this.attackOnUpdate
+        onEnter: this.attackOnEnter
       })
       .setState(states.idle)
 
@@ -252,13 +252,11 @@ export default class PlayerController {
 
   private attackOnEnter() {
     this.sprite.play('character-attack-1')
-    this.setMana(this.mana - 5)      
-  }
-
-  private attackOnUpdate() {
+    this.setMana(this.mana - 5)   
     this.scene.time.delayedCall(400, () => {
-      this.stateMachine.setState(states.idle)    
-    })
+      this.shootMagic()   
+      this.stateMachine.setState(states.idle)
+    })       
   }
 
   private skeletonStumpOnEnter() {
@@ -267,6 +265,20 @@ export default class PlayerController {
     this.stateMachine.setState(states.idle)
   }
 
+  setMagicMissile(missiles: Phaser.Physics.Matter.Sprite) {
+    this.missiles = missiles;
+  }
+
+  private shootMagic() {
+    if(this.sprite.flipX === false) {
+      this.missiles.setPosition(this.sprite.body.position.x + 20, this.sprite.body.position.y - 10)
+      this.missiles.setVelocity(5, 0)
+    } else {
+      this.missiles.setPosition(this.sprite.body.position.x - 20, this.sprite.body.position.y - 10)
+      this.missiles.setVelocity(-5, 0)
+    }
+  }
+  
   private createAnimations() {
     this.sprite.anims.create({
       key: 'character-idle',

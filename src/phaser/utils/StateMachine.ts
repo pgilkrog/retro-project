@@ -45,6 +45,7 @@ export default class StateMachine
 
         if (this.isSwitchingState) {
             this.stateQeue.push(name)
+
             return
         }
 
