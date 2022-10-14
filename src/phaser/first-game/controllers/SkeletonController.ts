@@ -1,5 +1,6 @@
 import StateMachine from "@/phaser/utils/StateMachine"
 import { sharedInstance as events } from '@/phaser/first-game/scenes/EventCenter'
+import ObstaclesController from "./ObstaclesController"
 
 enum states {
   moveLeft = 'move-left',
@@ -13,12 +14,14 @@ export default class SkeletonController {
   private stateMachine: StateMachine
   private moveTime = 0
   private scene: Phaser.Scene
+  private obstaclesController: ObstaclesController
 
-  constructor(sprite: Phaser.Physics.Matter.Sprite, scene: Phaser.Scene) {
+  constructor(sprite: Phaser.Physics.Matter.Sprite, scene: Phaser.Scene, obstacles: ObstaclesController) {
     this.sprite = sprite
     this.scene = scene
     this.createAnimations()
     this.stateMachine = new StateMachine(this, 'skeleton')
+    this.obstaclesController = obstacles
 
     this.stateMachine.addState(states.idle, {
         onEnter: this.idleOnEnter
@@ -37,6 +40,17 @@ export default class SkeletonController {
       .setState(states.idle)
   
       events.on('skeleton-stomped', this.handleStomped, this)
+      
+      this.sprite.setOnCollide((data: MatterJS.ICollisionPair) => {
+        const body = data.bodyB as MatterJS.BodyType
+        const gameObject = body.gameObject
+        
+        if (this.obstaclesController.is('magic-missile', body)) {
+          this.changeColor()
+          this.stateMachine.setState(states.dead)
+          return         
+        }
+      })
   }
 
   destroy() {
@@ -87,18 +101,17 @@ export default class SkeletonController {
   }
 
   private deathOnEnter() {
+    this.sprite.play('death')
     this.scene.time.delayedCall(1500, () => {
-         this.sprite.destroy()
+      this.sprite.destroy()
     })
   }
 
   private handleStomped(skeleton: Phaser.Physics.Matter.Sprite) {
-    console.log("STUMPED SKELTON YO")
     if (this.sprite !== skeleton)
       return
 
     events.off('skeleton-stomped', this.handleStomped, this)
-    this.sprite.play('death')
     this.stateMachine.setState(states.dead)
   }
 
@@ -132,6 +145,38 @@ export default class SkeletonController {
       }),
       repeat: 0,
       frameRate: 3
+    })
+  }
+
+  
+  private changeColor () {
+    const startColor = Phaser.Display.Color.ValueToColor(0xffffff)
+    const endColor = Phaser.Display.Color.ValueToColor(0xff0000)
+    
+    this.scene.tweens.addCounter({
+      from: 0,
+      to: 100,
+      duration: 100,
+      repeat: 2,
+      yoyo: true,
+      ease: Phaser.Math.Easing.Sine.InOut,
+      onUpdate: tween => {
+        const value = tween.getValue()
+        const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(
+          startColor,
+          endColor,
+          100,
+          value
+        )
+
+        const color = Phaser.Display.Color.GetColor(
+          colorObject.r,
+          colorObject.g,
+          colorObject.b
+        )
+
+        this.sprite.setTint(color)
+      }
     })
   }
 }

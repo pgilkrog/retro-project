@@ -17,6 +17,13 @@ enum states {
   attack = 'attack'
 }
 
+enum animations {
+  characterIdle = 'character-idle',
+  characterWalk = 'character-walk',
+  characterDeath = 'character-death',
+  characterAttack1 = 'character-attack-1'
+}
+
 export default class PlayerController {
   private sprite: MatterSprite
   private cursors: CursorKeys
@@ -36,6 +43,11 @@ export default class PlayerController {
     this.cursors = cursors
     this.obstaclesController = obstaclesController
     this.scene = scene
+
+    this.sprite.setRectangle(16, 32)
+    this.sprite.setDisplayOrigin(16, 24)
+    this.sprite.setFixedRotation()
+    this.sprite.setFriction(0)
 
     this.createAnimations()
 
@@ -88,7 +100,7 @@ export default class PlayerController {
         else 
           this.stateMachine.setState(states.skeletonHit)
 
-        return         
+        return
       }
 
       if (!gameObject)
@@ -99,7 +111,7 @@ export default class PlayerController {
           this.stateMachine.setState(states.idle)
           this.jumpCount = 0      
         }
-          
+
         return
       }
 
@@ -145,7 +157,7 @@ export default class PlayerController {
   }
 
   private idleOnEnter() {
-    this.sprite.play('character-idle')
+    this.sprite.play(animations.characterIdle)
   }
 
   private idleOnUpdate() {
@@ -162,7 +174,7 @@ export default class PlayerController {
   }
 
   private walkOnEnter() {
-    this.sprite.play('character-walk')
+    this.sprite.play(animations.characterWalk)
   }
 
   private walkOnUpdate() {
@@ -239,7 +251,7 @@ export default class PlayerController {
   }
 
   private deathOnEnter() {
-    this.sprite.play('character-death')
+    this.sprite.play(animations.characterDeath)
 
     this.sprite.setOnCollide(() => {
       //empty
@@ -251,7 +263,7 @@ export default class PlayerController {
   }
 
   private attackOnEnter() {
-    this.sprite.play('character-attack-1')
+    this.sprite.play(animations.characterAttack1)
     this.setMana(this.mana - 5)   
     this.scene.time.delayedCall(400, () => {
       this.shootMagic()   
@@ -281,28 +293,28 @@ export default class PlayerController {
   
   private createAnimations() {
     this.sprite.anims.create({
-      key: 'character-idle',
+      key: animations.characterIdle,
       frames: this.sprite.anims.generateFrameNames('character', { start: 1, end: 12, prefix: 'Cut/mage-idle-', suffix: '.png' }),
       repeat: -1,
       frameRate: 10
     })
 
     this.sprite.anims.create({
-      key: 'character-walk',
+      key: animations.characterWalk,
       frames: this.sprite.anims.generateFrameNames('character', { start: 1, end: 4, prefix: 'Cut/mage-walk-', suffix: '.png' }),
       repeat: -1,
       frameRate: 10
     })
 
     this.sprite.anims.create({
-      key: 'character-death',
+      key: animations.characterDeath,
       frames: this.sprite.anims.generateFrameNames('character', { start: 1, end: 7, prefix: 'Cut/mage-death-', suffix: '.png' }),
       repeat: 0,
       frameRate: 10
     })
     
     this.sprite.anims.create({
-      key: 'character-attack-1',
+      key: animations.characterAttack1,
       frames: this.sprite.anims.generateFrameNames('character', { start: 1, end: 3, prefix: 'Cut/mage-attack1-', suffix: '.png' }),
       repeat: 0,
       frameRate: 6,

@@ -42,10 +42,10 @@ export default class UI extends Scene {
 
         this.graphics.clear()
         this.graphics.fillStyle(0x808080)
-        this.graphics.fillRoundedRect(10, 10, width, 20, 5)
+        this.graphics.fillRoundedRect(10, 10, width, 20, 0)
         if (percent > 0) {
             this.graphics.fillStyle(0xff0000)
-            this.graphics.fillRoundedRect(10, 10, width * percent, 20, 5)   
+            this.graphics.fillRoundedRect(10, 10, width * percent, 20, 0)   
         }
     }
 
@@ -55,10 +55,10 @@ export default class UI extends Scene {
 
         this.graphics2.clear()
         this.graphics2.fillStyle(0x808080)
-        this.graphics2.fillRoundedRect(10, 35, width, 20, 5)
+        this.graphics2.fillRoundedRect(10, 35, width, 20, 0)
         if (percent > 0) {
             this.graphics2.fillStyle(0x0000ff)
-            this.graphics2.fillRoundedRect(10, 35, width * percent, 20, 5)   
+            this.graphics2.fillRoundedRect(10, 35, width * percent, 20, 0)   
         }
     }
 
