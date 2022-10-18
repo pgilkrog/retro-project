@@ -21,7 +21,8 @@ enum animations {
   characterIdle = 'character-idle',
   characterWalk = 'character-walk',
   characterDeath = 'character-death',
-  characterAttack1 = 'character-attack-1'
+  characterAttack1 = 'character-attack-1',
+  characterRoll = 'character-roll'
 }
 
 export default class PlayerController {
@@ -35,10 +36,12 @@ export default class PlayerController {
   private ctrl: any
   private jumpCount = 0
   private missiles: MatterSprite
+  private selectedCharacter: string
 
   private lastSkeleton?: MatterSprite
 
-  constructor(scene: Phaser.Scene, sprite: MatterSprite, cursors: CursorKeys, obstaclesController: ObstaclesController) {
+  constructor(scene: Phaser.Scene, sprite: MatterSprite, cursors: CursorKeys, obstaclesController: ObstaclesController, selectedCharacter: string) {
+    this.selectedCharacter = selectedCharacter
     this.sprite = sprite
     this.cursors = cursors
     this.obstaclesController = obstaclesController
@@ -49,7 +52,10 @@ export default class PlayerController {
     this.sprite.setFixedRotation()
     this.sprite.setFriction(0)
 
-    this.createAnimations()
+    if(this.selectedCharacter === "Mage")
+      this.createAnimations()
+    else
+      this.createRogueAnimations()
 
     this.stateMachine = new StateMachine(this, 'player')
 
@@ -199,6 +205,7 @@ export default class PlayerController {
   }
 
   private jumpOnEnter() {
+    this.sprite.play(animations.characterRoll)
     this.jumpCount++
     this.sprite.setVelocityY(-6)
   }
@@ -318,6 +325,50 @@ export default class PlayerController {
       frames: this.sprite.anims.generateFrameNames('character', { start: 1, end: 3, prefix: 'Cut/mage-attack1-', suffix: '.png' }),
       repeat: 0,
       frameRate: 6,
+    })
+
+    this.sprite.anims.create({
+      key: animations.characterRoll,
+      frames: this.sprite.anims.generateFrameNames('character', { start: 1, end: 5, prefix: 'Cut/mage-roll-', suffix: '.png'}),
+      repeat: -1,
+      frameRate: 15
+    })
+  }
+
+  private createRogueAnimations() {
+    this.sprite.anims.create({
+      key: animations.characterIdle,
+      frames: this.sprite.anims.generateFrameNames('rogue-character', { start: 1, end: 6, prefix: 'Cut/rogue-idle-', suffix: '.png' }),
+      repeat: -1,
+      frameRate: 6
+    })
+
+    this.sprite.anims.create({
+      key: animations.characterWalk,
+      frames: this.sprite.anims.generateFrameNames('rogue-character', { start: 1, end: 8, prefix: 'Cut/rogue-walk-', suffix: '.png' }),
+      repeat: -1,
+      frameRate: 8
+    })
+
+    this.sprite.anims.create({
+      key: animations.characterDeath,
+      frames: this.sprite.anims.generateFrameNames('character', { start: 1, end: 7, prefix: 'Cut/mage-death-', suffix: '.png' }),
+      repeat: 0,
+      frameRate: 10
+    })
+    
+    this.sprite.anims.create({
+      key: animations.characterAttack1,
+      frames: this.sprite.anims.generateFrameNames('character', { start: 1, end: 3, prefix: 'Cut/mage-attack1-', suffix: '.png' }),
+      repeat: 0,
+      frameRate: 6,
+    })
+
+    this.sprite.anims.create({
+      key: animations.characterRoll,
+      frames: this.sprite.anims.generateFrameNames('character', { start: 1, end: 5, prefix: 'Cut/mage-roll-', suffix: '.png'}),
+      repeat: -1,
+      frameRate: 15
     })
   }
 

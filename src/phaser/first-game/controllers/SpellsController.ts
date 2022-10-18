@@ -26,13 +26,8 @@ export default class SpellsController {
     this.magicMissile.setOnCollide((data: MatterJS.ICollisionPair) => {
       const body = data.bodyB as MatterJS.BodyType
       const gameObject = body.gameObject
-      
-      if (this.obstacles.is('skeleton', body)) {
-        console.log("THIS COLLIDED", body)
-        this.magicMissile.setPosition(-100, -100)
-        
-        return         
-      }
+      this.magicMissile.setPosition(-100, -100)
+      this.magicMissile.setVelocity(0, 0)
     })
   }
 }

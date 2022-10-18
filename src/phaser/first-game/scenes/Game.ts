@@ -8,6 +8,7 @@ import SpellsController from '@/phaser/first-game/controllers/SpellsController'
 export default class Game extends Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys
   private player!: Phaser.Physics.Matter.Sprite
+  private selectedCharacter: string
 
   private playerCtr?: PlayerController
   private obstaclesCtr!: ObstaclesController
@@ -20,9 +21,10 @@ export default class Game extends Scene {
     super({ key: 'PlayScene' })
   }
 
-  init() {
+  init(data: any) {
+    this.selectedCharacter = this.data.get("character") 
     this.cursors = this.input.keyboard.createCursorKeys()
-
+    this.selectedCharacter = data.character
     this.obstaclesCtr = new ObstaclesController()
     
     this.skeletons = []
@@ -30,7 +32,7 @@ export default class Game extends Scene {
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.destroy()
-  })
+    })
   }
 
   create() {
@@ -56,7 +58,7 @@ export default class Game extends Scene {
         case 'Player_Spawn': {
           this.player = this.matter.add.sprite(x, y, 'character', 'Cut/mage-idle-1.png')
 
-          this.playerCtr = new PlayerController(this, this.player, this.cursors, this.obstaclesCtr)
+          this.playerCtr = new PlayerController(this, this.player, this.cursors, this.obstaclesCtr, this.selectedCharacter)
           this.cameras.main.startFollow(this.player, true)
           break
         }

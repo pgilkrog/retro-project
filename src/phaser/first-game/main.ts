@@ -1,7 +1,9 @@
 import Phaser from 'phaser'
+
 import BootScene from '@/phaser/first-game/scenes/Loader'
 import PlayScene from '@/phaser/first-game/scenes/Game'
 import GameOver from '@/phaser/first-game/scenes/GameOver'
+import SelectCharacterScene from '@/phaser/first-game/scenes/SelectCharacterScene'
 
 import UI from '@/phaser/first-game/scenes/UI'
 
@@ -28,7 +30,7 @@ function launch(containerId: string) {
             parent: containerId,
             mode: Phaser.Scale.FIT,
         },
-        scene: [BootScene, PlayScene, UI, GameOver]
+        scene: [BootScene, SelectCharacterScene, PlayScene, UI, GameOver]
     })
 }
 

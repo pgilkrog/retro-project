@@ -7,8 +7,11 @@ import potionHealth from '@/phaser/first-game/assets/Potion-Health.png'
 import tiles from '@/phaser/first-game/assets/Tiles.png'
 import map1 from '@/phaser/first-game/assets/map1.json'
 
-import playerJson from '@/phaser/first-game/assets/mage-player/texture.json'
-import playerPNG from '@/phaser/first-game/assets/mage-player/texture.png'
+import mageJson from '@/phaser/first-game/assets/characters/mage-player/texture.json'
+import magePNG from '@/phaser/first-game/assets/characters/mage-player/texture.png'
+
+import rogueJson from '@/phaser/first-game/assets/characters/rogue-player/texture.json'
+import roguePNG from '@/phaser/first-game/assets/characters/rogue-player/texture.png'
 
 import skeletonJson from '@/phaser/first-game/assets/mobs/skeleton.json'
 import skeletonPNG from '@/phaser/first-game/assets/mobs/skeletonImg.png'
@@ -18,14 +21,15 @@ import magicMissilePNG from '@/phaser/first-game/assets/spells/magic-missile/tex
 
 export default class Loader extends Scene {
   constructor() {
-    super({ key: 'BootScene' })
+    super({ key: 'SelectCharacterScene' })
   }
 
   preload() {
     this.load.image('tiles', tiles)
     this.load.tilemapTiledJSON('map1', map1)
 
-    this.load.atlas('character', playerPNG, playerJson)
+    this.load.atlas('character', magePNG, mageJson)
+    this.load.atlas('rogue-character', roguePNG, rogueJson)
     this.load.atlas('mob-skeleton', skeletonPNG, skeletonJson)
 
     this.load.atlas('magic-missile', magicMissilePNG, magicMissileJson)
@@ -37,6 +41,6 @@ export default class Loader extends Scene {
 
   create() {
     console.log("LOADER SCENE")
-    this.scene.start('PlayScene')
+    this.scene.start('select-character')
   }
 }
