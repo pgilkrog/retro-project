@@ -1,6 +1,8 @@
 import Phaser, { Scene } from 'phaser'
 // import { debugDraw } from '@/phaser/utils/debug'
-import PlayerController from '@/phaser/first-game/controllers/PlayerController'
+import MagePlayerController from '@/phaser/first-game/controllers/Characters/MagePlayerController'
+import RoguePlayerController from '@/phaser/first-game/controllers/Characters/RoguePlayerController'
+
 import SkeletonController from '@/phaser/first-game/controllers/SkeletonController'
 import ObstaclesController from '@/phaser/first-game/controllers/ObstaclesController'
 import SpellsController from '@/phaser/first-game/controllers/SpellsController'
@@ -10,7 +12,7 @@ export default class Game extends Scene {
   private player!: Phaser.Physics.Matter.Sprite
   private selectedCharacter: string
 
-  private playerCtr?: PlayerController
+  private playerCtr?: any
   private obstaclesCtr!: ObstaclesController
   private spellsCtr!: SpellsController
 
@@ -36,7 +38,7 @@ export default class Game extends Scene {
   }
 
   create() {
-    this.scene.launch('ui')
+    this.scene.launch('ui', { character: this.selectedCharacter })
 
     const map = this.make.tilemap({ key: 'map1' })
     const tilesets = map.addTilesetImage('Tiles', 'tiles', 16, 16)
@@ -56,9 +58,13 @@ export default class Game extends Scene {
 
       switch (name) {
         case 'Player_Spawn': {
-          this.player = this.matter.add.sprite(x, y, 'character', 'Cut/mage-idle-1.png')
+          this.player = this.matter.add.sprite(x, y, 'mage-character', 'Cut/mage-idle-1.png')
 
-          this.playerCtr = new PlayerController(this, this.player, this.cursors, this.obstaclesCtr, this.selectedCharacter)
+          if(this.selectedCharacter === "Mage")
+            this.playerCtr = new MagePlayerController(this, this.player, this.cursors, this.obstaclesCtr)
+          else if (this.selectedCharacter === "Rogue")
+            this.playerCtr = new RoguePlayerController(this, this.player, this.cursors, this.obstaclesCtr)
+            
           this.cameras.main.startFollow(this.player, true)
           break
         }

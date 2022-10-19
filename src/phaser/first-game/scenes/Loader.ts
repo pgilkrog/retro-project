@@ -28,7 +28,7 @@ export default class Loader extends Scene {
     this.load.image('tiles', tiles)
     this.load.tilemapTiledJSON('map1', map1)
 
-    this.load.atlas('character', magePNG, mageJson)
+    this.load.atlas('mage-character', magePNG, mageJson)
     this.load.atlas('rogue-character', roguePNG, rogueJson)
     this.load.atlas('mob-skeleton', skeletonPNG, skeletonJson)
 

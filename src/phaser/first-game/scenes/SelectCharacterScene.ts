@@ -32,7 +32,7 @@ export default class SelectCharacterScene extends Phaser.Scene
       this.handleContinue("Rogue")
     })
   
-    this.add.text(button2.x, button2.y, 'Rouge', {
+    this.add.text(button2.x, button2.y, 'Rogue', {
       color: "#000000"
     })
     .setOrigin(0.5)
