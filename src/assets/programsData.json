@@ -1,0 +1,20 @@
+[
+  {
+    "ID": "0",
+    "name": "Paint",
+    "Image": "https://win98icons.alexmeub.com/icons/png/paint_file-4.png",
+    "IsActive": false
+  },
+  {
+    "ID": "1",
+    "name": "My Computer",
+    "Image": "https://win98icons.alexmeub.com/icons/png/computer_explorer_cool-0.png",
+    "IsActive": false
+  },
+  {
+    "ID": "2",
+    "name": "Network Neighborhood",
+    "Image": "https://win98icons.alexmeub.com/icons/png/network_normal_two_pcs-5.png",
+    "IsActive": false
+  }
+]

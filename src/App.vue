@@ -18,6 +18,7 @@ import { userStore } from './stores/userStore'
 import { programsStore } from './stores/programsStore'
 import type { IProgram } from './models/IProgram'
 import { defineComponent } from 'vue'
+import { computed } from 'vue'
 
 export default defineComponent({
   components: {
@@ -32,8 +33,11 @@ export default defineComponent({
       componentList: [] as IProgram[],
       userstore: userStore(),
       programsstore: programsStore(),
-      userIsLoggedIn: false
+      userIsLoggedIn: {}
     }
+  },
+  mounted() {
+    this.userIsLoggedIn = computed(() => this.userstore.getIsLoggedIn)
   },
   methods: {
     changeShowMenu () {
@@ -49,7 +53,7 @@ export default defineComponent({
     closeWindow(programName: string) {
       var newList = this.componentList.filter(x => x.name !== programName)
       this.programsstore.setPrograms(newList)
-      this.componentList = this.programsstore.getPrograms()
+      this.componentList = this.programsstore.getPrograms
     }
   }
 })

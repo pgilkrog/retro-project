@@ -23,7 +23,12 @@
   )
   .row.gx-0
     DesktopItem(img="https://win98icons.alexmeub.com/icons/png/recycle_bin_full-2.png" title="Recycle Bin")
-
+  .row.gx-0
+    DesktopItem(
+      img="https://win98icons.alexmeub.com/icons/png/paint_file-4.png" 
+      title="Paint"
+      v-on:generateComponent="generateComponent('Paint', 'https://win98icons.alexmeub.com/icons/png/paint_file-4.png')"
+    )
   //- div.position-absolute(id="home-wrapper")
   //-   .my-header(
   //- v-on:click="dragElement(component.name)"
@@ -39,13 +44,15 @@
 </template>
 
 <script lang="ts">
+import type { IProgram } from '@/models/IProgram'
+import { defineComponent } from 'vue'
+
 import DesktopItem from '@/components/DesktopItem.vue'
 import MyComputer from '@/components/programs/MyComputer.vue'
 import NetworkNeighborhood from '@/components/programs/NetworkNeightborhood.vue'
 import MSDOS from '@/components/programs/MSDOS.vue'
 import Game from '@/phaser/first-game/components/Game.vue'
-import type { IProgram } from '@/models/IProgram'
-import { defineComponent } from 'vue'
+import Paint from '@/components/programs/Paint.vue'
 
 export default defineComponent({
   components: {
@@ -53,6 +60,7 @@ export default defineComponent({
     MyComputer,
     NetworkNeighborhood,
     MSDOS,
+    Paint,
     Game
   },
   props: {

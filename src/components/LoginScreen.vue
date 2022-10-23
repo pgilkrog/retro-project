@@ -1,6 +1,6 @@
 <template lang="pug">
 .login-screen-wrapper.center-item
-  WindowFrame(title="Log in now")
+  WindowFrame(title="Log in now" :showMenu="false")
     .d-flex.p-4
       .image.pe-4
         img(width="70" src="https://win98icons.alexmeub.com/icons/png/key_win_alt-2.png")

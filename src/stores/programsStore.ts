@@ -9,9 +9,9 @@ export const programsStore = defineStore("programs", {
   actions: {
     setPrograms(programs: any) {
       this._programs = programs
-    },
-    getPrograms() {
-      return this._programs
     }
+  },
+  getters: {
+    getPrograms: (state) => state._programs
   }
 })

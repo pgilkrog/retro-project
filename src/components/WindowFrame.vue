@@ -7,7 +7,7 @@
       button.bg-secondary.py-0.px-2.text-black.st-border _
       button.bg-secondary.py-0.px-2.text-black.st-border =
       button.bg-secondary.py-0.px-2.text-black.st-border(v-on:click="closeWindow") x
-  .menu-container.d-flex.mx-2.my-1
+  .menu-container.d-flex.mx-2.my-1(v-if="showMenu")
     .me-2 File
     .mx-2 Edit 
     .mx-2 View
@@ -17,10 +17,13 @@
 </template>
   
 <script lang="ts">
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   props: {
     title: String,
-    image: String
+    image: String,
+    showMenu: Boolean
   },
   methods: {
     clickOnComponent() {
@@ -30,5 +33,5 @@ export default {
       this.$emit('closeWindow')
     }
   }
-}
+})
 </script>
