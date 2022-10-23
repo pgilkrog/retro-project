@@ -41,6 +41,7 @@ export default class RoguePlayerController {
   private energy = 100
   private ctrl: any
   private jumpCount = 0
+  private speed = 4
 
   private lastSkeleton?: MatterSprite
 
@@ -184,13 +185,12 @@ export default class RoguePlayerController {
   }
 
   private walkOnUpdate() {
-    const speed = 5
 
     if (this.cursors.left.isDown) {
-      this.sprite.setVelocityX(-speed)
+      this.sprite.setVelocityX(-this.speed)
       this.sprite.flipX = true
     } else if (this.cursors.right.isDown) {
-      this.sprite.setVelocityX(speed)
+      this.sprite.setVelocityX(this.speed)
       this.sprite.flipX = false
     } else {
       this.sprite.setVelocityX(0)
@@ -207,17 +207,15 @@ export default class RoguePlayerController {
   private jumpOnEnter() {
     this.sprite.play(animations.jump)
     this.jumpCount++
-    this.sprite.setVelocityY(-8)
+    this.sprite.setVelocityY(-6)
   }
 
   private jumpOnUpdate() {
-    const speed = 5
-
     if (this.cursors.left.isDown) {
-      this.sprite.setVelocityX(-speed)
+      this.sprite.setVelocityX(-this.speed)
       this.sprite.flipX = true
     } else if (this.cursors.right.isDown) {
-      this.sprite.setVelocityX(speed)
+      this.sprite.setVelocityX(this.speed)
       this.sprite.flipX = false
     } 
 
@@ -316,7 +314,15 @@ export default class RoguePlayerController {
       key: animations.jump,
       frames: this.sprite.anims.generateFrameNames('rogue-character', { start: 1, end: 2, prefix: 'Cut/rogue-jump-', suffix: '.png'}),
       repeat: 0,
-      frameRate: 15
+      frameRate: 5
+    })
+
+    
+    this.sprite.anims.create({
+      key: animations.slide,
+      frames: this.sprite.anims.generateFrameNames('rogue-character', { start: 1, end: 6, prefix: 'Cut/rogue-slide-', suffix: '.png'}),
+      repeat: -1,
+      frameRate: 8
     })
   }
 

@@ -110,7 +110,8 @@ export default class Game extends Scene {
       isSensor: true
     })
     this.missiles.push(magicMissile)
-    this.playerCtr.setMagicMissile(magicMissile)
+    if(this.selectedCharacter === "Mage")
+      this.playerCtr.setMagicMissile(magicMissile)
     this.spellsCtr = new SpellsController(magicMissile, this, this.obstaclesCtr)
 
     this.obstaclesCtr.add('magic-missile', magicMissile.body as MatterJS.BodyType)

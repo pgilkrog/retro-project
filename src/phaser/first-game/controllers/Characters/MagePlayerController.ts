@@ -36,6 +36,7 @@ export default class MagePlayerController {
   private ctrl: any
   private jumpCount = 0
   private missiles: MatterSprite
+  private speed = 3
 
   private lastSkeleton?: MatterSprite
 
@@ -179,13 +180,12 @@ export default class MagePlayerController {
   }
 
   private walkOnUpdate() {
-    const speed = 3
 
     if (this.cursors.left.isDown) {
-      this.sprite.setVelocityX(-speed)
+      this.sprite.setVelocityX(-this.speed)
       this.sprite.flipX = true
     } else if (this.cursors.right.isDown) {
-      this.sprite.setVelocityX(speed)
+      this.sprite.setVelocityX(this.speed)
       this.sprite.flipX = false
     } else {
       this.sprite.setVelocityX(0)
@@ -206,13 +206,11 @@ export default class MagePlayerController {
   }
 
   private jumpOnUpdate() {
-    const speed = 3
-
     if (this.cursors.left.isDown) {
-      this.sprite.setVelocityX(-speed)
+      this.sprite.setVelocityX(-this.speed)
       this.sprite.flipX = true
     } else if (this.cursors.right.isDown) {
-      this.sprite.setVelocityX(speed)
+      this.sprite.setVelocityX(this.speed)
       this.sprite.flipX = false
     } 
 
