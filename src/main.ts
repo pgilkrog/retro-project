@@ -1,19 +1,15 @@
-import { defineCustomElements as defineIonPhaser } from '@ion-phaser/core/loader'
-import Vue from 'vue'
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+
 import App from './App.vue'
 import router from './router'
-import store from './store'
 
 import './styles/main.sass'
-import "bootstrap"
+import 'bootstrap'
 
-Vue.config.productionTip = false
-Vue.config.ignoredElements = [/ion-\w*/]
+const app = createApp(App)
 
-defineIonPhaser(window)
+app.use(createPinia())
+app.use(router)
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+app.mount('#app')

@@ -2,17 +2,17 @@
 div(id="containerId")
 </template>
 
-<script lang="ts">
-import { Vue } from 'vue-property-decorator'
+<script lang="ts" setup>
+import { onMounted, onUnmounted } from 'vue'
 
-export default class PhaserContainer extends Vue {
-    containerId = 'game-container'
-    game = require('@/phaser/first-game/main.ts')
-    gameInstance = this.game.launch(this.containerId)
+const containerId = 'game-container'
+const game = await import('@/phaser/first-game/main')
+let gameInstance: any = null
 
-    unmounted() {
-        this.gameInstance.destroy(false)
-    }
-
-}
+onMounted(() => {
+  gameInstance = game.launch(containerId)
+})
+onUnmounted(() => {
+  gameInstance.destroy(false)
+})
 </script>

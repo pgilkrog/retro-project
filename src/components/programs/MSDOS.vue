@@ -5,18 +5,16 @@ WindowFrame(title="MS-DOS" v-on:closeWindow="closeWindow" image="https://win98ic
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
 import WindowFrame from '../WindowFrame.vue';
 
-@Component({
+export default {
   components: {
     WindowFrame
+  },
+  methods: {
+    closeWindow() {
+      this.$emit('closeWindow', 'NetworkNeighborhood')
+    }
   }
-})
-
-export default class MSDOS extends Vue {
-  closeWindow() {
-    this.$emit('closeWindow', "NetworkNeighborhood")
-  }
-} 
+}
 </script>

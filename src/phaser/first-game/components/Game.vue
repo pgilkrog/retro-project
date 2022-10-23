@@ -1,20 +1,16 @@
 <template lang="pug">
 .position-absolute
+  Suspense
     PhaserContainer
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
 import PhaserContainer from "./PhaserContainer.vue"
 
-@Component({
+export default {
     components: {
         PhaserContainer
-    },
-})
-
-export default class Game extends Vue {
-
+    }
 }
 
 </script>

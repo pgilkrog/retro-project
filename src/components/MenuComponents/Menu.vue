@@ -15,32 +15,31 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import  { IMenuItem }  from '@/models/IMenuItem'
+import type { IMenuItem }  from '@/models/IMenuItem'
 
 import MenuItem from './MenuItem.vue'
 import jsondata from '@/assets/menuData.json'
+import type { PropType } from 'vue'
 
-@Component({
+export default {
+  data() {
+    return {
+      menuList: Array as PropType<Array<IMenuItem>>
+    }
+  },  
+  props: {
+    showMenu: Boolean
+  },
   components: {
     MenuItem
   },
-  props: {
-    showMenu: Boolean
-  }
-})
-
-export default class Menu extends Vue {
-  showMenu: boolean | undefined
-
-  menuList: IMenuItem[] = []
-
   mounted() {
     this.createMenu()
-  }
-
-  createMenu() {
-    this.menuList = JSON.parse(JSON.stringify(jsondata))
+  },
+  methods: {
+    createMenu() {
+      this.menuList = JSON.parse(JSON.stringify(jsondata)) 
+    }
   }
 }
 </script>
