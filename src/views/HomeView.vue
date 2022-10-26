@@ -29,10 +29,6 @@
       title="Paint"
       v-on:generateComponent="generateComponent('Paint', 'https://win98icons.alexmeub.com/icons/png/paint_file-4.png')"
     )
-  //- div.position-absolute(id="home-wrapper")
-  //-   .my-header(
-  //- v-on:click="dragElement(component.name)"
-  //-   )
   Component(
     v-for="(component, index) in componentList"
     :key="index"
@@ -40,7 +36,7 @@
     :is="component.name"
     v-on:closeWindow="closeWindow(component.name)"
   )
-  //- Game
+  Game
 </template>
 
 <script lang="ts">
@@ -51,7 +47,7 @@ import DesktopItem from '@/components/DesktopItem.vue'
 import MyComputer from '@/components/programs/MyComputer.vue'
 import NetworkNeighborhood from '@/components/programs/NetworkNeightborhood.vue'
 import MSDOS from '@/components/programs/MSDOS.vue'
-import Game from '@/phaser/first-game/components/Game.vue'
+import Game from '@/phaser/flappy-disk/components/Game.vue'
 import Paint from '@/components/programs/Paint.vue'
 
 export default defineComponent({
@@ -68,7 +64,6 @@ export default defineComponent({
   },
   data() {
     return {
-      message: 'Hejsa'
     }
   },
   methods: {

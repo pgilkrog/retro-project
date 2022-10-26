@@ -21,7 +21,7 @@ import magicMissilePNG from '@/phaser/first-game/assets/spells/magic-missile/tex
 
 export default class Loader extends Scene {
   constructor() {
-    super({ key: 'SelectCharacterScene' })
+    super({ key: 'Loader' })
   }
 
   preload() {
@@ -40,7 +40,6 @@ export default class Loader extends Scene {
   }
 
   create() {
-    console.log("LOADER SCENE")
     this.scene.start('select-character')
   }
 }

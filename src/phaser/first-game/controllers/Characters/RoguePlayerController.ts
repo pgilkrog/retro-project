@@ -1,7 +1,7 @@
 import StateMachine from '@/phaser/utils/StateMachine'
 import Phaser from 'phaser'
 import { sharedInstance as events } from '@/phaser/first-game/scenes/EventCenter'
-import ObstaclesController from '../ObstaclesController'
+import type ObstaclesController from '../ObstaclesController'
 
 type CursorKeys = Phaser.Types.Input.Keyboard.CursorKeys
 type MatterSprite = Phaser.Physics.Matter.Sprite
@@ -78,9 +78,6 @@ export default class RoguePlayerController {
       })
       .addState(states.skeletonHit, {
         onEnter: this.skeletonHitOnEnter
-      })
-      .addState(states.skeletonStomp, {
-        onEnter: this.skeletonStumpOnEnter
       })
       .addState(states.death, {
         onEnter: this.deathOnEnter
@@ -273,12 +270,6 @@ export default class RoguePlayerController {
     this.scene.time.delayedCall(400, () => {
       this.stateMachine.setState(states.idle)
     })       
-  }
-
-  private skeletonStumpOnEnter() {
-    this.sprite.setVelocityY(5)
-    events.emit('skeleton-stomped', this.lastSkeleton)
-    this.stateMachine.setState(states.idle)
   }
   
   private createAnimations() {

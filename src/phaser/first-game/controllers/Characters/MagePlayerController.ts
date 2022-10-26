@@ -1,7 +1,7 @@
 import StateMachine from '@/phaser/utils/StateMachine'
 import Phaser from 'phaser'
 import { sharedInstance as events } from '@/phaser/first-game/scenes/EventCenter'
-import ObstaclesController from '../ObstaclesController'
+import type ObstaclesController from '../ObstaclesController'
 
 type CursorKeys = Phaser.Types.Input.Keyboard.CursorKeys
 type MatterSprite = Phaser.Physics.Matter.Sprite
@@ -35,7 +35,7 @@ export default class MagePlayerController {
   private mana = 100
   private ctrl: any
   private jumpCount = 0
-  private missiles: MatterSprite
+  private missiles?: MatterSprite
   private speed = 3
 
   private lastSkeleton?: MatterSprite
@@ -73,9 +73,6 @@ export default class MagePlayerController {
       })
       .addState(states.skeletonHit, {
         onEnter: this.skeletonHitOnEnter
-      })
-      .addState(states.skeletonStomp, {
-        onEnter: this.skeletonStumpOnEnter
       })
       .addState(states.death, {
         onEnter: this.deathOnEnter
@@ -271,23 +268,17 @@ export default class MagePlayerController {
     })       
   }
 
-  private skeletonStumpOnEnter() {
-    this.sprite.setVelocityY(5)
-    events.emit('skeleton-stomped', this.lastSkeleton)
-    this.stateMachine.setState(states.idle)
-  }
-
   setMagicMissile(missiles: Phaser.Physics.Matter.Sprite) {
     this.missiles = missiles;
   }
 
   private shootMagic() {
     if(this.sprite.flipX === false) {
-      this.missiles.setPosition(this.sprite.body.position.x + 20, this.sprite.body.position.y - 10)
-      this.missiles.setVelocity(5, 0)
+      this.missiles?.setPosition(this.sprite.body.position.x + 20, this.sprite.body.position.y - 10)
+      this.missiles?.setVelocity(5, 0)
     } else {
-      this.missiles.setPosition(this.sprite.body.position.x - 20, this.sprite.body.position.y - 10)
-      this.missiles.setVelocity(-5, 0)
+      this.missiles?.setPosition(this.sprite.body.position.x - 20, this.sprite.body.position.y - 10)
+      this.missiles?.setVelocity(-5, 0)
     }
   }
   

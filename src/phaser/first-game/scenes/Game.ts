@@ -10,7 +10,7 @@ import SpellsController from '@/phaser/first-game/controllers/SpellsController'
 export default class Game extends Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys
   private player!: Phaser.Physics.Matter.Sprite
-  private selectedCharacter: string
+  private selectedCharacter?: string
 
   private playerCtr?: any
   private obstaclesCtr!: ObstaclesController
@@ -99,7 +99,7 @@ export default class Game extends Scene {
 
         case 'Mob_Skeleton': {
           const skeleton = this.matter.add.sprite(x, y, 'mob-skeleton').setFixedRotation()
-          this.skeletons.push(new SkeletonController(skeleton, this, this.obstaclesCtr))
+          this.skeletons?.push(new SkeletonController(skeleton, this, this.obstaclesCtr))
           this.obstaclesCtr.add('skeleton', skeleton.body as MatterJS.BodyType)
           break
         }
@@ -109,7 +109,7 @@ export default class Game extends Scene {
     const magicMissile = this.matter.add.sprite(-100, -100, 'magic-missile', undefined, {
       isSensor: true
     })
-    this.missiles.push(magicMissile)
+    this.missiles?.push(magicMissile)
     if(this.selectedCharacter === "Mage")
       this.playerCtr.setMagicMissile(magicMissile)
     this.spellsCtr = new SpellsController(magicMissile, this, this.obstaclesCtr)
@@ -126,11 +126,11 @@ export default class Game extends Scene {
   update(t: number, dt: number) {
     this.playerCtr?.update(dt)
 
-    this.skeletons.forEach(skeleton => skeleton.update(dt))
+    this.skeletons?.forEach(skeleton => skeleton.update(dt))
   }
 
   destroy() {
     this.scene.stop('ui')
-    this.skeletons.forEach(skeleton => skeleton.destroy())
+    this.skeletons?.forEach(skeleton => skeleton.destroy())
   }
 }

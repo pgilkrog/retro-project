@@ -1,6 +1,6 @@
 import StateMachine from "@/phaser/utils/StateMachine"
 import { sharedInstance as events } from '@/phaser/first-game/scenes/EventCenter'
-import ObstaclesController from "./ObstaclesController"
+import type ObstaclesController from "./ObstaclesController"
 
 enum states {
   moveLeft = 'move-left',

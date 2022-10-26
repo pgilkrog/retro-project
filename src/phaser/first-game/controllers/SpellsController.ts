@@ -1,13 +1,13 @@
-import Phaser, { Scene } from 'phaser'
-import ObstaclesController from './ObstaclesController'
+import type Phaser from 'phaser'
+import type ObstaclesController from './ObstaclesController'
 
 export default class SpellsController {
   private magicMissile: Phaser.Physics.Matter.Sprite
-  private scene: Scene
+  private scene: Phaser.Scene
   private obstacles: ObstaclesController  
   
 
-  constructor(missile: Phaser.Physics.Matter.Sprite, scene: Scene, obstacles: ObstaclesController) {
+  constructor(missile: Phaser.Physics.Matter.Sprite, scene: Phaser.Scene, obstacles: ObstaclesController) {
     this.magicMissile = missile
     this.scene = scene
     this.obstacles = obstacles
