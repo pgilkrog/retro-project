@@ -30,13 +30,13 @@
       v-on:generateComponent="generateComponent('Paint', 'https://win98icons.alexmeub.com/icons/png/paint_file-4.png')"
     )
   Component(
-    v-for="(component, index) in componentList"
+    v-for="(component, index) in activePrograms"
     :key="index"
     :id="component.name"
     :is="component.name"
     v-on:closeWindow="closeWindow(component.name)"
   )
-  Game
+  //- Game
 </template>
 
 <script lang="ts">
@@ -50,6 +50,9 @@ import MSDOS from '@/components/programs/MSDOS.vue'
 import Game from '@/phaser/flappy-disk/components/Game.vue'
 import Paint from '@/components/programs/Paint.vue'
 
+import { programsStore } from '@/stores/programsStore'
+import { computed } from 'vue'
+
 export default defineComponent({
   components: {
     DesktopItem,
@@ -60,10 +63,12 @@ export default defineComponent({
     Game
   },
   props: {
-    componentList: Array
+
   },
   data() {
     return {
+      programsstore: programsStore(),
+      activePrograms: {}
     }
   },
   methods: {
@@ -76,7 +81,7 @@ export default defineComponent({
     }
   },
   mounted() {
-
+    this.activePrograms = computed(() => this.programsstore.getActivePrograms)
   }
 })
 </script>

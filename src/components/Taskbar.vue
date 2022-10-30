@@ -8,7 +8,7 @@
         img(src="https://win98icons.alexmeub.com/icons/png/windows-5.png" height="25")
         |   Start
       .programs-container.d-flex
-        .taskbar-item.bg-secondary.st-border.h-100.pe-4.ps-2.d-flex.align-items-center(v-for="(item, index) in componentList" :key="index")
+        .taskbar-item.bg-secondary.st-border.h-100.pe-4.ps-2.d-flex.align-items-center(v-for="(item, index) in activePrograms" :key="index")
           img(:src="item.img" height="25").m-2
           |   {{ item.name }}
     .left-bar.d-flex.align-items-center.p-2.light-border
@@ -17,18 +17,30 @@
       
 <script lang="ts">
 import Clock from './Clock.vue'
+import { programsStore } from '@/stores/programsStore'
+import type { IProgram } from '@/models/IProgram'
+import { computed } from 'vue'
 
 export default {
   components: {
     Clock
   },
   props: {
-    componentList: Array
+
+  },
+  data() {
+    return {
+      programsstore: programsStore(),
+      activePrograms: {}
+    }
   },
   methods: {
     changeShowMenu() {
       this.$emit('changeShowMenu')      
     }
+  },
+  mounted() {
+    this.activePrograms = computed(() => this.programsstore.getActivePrograms)
   }
 }
 </script>

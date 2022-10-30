@@ -1,9 +1,9 @@
 <template lang="pug">
 div
   template(v-if="this.userIsLoggedIn === true")
-    HomeView(:componentList="componentList" v-on:generateComponent="generateComponent" v-on:closeWindow="closeWindow")
+    HomeView(v-on:generateComponent="generateComponent" v-on:closeWindow="closeWindow")
     Menu(v-bind:showMenu="showMenu")
-    Taskbar(v-on:changeShowMenu="changeShowMenu()" :componentList="componentList" )
+    Taskbar(v-on:changeShowMenu="changeShowMenu()" )
   template(v-else)
     LoginScreen
 </template>
@@ -38,6 +38,7 @@ export default defineComponent({
   },
   mounted() {
     this.userIsLoggedIn = computed(() => this.userstore.getIsLoggedIn)
+    console.log(this.programsstore.getPrograms)
   },
   methods: {
     changeShowMenu () {
@@ -47,13 +48,13 @@ export default defineComponent({
     generateComponent(compName: IProgram) {
       if (this.componentList.find(x => x.name === compName.name) === undefined) {
         this.componentList.push(compName);
-        this.programsstore.setPrograms(this.componentList)      
+        this.programsstore.setActivePrograms(this.componentList)      
       }
     },
     closeWindow(programName: string) {
       var newList = this.componentList.filter(x => x.name !== programName)
-      this.programsstore.setPrograms(newList)
-      this.componentList = this.programsstore.getPrograms
+      this.programsstore.setActivePrograms(newList)
+      this.componentList = this.programsstore.getActivePrograms
     }
   }
 })

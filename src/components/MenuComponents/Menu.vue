@@ -19,12 +19,11 @@ import type { IMenuItem }  from '@/models/IMenuItem'
 
 import MenuItem from './MenuItem.vue'
 import jsondata from '@/assets/menuData.json'
-import type { PropType } from 'vue'
 
 export default {
   data() {
     return {
-      menuList: Array as PropType<Array<IMenuItem>>
+      menuList: [] as IMenuItem[]
     }
   },  
   props: {

@@ -1,11 +1,14 @@
 import Phaser from 'phaser'
 import Create from './scenes/Create'
 import Loader from './scenes/Loader'
+import Menu from './scenes/Menu'
+import Score from './scenes/Score'
+import Pause from './scenes/Pause'
 
 function launch(containerId: string) {
     return new Phaser.Game({
         type: Phaser.AUTO,
-        width: "800",
+        width: "2800",
         height: "600",
         pixelArt: true,
         parent: containerId,
@@ -22,9 +25,9 @@ function launch(containerId: string) {
             width: 800,
             height: 600
         },
-        scene: [Loader, Create]
+        scene: [Loader, Create, Menu, Score, Pause]
     })
 }
 
 export default launch
-export { launch }
+export { launch } 
