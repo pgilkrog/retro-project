@@ -15,7 +15,7 @@ function launch(containerId: string) {
         physics: {
             default: "arcade",
             arcade: {
-                debug: false
+                debug: true
             }
         },
         scale: {

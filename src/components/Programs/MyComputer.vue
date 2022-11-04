@@ -1,5 +1,5 @@
 <template lang="pug">
-WindowFrame(title="My Computer" v-on:closeWindow="closeWindow")
+WindowFrame(:program="program")
   .bg-white.light-border
     .row
       DesktopItem(
@@ -30,18 +30,19 @@ WindowFrame(title="My Computer" v-on:closeWindow="closeWindow")
 </template>
 
 <script lang="ts">
-import WindowFrame from '../WindowFrame.vue';
-import DesktopItem from '../DesktopItem.vue';
+import WindowFrame from '../WindowFrame.vue'
+import DesktopItem from '../DesktopItem.vue'
+import { IProgram } from '@/models/IProgram'
 
 export default {
   components: {
     WindowFrame,
     DesktopItem
   },
+  props: {
+    program: Object
+  },
   methods: {
-    closeWindow() {
-      this.$emit('closeWindow', "MyComputer")
-    }
   }
 }
 </script>

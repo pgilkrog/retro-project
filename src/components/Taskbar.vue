@@ -9,8 +9,8 @@
         |   Start
       .programs-container.d-flex
         .taskbar-item.bg-secondary.st-border.h-100.pe-4.ps-2.d-flex.align-items-center(v-for="(item, index) in activePrograms" :key="index")
-          img(:src="item.img" height="25").m-2
-          |   {{ item.name }}
+          img(:src="item.Image" height="25").m-2
+          |   {{ item.DisplayName }}
     .left-bar.d-flex.align-items-center.p-2.light-border
       Clock 
   </template>
@@ -40,7 +40,7 @@ export default {
     }
   },
   mounted() {
-    this.activePrograms = computed(() => this.programsstore.getActivePrograms)
+    this.activePrograms = computed(() => this.programsstore.getActivePrograms as IProgram[])
   }
 }
 </script>

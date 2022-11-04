@@ -42,8 +42,9 @@ export default class BaseScene extends Phaser.Scene {
       if (menuItem.text === 'Exit') {
         this.game.destroy(true)
       } else if (menuItem.scene && menuItem.text === 'Continue') {
-        this.scene.resume(menuItem.scene)
         this.scene.stop()
+        this.scene.resume(menuItem.scene)
+        this.events.emit('resume')
       }
     })
   }

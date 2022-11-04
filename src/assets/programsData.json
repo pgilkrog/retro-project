@@ -1,20 +1,30 @@
 [
   {
-    "ID": "0",
-    "name": "Paint",
+    "Id": "0",
+    "Name": "Paint",
+    "DisplayName": "Paint",
     "Image": "https://win98icons.alexmeub.com/icons/png/paint_file-4.png",
     "IsActive": false
   },
   {
-    "ID": "1",
-    "name": "My Computer",
+    "Id": "1",
+    "Name": "MyComputer",
+    "DisplayName": "My Computer",
     "Image": "https://win98icons.alexmeub.com/icons/png/computer_explorer_cool-0.png",
     "IsActive": false
   },
   {
-    "ID": "2",
-    "name": "Network Neighborhood",
+    "Id": "2",
+    "Name": "NetworkNeighborhood",
+    "DisplayName": "Network Neighborhood",
     "Image": "https://win98icons.alexmeub.com/icons/png/network_normal_two_pcs-5.png",
+    "IsActive": false
+  },
+  {
+    "Id": "3",
+    "Name": "FlappyDisk",
+    "DisplayName": "Flappy Disk",
+    "Image": "https://win98icons.alexmeub.com/icons/png/ms_dos-1.png", 
     "IsActive": false
   }
 ]

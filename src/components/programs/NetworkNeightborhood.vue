@@ -1,18 +1,17 @@
 <template lang="pug">
-WindowFrame(title="Network Neighborhood" v-on:closeWindow="closeWindow")
+WindowFrame(:program="program")
 </template>
 
 <script lang="ts">
-import WindowFrame from '../WindowFrame.vue';
+import { IProgram } from '@/models/IProgram'
+import WindowFrame from '../WindowFrame.vue'
 
 export default {
   components: {
     WindowFrame
   },
-  methods: {
-    closeWindow() {
-      this.$emit('closeWindow', "NetworkNeighborhood")
-    }
+  props: {
+    program: Object
   }
 }
 </script>

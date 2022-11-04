@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   template(v-if="this.userIsLoggedIn === true")
-    HomeView(v-on:generateComponent="generateComponent" v-on:closeWindow="closeWindow")
+    HomeView(v-on:closeWindow="closeWindow")
     Menu(v-bind:showMenu="showMenu")
     Taskbar(v-on:changeShowMenu="changeShowMenu()" )
   template(v-else)
@@ -45,14 +45,8 @@ export default defineComponent({
       console.log("Pressed-69825-70949", this.showMenu)
       this.showMenu = !this.showMenu
     },
-    generateComponent(compName: IProgram) {
-      if (this.componentList.find(x => x.name === compName.name) === undefined) {
-        this.componentList.push(compName);
-        this.programsstore.setActivePrograms(this.componentList)      
-      }
-    },
     closeWindow(programName: string) {
-      var newList = this.componentList.filter(x => x.name !== programName)
+      var newList = this.componentList.filter(x => x.Name !== programName)
       this.programsstore.setActivePrograms(newList)
       this.componentList = this.programsstore.getActivePrograms
     }

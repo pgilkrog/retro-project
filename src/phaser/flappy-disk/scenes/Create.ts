@@ -108,9 +108,6 @@ export default class Create extends BaseScene {
 
     lPipe.x = uPipe.x
     lPipe.y = uPipe.y + pipeVerticalDistance
-
-    // lPipe.body.velocity.x = -200
-    // uPipe.body.velocity.x = -200
   }
 
   recyclePipes() {
@@ -147,11 +144,12 @@ export default class Create extends BaseScene {
     if(this.pauseEvent) {return}
 
     this.pauseEvent = this.events.on('resume', () => {
+      debugger
       this.initialTime = 3;
       this.countDownText = this.add.text(this.screenCenter[0],this.screenCenter[1], 'Fly in: ' + this.initialTime, this.fontOptions).setOrigin(0.5);
       this.timedEvent = this.time.addEvent({
         delay: 1000,
-        callback: () => this.countDown,
+        callback: () => this.countDown(),
         callbackScope: this,
         loop: true
       })
@@ -159,6 +157,7 @@ export default class Create extends BaseScene {
   }
 
   countDown() {
+    debugger
     this.initialTime--;
     this.countDownText.setText('Fly in: ' + this.initialTime);
     if (this.initialTime <= 0) {
@@ -169,9 +168,6 @@ export default class Create extends BaseScene {
   }
 
   gameOver() {
-    // this.bird.x = this.initialBirdPosition.x
-    // this.bird.y = this.initialBirdPosition.y
-    // this.bird.body.velocity.y = 0
     this.physics.pause()
     this.bird.setTint(0xEE4824)
     this.saveBestScore()
