@@ -1,12 +1,5 @@
 [
   {
-    "Id": "0",
-    "Name": "Paint",
-    "DisplayName": "Paint",
-    "Image": "https://win98icons.alexmeub.com/icons/png/paint_file-4.png",
-    "IsActive": false
-  },
-  {
     "Id": "1",
     "Name": "MyComputer",
     "DisplayName": "My Computer",
@@ -25,6 +18,26 @@
     "Name": "FlappyDisk",
     "DisplayName": "Flappy Disk",
     "Image": "https://win98icons.alexmeub.com/icons/png/ms_dos-1.png", 
+    "IsActive": false
+  },  
+  {
+    "Id": "4",
+    "Name": "PawVania",
+    "DisplayName": "PawVania",
+    "Image": "https://win98icons.alexmeub.com/icons/png/ms_dos-1.png", 
+    "IsActive": false
+  },    {
+    "Id": "5",
+    "Name": "Platformer",
+    "DisplayName": "Platformer Game",
+    "Image": "https://win98icons.alexmeub.com/icons/png/ms_dos-1.png", 
+    "IsActive": false
+  },  
+  {
+    "Id": "6",
+    "Name": "Paint",
+    "DisplayName": "Paint",
+    "Image": "https://win98icons.alexmeub.com/icons/png/paint_file-4.png",
     "IsActive": false
   }
 ]

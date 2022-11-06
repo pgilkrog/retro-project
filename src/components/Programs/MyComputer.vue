@@ -3,29 +3,23 @@ WindowFrame(:program="program")
   .bg-white.light-border
     .row
       DesktopItem(
-        img="https://win98icons.alexmeub.com/icons/png/floppy_drive_3_5_cool-0.png"
-        title="3½ Floppy (A:)"
+        :program="{DisplayName: '3½ Floppy (A:)', Image: 'https://win98icons.alexmeub.com/icons/png/floppy_drive_3_5_cool-0.png'}"
       ).text-black
       DesktopItem(
-        img="https://win98icons.alexmeub.com/icons/png/hard_disk_drive-2.png"
-        title="(C:)"
+        :program="{DisplayName: '(C:)', Image: 'https://win98icons.alexmeub.com/icons/png/hard_disk_drive-2.png'}"
       ).text-black
       DesktopItem(
-        img="https://win98icons.alexmeub.com/icons/png/cd_drive_purple-0.png"
-        title="New (D:)"
+        :program="{DisplayName: 'New (D:)', Image: 'https://win98icons.alexmeub.com/icons/png/cd_drive_purple-0.png'}"
       ).text-black
     .row
       DesktopItem(
-        img="https://win98icons.alexmeub.com/icons/png/directory_control_panel-3.png"
-        title="Control Panel"
+        :program="{DisplayName: 'Control Panel', Image: 'https://win98icons.alexmeub.com/icons/png/directory_control_panel-3.png'}"
       ).text-black
       DesktopItem(
-        img="https://win98icons.alexmeub.com/icons/png/directory_business_calendar-4.png"
-        title="Printers"
+        :program="{DisplayName: 'Printers', Image: 'https://win98icons.alexmeub.com/icons/png/directory_business_calendar-4.png'}"
       ).text-black
       DesktopItem(
-        img="https://win98icons.alexmeub.com/icons/png/directory_dial_up_networking-3.png"
-        title="Dial-Up Networking"
+        :program="{DisplayName: 'Dial-Up Networking', Image: 'https://win98icons.alexmeub.com/icons/png/directory_dial_up_networking-3.png'}"
       ).text-black            
 </template>
 
