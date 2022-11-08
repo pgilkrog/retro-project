@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import initAnimations from './PlayerAnims'
+import initAnimations from '../anims/PlayerAnims'
 import collidable from '../mixins/collidable'
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
@@ -15,6 +15,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     this.init()
     this.initEvents()
+
+    Object.assign(this, collidable as any)
   }
 
   init() {
@@ -22,6 +24,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.cursors = this.scene.input.keyboard.createCursorKeys()
     this.setGravityY(500)
     this.setCollideWorldBounds(true)
+    this.setOrigin(0.5, 1)
+    this.setFriction(0)
 
     initAnimations(this.scene.anims)
   }

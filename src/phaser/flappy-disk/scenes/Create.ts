@@ -80,9 +80,9 @@ export default class Create extends BaseScene {
 
   createScore() {
     this.score = 0
-    this.scoreText = this.add.text(16, 16, `Score: ${0}`, { fontSize: '32px', color: '#000' })
+    this.scoreText = this.add.text(16, 16, `Score: ${0}`, { fontSize: '32px', color: '#fff' })
     const bestScore = localStorage.getItem('bestScore')
-    this.add.text(16, 52, `Best Score: ${bestScore || 0}`, { fontSize: '32px', color: '#000' })
+    this.add.text(16, 52, `Best Score: ${bestScore || 0}`, { fontSize: '32px', color: '#fff' })
   }
 
   increaseScore() {

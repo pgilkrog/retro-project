@@ -5,6 +5,7 @@ import WorldPNG1 from '@/phaser/platformer-game/assets/main_lev_build_1.png'
 import WorldPNG2 from '@/phaser/platformer-game/assets/main_lev_build_2.png'
 
 import PlayerPNG from '@/phaser/platformer-game/assets/player/move_sprite_1.png'
+import EnemyPNG from '@/phaser/platformer-game/assets/enemy/enemy_sheet.png'
 
 export default class Prelaod extends Phaser.Scene {
   constructor() {
@@ -18,6 +19,10 @@ export default class Prelaod extends Phaser.Scene {
 
     this.load.spritesheet('player', PlayerPNG, {
       frameWidth: 32, frameHeight: 38, spacing: 32
+    })
+
+    this.load.spritesheet('birdman', EnemyPNG, {
+      frameWidth: 32, frameHeight: 64, spacing: 32
     })
   }
 

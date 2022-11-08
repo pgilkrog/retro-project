@@ -15,5 +15,4 @@ export default class Menu extends BaseScene {
     super.create()
     this.createMenu(this.menu)
   }
-
 }
