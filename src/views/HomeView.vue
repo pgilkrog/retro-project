@@ -30,6 +30,8 @@ import FlappyDisk from '@/phaser/flappy-disk/components/Game.vue'
 import PawVania from '@/phaser/first-game/components/Game.vue'
 import Platformer from '@/phaser/platformer-game/components/Game.vue'
 import Paint from '@/components/programs/Paint.vue'
+import Calculator from '@/components/programs/Calculator.vue'
+import Minesweeper from '@/components/programs/minesweeper/MinesweeperGame.vue'
 
 import { programsStore } from '@/stores/programsStore'
 
@@ -42,7 +44,9 @@ export default defineComponent({
     Paint,
     FlappyDisk,
     PawVania,
-    Platformer
+    Platformer,
+    Minesweeper,
+    Calculator
   },
   props: {
 

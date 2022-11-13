@@ -1,18 +1,15 @@
 <template lang="pug">
-.taskbar-container.fixed-bottom
-  .line.bg-secondary
-  .line.bg-white
-  .w-100.bg-secondary.p-1.d-flex.justify-content-between
-    .d-flex
-      button.btn.st-border.me-1(v-on:click="changeShowMenu()")
-        img(src="https://win98icons.alexmeub.com/icons/png/windows-5.png" height="25")
+.taskbar-container.fixed-bottom.shadow-top.bg-dark
+  .w-100.p-1.d-flex.justify-content-between
+    .d-flex.py-1
+      button.btn.me-1.text-light.rounded(v-on:click="changeShowMenu()" :class="showMenu ? 'bg-inner-shadow' : 'bg-shadow'")
+        i.text-light.bi.bi-menu-button-wide.me-1
         |   Start
       .programs-container.d-flex
-        .taskbar-item.bg-secondary.st-border.h-100.pe-4.ps-2.d-flex.align-items-center(v-for="(item, index) in activePrograms" :key="index")
-          img(:src="item.Image" height="25").m-2
+        .taskbar-item.bg-dark.bg-inner-shadow.h-100.pe-4.ps-2.d-flex.align-items-center.rounded.text-light(v-for="(item, index) in activePrograms" :key="index")
+          i(:class="item.Image" height="25").m-2
           |   {{ item.DisplayName }}
-    .left-bar.d-flex.align-items-center.p-2.light-border
-      Clock 
+    Clock 
   </template>
       
 <script lang="ts">
@@ -26,7 +23,7 @@ export default {
     Clock
   },
   props: {
-
+    showMenu: Boolean
   },
   data() {
     return {

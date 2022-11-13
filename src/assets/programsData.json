@@ -3,41 +3,56 @@
     "Id": "1",
     "Name": "MyComputer",
     "DisplayName": "My Computer",
-    "Image": "https://win98icons.alexmeub.com/icons/png/computer_explorer_cool-0.png",
+    "Image": "bi-pc-display-horizontal",
     "IsActive": false
   },
   {
     "Id": "2",
     "Name": "NetworkNeighborhood",
     "DisplayName": "Network Neighborhood",
-    "Image": "https://win98icons.alexmeub.com/icons/png/network_normal_two_pcs-5.png",
+    "Image": "bi-hdd-network-fill",
     "IsActive": false
   },
   {
     "Id": "3",
     "Name": "FlappyDisk",
     "DisplayName": "Flappy Disk",
-    "Image": "https://win98icons.alexmeub.com/icons/png/ms_dos-1.png", 
+    "Image": "bi-joystick", 
     "IsActive": false
   },  
   {
     "Id": "4",
     "Name": "PawVania",
     "DisplayName": "PawVania",
-    "Image": "https://win98icons.alexmeub.com/icons/png/ms_dos-1.png", 
+    "Image": "bi-joystick", 
     "IsActive": false
-  },    {
+  },    
+  {
     "Id": "5",
     "Name": "Platformer",
     "DisplayName": "Platformer Game",
-    "Image": "https://win98icons.alexmeub.com/icons/png/ms_dos-1.png", 
+    "Image": "bi-joystick", 
     "IsActive": false
   },  
   {
     "Id": "6",
     "Name": "Paint",
     "DisplayName": "Paint",
-    "Image": "https://win98icons.alexmeub.com/icons/png/paint_file-4.png",
+    "Image": "bi-brush",
+    "IsActive": false
+  },  
+  {
+    "Id": "7",
+    "Name": "Minesweeper",
+    "DisplayName": "Minesweeper",
+    "Image": "bi-vinyl-fill", 
+    "IsActive": false
+  },
+  {
+    "Id": "8",
+    "Name": "Calculator",
+    "DisplayName": "Calculator",
+    "Image": "bi-calculator-fill", 
     "IsActive": false
   }
 ]

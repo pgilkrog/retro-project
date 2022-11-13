@@ -1,6 +1,5 @@
 <template lang="pug">
-.menu-wrapper.bg-secondary.fixed-bottom.fit-content.st-border.d-flex(v-if="showMenu")
-  .side-bar.bg-dark
+.menu-wrapper.bg-dark.fixed-bottom.fit-content.bg-shadow.d-flex.rounded(v-if="showMenu")
   .flex-column
     .menu-item(v-for="(item, index) in menuList" :key="index")
       MenuItem(:title="item.title" :img="item.img" :hasChildren="item.subMenu.length > 0")

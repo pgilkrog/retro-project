@@ -3,7 +3,7 @@ div
   template(v-if="this.userIsLoggedIn === true")
     HomeView(v-on:closeWindow="closeWindow")
     Menu(v-bind:showMenu="showMenu")
-    Taskbar(v-on:changeShowMenu="changeShowMenu()" )
+    Taskbar(v-on:changeShowMenu="changeShowMenu()" :showMenu="showMenu" )
   template(v-else)
     LoginScreen
 </template>

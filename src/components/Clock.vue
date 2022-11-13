@@ -1,5 +1,5 @@
 <template lang="pug">
-.clock-wrapper
+.px-2.m-1.left-bar.d-flex.align-items-center.p-2.bg-inner-shadow.text-white.rounded
   |   {{ time }}
 </template>
 

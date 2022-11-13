@@ -1,6 +1,6 @@
 <template lang="pug">
-.desktop-item.d-flex.flex-column.align-items-center.fit-content.m-4.pointer(v-on:click="itemPressed()")
-  img(:src="program.Image" height="50" width="50")
+.desktop-item.d-flex.flex-column.align-items-center.fit-content.m-4.pointer.text-light(v-on:click="itemPressed()")
+  i(:class="'bi ' + program.Image" style="font-size: 3rem")
   |  {{ program.DisplayName }}
 </template>
 
