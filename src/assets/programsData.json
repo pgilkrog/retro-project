@@ -4,55 +4,63 @@
     "Name": "MyComputer",
     "DisplayName": "My Computer",
     "Image": "bi-pc-display-horizontal",
-    "IsActive": false
+    "IsActive": false,
+    "Color": "light"
   },
   {
     "Id": "2",
     "Name": "NetworkNeighborhood",
     "DisplayName": "Network Neighborhood",
     "Image": "bi-hdd-network-fill",
-    "IsActive": false
+    "IsActive": false,
+    "Color": "light"
   },
   {
     "Id": "3",
     "Name": "FlappyDisk",
     "DisplayName": "Flappy Disk",
     "Image": "bi-joystick", 
-    "IsActive": false
+    "IsActive": false,
+    "Color": "info"
   },  
   {
     "Id": "4",
     "Name": "PawVania",
     "DisplayName": "PawVania",
     "Image": "bi-joystick", 
-    "IsActive": false
+    "IsActive": false,
+    "Color": "info"
   },    
   {
     "Id": "5",
     "Name": "Platformer",
     "DisplayName": "Platformer Game",
     "Image": "bi-joystick", 
-    "IsActive": false
+    "IsActive": false,
+    "Color": "info"
   },  
   {
     "Id": "6",
     "Name": "Paint",
     "DisplayName": "Paint",
     "Image": "bi-brush",
-    "IsActive": false
+    "IsActive": false,
+    "Color": "warning"
   },  
   {
     "Id": "7",
     "Name": "Minesweeper",
     "DisplayName": "Minesweeper",
     "Image": "bi-vinyl-fill", 
-    "IsActive": false
+    "IsActive": false,
+    "Color": "info"
   },
   {
     "Id": "8",
     "Name": "Calculator",
     "DisplayName": "Calculator",
     "Image": "bi-calculator-fill", 
-    "IsActive": false
+    "IsActive": false,
+    "Color": "light"
   }
 ]

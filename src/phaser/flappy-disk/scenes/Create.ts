@@ -144,7 +144,6 @@ export default class Create extends BaseScene {
     if(this.pauseEvent) {return}
 
     this.pauseEvent = this.events.on('resume', () => {
-      debugger
       this.initialTime = 3;
       this.countDownText = this.add.text(this.screenCenter[0],this.screenCenter[1], 'Fly in: ' + this.initialTime, this.fontOptions).setOrigin(0.5);
       this.timedEvent = this.time.addEvent({
@@ -157,7 +156,6 @@ export default class Create extends BaseScene {
   }
 
   countDown() {
-    debugger
     this.initialTime--;
     this.countDownText.setText('Fly in: ' + this.initialTime);
     if (this.initialTime <= 0) {

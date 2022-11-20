@@ -1,5 +1,5 @@
 <template lang="pug">
-.px-2.m-1.left-bar.d-flex.align-items-center.p-2.bg-inner-shadow.text-white.rounded
+.px-3.m-1.left-bar.d-flex.align-items-center.p-2.bg-shadow-inner.text-white.rounded
   |   {{ time }}
 </template>
 

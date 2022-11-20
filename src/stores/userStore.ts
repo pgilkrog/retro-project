@@ -9,7 +9,6 @@ export const userStore = defineStore("user", {
       if(userName != "" && password != "")
         this._isLoggedIn = true
     },
-
   },
   getters: {
     getIsLoggedIn: (state) => state._isLoggedIn

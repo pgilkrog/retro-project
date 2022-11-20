@@ -1,4 +1,5 @@
 @import './custom'
+@import './elements'
 
 @import './components/login-screen.sass'
 @import './components/menu.sass'
@@ -11,7 +12,7 @@ body, html, .bg-fill
   max-height: 100vh
   width: 100%
   max-width: 100%
-  background-color: #333
+  background-color: #282a36
 
   p 
     margin: 0
@@ -31,18 +32,6 @@ body, html, .bg-fill
   display: flex
   justify-content: center
   align-items: center
-
-.st-border
-  border-left: 2px solid $white
-  border-top: 2px solid $white
-  border-right: 2px solid $black
-  border-bottom: 2px solid $black
-
-.light-border
-  border-left: 2px solid $dark
-  border-top: 2px solid $dark
-  border-right: 2px solid $white
-  border-bottom: 2px solid $white
 
 .fit-content
   width: fit-content
@@ -70,7 +59,7 @@ canvas
 .bg-shadow
   box-shadow: $shadow
 
-.bg-inner-shadow 
+.bg-shadow-inner
   box-shadow: $inner-shadow
 
 .shadow-top

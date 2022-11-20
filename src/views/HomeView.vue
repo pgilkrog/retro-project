@@ -6,6 +6,7 @@
       :key="index"
       :program="program"
       v-on:generateComponent="generateComponent(program)"
+      :itemColor="program.Color"
     )
   Component(
     v-for="(component, index) in activePrograms"

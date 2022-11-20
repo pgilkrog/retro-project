@@ -38,7 +38,6 @@ export default defineComponent({
   },
   mounted() {
     this.userIsLoggedIn = computed(() => this.userstore.getIsLoggedIn)
-    console.log(this.programsstore.getPrograms)
   },
   methods: {
     changeShowMenu () {
