@@ -37,6 +37,7 @@ export default defineComponent({
     }
   },
   mounted() {
+    this.userstore.checkIfUserIsLoggedIn()
     this.userIsLoggedIn = computed(() => this.userstore.getIsLoggedIn)
   },
   methods: {

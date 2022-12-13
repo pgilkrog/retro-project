@@ -1,5 +1,5 @@
 <template lang="pug">
-.home-wrapper.bg-fill
+.home-wrapper.bg-fill.p-4
   .desktop-container
     DesktopItem(
       v-for="(program, index) in allPrograms"

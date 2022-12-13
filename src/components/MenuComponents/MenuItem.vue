@@ -1,5 +1,5 @@
 <template lang="pug">
-.menu-item.py-2.px-4.w-100.d-flex.align-items-center(v-on:click="openProgram()")
+.menu-item.py-2.px-4.w-100.d-flex.align-items-center.text-black(v-on:click="openProgram()")
   img(:src="img").me-3
   |  {{title}}
   span(v-if="hasChildren == true") >

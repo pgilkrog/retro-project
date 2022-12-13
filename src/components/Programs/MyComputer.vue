@@ -1,6 +1,6 @@
 <template lang="pug">
 WindowFrame(:program="program")
-  .bg-light.d-flex.flex-column
+  .d-flex.flex-column.b-down
     .row.gx-5
       DesktopItem(
         :program="{DisplayName: '3½ Floppy (A:)', Image: 'bi-joystick'}"

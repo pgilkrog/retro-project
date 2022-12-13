@@ -1,7 +1,7 @@
 <template lang="pug">
-.desktop-item.d-flex.flex-column.align-items-center.fit-content.pointer.m-1(v-on:click="itemPressed()" :class="itemColor ? 'text-' + itemColor : 'text-success'")
+.desktop-item.d-flex.flex-column.align-items-center.pointer.m-1(v-on:click="itemPressed()" :class="itemColor ? 'text-' + itemColor : 'text-success'")
   i(:class="'bi ' + program.Image" style="font-size: 3rem")
-  |  {{ program.DisplayName }}
+  .text-light  {{ program.DisplayName }}
 </template>
 
 <script lang="ts">

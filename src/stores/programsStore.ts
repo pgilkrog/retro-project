@@ -23,7 +23,7 @@ export const programsStore = defineStore("programs", {
     }
   },
   getters: {
-    getActivePrograms: (state) => state._activePrograms,
+    getActivePrograms: (state) => state._activePrograms as IProgram[],
     getPrograms: (state) => state._programs as IProgram[]
   }
 })
