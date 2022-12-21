@@ -11,7 +11,7 @@ div
 <script lang="ts">
 import { RouterView } from 'vue-router'
 import LoginScreen from './components/LoginScreen.vue'
-import Taskbar from '@/components/Taskbar.vue'
+import Taskbar from '@/components/taskbar/Taskbar.vue'
 import Menu from '@/components/menuComponents/Menu.vue'
 import HomeView from './views/HomeView.vue'
 import { userStore } from './stores/userStore'
@@ -42,7 +42,7 @@ export default defineComponent({
   },
   methods: {
     changeShowMenu () {
-      console.log("Pressed-69825-70949", this.showMenu)
+      console.log("Pressed", this.showMenu)
       this.showMenu = !this.showMenu
     },
     closeWindow(programName: string) {

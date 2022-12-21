@@ -1,80 +1,80 @@
 [
   {
     "title": "Programs",
-    "img": "https://win98icons.alexmeub.com/icons/png/appwizard-5.png",
+    "img": "bi bi-window-fullscreen",
     "subMenu": [
       {
         "title": "Accesories",
-        "img": "https://win98icons.alexmeub.com/icons/png/search_file_2_cool-5.png",
+        "img": "bi bi-tools",
         "subMenu": [
           {
             "title": "Settings",
-            "img": "https://win98icons.alexmeub.com/icons/png/settings_gear-2.png", 
+            "img": "bi bi-sliders", 
             "subMenu": []
           },
           {
             "title": "Documents",
-            "img": "https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-5.png", 
+            "img": "bi bi-folder", 
             "subMenu": []
           }
           ]
       },    
       {
         "title": "Settings",
-        "img": "https://win98icons.alexmeub.com/icons/png/settings_gear-2.png", 
+        "img": "bi bi-sliders", 
         "subMenu": []
       },
       {
         "title": "Documents",
-        "img": "https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-5.png", 
+        "img": "bi bi-folder", 
         "subMenu": []
       }
     ] 
   },
   {
     "title": "Documents",
-    "img": "https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-5.png",
+    "img": "bi bi-folder",
     "subMenu": [  
       {
         "title": "Settings",
-        "img": "https://win98icons.alexmeub.com/icons/png/settings_gear-2.png", 
+        "img": "bi bi-sliders", 
         "subMenu": []
       },
       {
         "title": "Documents",
-        "img": "https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-5.png", 
+        "img": "bi bi-folder", 
         "subMenu": []
       },  
       {
         "title": "Programs",
-        "img": "https://win98icons.alexmeub.com/icons/png/appwizard-5.png", 
+        "img": "bi bi-window-fullscreen", 
         "subMenu": []
       }
     ]
   },  
   {
     "title": "Settings",
-    "img": "https://win98icons.alexmeub.com/icons/png/settings_gear-2.png", 
+    "img": "bi bi-sliders", 
     "subMenu": []
   },
   {
     "title": "Find",
-    "img": "https://win98icons.alexmeub.com/icons/png/search_file_2_cool-5.png", 
+    "img": "bi bi-search", 
     "subMenu": []
   },    
   {
     "title": "Help",
-    "img": "https://win98icons.alexmeub.com/icons/png/help_book_cool-4.png",
+    "img": "bi bi-question-circle",
     "subMenu": []
   },    
   {
     "title": "Run...",
-    "img": "https://win98icons.alexmeub.com/icons/png/application_hourglass_small-4.png",   
+    "img": "bi bi-hourglass",   
     "subMenu": []
   },        
   {
     "title": "Shutdown...",
-    "img": "https://win98icons.alexmeub.com/icons/png/standby_monitor_moon-4.png",
+    "img": "bi bi-power",
     "subMenu": []
   }
 ]

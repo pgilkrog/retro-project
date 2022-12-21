@@ -3,18 +3,18 @@
   .desktop-container
     DesktopItem(
       v-for="(program, index) in allPrograms"
+      v-on:generateComponent="generateComponent(program)"
       :key="index"
       :program="program"
-      v-on:generateComponent="generateComponent(program)"
       :itemColor="program.Color"
     )
   Component(
-    v-for="(component, index) in activePrograms"
+    v-for="(program, index) in activePrograms"
+    v-on:closeWindow="closeWindow(program.Name)"
     :key="index"
-    :id="component.Name"
-    :is="component.Name"
-    v-on:closeWindow="closeWindow(component.Name)"
-    :program="component"
+    :id="program.Name"
+    :is="program.Name"
+    :program="program"
   )
   //- Game
 </template>

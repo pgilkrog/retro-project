@@ -8,12 +8,17 @@
         i.bi.bi-menu-button-wide.me-1
         |   Start
       .programs-container.d-flex
-        .taskbar-item.bg-secondary.bg-shadow-inner.h-100.pe-4.ps-2.d-flex.align-items-center.rounded.text-black(v-for="(item, index) in activePrograms" :key="index")
-          i(:class="item.Image" height="25").m-2
-          |   {{ item.DisplayName }}
+        .taskbar-item.bg-secondary.h-100.pe-4.ps-2.d-flex.align-items-center.rounded.text-black.pointer(
+          v-for="(item, index) in activePrograms" 
+          :key="index"
+          :class="item.IsActive ? 'bg-shadow-inner' : 'bg-shadow'"
+          @click="setActiveState(item)"
+        )
+          i(:class="item.Image" height="25").m-2.mt-0
+          | {{ item.DisplayName }}
     Clock 
-  </template>
-      
+</template>
+
 <script lang="ts">
 import Clock from './Clock.vue'
 import { programsStore } from '@/stores/programsStore'
@@ -36,6 +41,9 @@ export default {
   methods: {
     changeShowMenu() {
       this.$emit('changeShowMenu')      
+    },
+    setActiveState(program: IProgram) {
+      this.programsstore.setProgramActiveState(program)
     }
   },
   mounted() {

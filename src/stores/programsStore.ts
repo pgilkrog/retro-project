@@ -8,18 +8,25 @@ export const programsStore = defineStore("programs", {
     _programs: JSON.parse(JSON.stringify(jsondata)) as IProgram[]
   }),
   actions: {
-    setActivePrograms(programs: any) {
+    setActivePrograms(programs: IProgram[]) {
       this._activePrograms = programs
     },
     addProgramToActive(program: IProgram) {
-      if (this._activePrograms.find(x => x.Name === program.Name) === undefined) {
+      if (this._activePrograms.find(x => x.Id === program.Id) === undefined) {
+        program.IsActive = true
         this._activePrograms.push(program)
       }
     },
     removeProgramFromActive(program: IProgram) {
       if (this._activePrograms.find(x => x.Name === program.Name)) {
-        this.setActivePrograms(this._activePrograms.filter(x => x.Name !== program.Name))
+        this.setActivePrograms(this._activePrograms.filter(x => x.Id !== program.Id))
       }
+    },
+    setProgramActiveState(program: IProgram) {
+      this._activePrograms.find(x => {
+        if(x.Id === program.Id)
+          x.IsActive = !x.IsActive
+      })
     }
   },
   getters: {
