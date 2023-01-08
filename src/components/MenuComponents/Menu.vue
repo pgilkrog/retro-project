@@ -24,7 +24,7 @@ export default {
     return {
       menuList: [] as IMenuItem[]
     }
-  },  
+  },
   props: {
     showMenu: Boolean
   },

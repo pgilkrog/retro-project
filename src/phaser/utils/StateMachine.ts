@@ -69,6 +69,9 @@ export default class StateMachine
     update(dt: number) {
         if (this.stateQeue.length > 0) {
             const name = this.stateQeue.shift()
+            if(name == undefined)
+                return
+                
             this.setState(name)
             return
         }

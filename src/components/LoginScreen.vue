@@ -1,6 +1,6 @@
 <template lang="pug">
 .login-screen-wrapper.center-item.text-black
-  WindowFrame(:program="{Name: 'Log in now'}" :showMenu="false" variant="info").rounded
+  WindowFrame(:program="{Name: 'Log in now', Id: 0, IsActive: true, Image: ''}" :showMenu="false" variant="info").rounded
     .d-flex.p-4
       .image.pe-4
         h1.bi.bi-key-fill.text-warning

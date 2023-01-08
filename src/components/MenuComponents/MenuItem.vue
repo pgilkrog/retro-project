@@ -7,6 +7,8 @@
 </template>
 
 <script lang="ts">
+import { userStore } from '@/stores/userStore';
+
 
 export default {
   props: {
@@ -15,9 +17,21 @@ export default {
     hasChildren: Boolean,
     componentName: String
   },
+  data() {
+    return {
+      userstore: userStore()
+    }
+  },
   methods: {
     openProgram() {
-      console.log("HEjsa")
+      switch(this.title) {
+        case 'Shutdown...':
+          this.signOut()
+          break
+      }
+    },
+    signOut() {
+      this.userstore.signOut()
     }
   }
 }

@@ -14,7 +14,10 @@ export const userStore = defineStore("user", {
     _user: {},
   }),
   actions: {
-    checkIfUserIsLoggedIn() {
+    async init() {
+      await this.checkIfUserIsLoggedIn()
+    },
+    async checkIfUserIsLoggedIn() {
       onAuthStateChanged(auth, (user) => {
         if (user) {
           console.log("USER", user)
@@ -23,7 +26,7 @@ export const userStore = defineStore("user", {
         }
       })  
     },
-    loginUser(email: string, password: string) {
+    async loginUser(email: string, password: string) {
       if(email != "" && password != "")
         signInWithEmailAndPassword(auth, email, password).then((data: any) => {
           console.log(data)

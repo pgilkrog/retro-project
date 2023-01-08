@@ -1,6 +1,10 @@
 <template lang="pug">
 div
-  template(v-if="this.userIsLoggedIn === true")
+  template(v-if="isLoading === true")
+    .d.flex.align-items-center.text-white
+      strong Loading...
+      .spinner-border.ms-auto
+  template(v-else-if="this.userIsLoggedIn === true && isLoading === false")
     HomeView(v-on:closeWindow="closeWindow")
     Menu(v-bind:showMenu="showMenu")
     Taskbar(v-on:changeShowMenu="changeShowMenu()" :showMenu="showMenu" )
@@ -33,12 +37,14 @@ export default defineComponent({
       componentList: [] as IProgram[],
       userstore: userStore(),
       programsstore: programsStore(),
-      userIsLoggedIn: {}
+      userIsLoggedIn: {},
+      isLoading: false
     }
   },
   mounted() {
-    this.userstore.checkIfUserIsLoggedIn()
+    this.userstore.init()
     this.userIsLoggedIn = computed(() => this.userstore.getIsLoggedIn)
+    this.isLoading = false
   },
   methods: {
     changeShowMenu () {

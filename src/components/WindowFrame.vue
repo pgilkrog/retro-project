@@ -15,7 +15,7 @@
   .container.bg-secondary.mt-1.bg-shadow-inner.rounded.gx-0
     slot
 </template>
-  
+
 <script lang="ts">
 import { IProgram } from '@/models/IProgram'
 import { programsStore } from '@/stores/programsStore'
