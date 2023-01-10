@@ -6,12 +6,14 @@ import {
   onAuthStateChanged
 } from "firebase/auth"
 import { auth } from '@/firebase'
-
+import { errorStore } from "./errorStore"
+import type { FirebaseError } from "firebase/app"
 
 export const userStore = defineStore("user", {
   state: () => ({
     _isLoggedIn: false,
     _user: {},
+    errorstore: errorStore()
   }),
   actions: {
     async init() {
@@ -24,15 +26,22 @@ export const userStore = defineStore("user", {
           this._isLoggedIn = true
           this._user = user
         }
-      })  
+      })
     },
     async loginUser(email: string, password: string) {
-      if(email != "" && password != "")
-        signInWithEmailAndPassword(auth, email, password).then((data: any) => {
-          console.log(data)
+      signInWithEmailAndPassword(auth, email, password)
+        .then((data: any) => {
           this._isLoggedIn = true
           this._user = data
-        })          
+        })
+        .catch((error: FirebaseError) => {
+          debugger
+          this.errorstore.setError({
+            show: true,
+            text: error.message,
+            icon: ''
+          })
+        })
     },
     registerUser(userName: string, password: string) {
       createUserWithEmailAndPassword(auth, userName, password).then((data: any) => {
@@ -40,7 +49,7 @@ export const userStore = defineStore("user", {
         this._isLoggedIn = true
       })
     },
-    signOut() {
+    async signOut() {
       signOut(auth)
       this._isLoggedIn = false
       this._user = {}
@@ -48,6 +57,6 @@ export const userStore = defineStore("user", {
   },
   getters: {
     getIsLoggedIn: (state) => state._isLoggedIn,
-    getUser: (state) => state._user
+    getUser: (state) => state._user,
   }
 })

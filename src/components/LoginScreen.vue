@@ -1,9 +1,9 @@
 <template lang="pug">
 .login-screen-wrapper.center-item.text-black
-  WindowFrame(:program="{Name: 'Log in now', Id: 0, IsActive: true, Image: ''}" :showMenu="false" variant="info").rounded
+  WindowFrame(:program="{Name: 'Log in now', Id: 0, IsActive: true, Image: ''}" :showMenu="false" variant="info")
     .d-flex.p-4
       .image.pe-4
-        h1.bi.bi-key-fill.text-warning
+        i.bi.bi-key-fill.text-warning
       .d-flex.flex-column
         .row Type a user name and password to log into Windows
         .row.mt-2
@@ -39,6 +39,10 @@ export default {
   methods: {
     confirmLogin(): void {
       this.userstore.loginUser(this.username, this.password)
+      .then(() =>
+        console.log('GOOD')
+      )
+      .catch(() => console.log('Error'))
     },
     registerUser(): void {
       this.userstore.registerUser(this.username, this.password)

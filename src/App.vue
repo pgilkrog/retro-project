@@ -1,13 +1,11 @@
 <template lang="pug">
 div
-  template(v-if="isLoading === true")
-    .d.flex.align-items-center.text-white
-      strong Loading...
-      .spinner-border.ms-auto
-  template(v-else-if="this.userIsLoggedIn === true && isLoading === false")
+  template(v-if="error.show === true")
+    ErrorComponent(:text="error.text" :variant="danger")
+  template(v-if="this.userIsLoggedIn === true && isLoading === false")
     HomeView(v-on:closeWindow="closeWindow")
     Menu(v-bind:showMenu="showMenu")
-    Taskbar(v-on:changeShowMenu="changeShowMenu()" :showMenu="showMenu" )
+    Taskbar(v-on:changeShowMenu="changeShowMenu()" :showMenu="showMenu")
   template(v-else)
     LoginScreen
 </template>
@@ -17,10 +15,14 @@ import { RouterView } from 'vue-router'
 import LoginScreen from './components/LoginScreen.vue'
 import Taskbar from '@/components/taskbar/Taskbar.vue'
 import Menu from '@/components/menuComponents/Menu.vue'
-import HomeView from './views/HomeView.vue'
+import HomeView from '@/views/HomeView.vue'
+import ErrorComponent from '@/components/ErrorComponent.vue'
+
+import type { IProgram } from './models/IProgram'
+import type { IErrorItem } from './models/IErrorItem'
 import { userStore } from './stores/userStore'
 import { programsStore } from './stores/programsStore'
-import type { IProgram } from './models/IProgram'
+import { errorStore } from './stores/errorStore'
 import { defineComponent } from 'vue'
 import { computed } from 'vue'
 
@@ -29,7 +31,8 @@ export default defineComponent({
     HomeView,
     Menu,
     Taskbar,
-    LoginScreen
+    LoginScreen,
+    ErrorComponent
   },
   data() {
     return {
@@ -37,14 +40,17 @@ export default defineComponent({
       componentList: [] as IProgram[],
       userstore: userStore(),
       programsstore: programsStore(),
+      errorstore: errorStore(),
       userIsLoggedIn: {},
-      isLoading: false
+      isLoading: false,
+      error: {} 
     }
   },
   mounted() {
     this.userstore.init()
     this.userIsLoggedIn = computed(() => this.userstore.getIsLoggedIn)
     this.isLoading = false
+    this.error = computed(() => this.errorstore.getError)
   },
   methods: {
     changeShowMenu () {
