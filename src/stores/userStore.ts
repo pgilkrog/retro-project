@@ -3,16 +3,18 @@ import {
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
+  updatePassword
 } from "firebase/auth"
 import { auth } from '@/firebase'
 import { errorStore } from "./errorStore"
 import type { FirebaseError } from "firebase/app"
+import type { User } from "firebase/auth"
 
 export const userStore = defineStore("user", {
   state: () => ({
     _isLoggedIn: false,
-    _user: {},
+    _user: {} as User,
     errorstore: errorStore()
   }),
   actions: {
@@ -22,9 +24,11 @@ export const userStore = defineStore("user", {
     async checkIfUserIsLoggedIn() {
       onAuthStateChanged(auth, (user) => {
         if (user) {
-          console.log("USER", user)
           this._isLoggedIn = true
           this._user = user
+        } else {
+          this._isLoggedIn = false
+          this._user = {} as User
         }
       })
     },
@@ -32,10 +36,9 @@ export const userStore = defineStore("user", {
       signInWithEmailAndPassword(auth, email, password)
         .then((data: any) => {
           this._isLoggedIn = true
-          this._user = data
+          this._user = data as User
         })
         .catch((error: FirebaseError) => {
-          debugger
           this.errorstore.setError({
             show: true,
             text: error.message,
@@ -43,17 +46,27 @@ export const userStore = defineStore("user", {
           })
         })
     },
-    registerUser(userName: string, password: string) {
-      createUserWithEmailAndPassword(auth, userName, password).then((data: any) => {
-        console.log(data)
-        this._isLoggedIn = true
-      })
+    async registerUser(userName: string, password: string) {
+      createUserWithEmailAndPassword(auth, userName, password)
+        .then((data: any) => {
+          this._isLoggedIn = true
+        })        
+        .catch((error: FirebaseError) => {
+          this.errorstore.setError({
+            show: true,
+            text: error.message,
+            icon: ''
+          })
+        })
     },
     async signOut() {
       signOut(auth)
       this._isLoggedIn = false
-      this._user = {}
-    }
+      this._user = {} as User
+    },
+    async changePassword(password: string) {
+      updatePassword(this.getUser, password)
+    },
   },
   getters: {
     getIsLoggedIn: (state) => state._isLoggedIn,

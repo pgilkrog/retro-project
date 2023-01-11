@@ -5,9 +5,12 @@ import jsondata from '@/assets/programsData.json'
 export const programsStore = defineStore("programs", {
   state: () => ({
     _activePrograms: [] as IProgram[],
-    _programs: JSON.parse(JSON.stringify(jsondata)) as IProgram[]
+    _programs: [] as IProgram[]
   }),
   actions: {
+    init() {
+      this._programs = JSON.parse(JSON.stringify(jsondata)) as IProgram[]
+    },
     setActivePrograms(programs: IProgram[]) {
       this._activePrograms = programs
     },

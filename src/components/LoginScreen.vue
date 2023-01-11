@@ -1,10 +1,15 @@
 <template lang="pug">
 .login-screen-wrapper.center-item.text-black
-  WindowFrame(:program="{Name: 'Log in now', Id: 0, IsActive: true, Image: ''}" :showMenu="false" variant="info")
+  WindowFrame(
+    :program="program" 
+    :showMenu="false" 
+    variant="info"
+  )
     .d-flex.p-4
       .image.pe-4
-        i.bi.bi-key-fill.text-warning
-      .d-flex.flex-column
+        .rotate-90
+          i.bi.bi-key-fill.text-warning
+      form.d-flex.flex-column
         .row Type a user name and password to log into Windows
         .row.mt-2
           .col-3
@@ -18,12 +23,15 @@
             input.w-100.text-black.bg-shadow-inner(type="password" name="password" autocomplete="off" v-model="password")
       .buttons.d-flex.flex-column.ps-4
         button.btn.bg-shadow(v-on:click="confirmLogin()") OK 
-        button.btn.bg-shadow.mt-2 Cancel
+        button.btn.bg-shadow.mt-2 Help
+    div
+      button.btn.bg-shadow(@click="registerUser()") Create User
 </template>
 
 <script lang="ts">
 import WindowFrame from './WindowFrame.vue'
-import { userStore } from '../stores/userStore'
+import { userStore } from '@/stores/userStore'
+import type { IProgram } from '@/models/IProgram'
 
 export default {
   components: {
@@ -33,19 +41,24 @@ export default {
     return {
       username: "",
       password: "",
-      userstore: userStore()
+      userstore: userStore(),
+      program: {
+        Id: 543, 
+        Name: 'Log in now', 
+        IsActive: true, 
+        Image: 'bi-archive'
+      } as IProgram
     }
   },
   methods: {
     confirmLogin(): void {
       this.userstore.loginUser(this.username, this.password)
-      .then(() =>
-        console.log('GOOD')
-      )
-      .catch(() => console.log('Error'))
     },
     registerUser(): void {
       this.userstore.registerUser(this.username, this.password)
+    },
+    changePassword(): void {
+      this.userstore.changePassword("hejsa4321")
     }
   }
 }

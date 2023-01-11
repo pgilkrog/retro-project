@@ -19,7 +19,6 @@ import HomeView from '@/views/HomeView.vue'
 import ErrorComponent from '@/components/ErrorComponent.vue'
 
 import type { IProgram } from './models/IProgram'
-import type { IErrorItem } from './models/IErrorItem'
 import { userStore } from './stores/userStore'
 import { programsStore } from './stores/programsStore'
 import { errorStore } from './stores/errorStore'
@@ -48,6 +47,7 @@ export default defineComponent({
   },
   mounted() {
     this.userstore.init()
+    this.programsstore.init()
     this.userIsLoggedIn = computed(() => this.userstore.getIsLoggedIn)
     this.isLoading = false
     this.error = computed(() => this.errorstore.getError)

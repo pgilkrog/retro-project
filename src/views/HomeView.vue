@@ -56,7 +56,7 @@ export default defineComponent({
     return {
       programsstore: programsStore(),
       activePrograms: {},
-      allPrograms: [] as IProgram[]
+      allPrograms: {}
     }
   },
   methods: {
@@ -66,7 +66,7 @@ export default defineComponent({
   },
   mounted() {
     this.activePrograms = computed(() => this.programsstore.getActivePrograms as IProgram[])
-    this.allPrograms = this.programsstore.getPrograms
+    this.allPrograms = computed(() => this.programsstore.getPrograms as IProgram[])
   }
 })
 </script>

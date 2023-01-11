@@ -17,19 +17,20 @@
 </template>
 
 <script lang="ts">
-import { IProgram } from '@/models/IProgram'
+import type { IProgram } from '@/models/IProgram'
 import { programsStore } from '@/stores/programsStore'
 import { defineComponent } from 'vue'
+import type { PropType } from 'vue'
 
 export default defineComponent({
   props: {
     showMenu: Boolean,
-    program: IProgram,
+    program: Object as PropType<IProgram>,
     variant: String,
   },
   data() {
     return {
-      programsstore: programsStore(),
+      programsstore: programsStore()
     }
   },
   methods: {
