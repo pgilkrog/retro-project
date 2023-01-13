@@ -4,9 +4,9 @@
     i(:class="program.Image" width="25")
     .font-weight-bold.pe-4.ps-2 {{ program.Name }}
     span
-      button.bg-secondary.py-0.px-2.text-black.bg-shadow(v-on:click="setInactive()") _
-      button.bg-secondary.py-0.px-2.text-black.bg-shadow.mx-1 =
-      button.bg-secondary.py-0.px-2.text-black.bg-shadow(v-on:click="closeWindow()") x
+      button.btn.bg-secondary.py-0.px-2.text-black(@click="setInactive()") _
+      button.btn.bg-secondary.py-0.px-2.text-black.mx-1 =
+      button.btn.bg-secondary.py-0.px-2.text-black(@click="closeWindow()") x
   .menu-container.d-flex.mx-2.my-1(v-if="showMenu")
     .me-2 File
     .mx-2 Edit 
@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import type { IProgram } from '@/models/IProgram'
+import type { IProgram } from '@/models/index'
 import { programsStore } from '@/stores/programsStore'
 import { defineComponent } from 'vue'
 import type { PropType } from 'vue'

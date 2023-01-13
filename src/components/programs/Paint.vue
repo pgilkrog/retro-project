@@ -8,15 +8,16 @@ WindowFrame(:program="program")
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import type { PropType } from 'vue'
 import WindowFrame from '../WindowFrame.vue'
-import { IProgram } from '@/models/IProgram'
+import type { IProgram } from '@/models/index'
 
 export default defineComponent({
   components: {
     WindowFrame
   },
   props: {
-    program: Object
+    program: Object as PropType<IProgram>
   },
   data() {
     return {

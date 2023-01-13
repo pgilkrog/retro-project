@@ -22,16 +22,16 @@
           .col
             input.w-100.text-black.bg-shadow-inner(type="password" name="password" autocomplete="off" v-model="password")
       .buttons.d-flex.flex-column.ps-4
-        button.btn.bg-shadow(v-on:click="confirmLogin()") OK 
-        button.btn.bg-shadow.mt-2 Help
+        button.btn(@click="confirmLogin()") OK 
+        button.btn.mt-2 Help
     div
-      button.btn.bg-shadow(@click="registerUser()") Create User
+      button.btn(@click="registerUser()") Create User
 </template>
 
 <script lang="ts">
 import WindowFrame from './WindowFrame.vue'
 import { userStore } from '@/stores/userStore'
-import type { IProgram } from '@/models/IProgram'
+import type { IProgram } from '@/models/index'
 
 export default {
   components: {
@@ -57,8 +57,8 @@ export default {
     registerUser(): void {
       this.userstore.registerUser(this.username, this.password)
     },
-    changePassword(): void {
-      this.userstore.changePassword("hejsa4321")
+    changePassword(password: string): void {
+      this.userstore.changePassword(password)
     }
   }
 }

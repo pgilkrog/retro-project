@@ -7,7 +7,7 @@ WindowFrame(:program="program")
         v-for="(item, index) in grid" 
         :key="index" 
         :Block="item"
-        v-on:click="clickedBlock(item, index)"
+        @click="clickedBlock(item, index)"
       )
 </template>
 

@@ -4,7 +4,7 @@
   .line.bg-white
   .w-100.p-1.d-flex.justify-content-between
     .d-flex.py-1.ms-1
-      button.rounded.btn.me-1.text-black(variant="dark" v-on:click="changeShowMenu()" :class="showMenu ? 'bg-shadow-inner' : 'bg-shadow'")
+      button.rounded.btn.me-1.text-black(variant="dark" @click="changeShowMenu()" :class="showMenu ? 'bg-shadow-inner' : 'bg-shadow'")
         i.bi.bi-menu-button-wide.me-1
         |   Start
       .programs-container.d-flex
@@ -22,7 +22,7 @@
 <script lang="ts">
 import Clock from './Clock.vue'
 import { programsStore } from '@/stores/programsStore'
-import type { IProgram } from '@/models/IProgram'
+import type { IProgram } from '@/models/index'
 import { computed } from 'vue'
 
 export default {

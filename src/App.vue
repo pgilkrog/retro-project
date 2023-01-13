@@ -1,5 +1,5 @@
 <template lang="pug">
-div
+span
   template(v-if="error.show === true")
     ErrorComponent(:text="error.text" :variant="danger")
   template(v-if="this.userIsLoggedIn === true && isLoading === false")

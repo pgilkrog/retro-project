@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import type { IMenuItem }  from '@/models/IMenuItem'
+import type { IMenuItem }  from '@/models/index'
 
 import MenuItem from './MenuItem.vue'
 import jsondata from '@/assets/menuData.json'
