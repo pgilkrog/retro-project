@@ -9,9 +9,9 @@
       .image.pe-4
         .rotate-90
           i.bi.bi-key-fill.text-warning
-      form.d-flex.flex-column
+      .d-flex.flex-column
         .row Type a user name and password to log into Windows
-        .row.mt-2
+        .row.mt-4
           .col-3
             .login-text User name:
           .col
@@ -23,8 +23,8 @@
             input.w-100.text-black.bg-shadow-inner(type="password" name="password" autocomplete="off" v-model="password")
       .buttons.d-flex.flex-column.ps-4
         button.btn(@click="confirmLogin()") OK 
-        button.btn.mt-2 Help
-    div
+        button.btn.mt-2(@click="changeShowHelp()") Help
+    div(v-if="showHelp === true")
       button.btn(@click="registerUser()") Create User
 </template>
 
@@ -39,8 +39,9 @@ export default {
   },
   data() {
     return {
-      username: "",
-      password: "",
+      username: "" as string,
+      password: "" as string,
+      showHelp: false as boolean,
       userstore: userStore(),
       program: {
         Id: 543, 
@@ -59,6 +60,9 @@ export default {
     },
     changePassword(password: string): void {
       this.userstore.changePassword(password)
+    },
+    changeShowHelp() {
+      this.showHelp = !this.showHelp
     }
   }
 }

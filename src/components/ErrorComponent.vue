@@ -8,7 +8,7 @@
         p {{ text }}
       .col-2
         .d-flex.justify-content-center.mt-4
-          b-botton.btn(@click="closeErrorComponent()") OK
+          botton.btn(@click="closeErrorComponent()") OK
 </template>
 
 <script lang="ts">

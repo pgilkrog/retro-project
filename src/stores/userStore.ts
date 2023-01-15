@@ -6,10 +6,11 @@ import {
   onAuthStateChanged,
   updatePassword
 } from "firebase/auth"
-import { auth } from '@/firebase'
+import { auth, db } from '@/firebase'
 import { errorStore } from "./errorStore"
 import type { FirebaseError } from "firebase/app"
 import type { User } from "firebase/auth"
+import dbHelper from '@/helpers/DBHelper'
 
 export const userStore = defineStore("user", {
   state: () => ({
@@ -20,6 +21,7 @@ export const userStore = defineStore("user", {
   actions: {
     async init() {
       await this.checkIfUserIsLoggedIn()
+      let some = await dbHelper.getAll('users')
     },
     async checkIfUserIsLoggedIn() {
       onAuthStateChanged(auth, (user) => {
