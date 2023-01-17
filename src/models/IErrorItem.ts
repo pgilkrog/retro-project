@@ -1,10 +1,11 @@
 export class IErrorItem {
-  title: string
+  text: string
   show: boolean
   icon: string
+  timeStamp = new Date()
 
-  constructor(title: string, show: boolean, icon: string) {
-    this.title = title
+  constructor(text: string, show: boolean, icon: string) {
+    this.text = text
     this.show = show
     this.icon = icon
   }

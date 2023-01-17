@@ -9,7 +9,7 @@
       .image.pe-4
         .rotate-90
           i.bi.bi-key-fill.text-warning
-      .d-flex.flex-column
+      form.d-flex.flex-column
         .row Type a user name and password to log into Windows
         .row.mt-4
           .col-3

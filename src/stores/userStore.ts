@@ -6,7 +6,7 @@ import {
   onAuthStateChanged,
   updatePassword
 } from "firebase/auth"
-import { auth, db } from '@/firebase'
+import { auth } from '@/firebase'
 import { errorStore } from "./errorStore"
 import type { FirebaseError } from "firebase/app"
 import type { User } from "firebase/auth"
@@ -44,7 +44,8 @@ export const userStore = defineStore("user", {
           this.errorstore.setError({
             show: true,
             text: error.message,
-            icon: ''
+            icon: '', 
+            timeStamp: new Date()
           })
         })
     },
@@ -57,7 +58,8 @@ export const userStore = defineStore("user", {
           this.errorstore.setError({
             show: true,
             text: error.message,
-            icon: ''
+            icon: '',
+            timeStamp: new Date()
           })
         })
     },

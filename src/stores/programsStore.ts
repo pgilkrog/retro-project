@@ -1,15 +1,23 @@
 import { defineStore } from "pinia"
 import type { IProgram } from '@/models/IProgram'
 import jsondata from '@/assets/programsData.json'
+import DBHelper from "@/helpers/DBHelper"
 
 export const programsStore = defineStore("programs", {
   state: () => ({
     _activePrograms: [] as IProgram[],
-    _programs: [] as IProgram[]
+    _programs: [] as IProgram[],
+    collectionName: 'programs'
   }),
   actions: {
     init() {
-      this._programs = JSON.parse(JSON.stringify(jsondata)) as IProgram[]
+      DBHelper.getAll(this.collectionName).then(data => {
+        let temp = []
+        for(let item in data) {
+          temp.push(data[+item] as IProgram)
+        }
+        this._programs = temp
+      })
     },
     setActivePrograms(programs: IProgram[]) {
       this._activePrograms = programs
@@ -30,7 +38,7 @@ export const programsStore = defineStore("programs", {
         if(x.Id === program.Id)
           x.IsActive = !x.IsActive
       })
-    }
+    },
   },
   getters: {
     getActivePrograms: (state) => state._activePrograms as IProgram[],
