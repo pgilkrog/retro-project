@@ -8,6 +8,8 @@
       :program="program"
       :itemColor="program.Color"
     )
+  router-link(to="/pingpong") PingPong
+  router-link(to="/flappy-disk") Flappy Disk
   Component(
     v-for="(program, index) in activePrograms"
     v-on:closeWindow="closeWindow(program.Name)"
@@ -16,7 +18,7 @@
     :is="program.Name"
     :program="program"
   )
-  //- Game
+  //- PingPong
 </template>
 
 <script lang="ts">
@@ -27,7 +29,6 @@ import DesktopItem from '@/components/DesktopItem.vue'
 import MyComputer from '@/components/programs/MyComputer.vue'
 import NetworkNeighborhood from '@/components/programs/NetworkNeightborhood.vue'
 import MSDOS from '@/components/programs/MSDOS.vue'
-import FlappyDisk from '@/phaser/flappy-disk/components/Game.vue'
 import PawVania from '@/phaser/first-game/components/Game.vue'
 import Platformer from '@/phaser/platformer-game/components/Game.vue'
 import Paint from '@/components/programs/Paint.vue'
@@ -43,7 +44,6 @@ export default defineComponent({
     NetworkNeighborhood,
     MSDOS,
     Paint,
-    FlappyDisk,
     PawVania,
     Platformer,
     Minesweeper,

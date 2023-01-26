@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import PingPong from '@/phaser/ping-pong/components/Game.vue'
+import FlappyDisc from '@/phaser/flappy-disk/components/Game.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,6 +11,16 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
+    {
+      path: '/pingpong',
+      name: 'pingpong',
+      component: PingPong
+    },
+    {
+      path: '/flappy-disk',
+      name: 'flappy-disk',
+      component: FlappyDisc
+    }
     // {
     //   path: '/about',
     //   name: 'about',

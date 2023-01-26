@@ -1,9 +1,13 @@
 <template lang="pug">
 span
-  template(v-if="error.show === true")
+  template(v-if="hasAuthUser === false")
+    .spinner-border
+      span.visually-hidden Loading...
+  template(v-else-if="error.show === true")
     ErrorComponent(:text="error.text" :variant="danger")
-  template(v-if="this.userIsLoggedIn === true && isLoading === false")
-    HomeView(v-on:closeWindow="closeWindow")
+  template(v-else-if="this.userIsLoggedIn === true && hasAuthUser === true")
+    //- HomeView(v-on:closeWindow="closeWindow")
+    router-view(v-on:closeWindow="closeWindow")
     Menu(v-bind:showMenu="showMenu")
     Taskbar(v-on:changeShowMenu="changeShowMenu()" :showMenu="showMenu")
   template(v-else)
@@ -41,20 +45,20 @@ export default defineComponent({
       programsstore: programsStore(),
       errorstore: errorStore(),
       userIsLoggedIn: {},
-      isLoading: false,
+      hasAuthUser: {},
       error: {} 
     }
   },
   mounted() {
     this.userstore.init()
     this.programsstore.init()
+
     this.userIsLoggedIn = computed(() => this.userstore.getIsLoggedIn)
-    this.isLoading = false
     this.error = computed(() => this.errorstore.getError)
+    this.hasAuthUser = computed(() => this.userstore.getHasAuthUser)
   },
   methods: {
     changeShowMenu () {
-      console.log("Pressed", this.showMenu)
       this.showMenu = !this.showMenu
     },
     closeWindow(programName: string) {

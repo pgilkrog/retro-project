@@ -182,7 +182,6 @@ export default class RoguePlayerController {
   }
 
   private walkOnUpdate() {
-
     if (this.cursors.left.isDown) {
       this.sprite.setVelocityX(-this.speed)
       this.sprite.flipX = true

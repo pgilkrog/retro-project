@@ -9,7 +9,6 @@
 <script lang="ts">
 import { userStore } from '@/stores/userStore';
 
-
 export default {
   props: {
     img: String,

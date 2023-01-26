@@ -15,6 +15,7 @@ import dbHelper from '@/helpers/DBHelper'
 export const userStore = defineStore("user", {
   state: () => ({
     _isLoggedIn: false,
+    _hasAuthUser: false,
     _user: {} as User,
     errorstore: errorStore()
   }),
@@ -32,6 +33,7 @@ export const userStore = defineStore("user", {
           this._isLoggedIn = false
           this._user = {} as User
         }
+        this._hasAuthUser = true
       })
     },
     async loginUser(email: string, password: string) {
@@ -75,5 +77,6 @@ export const userStore = defineStore("user", {
   getters: {
     getIsLoggedIn: (state) => state._isLoggedIn,
     getUser: (state) => state._user,
+    getHasAuthUser: (state) => state._hasAuthUser
   }
 })
