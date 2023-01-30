@@ -1,5 +1,5 @@
 <template lang="pug">
-.position-absolute
+.position-absolute.game-wrapper
   Suspense
     PhaserContainer
 </template>

@@ -22,7 +22,7 @@
     "Image": "bi-joystick", 
     "IsActive": false,
     "Color": "info"
-  },  
+  },
   {
     "Id": "4",
     "Name": "PawVania",
@@ -30,7 +30,7 @@
     "Image": "bi-joystick", 
     "IsActive": false,
     "Color": "info"
-  },    
+  },
   {
     "Id": "5",
     "Name": "Platformer",
@@ -38,7 +38,7 @@
     "Image": "bi-joystick", 
     "IsActive": false,
     "Color": "info"
-  },  
+  },
   {
     "Id": "6",
     "Name": "Paint",
@@ -46,7 +46,7 @@
     "Image": "bi-brush",
     "IsActive": false,
     "Color": "warning"
-  },  
+  },
   {
     "Id": "7",
     "Name": "Minesweeper",

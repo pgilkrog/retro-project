@@ -8,8 +8,6 @@
       :program="program"
       :itemColor="program.Color"
     )
-  router-link(to="/pingpong") PingPong
-  router-link(to="/flappy-disk") Flappy Disk
   Component(
     v-for="(program, index) in activePrograms"
     v-on:closeWindow="closeWindow(program.Name)"

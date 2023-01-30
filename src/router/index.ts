@@ -17,8 +17,8 @@ const router = createRouter({
       component: PingPong
     },
     {
-      path: '/flappy-disk',
-      name: 'flappy-disk',
+      path: '/flappydisk',
+      name: 'flappydisk',
       component: FlappyDisc
     }
     // {
