@@ -12,7 +12,7 @@
     .mx-2 Edit 
     .mx-2 View
     .ms-2 Help
-  .container.bg-secondary.mt-1.bg-shadow-inner.rounded.gx-0
+  .bg-secondary.mt-1.bg-shadow-inner.rounded.gx-0
     slot
 </template>
 
