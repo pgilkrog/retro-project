@@ -16,7 +16,6 @@
     :is="program.Name"
     :program="program"
   )
-  //- PingPong
 </template>
 
 <script lang="ts">

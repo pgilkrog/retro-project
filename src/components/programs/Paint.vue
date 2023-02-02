@@ -8,39 +8,26 @@ WindowFrame(:program="program")
       @mouseup="stopDrawing"
     )
     div.m-4
+      .icons
+        button.btn(type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal")
+          i.icon.bi.bi-save
+        button.btn
+          i.icon.bi.bi-folder-fill
+
+        div(class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
+          div(class="modal-dialog")
+            div(class="modal-content")
+              div(class="modal-body")
+                input(v-model="inputSave")
+                button(type="button" class="btn btn-secondary" data-bs-dismiss="modal") Close
+                button(type="button" class="btn btn-primary" @click="saveDrawing(inputSave)") Save changes
       .color-wrapper
         .d-flex.flex-wrap(style="width: 250px")
-          button.btn.bg-shadow-inner(
-            @click="changeColor('#0000ff')"
-            style="background: #0000ff"
-          ) 
-          button.btn.bg-shadow-inner(
-            @click="changeColor('#00ff00')"
-            style="background: #00ff00"
-          ) 
-          button.btn.bg-shadow-inner(
-            @click="changeColor('#ff0000')"
-            style="background: #ff0000"
-          ) 
-          button.btn.bg-shadow-inner(
-            @click="changeColor('#ffff00')"
-            style="background: #ffff00"
-          ) 
-          button.btn.bg-shadow-inner(
-            @click="changeColor('#00ffff')"
-            style="background: #00ffff"
-          ) 
-          button.btn.bg-shadow-inner(
-            @click="changeColor('#ff00ff')"
-            style="background: #ff00ff"
-          )
-          button.btn.bg-shadow-inner(
-            @click="changeColor('#ffffff')"
-            style="background: #ffffff"
-          )
-          button.btn.bg-shadow-inner(
-            @click="changeColor('#000000')"
-            style="background: #000000"
+          button.btn.btn-color.bg-shadow-inner(
+            v-for="(color, index) in colors"
+            :key="index"
+            @click="changeColor(color)"
+            :style="'background: '+ color"
           ) 
       div.mt-4
         label Color:
@@ -48,11 +35,21 @@ WindowFrame(:program="program")
       div
         label Brush Size:
         input(type="range" min="1" max="50" v-model.number="state.brushSize")
+      div
+        p dfg
+        p(
+          v-for="item in myPaintings" 
+          @click="loadPainting(item.canvas)"
+          :key="item.Id"
+        ) {{ item.name }} 
 </template>
 
 <script lang="ts">
+import { userStore } from '@/stores/userStore';
 import { ref, reactive, onMounted } from 'vue'
 import WindowFrame from '../WindowFrame.vue'
+import DBHelper from '@/helpers/DBHelper'
+import type { IPainting } from '@/models/index'
 
 export default {
   props: {
@@ -61,13 +58,36 @@ export default {
   components: {
     WindowFrame
   },
+  data() {
+    return {
+      inputSave: '',
+      userstore: userStore(),
+      myPaintings: [] = [] as IPainting[],
+      colors: [
+        '#0000ff',
+        '#00ff00',
+        '#ff0000',
+        '#ffff00',
+        '#00ffff',
+        '#ff00ff',
+        '#ffffff',
+        '#000000'
+      ]
+    }
+  },
   methods: {
     changeColor(color: string) {
       this.state.color = color
     }
   },
+  mounted() {
+    DBHelper.getAllByUserId('paintings', this.userstore.getUser.uid).then(data => {
+      this.myPaintings = data as IPainting[]
+    })
+  },
   setup() {
-    const canvasRef = ref<HTMLCanvasElement | null>(null);
+    const canvasRef = ref<HTMLCanvasElement | null>(null)
+    const userstore = userStore()
     const state = reactive({
       color: '#000000',
       brushSize: 5,
@@ -103,6 +123,37 @@ export default {
       ctx.fill()
     }
 
+    function savePainting (text: string) {
+      const canvas = canvasRef.value
+      if(canvas === null) return
+
+      DBHelper.create('paintings', {
+        name: text,
+        userId: userstore.getUser.uid,
+        canvas: canvas.toDataURL()
+      })
+    }
+
+    function loadPainting (painting: any) {
+      const canvas = canvasRef.value
+      if (!canvas) return
+
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return
+
+      const image = new Image()
+      image.src = painting
+      image.onload = () => {
+        canvas.width = image.width
+        canvas.height = image.height
+
+        const ctx = canvas.getContext('2d')
+        if (!ctx) return
+
+        ctx.drawImage(image, 0, 0)
+      }
+    }
+
     onMounted(() => {
       const canvas = canvasRef.value
       if (!canvas) return
@@ -117,6 +168,8 @@ export default {
       startDrawing,
       stopDrawing,
       draw,
+      savePainting,
+      loadPainting
     };
   },
 };

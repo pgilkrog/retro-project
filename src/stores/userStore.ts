@@ -22,7 +22,6 @@ export const userStore = defineStore("user", {
   actions: {
     async init() {
       await this.checkIfUserIsLoggedIn()
-      let some = await dbHelper.getAll('users')
     },
     async checkIfUserIsLoggedIn() {
       onAuthStateChanged(auth, (user) => {

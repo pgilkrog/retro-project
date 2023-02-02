@@ -17,6 +17,22 @@ export default {
       console.error(error)
     }
   },
+  async getAllByUserId(colName:string, userId: string) {
+    try {
+      let array: any[] = []
+      const data = await getDocs(collection(db, colName))
+      data.forEach(doc => {
+        if (doc.data().userId === userId)
+          array = [...array, {
+            ...doc.data(),
+            Id: doc.id
+          }]
+      })
+      return array
+    } catch (error) {
+      console.log(error)
+    }
+  },
   async getOneById(collectionName: string, id: string) {
     try {
       const docRef = doc(db, collectionName, id)
