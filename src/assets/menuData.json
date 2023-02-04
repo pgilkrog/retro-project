@@ -1,5 +1,10 @@
 [
   {
+    "title": "Profile",
+    "img": "bi bi-folder",
+    "subMenu": []
+  },
+  {
     "title": "Programs",
     "img": "bi bi-window-fullscreen",
     "subMenu": [

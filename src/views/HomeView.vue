@@ -25,7 +25,7 @@ import { defineComponent, computed } from 'vue'
 import DesktopItem from '@/components/DesktopItem.vue'
 import MyComputer from '@/components/programs/MyComputer.vue'
 import NetworkNeighborhood from '@/components/programs/NetworkNeightborhood.vue'
-import MSDOS from '@/components/programs/MSDOS.vue'
+import PAWDOS from '@/components/programs/PAWDOS.vue'
 import PawVania from '@/phaser/first-game/components/Game.vue'
 import Platformer from '@/phaser/platformer-game/components/Game.vue'
 import Paint from '@/components/programs/Paint.vue'
@@ -39,7 +39,7 @@ export default defineComponent({
     DesktopItem,
     MyComputer,
     NetworkNeighborhood,
-    MSDOS,
+    PAWDOS,
     Paint,
     PawVania,
     Platformer,

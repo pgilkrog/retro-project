@@ -11,10 +11,11 @@ export default class Game extends Scene {
 
   private p1Points: number = 0
   private p2Points: number = 0
-
   
   private scoreText1!: Phaser.GameObjects.Text
   private scoreText2!: Phaser.GameObjects.Text
+
+  private hitSound!: any
   
   constructor() {
     super({ key: 'GameScene' })
@@ -33,41 +34,50 @@ export default class Game extends Scene {
       .setCollideWorldBounds(true)
       .setImmovable(true)
 
-    this.physics.add.collider(this.ball, this.paddle1)
-    this.physics.add.collider(this.ball, this.paddle2)
+    this.physics.add.collider(this.ball, this.paddle1, this.hitBall)
+    this.physics.add.collider(this.ball, this.paddle2, this.hitBall)
 
     this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
     this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
     this.keyO = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.O)
     this.keyL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L)  
 
+    this.hitSound = this.sound.add('hit-sound')
+    
     this.createScores()
   }
 
   update(time: number, delta: number): void {
-      this.paddle1.body.velocity.y = 0
-      this.paddle2.body.velocity.y = 0
+    this.paddle1.body.velocity.y = 0
+    this.paddle2.body.velocity.y = 0
 
-      if (this.keyW.isDown) {
-        this.paddle1.body.velocity.y = -300
-      } else if (this.keyS.isDown) {
-        this.paddle1.body.velocity.y = 300
-      }
+    if (this.keyW.isDown) {
+      this.paddle1.body.velocity.y = -300
+    } else if (this.keyS.isDown) {
+      this.paddle1.body.velocity.y = 300
+    }
 
-      if (this.keyO.isDown) {
-        this.paddle2.body.velocity.y = -300
-      } else if (this.keyL.isDown) {
-        this.paddle2.body.velocity.y = 300
-      }
+    if (this.keyO.isDown) {
+      this.paddle2.body.velocity.y = -300
+    } else if (this.keyL.isDown) {
+      this.paddle2.body.velocity.y = 300
+    }
 
-      if (this.ball.x <= 10) { 
-        this.p2Points++
-        this.scoreText2.setText(`${this.p2Points}`)
-      }
-      if (this.ball.x >= 790) {
-        this.p1Points++
-        this.scoreText1.setText(`${this.p1Points}`)
-      }
+    if (this.ball.x <= 10) { 
+      this.p2Points++
+      this.scoreText2.setText(`${this.p2Points}`)
+    }
+    if (this.ball.x >= 790) {
+      this.p1Points++
+      this.scoreText1.setText(`${this.p1Points}`)
+    }
+  }
+
+  hitBall = () => {
+    // Increase the ball velocity by 50 units each time it hits a paddle
+    this.ball.setVelocityX(this.ball.body.velocity.x + 50)
+    this.ball.setVelocityY(this.ball.body.velocity.y + 50)
+    this.hitSound.play()
   }
 
   createScores() {

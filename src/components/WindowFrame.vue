@@ -19,10 +19,9 @@
 <script lang="ts">
 import type { IProgram } from '@/models/index'
 import { programsStore } from '@/stores/programsStore'
-import { defineComponent } from 'vue'
 import type { PropType } from 'vue'
 
-export default defineComponent({
+export default {
   props: {
     showMenu: Boolean,
     program: Object as PropType<IProgram>,
@@ -35,13 +34,15 @@ export default defineComponent({
   },
   methods: {
     closeWindow() {
-      if(this.program !== undefined)
+      if (this.program !== undefined)
         this.programsstore.removeProgramFromActive(this.program)
+      
+      this.$emit('closeWindow')
     },
     setInactive() {
-      if(this.program !== undefined)
+      if (this.program !== undefined)
         this.programsstore.setProgramActiveState(this.program)
     }
   }
-})
+}
 </script>

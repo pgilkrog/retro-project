@@ -1,17 +1,19 @@
 <template lang="pug">
 WindowFrame(:program="program")
-  .paint-wrapper.d-flex
-    canvas.bg-white(
-      ref="canvasRef" 
-      @mousedown="startDrawing" 
-      @mousemove="draw" 
-      @mouseup="stopDrawing"
-    )
-    div.m-4
+  .paint-wrapper.row.gx-0
+    .col-10
+      .d-flex.h-100.w-100(id="canvasWrapper")
+        canvas.bg-white(
+          ref="canvasRef" 
+          @mousedown="startDrawing" 
+          @mousemove="draw" 
+          @mouseup="stopDrawing"
+        )
+    .col-2.bg-shadow.p-4
       .icons
         button.btn(type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal")
           i.icon.bi.bi-save
-        button.btn
+        button.btn(@click="changeShowFiles(true)")
           i.icon.bi.bi-folder-fill
 
         div(class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
@@ -20,9 +22,9 @@ WindowFrame(:program="program")
               div(class="modal-body")
                 input(v-model="inputSave")
                 button(type="button" class="btn btn-secondary" data-bs-dismiss="modal") Close
-                button(type="button" class="btn btn-primary" @click="saveDrawing(inputSave)") Save changes
-      .color-wrapper
-        .d-flex.flex-wrap(style="width: 250px")
+                button(type="button" class="btn btn-primary" @click="savePainting(inputSave)") Save changes
+      .color-wrapper.mt-4
+        .d-flex.flex-wrap
           button.btn.btn-color.bg-shadow-inner(
             v-for="(color, index) in colors"
             :key="index"
@@ -35,32 +37,34 @@ WindowFrame(:program="program")
       div
         label Brush Size:
         input(type="range" min="1" max="50" v-model.number="state.brushSize")
-      div
-        p dfg
-        p(
-          v-for="item in myPaintings" 
-          @click="loadPainting(item.canvas)"
-          :key="item.Id"
-        ) {{ item.name }} 
+  FileExplorer(
+    :files="myPaintings" 
+    v-if="showFiles === true"
+    @itemClicked="itemClicked($event)"
+    @closeWindow="changeShowFiles(false)"
+  )
 </template>
 
 <script lang="ts">
 import { userStore } from '@/stores/userStore';
 import { ref, reactive, onMounted } from 'vue'
 import WindowFrame from '../WindowFrame.vue'
+import FileExplorer from '@/components/FileExplorer.vue'
 import DBHelper from '@/helpers/DBHelper'
-import type { IPainting } from '@/models/index'
+import { IPainting } from '@/models/index'
 
 export default {
   props: {
     program: Object
   },
   components: {
-    WindowFrame
+    WindowFrame,
+    FileExplorer
   },
   data() {
     return {
       inputSave: '',
+      showFiles: false,
       userstore: userStore(),
       myPaintings: [] = [] as IPainting[],
       colors: [
@@ -78,6 +82,12 @@ export default {
   methods: {
     changeColor(color: string) {
       this.state.color = color
+    },
+    changeShowFiles(bool: boolean) {
+      this.showFiles = bool
+    },
+    itemClicked(painting: IPainting) {
+      this.loadPainting(painting.Canvas)
     }
   },
   mounted() {
@@ -127,14 +137,17 @@ export default {
       const canvas = canvasRef.value
       if(canvas === null) return
 
-      DBHelper.create('paintings', {
-        name: text,
-        userId: userstore.getUser.uid,
-        canvas: canvas.toDataURL()
-      })
+      let newPainting = new IPainting (
+        '',
+        text, 
+        canvas.toDataURL(),
+        userstore.getUser.uid
+      )
+
+      DBHelper.create('paintings', newPainting)
     }
 
-    function loadPainting (painting: any) {
+    function loadPainting (painting: string) {
       const canvas = canvasRef.value
       if (!canvas) return
 
@@ -158,8 +171,10 @@ export default {
       const canvas = canvasRef.value
       if (!canvas) return
 
-      canvas.width = 1200
-      canvas.height = 1000
+      let canvasElement = document.getElementById("canvasWrapper")
+
+      canvas.width = canvasElement ? canvasElement.clientWidth : 500
+      canvas.height = canvasElement ? canvasElement.clientHeight : 500
     });
 
     return {

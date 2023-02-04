@@ -22,7 +22,7 @@ export default {
       let array: any[] = []
       const data = await getDocs(collection(db, colName))
       data.forEach(doc => {
-        if (doc.data().userId === userId)
+        if (doc.data().UId === userId)
           array = [...array, {
             ...doc.data(),
             Id: doc.id
@@ -44,7 +44,7 @@ export default {
   },
   async create(collectionName: string, item: any) {
     try {
-      await addDoc(collection(db, collectionName), item)
+      await addDoc(collection(db, collectionName),  JSON.parse(JSON.stringify(item)))
     } catch (error) {
       console.error(error)
     }
