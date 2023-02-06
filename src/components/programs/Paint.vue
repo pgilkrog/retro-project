@@ -52,8 +52,9 @@ import WindowFrame from '../WindowFrame.vue'
 import FileExplorer from '@/components/FileExplorer.vue'
 import DBHelper from '@/helpers/DBHelper'
 import { IPainting } from '@/models/index'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   props: {
     program: Object
   },
@@ -185,7 +186,7 @@ export default {
       draw,
       savePainting,
       loadPainting
-    };
+    }
   },
-};
+})
 </script>

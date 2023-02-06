@@ -1,17 +1,15 @@
 <template lang="pug">
-WindowFrame(:program="program")
+div
+
 </template>
 
 <script lang="ts">
-import WindowFrame from '../WindowFrame.vue'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: {
-    WindowFrame
-  },
   props: {
-    program: Object
+    isLoading: Boolean,
+    success: Boolean
   }
 })
 </script>

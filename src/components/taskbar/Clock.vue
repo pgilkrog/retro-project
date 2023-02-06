@@ -4,7 +4,9 @@
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   data() {
     return {
       time: ""
@@ -27,5 +29,5 @@ export default {
         return (zero + num).slice(-digit)
     }
   }
-}
+})
 </script>

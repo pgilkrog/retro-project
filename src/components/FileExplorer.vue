@@ -3,6 +3,7 @@ WindowFrame(
   :program="program" 
   variant="warning"
   @closeWindow="closeWindow()"
+  :isNotProgram="true"
 )
   .file-explorer
     span.d-flex.flex-column.align-items-center.pointer(
@@ -16,7 +17,9 @@ WindowFrame(
 
 <script lang="ts">
 import WindowFrame from '@/components/WindowFrame.vue'
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   components: {
     WindowFrame
   },
@@ -44,5 +47,5 @@ export default {
       this.$emit('closeWindow')
     }
   }
-}
+})
 </script>

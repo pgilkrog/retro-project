@@ -32,8 +32,9 @@
 import WindowFrame from './WindowFrame.vue'
 import { userStore } from '@/stores/userStore'
 import type { IProgram } from '@/models/index'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   components: {
     WindowFrame
   },
@@ -65,5 +66,5 @@ export default {
       this.showHelp = !this.showHelp
     }
   }
-}
+})
 </script>

@@ -10,7 +10,6 @@ import { auth } from '@/firebase'
 import { errorStore } from "./errorStore"
 import type { FirebaseError } from "firebase/app"
 import type { User } from "firebase/auth"
-import dbHelper from '@/helpers/DBHelper'
 
 export const userStore = defineStore("user", {
   state: () => ({

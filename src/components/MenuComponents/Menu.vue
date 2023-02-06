@@ -18,8 +18,9 @@ import type { IMenuItem }  from '@/models/index'
 
 import MenuItem from './MenuItem.vue'
 import jsondata from '@/assets/menuData.json'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   data() {
     return {
       menuList: [] as IMenuItem[]
@@ -39,5 +40,5 @@ export default {
       this.menuList = JSON.parse(JSON.stringify(jsondata)) 
     }
   }
-}
+})
 </script>

@@ -8,8 +8,9 @@
 
 <script lang="ts">
 import { userStore } from '@/stores/userStore';
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   props: {
     img: String,
     title: String,
@@ -33,5 +34,5 @@ export default {
       this.userstore.signOut()
     }
   }
-}
+})
 </script>

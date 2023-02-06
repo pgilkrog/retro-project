@@ -9,8 +9,9 @@
 import DBHelper from '@/helpers/DBHelper';
 import type { IProgram } from '@/models';
 import WindowFrame from '../WindowFrame.vue'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   components: {
     WindowFrame
   },
@@ -23,5 +24,5 @@ export default {
   },
   methods: {
   }
-}
+})
 </script>

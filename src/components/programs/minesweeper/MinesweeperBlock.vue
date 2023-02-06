@@ -13,7 +13,9 @@
 </template>
 
 <script lang="ts">
-export default  {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   props: {
     Block: Object || undefined
   },
@@ -23,5 +25,5 @@ export default  {
   methods: {
   
   }
-}
+})
 </script>

@@ -14,8 +14,9 @@ WindowFrame(:program="program")
 <script lang="ts">
 import WindowFrame from '../../WindowFrame.vue'
 import MinesweeperBlock from './MinesweeperBlock.vue'
+import { defineComponent } from 'vue'
 
-export default  {
+export default defineComponent({
   props: {
     program: Object
   },
@@ -44,5 +45,5 @@ export default  {
       }
     }
   }
-}
+})
 </script>

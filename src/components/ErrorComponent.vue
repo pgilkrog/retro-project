@@ -14,8 +14,9 @@
 <script lang="ts">
 import WindowFrame from './WindowFrame.vue'
 import { errorStore } from '@/stores/errorStore'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   props: {
     text: String,
     variant: String
@@ -33,5 +34,5 @@ export default {
       this.errorstore.resetError()
     }
   }
-}
+})
 </script>

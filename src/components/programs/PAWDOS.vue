@@ -6,15 +6,16 @@ WindowFrame(:program="program" variant="primary")
     .my-4
     p(v-for="s in textWritten" v-html="s")
     .d-flex.mt-4
-      p C:\DESKTOP>
+      p C:\DESKTOP&#62;
       form(@submit.prevent="submitMethod")
         input(autofocus v-model="inputText").bg-black.text-white.w-100.border-none
 </template>
 
 <script lang="ts">
 import WindowFrame from '../WindowFrame.vue'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   components: {
     WindowFrame
   },
@@ -67,5 +68,5 @@ export default {
         
     }
   }
-}
+})
 </script>

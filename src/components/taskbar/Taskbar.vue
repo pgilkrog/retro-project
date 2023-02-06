@@ -23,9 +23,9 @@
 import Clock from './Clock.vue'
 import { programsStore } from '@/stores/programsStore'
 import type { IProgram } from '@/models/index'
-import { computed } from 'vue'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   components: {
     Clock
   },
@@ -35,7 +35,11 @@ export default {
   data() {
     return {
       programsstore: programsStore(),
-      activePrograms: {}
+    }
+  },
+  computed: {
+    activePrograms(): IProgram[] {
+      return this.programsstore.getActivePrograms
     }
   },
   methods: {
@@ -45,10 +49,7 @@ export default {
     setActiveState(program: IProgram) {
       this.programsstore.setProgramActiveState(program)
     }
-  },
-  mounted() {
-    this.activePrograms = computed(() => this.programsstore.getActivePrograms as IProgram[])
   }
-}
+})
 </script>
   

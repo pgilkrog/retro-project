@@ -7,8 +7,9 @@
 <script lang="ts">
 import type { PropType } from 'vue';
 import type { IProgram } from '@/models/index';
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   props: {
     program: Object as PropType<IProgram>,
     itemColor: String
@@ -18,5 +19,5 @@ export default {
       this.$emit('generateComponent')
     }
   }
-}
+})
 </script>

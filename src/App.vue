@@ -15,19 +15,17 @@ span
 </template>
 
 <script lang="ts">
-import { RouterView } from 'vue-router'
 import LoginScreen from './components/LoginScreen.vue'
 import Taskbar from '@/components/taskbar/Taskbar.vue'
 import Menu from '@/components/menuComponents/Menu.vue'
 import HomeView from '@/views/HomeView.vue'
 import ErrorComponent from '@/components/ErrorComponent.vue'
 
-import type { IProgram } from './models/IProgram'
 import { userStore } from './stores/userStore'
 import { programsStore } from './stores/programsStore'
 import { errorStore } from './stores/errorStore'
 import { defineComponent } from 'vue'
-import { computed } from 'vue'
+import type { IErrorItem, IProgram } from './models'
 
 export default defineComponent({
   components: {
@@ -44,18 +42,22 @@ export default defineComponent({
       userstore: userStore(),
       programsstore: programsStore(),
       errorstore: errorStore(),
-      userIsLoggedIn: {},
-      hasAuthUser: {},
-      error: {} 
+    }
+  },
+  computed: {
+    userIsLoggedIn(): boolean {
+      return this.userstore.getIsLoggedIn
+    },
+    error(): IErrorItem {
+      return this.errorstore.getError
+    },
+    hasAuthUser(): boolean {
+      return this.userstore.getHasAuthUser
     }
   },
   mounted() {
     this.userstore.init()
     this.programsstore.init()
-
-    this.userIsLoggedIn = computed(() => this.userstore.getIsLoggedIn)
-    this.error = computed(() => this.errorstore.getError)
-    this.hasAuthUser = computed(() => this.userstore.getHasAuthUser)
   },
   methods: {
     changeShowMenu () {
