@@ -20,7 +20,7 @@ import NetworkNeighborhood from '@/components/programs/NetworkNeightborhood.vue'
 import PAWDOS from '@/components/programs/PAWDOS.vue'
 import PawVania from '@/phaser/first-game/components/Game.vue'
 import Platformer from '@/phaser/platformer-game/components/Game.vue'
-import Paint from '@/components/programs/Paint.vue'
+import Paint from '@/components/programs/paint/Paint.vue'
 import Calculator from '@/components/programs/Calculator.vue'
 import Minesweeper from '@/components/programs/minesweeper/MinesweeperGame.vue'
 

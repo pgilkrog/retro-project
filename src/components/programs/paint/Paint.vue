@@ -2,16 +2,21 @@
 WindowFrame(:program="program")
   .paint-wrapper.row.gx-0
     .col-10
-      .d-flex.h-100.w-100(id="canvasWrapper")
+      .canvas-wrapper.d-flex.h-100.w-100.text-black.bg-grey
         canvas.bg-white(
+          id="canvasWrapper"
           ref="canvasRef" 
           @mousedown="startDrawing" 
           @mousemove="draw" 
           @mouseup="stopDrawing"
         )
     .col-2.bg-shadow.p-4
+      .size.mb-4
+        input.tb(type="number" v-model="canvasX").w-100.mb-2
+        input.tb(type="number" v-model="canvasY").w-100
+        button.btn(@click="setSize(canvasX, canvasY)").mt-2 New
       .icons
-        button.btn(type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal")
+        button.btn(type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal")
           i.icon.bi.bi-save
         button.btn(@click="changeShowFiles(true)")
           i.icon.bi.bi-folder-fill
@@ -23,16 +28,8 @@ WindowFrame(:program="program")
                 input(v-model="inputSave")
                 button(type="button" class="btn btn-secondary" data-bs-dismiss="modal") Close
                 button(type="button" class="btn btn-primary" @click="savePainting(inputSave)") Save changes
-      .color-wrapper.mt-4
-        .d-flex.flex-wrap
-          button.btn.btn-color.bg-shadow-inner(
-            v-for="(color, index) in colors"
-            :key="index"
-            @click="changeColor(color)"
-            :style="'background: '+ color"
-          ) 
+      ColorTool(v-on:changeColor="changeColor($event)")
       div.mt-4
-        label Color:
         input(type="color" v-model="state.color")
       div
         label Brush Size:
@@ -48,11 +45,12 @@ WindowFrame(:program="program")
 <script lang="ts">
 import { userStore } from '@/stores/userStore';
 import { ref, reactive, onMounted } from 'vue'
-import WindowFrame from '../WindowFrame.vue'
+import WindowFrame from '../../WindowFrame.vue'
 import FileExplorer from '@/components/FileExplorer.vue'
 import DBHelper from '@/helpers/DBHelper'
 import { IPainting } from '@/models/index'
 import { defineComponent } from 'vue'
+import ColorTool from './ColorTool.vue'
 
 export default defineComponent({
   props: {
@@ -60,23 +58,23 @@ export default defineComponent({
   },
   components: {
     WindowFrame,
-    FileExplorer
+    FileExplorer,
+    ColorTool
   },
   data() {
     return {
+      canvasX: undefined,
+      canvasY: undefined,
       inputSave: '',
       showFiles: false,
       userstore: userStore(),
       myPaintings: [] = [] as IPainting[],
-      colors: [
-        '#0000ff',
-        '#00ff00',
-        '#ff0000',
-        '#ffff00',
-        '#00ffff',
-        '#ff00ff',
-        '#ffffff',
-        '#000000'
+      brushSizes: [
+        1,
+        3,
+        5,
+        7,
+        9
       ]
     }
   },
@@ -168,6 +166,19 @@ export default defineComponent({
       }
     }
 
+    function setSize (x: number, y: number) {
+      const canvas = canvasRef.value
+      if (!canvas) return
+
+      if (x != 0)
+        canvas.width = x
+      if (y != 0)
+        canvas.height = y
+
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return
+    }
+
     onMounted(() => {
       const canvas = canvasRef.value
       if (!canvas) return
@@ -176,7 +187,7 @@ export default defineComponent({
 
       canvas.width = canvasElement ? canvasElement.clientWidth : 500
       canvas.height = canvasElement ? canvasElement.clientHeight : 500
-    });
+    })
 
     return {
       canvasRef,
@@ -185,7 +196,8 @@ export default defineComponent({
       stopDrawing,
       draw,
       savePainting,
-      loadPainting
+      loadPainting,
+      setSize
     }
   },
 })

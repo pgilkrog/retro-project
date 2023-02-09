@@ -8,6 +8,7 @@ export default class Game extends Scene {
   private keyA!: any
   private keyD!: any
   private keySpace!: any
+  private canShoot: boolean = true
 
   constructor() {
     super({ key: 'Game' })
@@ -37,6 +38,12 @@ export default class Game extends Scene {
   }
 
   update(time: number, delta: number): void {
+    this.bullets.children.each((bullet: any) => {
+      if (bullet.y < 0) {
+        bullet.setActive(false).setVisible(false).setPosition(this.player.x, this.player.y - 30);
+      }
+    })
+
     this.player.body.velocity.x = 0
 
     if (this.keyA.isDown) {
@@ -51,10 +58,19 @@ export default class Game extends Scene {
   }
 
   shoot() {
-    const bullet = this.bullets.get(this.player.x, this.player.y)
+    if(!this.canShoot) {
+      return
+    }
+
+    const bullet = this.bullets.get(this.player.x, this.player.y - 40)
 
     if (bullet) {
-      bullet.setActive(true).setVisible(true).setVelocityY(-500).setTexture('bullet')
+      bullet.setActive(true).setVisible(true).setVelocityY(-600).setTexture('bullet')
+      this.canShoot = false
+
+      setTimeout(() => {
+        this.canShoot = true
+      }, 250)
     }
   }
 
