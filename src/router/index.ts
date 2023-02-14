@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import PingPong from '@/phaser/ping-pong/components/Game.vue'
-import FlappyDisc from '@/phaser/flappy-disk/components/Game.vue'
-import SpaceInvaders from '@/phaser/space-invaders/components/Game.vue'
+import PingPong from '@/phaser/ping-pong/PingPong.vue'
+import FlappyDisc from '@/phaser/flappy-disk/FlappyDisk.vue'
+import SpaceInvaders from '@/phaser/space-invaders/SpaceInvaders.vue'
+import Platformer from '@/phaser/first-game/Platformer.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +27,11 @@ const router = createRouter({
       path: '/spaceinvaders',
       name: 'spaceinvaders',
       component: SpaceInvaders
+    },
+    {
+      path: '/platformer',
+      name: 'platformer',
+      component: Platformer
     }
   ]
 })

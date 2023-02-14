@@ -47,15 +47,6 @@ body, html, .bg-fill
   color: $white
   font-weight: 500
 
-.game-wrapper
-  canvas 
-    position: absolute
-    top: 0
-    left: 0
-    z-index: 9999
-    max-width: 800
-    max-height: 600
-
 .window-frame-wrapper
   top: 0
 
@@ -98,3 +89,15 @@ body, html, .bg-fill
   transform: rotate(180deg)
 .rotate-270
   transform: rotate(270deg)
+
+.game-container
+  canvas
+    margin: 0 !important
+    padding: 0 !important
+    display: block
+    z-index: 9999
+    position: absolute
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0

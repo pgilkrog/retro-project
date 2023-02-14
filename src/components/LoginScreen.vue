@@ -24,8 +24,11 @@
       .buttons.d-flex.flex-column.ps-4
         button.btn(@click="confirmLogin()") OK 
         button.btn.mt-2(@click="changeShowHelp()") Help
-    div(v-if="showHelp === true")
-      button.btn(@click="registerUser()") Create User
+    .d-flex.flex-column.bg-shadow-inner.p-4.m-2(v-if="showHelp === true")
+      p Some helping info and stuff
+      .d-flex.justify-content-center.mt-4
+        button.btn.me-4(@click="registerUser()") Create User
+        button.btn() Reset Password
 </template>
 
 <script lang="ts">

@@ -10,6 +10,8 @@ export default class Game extends Scene {
   private keySpace!: any
   private canShoot: boolean = true
 
+  private direction = 1
+
   constructor() {
     super({ key: 'Game' })
   }
@@ -17,7 +19,7 @@ export default class Game extends Scene {
   create(): void {
     this.aliens = this.physics.add.group({
       key: 'alien',
-      repeat: 11, 
+      repeat: 10, 
       setXY: { x: 12, y: 50, stepX: 70 }
     })
     this.bullets = this.physics.add.group({
@@ -34,13 +36,13 @@ export default class Game extends Scene {
 
     this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
     this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
-    this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)  
+    this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE) 
   }
 
   update(time: number, delta: number): void {
     this.bullets.children.each((bullet: any) => {
       if (bullet.y < 0) {
-        bullet.setActive(false).setVisible(false).setPosition(this.player.x, this.player.y - 30);
+        this.resetBullet(bullet)
       }
     })
 
@@ -55,6 +57,37 @@ export default class Game extends Scene {
     if (this.keySpace.isDown) {
       this.shoot()
     }
+
+    this.moveAliens()
+  }
+
+  moveAliens() {
+    this.aliens.children.each((alien: any) => {
+      alien.setVelocityX(100 * this.direction);
+    });
+  
+    let rightmostAlien = 0;
+    let leftmostAlien = 1000;
+    this.aliens.children.each((alien: any) => {
+      if (alien.x > rightmostAlien) {
+        rightmostAlien = alien.x;
+      }
+      if (alien.x < leftmostAlien) {
+        leftmostAlien = alien.x;
+      }
+    });
+  
+    if (rightmostAlien > 800) {
+      this.direction = -1;
+      this.aliens.children.each((alien: any) => {
+        alien.setVelocityY(50);
+      });
+    } else if (leftmostAlien < 0) {
+      this.direction = 1;
+      this.aliens.children.each((alien: any) => {
+        alien.setVelocityY(50);
+      });
+    }
   }
 
   shoot() {
@@ -65,17 +98,21 @@ export default class Game extends Scene {
     const bullet = this.bullets.get(this.player.x, this.player.y - 40)
 
     if (bullet) {
-      bullet.setActive(true).setVisible(true).setVelocityY(-600).setTexture('bullet')
+      bullet.setActive(true).setVisible(true).setVelocityY(-300).setTexture('bullet')
       this.canShoot = false
 
       setTimeout(() => {
         this.canShoot = true
-      }, 250)
+      }, 500)
     }
   }
 
-  hitAlien (player: Physics.Arcade.Sprite, alien: Physics.Arcade.Sprite) {
-    player.disableBody(true, true)
+  hitAlien (bullet: Physics.Arcade.Sprite, alien: Physics.Arcade.Sprite) {
     alien.disableBody(true, true)
+    this.resetBullet(bullet)
+  }
+
+  resetBullet(bullet: Physics.Arcade.Sprite) {
+    bullet.setActive(false).setVisible(false).setPosition(this.player.x, this.player.y - 10).setVelocityY(0)
   }
 }

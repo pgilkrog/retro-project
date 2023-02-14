@@ -60,7 +60,7 @@ export default class Game extends Scene {
         case 'Player_Spawn': {
           this.player = this.matter.add.sprite(x, y, 'mage-character', 'Cut/mage-idle-1.png')
 
-          if(this.selectedCharacter === "Mage")
+          if (this.selectedCharacter === "Mage")
             this.playerCtr = new MagePlayerController(this, this.player, this.cursors, this.obstaclesCtr)
           else if (this.selectedCharacter === "Rogue")
             this.playerCtr = new RoguePlayerController(this, this.player, this.cursors, this.obstaclesCtr)
