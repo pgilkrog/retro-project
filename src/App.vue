@@ -15,7 +15,7 @@ span
 </template>
 
 <script lang="ts">
-import LoginScreen from './components/LoginScreen.vue'
+import LoginScreen from './components/auth/LoginScreen.vue'
 import Taskbar from '@/components/taskbar/Taskbar.vue'
 import Menu from '@/components/menuComponents/Menu.vue'
 import HomeView from '@/views/HomeView.vue'

@@ -29,7 +29,8 @@ export default defineComponent({
       grid: [] as Object[],
       rows: 10,
       columns:  5,
-      bombs: 10
+      bombs: 10,
+      gameOver: false
     }
   },
   mounted() {
