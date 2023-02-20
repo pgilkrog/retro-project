@@ -9,6 +9,7 @@
       :itemColor="program.Color"
     )
   ComponentMachine
+  Loading
 </template>
 
 <script lang="ts">
@@ -17,11 +18,13 @@ import { defineComponent } from 'vue'
 import DesktopItem from '@/components/DesktopItem.vue'
 import { programsStore } from '@/stores/programsStore'
 import ComponentMachine from '@/components/ComponentMachine.vue'
+import Loading from '@/components/Loading.vue'
 
 export default defineComponent({
   components: {
     DesktopItem,
-    ComponentMachine
+    ComponentMachine,
+    Loading
   },
   data() {
     return {

@@ -69,7 +69,7 @@ export default defineComponent({
       username: "" as string,
       password: "" as string,
       password2: "" as string,
-      info: 'info',
+      info: 'info' as string,
       infoText: 'Type a email and password to log into Windows',
       showHelp: false as boolean,
       userstore: userStore(),

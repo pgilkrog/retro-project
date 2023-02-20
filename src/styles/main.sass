@@ -5,6 +5,7 @@
 @import './components/menu.sass'
 @import './components/minesweeper.sass'
 @import './components/paint.sass'
+@import './components/loading.sass'
 
 body, html, .bg-fill
   margin: 0
@@ -89,6 +90,19 @@ body, html, .bg-fill
   transform: rotate(180deg)
 .rotate-270
   transform: rotate(270deg)
+
+.shut-down
+  bottom: 0
+  top: 0
+  right: 0
+  left: 0
+  background-color: $dark
+  height: 100vh
+  width: 100%
+  z-index: 9999
+  position: absolute
+  .bi
+    font-size: 12rem
 
 .game-container
   canvas

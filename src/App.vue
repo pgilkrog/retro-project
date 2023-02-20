@@ -1,12 +1,8 @@
 <template lang="pug">
 span
-  template(v-if="hasAuthUser === false")
-    .spinner-border
-      span.visually-hidden Loading...
-  template(v-else-if="error.show === true")
+  template(v-if="error.show === true")
     ErrorComponent(:text="error.text" :variant="danger")
-  template(v-else-if="this.userIsLoggedIn === true && hasAuthUser === true")
-    //- HomeView(v-on:closeWindow="closeWindow")
+  template(v-else-if="this.userIsLoggedIn === true")
     router-view(v-on:closeWindow="closeWindow")
     Menu(v-bind:showMenu="showMenu")
     Taskbar(v-on:changeShowMenu="changeShowMenu()" :showMenu="showMenu")
@@ -50,9 +46,6 @@ export default defineComponent({
     },
     error(): IErrorItem {
       return this.errorstore.getError
-    },
-    hasAuthUser(): boolean {
-      return this.userstore.getHasAuthUser
     }
   },
   mounted() {
