@@ -26,6 +26,10 @@ export default defineComponent({
     openProgram() {
       switch(this.title) {
         case 'Shutdown...':
+          this.$router.push('/shutdown')
+          this.signOut()
+          break
+        case 'Logout':
           this.signOut()
           break
       }

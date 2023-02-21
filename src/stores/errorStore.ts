@@ -6,6 +6,9 @@ export const errorStore = defineStore("errors", {
   state: () => ({
     _error: {} as IErrorItem
   }),
+  getters: {
+    getError: (state) => state._error
+  },
   actions: {
     setError(error: IErrorItem) {
       this._error = error
@@ -14,8 +17,5 @@ export const errorStore = defineStore("errors", {
     resetError() {
       this._error = {text: '', icon: '', show: false, timeStamp: new Date()}
     }
-  },
-  getters: {
-    getError: (state) => state._error
   }
 })

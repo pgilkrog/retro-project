@@ -8,6 +8,10 @@ export const programsStore = defineStore("programs", {
     programs: [] as IProgram[],
     collectionName: 'programs'
   }),
+  getters: {
+    getActivePrograms: (state) => state.activePrograms as IProgram[],
+    getPrograms: (state) => state.programs as IProgram[]
+  },
   actions: {
     init() {
       DBHelper.getAll(this.collectionName).then(data => {
@@ -38,9 +42,5 @@ export const programsStore = defineStore("programs", {
           x.IsActive = !x.IsActive
       })
     },
-  },
-  getters: {
-    getActivePrograms: (state) => state.activePrograms as IProgram[],
-    getPrograms: (state) => state.programs as IProgram[]
   }
 })

@@ -80,12 +80,12 @@ export default class Game extends Scene {
     if (rightmostAlien > 800) {
       this.direction = -1;
       this.aliens.children.each((alien: any) => {
-        alien.setVelocityY(50);
+        alien.setVelocityY(40);
       });
     } else if (leftmostAlien < 0) {
       this.direction = 1;
       this.aliens.children.each((alien: any) => {
-        alien.setVelocityY(50);
+        alien.setVelocityY(40);
       });
     }
   }

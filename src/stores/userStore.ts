@@ -17,19 +17,18 @@ export const userStore = defineStore("user", {
     _user: {} as User,
     errorstore: errorStore()
   }),
+  getters: {
+    getIsLoggedIn: (state) => state._isLoggedIn,
+    getUser: (state) => state._user
+  },
   actions: {
     async init() {
       await this.checkIfUserIsLoggedIn()
     },
     async checkIfUserIsLoggedIn() {
       onAuthStateChanged(auth, (user) => {
-        if (user) {
-          this._isLoggedIn = true
-          this._user = user
-        } else {
-          this._isLoggedIn = false
-          this._user = {} as User
-        }
+        this._isLoggedIn = Boolean(user)
+        this._user = user || {} as User
       })
     },
     async loginUser(email: string, password: string) {
@@ -69,9 +68,5 @@ export const userStore = defineStore("user", {
     async changePassword(password: string) {
       updatePassword(this.getUser, password)
     },
-  },
-  getters: {
-    getIsLoggedIn: (state) => state._isLoggedIn,
-    getUser: (state) => state._user
   }
 })

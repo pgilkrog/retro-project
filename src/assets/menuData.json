@@ -78,6 +78,11 @@
     "subMenu": []
   },        
   {
+    "title": "Logout",
+    "img": "bi bi-person",
+    "subMenu": []
+  },        
+  {
     "title": "Shutdown...",
     "img": "bi bi-power",
     "subMenu": []

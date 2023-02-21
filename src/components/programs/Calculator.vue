@@ -1,18 +1,30 @@
 <template lang="pug">
 WindowFrame(:program="program" showMenu="true")
-  .calculator-wrapper.row.gx-0
-    hr
-    input(type="text").light-border
-    br
-    div.mt-2
-      button.st-border.px-2.p-1 1
-      button.st-border.px-2.p-1.mx-1 2
-      button.st-border.px-2.p-1 3
+  .container
+    .calculator-wrapper.row.gx-0
+      .row 
+        input( 
+          type="text" 
+          v-model="display" 
+          disabled
+        ).bg-white
+      .row
+        div.mt-2
+          button.btn(
+            v-for="button in buttons" 
+            :key="button.text" 
+            @click="handleClick(button)"
+          ) {{ button.text }}
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import WindowFrame from '../WindowFrame.vue'
+
+interface Button {
+  text: string;
+  value: string;
+}
 
 export default defineComponent({
   components: {
@@ -23,10 +35,35 @@ export default defineComponent({
   },
   data() {
     return {
-
+      display: '',
+      buttons: [
+        { text: '1', value: '1' },
+        { text: '2', value: '2' },
+        { text: '3', value: '3' },
+        { text: '+', value: '+' },
+        { text: '4', value: '4' },
+        { text: '5', value: '5' },
+        { text: '6', value: '6' },
+        { text: '-', value: '-' },
+        { text: '7', value: '7' },
+        { text: '8', value: '8' },
+        { text: '9', value: '9' },
+        { text: '*', value: '*' },
+        { text: '0', value: '0' },
+        { text: '.', value: '.' },
+        { text: '=', value: '=' },
+        { text: '/', value: '/' },
+      ] as Button[],
     }
   },
   methods: {
+    handleClick(button: Button) {
+      if (button.value === '=') {
+        this.display = eval(this.display);
+      } else {
+        this.display += button.value;
+      }
+    },
   }
 })
 </script>

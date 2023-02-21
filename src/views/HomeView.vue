@@ -9,7 +9,6 @@
       :itemColor="program.Color"
     )
   ComponentMachine
-  Loading
 </template>
 
 <script lang="ts">

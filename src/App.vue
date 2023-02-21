@@ -1,7 +1,7 @@
 <template lang="pug">
 span
-  template(v-if="error.show === true")
-    ErrorComponent(:text="error.text" :variant="danger")
+  template(v-if="this.state === 'starting'")
+  template(v-else-if="this.state === 'shuttingDown'")
   template(v-else-if="this.userIsLoggedIn === true")
     router-view(v-on:closeWindow="closeWindow")
     Menu(v-bind:showMenu="showMenu")
@@ -33,6 +33,7 @@ export default defineComponent({
   },
   data() {
     return {
+      state: '',
       showMenu: false,
       componentList: [] as IProgram[],
       userstore: userStore(),
@@ -44,9 +45,6 @@ export default defineComponent({
     userIsLoggedIn(): boolean {
       return this.userstore.getIsLoggedIn
     },
-    error(): IErrorItem {
-      return this.errorstore.getError
-    }
   },
   mounted() {
     this.userstore.init()
