@@ -1,20 +1,15 @@
 <template lang="pug">
-WindowFrame(:program="program" showMenu="true")
-  .container
-    .calculator-wrapper.row.gx-0
-      .row 
-        input( 
-          type="text" 
-          v-model="display" 
-          disabled
-        ).bg-white
-      .row
-        div.mt-2
-          button.btn(
-            v-for="button in buttons" 
-            :key="button.text" 
-            @click="handleClick(button)"
-          ) {{ button.text }}
+WindowFrame(:program="program")
+  .calculator-wrapper
+    .d-flex.p-3.w-100
+      .bg-white.w-100.rounded.bg-shadow-inner.d-flex.justify-content-end.p-2.pe-3
+       p {{ display !== '' ? display : '0' }}
+    .button-wrapper.p-3
+      button.btn(
+        v-for="button in buttons" 
+        :key="button.text"
+        @click="handleClick(button)"
+      ) {{ button.text }}
 </template>
 
 <script lang="ts">
@@ -22,8 +17,8 @@ import { defineComponent } from 'vue'
 import WindowFrame from '../WindowFrame.vue'
 
 interface Button {
-  text: string;
-  value: string;
+  text: string
+  value: string
 }
 
 export default defineComponent({
@@ -51,8 +46,8 @@ export default defineComponent({
         { text: '*', value: '*' },
         { text: '0', value: '0' },
         { text: '.', value: '.' },
-        { text: '=', value: '=' },
         { text: '/', value: '/' },
+        { text: '=', value: '=' },
       ] as Button[],
     }
   },
