@@ -1,5 +1,5 @@
 <template lang="pug">
-WindowFrame(:program="program" variant="primary")
+WindowFrame(:program="program" variant="primary" :isMoveable="true")
   .bg-black.text-white.p-4
     p Retro-Project Desktop 97
     P.ms-4 (C)Copyright Someting, Something Complete

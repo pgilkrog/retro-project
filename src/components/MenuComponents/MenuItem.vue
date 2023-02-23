@@ -27,10 +27,24 @@ export default defineComponent({
       switch(this.title) {
         case 'Shutdown...':
           this.$router.push('/shutdown')
-          this.signOut()
           break
         case 'Logout':
           this.signOut()
+          break
+        case 'Ping Pong':
+          this.$router.push('/pingpong')
+          break
+        case 'Space Invaders':
+          this.$router.push('/spaceinvaders')
+          break
+        case 'Flappy Disk':
+          this.$router.push('/flappydisk')
+          break        
+        case 'Platformer':
+          this.$router.push('/platformer')
+          break
+        default:
+          console.log('')
           break
       }
     },

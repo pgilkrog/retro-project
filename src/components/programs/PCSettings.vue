@@ -1,5 +1,7 @@
 <template lang="pug">
 WindowFrame(:program="program" :isMoveable="true")
+  .pc-settings-wrapper.p-4
+    input(type="file" @change="onFileSelected")
 </template>
 
 <script lang="ts">
@@ -12,6 +14,9 @@ export default defineComponent({
   },
   props: {
     program: Object
+  },
+  methods: {
+    
   }
 })
 </script>

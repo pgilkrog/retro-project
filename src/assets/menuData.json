@@ -22,7 +22,7 @@
             "img": "bi bi-folder", 
             "subMenu": []
           }
-          ]
+        ]
       },    
       {
         "title": "Settings",
@@ -33,6 +33,32 @@
         "title": "Documents",
         "img": "bi bi-folder", 
         "subMenu": []
+      },
+      {
+        "title": "Games",
+        "img": "bi bi-joystick", 
+        "subMenu": [
+          {
+            "title": "Ping Pong",
+            "img": "bi bi-sliders", 
+            "subMenu": []
+          },      
+          {
+            "title": "Space Invaders",
+            "img": "bi bi-sliders", 
+            "subMenu": []
+          },      
+          {
+            "title": "Flappy Disk",
+            "img": "bi bi-sliders", 
+            "subMenu": []
+          },      
+          {
+            "title": "Platformer",
+            "img": "bi bi-sliders", 
+            "subMenu": []
+          }
+        ]
       }
     ] 
   },

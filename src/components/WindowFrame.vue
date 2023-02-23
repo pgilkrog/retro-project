@@ -1,7 +1,7 @@
 <template lang="pug">
 .window-frame-wrapper.bg-shadow.bg-secondary.d-flex.flex-column.position-absolute.m-4.p-2.rounded(
   v-if="program !== undefined && program.IsActive === true" 
-  :style="{ top: top + 'px', left: left + 'px'}"
+  :style="[ isMoveable ? { top: top + 'px', left: left + 'px'} : {}]"
 )
   header.top-bar.text-dark.d-flex.justify-content-between.align-items-center.mb-1.p-2(:class="variant !== undefined ? 'bg-'+variant : 'bg-success'" @mousedown="startDrag" )
     .d-flex.align-items-center
@@ -31,7 +31,8 @@ export default defineComponent({
     showMenu: Boolean,
     program: Object as PropType<IProgram>,
     variant: String,
-    isNotProgram: Boolean
+    isNotProgram: Boolean,
+    isMoveable: Boolean
   },
   data() {
     return {
@@ -54,15 +55,18 @@ export default defineComponent({
         this.$emit('closeWindow')
     },
     setInactive() {
+      // Set if the window should be hidden on screen, but visible in the taskbar.
       if (this.program !== undefined)
         this.programsstore.setProgramActiveState(this.program)
     },
     startDrag(event: MouseEvent) {
-      this.isDragging = true
-      this.startX = event.clientX
-      this.startY = event.clientY    
-      document.addEventListener('mousemove', this.onDrag)
-      document.addEventListener('mouseup', this.stopDrag)
+      if (this.isMoveable === true) {
+        this.isDragging = true
+        this.startX = event.clientX
+        this.startY = event.clientY    
+        document.addEventListener('mousemove', this.onDrag)
+        document.addEventListener('mouseup', this.stopDrag)        
+      }
     },
     onDrag(event: MouseEvent) {
       if (!this.isDragging) return

@@ -4,6 +4,7 @@
     :program="program" 
     :showMenu="false" 
     variant="info"
+    :isMoveable="true"
   )
     .p-4
       .folder-animation 

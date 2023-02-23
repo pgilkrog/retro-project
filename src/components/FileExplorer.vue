@@ -4,6 +4,7 @@ WindowFrame(
   variant="warning"
   @closeWindow="closeWindow()"
   :isNotProgram="true"
+  :isMoveable="true"
 )
   .file-explorer
     span.d-flex.flex-column.align-items-center.pointer(

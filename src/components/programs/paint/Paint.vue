@@ -1,5 +1,5 @@
 <template lang="pug">
-WindowFrame(:program="program")
+WindowFrame(:program="program" :isMoveable="true")
   .paint-wrapper.row.gx-0
     .col-10
       .canvas-wrapper.d-flex.h-100.w-100.text-black.bg-grey

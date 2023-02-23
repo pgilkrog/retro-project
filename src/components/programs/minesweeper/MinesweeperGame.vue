@@ -1,5 +1,5 @@
 <template lang="pug">
-WindowFrame(:program="program")
+WindowFrame(:program="program" :isMoveable="true")
   .minesweeper-wrapper 
     .topbar 
     .game-wrapper
