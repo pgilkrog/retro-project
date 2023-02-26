@@ -42,6 +42,23 @@ export default {
       console.error(error)
     }
   },
+  async getOneByUserId(colName: string, id: string) {
+    try {
+      let array: any[] = []
+      const data = await getDocs(collection(db, colName))
+      data.forEach(doc => {
+        if (doc.data().UId === id)
+          array = [...array, {
+            ...doc.data(),
+            Id: doc.id
+          }]
+      })
+      return array[0]
+    } catch (error) {
+      console.error(error)
+    }
+  },
+  
   async create(collectionName: string, item: any) {
     try {
       await addDoc(collection(db, collectionName),  JSON.parse(JSON.stringify(item)))
@@ -51,7 +68,7 @@ export default {
   },
   async update(collectionName: string, toUpdate: any) {
     try {
-      const docRef = doc(db, collectionName, toUpdate.id)
+      const docRef = doc(db, collectionName, toUpdate.Id)
       await updateDoc(docRef, toUpdate)
     } catch (error) {
       console.error(error)

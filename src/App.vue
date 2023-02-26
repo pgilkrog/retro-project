@@ -1,7 +1,7 @@
 <template lang="pug">
-span
-  template(v-if="this.state === 'starting'")
-  template(v-else-if="this.state === 'shuttingDown'")
+.app-wrapper(:style="[userBackground !== undefined ? {'background-image': 'url('+ userBackground + ')'} : {'background': '#018281'}]")
+  template(v-if="checkedAuth === false")
+    h1 check
   template(v-else-if="this.userIsLoggedIn === true")
     router-view(v-on:closeWindow="closeWindow")
     Menu(v-bind:showMenu="showMenu")
@@ -21,7 +21,7 @@ import { userStore } from './stores/userStore'
 import { programsStore } from './stores/programsStore'
 import { errorStore } from './stores/errorStore'
 import { defineComponent } from 'vue'
-import type { IErrorItem, IProgram } from './models'
+import type { IProgram } from './models'
 
 export default defineComponent({
   components: {
@@ -38,13 +38,20 @@ export default defineComponent({
       componentList: [] as IProgram[],
       userstore: userStore(),
       programsstore: programsStore(),
-      errorstore: errorStore(),
+      errorstore: errorStore()
     }
   },
   computed: {
     userIsLoggedIn(): boolean {
       return this.userstore.getIsLoggedIn
     },
+    checkedAuth(): boolean {
+      return this.userstore.getCheckedAuth
+    },
+    userBackground(): string | undefined {
+      if (this.userstore.getUserBackgroundImages !== undefined && this.userstore.getUserBackgroundImages.length > 0)
+        return this.userstore.getUserBackgroundImages[0].Url        
+    }
   },
   mounted() {
     this.userstore.init()

@@ -6,7 +6,7 @@
   header.top-bar.text-dark.d-flex.justify-content-between.align-items-center.mb-1.p-2(:class="variant !== undefined ? 'bg-'+variant : 'bg-success'" @mousedown="startDrag" )
     .d-flex.align-items-center
       i(:class="program.Image" width="25")
-      .font-weight-bold.pe-4.ps-4 {{ program.Name }}
+      .font-weight-bold.pe-4.ps-4 {{ program.DisplayName }}
     span
       button.btn.bg-secondary.py-0.px-2.text-black(@click="setInactive()") _
       button.btn.bg-secondary.py-0.px-2.text-black.mx-1 =
