@@ -43,6 +43,7 @@ export const userStore = defineStore("user", {
           DBHelper.getOneByUserId('users', user.uid).then((userData) => {
             this._userData = userData as IUser
             this._backgroundImages = userData.Files.filter((file: IFile) => file.Type === 'BackgroundImage')
+            console.log("USER DATA", userData)
         })
         this._checkedAuth = true
       })

@@ -1,11 +1,13 @@
 <template lang="pug">
-.app-wrapper(:style="[userBackground !== undefined ? {'background-image': 'url('+ userBackground + ')'} : {'background': '#018281'}]")
+div
+
   template(v-if="checkedAuth === false")
     h1 check
-  template(v-else-if="this.userIsLoggedIn === true")
-    router-view(v-on:closeWindow="closeWindow")
-    Menu(v-bind:showMenu="showMenu")
-    Taskbar(v-on:changeShowMenu="changeShowMenu()" :showMenu="showMenu")
+  template(v-else-if="this.userIsLoggedIn === true && userBackground !== undefined")
+    .app-wrapper(:style="[userBackground.length > 0 ? {'background-image': 'url('+ userBackground + ')'} : {'background': '#018281'}]")
+      router-view(v-on:closeWindow="closeWindow")
+      Menu(v-bind:showMenu="showMenu")
+      Taskbar(v-on:changeShowMenu="changeShowMenu()" :showMenu="showMenu")
   template(v-else)
     LoginScreen
 </template>
@@ -50,12 +52,13 @@ export default defineComponent({
     },
     userBackground(): string | undefined {
       if (this.userstore.getUserBackgroundImages !== undefined && this.userstore.getUserBackgroundImages.length > 0)
-        return this.userstore.getUserBackgroundImages[0].Url        
+        return this.userstore.getUserBackgroundImages[+this.userstore.getUserData.UseBackgroundImage].Url
     }
   },
-  mounted() {
+  beforeMount() {
     this.userstore.init()
     this.programsstore.init()
+    this.componentList = this.programsstore.getActivePrograms
   },
   methods: {
     changeShowMenu () {

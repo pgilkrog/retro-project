@@ -8,17 +8,19 @@
 @import './components/loading.sass'
 @import './components/calculator.sass'
 
+body
+  background: #018281
+
 body, html, .bg-fill
   margin: 0
   padding: 0
-  height: 96vh
+  height: 100vh
   max-height: 100vh
   width: 100%
   max-width: 100%
   font-family: 'RetroFont'
   font-size: 12px
   overflow: hidden
-
   p 
     margin: 0
     padding: 0
@@ -99,18 +101,23 @@ body, html, .bg-fill
 .rotate-270
   transform: rotate(270deg)
 
-.shut-down
+.shut-down, .starting-up
   bottom: 0
   top: 0
   right: 0
   left: 0
-  background-color: $dark
   height: 100vh
   width: 100%
   z-index: 9999
   position: absolute
   .bi
     font-size: 12rem
+
+.starting-up
+  background-color: $primary
+
+.shut-down
+  background-color: $dark
 
 .game-container
   canvas

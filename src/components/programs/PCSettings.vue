@@ -26,7 +26,7 @@ export default defineComponent({
     return {
       progress: 0,
       userstore: userStore(),
-      userData: {} as IUser
+      userData: {} as IUser 
     }
   },
   mounted() {
