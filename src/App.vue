@@ -1,15 +1,14 @@
 <template lang="pug">
 div
-
-  template(v-if="checkedAuth === false")
-    h1 check
-  template(v-else-if="this.userIsLoggedIn === true && userBackground !== undefined")
-    .app-wrapper(:style="[userBackground.length > 0 ? {'background-image': 'url('+ userBackground + ')'} : {'background': '#018281'}]")
+  template(v-if="checkedAuth === false && this.userIsLoggedIn === false")
+    LoginScreen
+  template(v-else-if="this.userIsLoggedIn === true && userBackground !== undefined && checkedAuth === true")
+    .app-wrapper(:style="[userBackground !== 'undefined' ? {'background-image': 'url('+ userBackground + ')'} : {'background': this.userBackgroundColor}]")
       router-view(v-on:closeWindow="closeWindow")
       Menu(v-bind:showMenu="showMenu")
       Taskbar(v-on:changeShowMenu="changeShowMenu()" :showMenu="showMenu")
   template(v-else)
-    LoginScreen
+    h1 hejsa
 </template>
 
 <script lang="ts">
@@ -51,8 +50,10 @@ export default defineComponent({
       return this.userstore.getCheckedAuth
     },
     userBackground(): string | undefined {
-      if (this.userstore.getUserBackgroundImages !== undefined && this.userstore.getUserBackgroundImages.length > 0)
-        return this.userstore.getUserBackgroundImages[+this.userstore.getUserData.UseBackgroundImage].Url
+      return this.userstore.getUserData.UseBackgroundImage
+    },
+    userBackgroundColor(): string {
+      return this.userstore.getUserData.BackgroundColor
     }
   },
   beforeMount() {

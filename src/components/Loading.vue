@@ -1,11 +1,11 @@
 <template lang="pug">
-.loading
-  WindowFrame(
-    :program="program" 
-    :showMenu="false" 
-    variant="info"
-    :isMoveable="true"
-  )
+WindowFrame(
+  :program="program" 
+  :showMenu="false" 
+  variant="info"
+  :isMoveable="true"
+)
+  .loading
     .p-4
       .folder-animation 
         i.bi.bi-folder-fill.text-warning

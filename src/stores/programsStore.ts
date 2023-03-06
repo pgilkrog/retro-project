@@ -13,8 +13,8 @@ export const programsStore = defineStore("programs", {
     getPrograms: (state) => state.programs as IProgram[]
   },
   actions: {
-    init() {
-      DBHelper.getAll(this.collectionName).then(data => {
+    async init() {
+      await DBHelper.getAll(this.collectionName).then(data => {
         let temp = []
         for(let item in data) {
           temp.push(data[+item] as IProgram)
