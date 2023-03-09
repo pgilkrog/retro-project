@@ -10,7 +10,7 @@ Component(
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import type { IProgram } from '@/models/index'
 import { programsStore } from '@/stores/programsStore'
 
@@ -33,14 +33,17 @@ export default defineComponent({
     Calculator,
     PCSettings
   },
-  data() {
+  setup() {
+    const programsstore = programsStore()
+
+    const activePrograms = ref<IProgram[]>(programsstore.getActivePrograms)
+    
+    watch(() => programsstore.getActivePrograms, (newVal) => {
+      activePrograms.value = newVal
+    })
+
     return {
-      programsstore: programsStore()
-    }
-  },
-  computed: {
-    activePrograms(): IProgram[] {
-      return this.programsstore.getActivePrograms
+      activePrograms
     }
   }
 })

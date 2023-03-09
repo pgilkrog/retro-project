@@ -10,7 +10,7 @@
     span
       button.btn.bg-secondary.py-0.px-2.text-black(@click="setInactive()") _
       button.btn.bg-secondary.py-0.px-2.text-black.mx-1 =
-      button.btn.bg-secondary.py-0.px-2.text-black(@click="closeWindow()") x
+      button.btn.bg-secondary.py-0.px-2.text-black(@click="closeWindow") x
   .menu-container.d-flex.mx-2.my-1(v-if="showMenu")
     .me-2 File
     .mx-2 Edit 
@@ -24,7 +24,7 @@
 import type { IProgram } from '@/models/index'
 import { programsStore } from '@/stores/programsStore'
 import type { PropType } from 'vue'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   props: {
@@ -34,56 +34,72 @@ export default defineComponent({
     isNotProgram: Boolean,
     isMoveable: Boolean
   },
-  data() {
-    return {
-      programsstore: programsStore(),
-      isDragging: false,
-      startX: 0,
-      startY: 0,
-      left: 0,
-      top: 0,
-    }
-  },
-  methods: {
-    closeWindow() {
+  setup (props, { emit }) {
+    const programsstore = programsStore()
+
+    const isDragging = ref(false)
+    const startX = ref(0)
+    const startY = ref(0)
+    const left = ref(0)
+    const top = ref(0)
+
+    const closeWindow = () => {
       // Remove the program from the active program list
-      if (this.program !== undefined)
-        this.programsstore.removeProgramFromActive(this.program)
+      if (props.program !== undefined)
+      programsstore.removeProgramFromActive(props.program)
       
       // If the window is not a program but a form of popup emit the close window
-      if (this.isNotProgram === true)
-        this.$emit('closeWindow')
-    },
-    setInactive() {
+      if (props.isNotProgram === true)
+        emit('closeWindow')
+    }
+    
+    const setInactive = () => {
       // Set if the window should be hidden on screen, but visible in the taskbar.
-      if (this.program !== undefined)
-        this.programsstore.setProgramActiveState(this.program)
-    },
-    startDrag(event: MouseEvent) {
-      if (this.isMoveable === true) {
-        this.isDragging = true
-        this.startX = event.clientX
-        this.startY = event.clientY    
-        document.addEventListener('mousemove', this.onDrag)
-        document.addEventListener('mouseup', this.stopDrag)        
+      if (props.program !== undefined)
+        programsstore.setProgramActiveState(props.program)
+    }
+
+    const startDrag = (event: MouseEvent) => {
+      if (props.isMoveable === true) {
+        isDragging.value = true
+        startX.value = event.clientX
+        startY.value = event.clientY    
+        document.addEventListener('mousemove', onDrag)
+        document.addEventListener('mouseup', stopDrag)        
       }
-    },
-    onDrag(event: MouseEvent) {
-      if (!this.isDragging) return
+    }
 
-      const deltaX = event.clientX - this.startX
-      const deltaY = event.clientY - this.startY
+    const onDrag = (event: MouseEvent) => {
+      if (!isDragging.value) return
 
-      this.left += deltaX
-      this.top += deltaY
+      const deltaX = event.clientX - startX.value
+      const deltaY = event.clientY - startY.value
 
-      this.startX = event.clientX
-      this.startY = event.clientY
-    },
-    stopDrag() {
-      this.isDragging = false
-      document.removeEventListener('mousemove', this.onDrag)
-      document.removeEventListener('mouseup', this.stopDrag)      
+      left.value += deltaX
+      top.value += deltaY
+
+      startX.value = event.clientX
+      startY.value = event.clientY
+    }
+
+    const stopDrag = () => {
+      isDragging.value = false
+      document.removeEventListener('mousemove', onDrag)
+      document.removeEventListener('mouseup', stopDrag)      
+    }
+
+    return {
+      programsstore,
+      isDragging,
+      startX,
+      startY,
+      left,
+      top,
+      closeWindow,
+      setInactive,
+      startDrag,
+      onDrag,
+      stopDrag
     }
   },
 })

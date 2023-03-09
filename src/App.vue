@@ -1,12 +1,12 @@
 <template lang="pug">
 div
-  template(v-if="checkedAuth === false && this.userIsLoggedIn === false")
+  template(v-if="userIsLoggedIn === false")
     LoginScreen
-  template(v-else-if="this.userIsLoggedIn === true && userBackground !== undefined && checkedAuth === true")
-    .app-wrapper(:style="[userBackground !== 'undefined' ? {'background-image': 'url('+ userBackground + ')'} : {'background': this.userBackgroundColor}]")
-      router-view(v-on:closeWindow="closeWindow")
+  template(v-else-if="userIsLoggedIn === true && userBackground() !== undefined && checkedAuth === true")
+    .app-wrapper(:style="[userBackground() !== 'undefined' ? {'background-image': 'url('+ userBackground() + ')'} : {'background': userBackgroundColor()}]")
+      router-view()
       Menu(v-bind:showMenu="showMenu")
-      Taskbar(v-on:changeShowMenu="changeShowMenu()" :showMenu="showMenu")
+      Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")
   template(v-else)
     h1 hejsa
 </template>
@@ -21,8 +21,7 @@ import ErrorComponent from '@/components/ErrorComponent.vue'
 import { userStore } from './stores/userStore'
 import { programsStore } from './stores/programsStore'
 import { errorStore } from './stores/errorStore'
-import { defineComponent } from 'vue'
-import type { IProgram } from './models'
+import { defineComponent, ref, computed, onMounted } from 'vue'
 
 export default defineComponent({
   components: {
@@ -32,43 +31,34 @@ export default defineComponent({
     LoginScreen,
     ErrorComponent
   },
-  data() {
+  setup() {
+    const showMenu = ref(false)
+    const userstore = userStore()
+    const programsstore = programsStore()
+    const errorstore = errorStore()
+
+    const userIsLoggedIn = computed(() => userstore.getIsLoggedIn)
+    const checkedAuth = computed(() => userstore.getCheckedAuth)
+    const userBackground = (() => userstore.getUserData.UseBackgroundImage)
+    const userBackgroundColor = (() => userstore.getUserData.BackgroundColor)
+
+    onMounted(() => {
+      userstore.init()
+      programsstore.init()
+    })
+
+    const changeShowMenu = () => {
+      showMenu.value = !showMenu.value
+    }
+
     return {
-      state: '',
-      showMenu: false,
-      componentList: [] as IProgram[],
-      userstore: userStore(),
-      programsstore: programsStore(),
-      errorstore: errorStore()
-    }
-  },
-  computed: {
-    userIsLoggedIn(): boolean {
-      return this.userstore.getIsLoggedIn
-    },
-    checkedAuth(): boolean {
-      return this.userstore.getCheckedAuth
-    },
-    userBackground(): string | undefined {
-      return this.userstore.getUserData.UseBackgroundImage
-    },
-    userBackgroundColor(): string {
-      return this.userstore.getUserData.BackgroundColor
-    }
-  },
-  beforeMount() {
-    this.userstore.init()
-    this.programsstore.init()
-    this.componentList = this.programsstore.getActivePrograms
-  },
-  methods: {
-    changeShowMenu () {
-      this.showMenu = !this.showMenu
-    },
-    closeWindow(programName: string) {
-      var newList = this.componentList.filter(x => x.Name !== programName)
-      this.programsstore.setActivePrograms(newList)
-      this.componentList = this.programsstore.getActivePrograms
+      showMenu,
+      userIsLoggedIn,
+      checkedAuth,
+      errorstore,
+      userBackground,
+      changeShowMenu,
+      userBackgroundColor
     }
   }
 })

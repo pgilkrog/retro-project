@@ -14,9 +14,13 @@ export default defineComponent({
     program: Object as PropType<IProgram>,
     itemColor: String
   },
-  methods: {
-    itemPressed() {
-      this.$emit('generateComponent')
+  setup (props, { emit }) {
+    const itemPressed = () => {
+      emit('generateComponent')
+    }
+
+    return {
+      itemPressed
     }
   }
 })

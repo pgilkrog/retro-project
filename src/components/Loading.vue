@@ -25,20 +25,23 @@ export default defineComponent({
   components: {
     WindowFrame
   },
-  data() {
-    return {
-      program: {
-        Id: 543, 
-        Name: 'Loading', 
-        IsActive: true, 
-        Image: 'bi-archive'
-      } as IProgram,
-      progressValues: [1,2,3,4,5,6,7,8,9,10]
-    }
-  },
-  methods: {
-    startLoading() {
+  setup () {
+    const program = {
+      Id: 543, 
+      Name: 'Loading', 
+      IsActive: true, 
+      Image: 'bi-archive'
+    } as IProgram
+    const progressValues = [1,2,3,4,5,6,7,8,9,10]
+    
+    const startLoading = () => {
 
+    }
+
+    return {
+      program,
+      progressValues,
+      startLoading
     }
   }
 })

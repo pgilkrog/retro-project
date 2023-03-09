@@ -2,7 +2,7 @@
 .home-wrapper.bg-fill.p-4
   .desktop-container
     DesktopItem(
-      v-for="program in allPrograms"
+      v-for="program in allPrograms()"
       v-on:generateComponent="generateComponent(program)"
       :key="program.Id"
       :program="program"
@@ -25,20 +25,19 @@ export default defineComponent({
     ComponentMachine,
     Loading
   },
-  data() {
+  setup() {
+    const programsstore = programsStore()
+
+    const allPrograms = (() => programsstore.getPrograms)
+
+    const generateComponent = (program: IProgram) => {
+      programsstore.addProgramToActive({...program})
+    }
+
     return {
-      programsstore: programsStore()
+      allPrograms,
+      generateComponent
     }
-  },
-  computed: {
-    allPrograms(): IProgram[] {
-      return this.programsstore.getPrograms
-    }
-  },
-  methods: {
-    generateComponent(program: IProgram) {
-      this.programsstore.addProgramToActive({...program})
-    },
   }
 })
 </script>

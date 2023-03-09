@@ -32,9 +32,7 @@ export const programsStore = defineStore("programs", {
       }
     },
     removeProgramFromActive(program: IProgram) {
-      if (this.activePrograms.find(x => x.Name === program.Name)) {
-        this.setActivePrograms(this.activePrograms.filter(x => x.Id !== program.Id))
-      }
+      this.setActivePrograms(this.activePrograms.filter(x => x.Id !== program.Id))
     },
     setProgramActiveState(program: IProgram) {
       this.activePrograms.find(x => {

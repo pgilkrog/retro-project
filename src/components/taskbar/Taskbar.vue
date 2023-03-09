@@ -23,7 +23,7 @@
 import Clock from './Clock.vue'
 import { programsStore } from '@/stores/programsStore'
 import type { IProgram } from '@/models/index'
-import { defineComponent } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 
 export default defineComponent({
   components: {
@@ -32,22 +32,26 @@ export default defineComponent({
   props: {
     showMenu: Boolean
   },
-  data() {
+  setup (props, { emit }) {
+    const programsstore = programsStore()
+
+    const activePrograms = ref<IProgram[]>(programsstore.getActivePrograms)
+    
+    watch(() => programsstore.getActivePrograms, (newVal) => {
+      activePrograms.value = newVal
+    })
+
+    const changeShowMenu = () => {
+      emit('changeShowMenu')      
+    }
+    const setActiveState = (program: IProgram) => {
+      programsstore.setProgramActiveState(program)
+    }
+
     return {
-      programsstore: programsStore(),
-    }
-  },
-  computed: {
-    activePrograms(): IProgram[] {
-      return this.programsstore.getActivePrograms
-    }
-  },
-  methods: {
-    changeShowMenu() {
-      this.$emit('changeShowMenu')      
-    },
-    setActiveState(program: IProgram) {
-      this.programsstore.setProgramActiveState(program)
+      activePrograms,
+      changeShowMenu,
+      setActiveState
     }
   }
 })

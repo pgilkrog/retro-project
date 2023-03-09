@@ -24,14 +24,15 @@ export default defineComponent({
   components: {
     WindowFrame
   },
-  data() {
-    return {
-      errorstore: errorStore()
+  setup (props) {
+    const errorstore = errorStore()
+
+    const closeErrorComponent = () => {
+      errorstore.resetError()
     }
-  },
-  methods: {
-    closeErrorComponent() {
-      this.errorstore.resetError()
+
+    return {
+      closeErrorComponent
     }
   }
 })

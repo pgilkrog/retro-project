@@ -27,25 +27,29 @@ export default defineComponent({
   props: {
     files: Array
   },
-  data() {
-    return {
-      program: {
-        Id: 245,
-        Name: "FileExplorer",
-        DisplayName: "File explorer",
-        Image: "bi-joystick", 
-        IsActive: true,
-        Color: "warning"
-      }
+  setup (props, { emit }) {
+    const program = {
+      Id: 245,
+      Name: "FileExplorer",
+      DisplayName: "File explorer",
+      Image: "bi-joystick", 
+      IsActive: true,
+      Color: "warning"
     }
-  },
-  methods: {
-    itemClicked(item: any) {
-      this.$emit('itemClicked', {...item})
-      this.$emit('closeWindow')
-    },
-    closeWindow() {
-      this.$emit('closeWindow')
+
+    const itemClicked = (item: any) => {
+      emit('itemClicked', {...item})
+      emit('closeWindow')
+    }
+
+    const closeWindow = () => {
+      emit('closeWindow')
+    }
+
+    return {
+      program,
+      itemClicked,
+      closeWindow
     }
   }
 })
