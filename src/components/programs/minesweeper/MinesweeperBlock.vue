@@ -22,8 +22,8 @@ export default defineComponent({
   components: {
 
   },
-  methods: {
-  
+  setup (props) {
+    
   }
 })
 </script>

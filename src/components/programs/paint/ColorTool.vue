@@ -10,12 +10,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
-  data() {
-    return {
-      colors: [
+  setup (props, { emit }) {
+
+    const colors =  ref([
         '#0000ff',
         '#00ff00',
         '#ff0000',
@@ -27,12 +27,15 @@ export default defineComponent({
         '#f0f0f0',
         '#0ff00f',
         '#1ef0ae'
-      ] as string[],
+      ] as string[])
+
+    const changeColor = (color: string) => {
+      emit('changeColor', color)
     }
-  },
-  methods: {
-    changeColor(color: string) {
-      this.$emit('changeColor', color)
+
+    return {
+      colors,
+      changeColor
     }
   }
 })

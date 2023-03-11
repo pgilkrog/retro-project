@@ -61,40 +61,7 @@ export default defineComponent({
     FileExplorer,
     ColorTool
   },
-  data() {
-    return {
-      canvasX: undefined,
-      canvasY: undefined,
-      inputSave: '',
-      showFiles: false,
-      userstore: userStore(),
-      myPaintings: [] = [] as IPainting[],
-      brushSizes: [
-        1,
-        3,
-        5,
-        7,
-        9
-      ]
-    }
-  },
-  methods: {
-    changeColor(color: string) {
-      this.state.color = color
-    },
-    changeShowFiles(bool: boolean) {
-      this.showFiles = bool
-    },
-    itemClicked(painting: IPainting) {
-      this.loadPainting(painting.Canvas)
-    }
-  },
-  mounted() {
-    DBHelper.getAllByUserId('paintings', this.userstore.getUser.uid).then(data => {
-      this.myPaintings = data as IPainting[]
-    })
-  },
-  setup() {
+  setup (props) {
     const canvasRef = ref<HTMLCanvasElement | null>(null)
     const userstore = userStore()
     const state = reactive({
@@ -103,16 +70,29 @@ export default defineComponent({
       drawing: false,
     })
 
-    function startDrawing(event: MouseEvent) {
+    const canvasX = ref(undefined)
+    const canvasY = ref(undefined)
+    const inputSave = ref('')
+    const showFiles = ref(false)
+    const myPaintings = ref([] as IPainting[])
+    const brushSizes = ref([
+        1,
+        3,
+        5,
+        7,
+        9
+      ])
+
+    const startDrawing = (event: MouseEvent) => {
       state.drawing = true
       draw(event)
     }
 
-    function stopDrawing() {
+    const stopDrawing = () => {
       state.drawing = false
     }
 
-    function draw(event: MouseEvent) {
+    const draw = (event: MouseEvent) => {
       if (!state.drawing) return
 
       const canvas = canvasRef.value
@@ -132,7 +112,7 @@ export default defineComponent({
       ctx.fill()
     }
 
-    function savePainting (text: string) {
+    const savePainting = (text: string) => {
       const canvas = canvasRef.value
       if(canvas === null) return
 
@@ -146,7 +126,7 @@ export default defineComponent({
       DBHelper.create('paintings', newPainting)
     }
 
-    function loadPainting (painting: string) {
+    const loadPainting = (painting: string) => {
       const canvas = canvasRef.value
       if (!canvas) return
 
@@ -166,7 +146,7 @@ export default defineComponent({
       }
     }
 
-    function setSize (x: number, y: number) {
+    const setSize = (x: number, y: number) => {
       const canvas = canvasRef.value
       if (!canvas) return
 
@@ -179,6 +159,16 @@ export default defineComponent({
       if (!ctx) return
     }
 
+    const changeColor = (color: string) => {
+      state.color = color
+    }
+    const changeShowFiles = (bool: boolean) => {
+      showFiles.value = bool
+    }
+    const itemClicked = (painting: IPainting) => {
+      loadPainting(painting.Canvas)
+    }
+
     onMounted(() => {
       const canvas = canvasRef.value
       if (!canvas) return
@@ -187,17 +177,30 @@ export default defineComponent({
 
       canvas.width = canvasElement ? canvasElement.clientWidth : 500
       canvas.height = canvasElement ? canvasElement.clientHeight : 500
+
+      DBHelper.getAllByUserId('paintings', userstore.getUser.uid).then(data => {
+        myPaintings.value = data as IPainting[]
+      })
     })
 
     return {
       canvasRef,
       state,
+      canvasX,
+      canvasY,
+      inputSave,
+      brushSizes,
+      showFiles,
+      myPaintings,
       startDrawing,
       stopDrawing,
       draw,
       savePainting,
       loadPainting,
-      setSize
+      setSize,
+      changeColor,
+      changeShowFiles,
+      itemClicked
     }
   },
 })

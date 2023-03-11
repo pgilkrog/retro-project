@@ -14,7 +14,7 @@ WindowFrame(:program="program" :isMoveable="true")
 <script lang="ts">
 import WindowFrame from '../../WindowFrame.vue'
 import MinesweeperBlock from './MinesweeperBlock.vue'
-import { defineComponent } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 
 export default defineComponent({
   props: {
@@ -24,26 +24,34 @@ export default defineComponent({
     WindowFrame,
     MinesweeperBlock
   },
-  data() {
-    return {
-      grid: [] as Object[],
-      rows: 10,
-      columns:  5,
-      bombs: 10,
-      gameOver: false
-    }
-  },
-  mounted() {
-    this.generateBlocks()
-  },
-  methods: {
-    clickedBlock(block: any, index: any) {
+  setup (props) {
+      const grid = ref([] as Object[])
+      const rows = ref(10)
+      const columns = ref(5)
+      const bombs = ref(10)
+      const gameOver = ref(false)
+
+    const clickedBlock = (block: any, index: any) => {
       block.isClicked = true
-    },
-    generateBlocks() {
-      for(let i = 0; i < (this.rows * this.columns); i++) {
-        this.grid.push({ index: i, isClicked: false, isBomb: false })
+    }
+    const generateBlocks = () => {
+      for(let i = 0; i < (rows.value * columns.value); i++) {
+        grid.value.push({ index: i, isClicked: false, isBomb: false })
       }
+    }
+
+    onMounted (() => {
+      generateBlocks()
+    })
+
+    return {
+      grid,
+      rows,
+      columns,
+      bombs,
+      gameOver,
+      clickedBlock,
+      generateBlocks
     }
   }
 })

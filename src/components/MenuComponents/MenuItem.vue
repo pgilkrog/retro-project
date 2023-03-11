@@ -9,6 +9,7 @@
 <script lang="ts">
 import { userStore } from '@/stores/userStore';
 import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   props: {
@@ -17,39 +18,43 @@ export default defineComponent({
     hasChildren: Boolean,
     componentName: String
   },
-  data() {
-    return {
-      userstore: userStore()
-    }
-  },
-  methods: {
-    openProgram() {
-      switch(this.title) {
+  setup (props) {
+    const userstore = userStore()
+    const router = useRouter()
+
+    const openProgram = () => {
+      switch(props.title) {
         case 'Shutdown...':
-          this.$router.push('/shutdown')
+          router.push('/shutdown')
           break
         case 'Logout':
-          this.signOut()
+          signOut()
           break
         case 'Ping Pong':
-          this.$router.push('/pingpong')
+          router.push('/pingpong')
           break
         case 'Space Invaders':
-          this.$router.push('/spaceinvaders')
+          router.push('/spaceinvaders')
           break
         case 'Flappy Disk':
-          this.$router.push('/flappydisk')
+          router.push('/flappydisk')
           break        
         case 'Platformer':
-          this.$router.push('/platformer')
+          router.push('/platformer')
           break
         default:
           console.log('')
           break
       }
-    },
-    signOut() {
-      this.userstore.signOut()
+    }
+
+    const signOut = () => {
+      userstore.signOut()
+    }
+
+    return {
+      userStore,
+      openProgram
     }
   }
 })

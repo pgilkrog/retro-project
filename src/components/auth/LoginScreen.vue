@@ -57,69 +57,88 @@
 import WindowFrame from '../WindowFrame.vue'
 import { userStore } from '@/stores/userStore'
 import type { IProgram } from '@/models/index'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   components: {
     WindowFrame
   },
-  data() {
-    return {
-      state: 1,
-      username: "" as string,
-      password: "" as string,
-      password2: "" as string,
-      info: 'info' as string,
-      infoText: 'Type a email and password to log into Windows',
-      showHelp: false as boolean,
-      userstore: userStore(),
-      program: {
+  setup () {
+    const state = ref(1)
+    const username = ref("" as string)
+    const password = ref("" as string)
+    const password2 = ref("" as string)
+    const info = ref('info' as string)
+    const infoText = ref('Type a email and password to log into Windows')
+    const showHelp = ref(false as boolean)
+    const userstore = userStore()
+    const program = ref({
         Id: 543, 
         Name: 'Log in now', 
         IsActive: true, 
         Image: 'bi-archive'
-      } as IProgram
-    }
-  },
-  methods: {
-    pressedOk() {
-      if (this.state === 1)
-        this.confirmLogin()
-      else if (this.state === 2)
-        this.registerUser()
+      } as IProgram)
+
+    const pressedOk = () => {
+      if (state.value === 1)
+        confirmLogin()
+      else if (state.value === 2)
+        registerUser()
       else
-        this.changePassword()
-    },
-    confirmLogin(): void {
-      this.userstore.loginUser(this.username, this.password)
-    },
-    registerUser(): void {
-      if (this.password === this.password2)
-        this.userstore.registerUser(this.username, this.password)
-    },
-    changePassword(): void {
-      this.userstore.changePassword(this.password)
-    },
-    changeShowHelp() {
-      this.showHelp = !this.showHelp
-    },
-    changeState(state: number) {
-      if (state === 1) {
-        this.state = 1
-        this.info = 'info'
-        this.program.Name = 'Log in now'
-        this.infoText = 'Type a email and password to log into Windows'
-      } else if (state === 2) {
-        this.state = 2
-        this.info = 'warning'
-        this.program.Name = 'Register user'
-        this.infoText = 'Type a email and password to create a user'
-      } else if (state === 3) {
-        this.state = 3
-        this.info = 'success'
-        this.program.Name = 'Reset password'
-        this.infoText = 'Type a email to send an reset email notification'
+        changePassword()
+    }
+
+    const confirmLogin = (): void => {
+      userstore.loginUser(username.value, password.value)
+    }
+
+    const registerUser = (): void => {
+      if (password.value === password2.value)
+        userstore.registerUser(username.value, password.value)
+    }
+
+    const changePassword = (): void => {
+      userstore.changePassword(password.value)
+    }
+    
+    const changeShowHelp = () => {
+      showHelp.value = !showHelp.value
+    }
+
+    const changeState = (stateVal: number) => {
+      if (stateVal === 1) {
+        state.value = 1
+        info.value = 'info'
+        program.value.Name = 'Log in now'
+        infoText.value = 'Type a email and password to log into Windows'
+      } else if (stateVal === 2) {
+        state.value = 2
+        info.value = 'warning'
+        program.value.Name = 'Register user'
+        infoText.value = 'Type a email and password to create a user'
+      } else if (stateVal === 3) {
+        state.value = 3
+        info.value = 'success'
+        program.value.Name = 'Reset password'
+        infoText.value = 'Type a email to send an reset email notification'
       }
+    }
+
+    return {
+      state,
+      username,
+      info,
+      infoText,
+      showHelp,
+      userstore,
+      program,
+      password,
+      password2,
+      pressedOk,
+      confirmLogin,
+      registerUser,
+      changeShowHelp,
+      changeState
     }
   }
 })
