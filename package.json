@@ -10,6 +10,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@vue/runtime-core": "^3.2.47",
     "bootstrap": "^5.2.2",
     "bootstrap-icons": "^1.10.1",
     "firebase": "^9.15.0",

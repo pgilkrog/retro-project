@@ -10,8 +10,7 @@ Component(
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
-import type { IProgram } from '@/models/index'
+import { defineComponent, computed } from 'vue'
 import { programsStore } from '@/stores/programsStore'
 
 // Components
@@ -22,6 +21,7 @@ import Paint from '@/components/programs/paint/Paint.vue'
 import Calculator from '@/components/programs/Calculator.vue'
 import Minesweeper from '@/components/programs/minesweeper/MinesweeperGame.vue'
 import PCSettings from '@/components/programs/PCSettings.vue'
+import PawPoint from '@/components/programs/PawPoint.vue'
 
 export default defineComponent({
   components: {
@@ -31,16 +31,13 @@ export default defineComponent({
     Paint,
     Minesweeper,
     Calculator,
-    PCSettings
+    PCSettings,
+    PawPoint
   },
   setup() {
     const programsstore = programsStore()
 
-    const activePrograms = ref<IProgram[]>(programsstore.getActivePrograms)
-    
-    watch(() => programsstore.getActivePrograms, (newVal) => {
-      activePrograms.value = newVal
-    })
+    const activePrograms = computed(() => programsstore.getActivePrograms)
 
     return {
       activePrograms

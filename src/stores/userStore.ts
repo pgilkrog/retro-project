@@ -85,7 +85,7 @@ export const userStore = defineStore("user", {
     async changePassword(password: string) {
       updatePassword(this.getUser, password)
     },
-    async setUserData(userData: IUser) {
+    setUserData(userData: IUser) {
       this._userData = userData
     }
   }

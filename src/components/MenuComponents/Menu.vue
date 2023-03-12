@@ -17,26 +17,28 @@ import type { IMenuItem }  from '@/models/index'
 
 import MenuItem from './MenuItem.vue'
 import jsondata from '@/assets/menuData.json'
-import { defineComponent } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 
 export default defineComponent({
-  data() {
-    return {
-      menuList: [] as IMenuItem[]
-    }
-  },
   props: {
     showMenu: Boolean
   },
   components: {
     MenuItem
   },
-  mounted() {
-    this.createMenu()
-  },
-  methods: {
-    createMenu() {
-      this.menuList = JSON.parse(JSON.stringify(jsondata)) 
+  setup (props) {
+    const menuList = ref([] as IMenuItem[])
+    const createMenu = () => {
+      menuList.value = JSON.parse(JSON.stringify(jsondata)) 
+    }
+
+    onMounted(() => {
+      createMenu()
+    })
+
+    return {
+      menuList,
+      createMenu
     }
   }
 })
