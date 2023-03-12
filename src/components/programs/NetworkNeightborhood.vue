@@ -1,41 +1,29 @@
 <template lang="pug">
 WindowFrame(:program="program" :isMoveable="true")
-  Suspense
+  Suspense(timeout="0")
     template(#default)
-      div.d-flex(v-for="item in items" :key="item.id") {{ item.name }}
+      ErrorList
     template(#fallback)
-      div.d-flex.p-4 Loading items...
+      div.d-flex.p-4
+        h1 Loading items...
 </template>
 
 <script lang="ts">
 import WindowFrame from '../WindowFrame.vue'
+import ErrorList from '@/components/admin/ErrorList.vue'
 import { defineComponent, ref } from 'vue'
 
-const fetchItems = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        { id: 1, name: 'Item 1' },
-        { id: 2, name: 'Item 2' },
-        { id: 3, name: 'Item 3' },
-      ])
-    }, 3000)
-  })
-}
-
 export default defineComponent({
+  name: 'NetworkNeightborhood',
   components: {
-    WindowFrame
+    WindowFrame,
+    ErrorList
   },
   props: {
     program: Object
   },
   setup() {
     const items = ref([] as any)
-
-    fetchItems().then((data) => {
-      items.value = data
-    })
 
     return {
       items,
