@@ -51,7 +51,11 @@ export default defineComponent({
       },
       {
         title: "Phaser 3",
-        text: ''
+        text: '<ul>' +
+        '<li>PingPong</li>' +
+        '<li>Flappy Bird copi</li>' +
+        '<li>Simple platformer</li>' +
+        '</ul>'
       },
     ])
     

@@ -2,12 +2,12 @@
 WindowFrame(:program="program" :isMoveable="true")
   .pc-settings-wrapper.p-4
     .d-flex
-      .nav-item.active.py-2.px-4
+      .nav-item.active.py-2.px-4(@click="changeState(0)")
         | Display
-      .nav-item.py-2.px-4
+      .nav-item.py-2.px-4(@click="changeState(1)")
         | Profile
       .tab-fill
-    .content.p-4
+    .content.p-4(v-if="state === 0")
       .row
         .background-images-wrapper.d-flex(v-if="backgroundImages.length > 0")
           .image-item.m-2
@@ -34,6 +34,9 @@ WindowFrame(:program="program" :isMoveable="true")
         .col-11
       .row.pt-2
         | {{ progress }}
+    .content.p-4(v-else-if="state === 1")
+      .row  
+        UserInfo
     .d-flex.justify-content-end.mt-4   
       button(@click="saveUserInfo()").btn.px-4.py-2 OK
 </template>
@@ -46,16 +49,19 @@ import {  ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
 import DBHelper from '../../helpers/DBHelper'
 import { userStore } from '../../stores/userStore'
 import type { IUser, IFile } from '../../models/index'
+import UserInfo from '@/components/auth/UserInfo.vue'
 
 export default defineComponent({
   components: {
-    WindowFrame
+    WindowFrame,
+    UserInfo
   },
   props: {
     program: Object
   },
   data() {
     return {
+      state: 0,
       progress: 0,
       userstore: userStore(),
       userData: {} as IUser,
@@ -126,6 +132,9 @@ export default defineComponent({
     saveUserInfo() {
       DBHelper.update('users', this.userData)
       this.userstore.setUserData(this.userData)
+    },
+    changeState(int: number) {
+      this.state = int
     }
   }
 })
