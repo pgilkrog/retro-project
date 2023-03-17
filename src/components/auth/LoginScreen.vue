@@ -55,7 +55,7 @@
 
 <script lang="ts">
 import WindowFrame from '../WindowFrame.vue'
-import { userStore } from '@/stores/userStore'
+import { authStore } from '@/stores/authStore'
 import type { IProgram } from '@/models/index'
 import { defineComponent, ref } from 'vue'
 
@@ -71,7 +71,7 @@ export default defineComponent({
     const info = ref('info' as string)
     const infoText = ref('Type a email and password to log into Windows')
     const showHelp = ref(false as boolean)
-    const userstore = userStore()
+    const authstore = authStore()
     const program = ref({
         Id: 543, 
         Name: 'Log in now', 
@@ -89,16 +89,16 @@ export default defineComponent({
     }
 
     const confirmLogin = (): void => {
-      userstore.loginUser(username.value, password.value)
+      authstore.loginUser(username.value, password.value)
     }
 
     const registerUser = (): void => {
       if (password.value === password2.value)
-        userstore.registerUser(username.value, password.value)
+        authstore.registerUser(username.value, password.value)
     }
 
     const changePassword = (): void => {
-      userstore.changePassword(password.value)
+      authstore.changePassword(password.value)
     }
     
     const changeShowHelp = () => {
@@ -130,7 +130,7 @@ export default defineComponent({
       info,
       infoText,
       showHelp,
-      userstore,
+      authstore,
       program,
       password,
       password2,

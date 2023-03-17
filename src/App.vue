@@ -17,6 +17,7 @@ import HomeView from '@/views/HomeView.vue'
 import ErrorComponent from '@/components/ErrorComponent.vue'
 
 import { userStore } from './stores/userStore'
+import { authStore } from '@/stores/authStore'
 import { programsStore } from './stores/programsStore'
 import { defineComponent, ref, computed, onMounted } from 'vue'
 
@@ -30,16 +31,17 @@ export default defineComponent({
   },
   setup() {
     const showMenu = ref(false)
+    const authstore = authStore()
     const userstore = userStore()
     const programsstore = programsStore()
 
-    const userIsLoggedIn = computed(() => userstore.getIsLoggedIn)
-    const checkedAuth = computed(() => userstore.getCheckedAuth)
-    const userBackground = computed(() => userstore.getUserData.UseBackgroundImage)
+    const userIsLoggedIn = computed(() => authstore.getIsLoggedIn)
+    const checkedAuth = computed(() => authstore.getCheckedAuth)
+    const userBackground = computed(() => userstore.getBackgroundInUse)
     const userBackgroundColor = computed(() => userstore.getUserData.BackgroundColor)
 
     onMounted(() => {
-      userstore.init()
+      authstore.init()
       programsstore.init()
     })
 

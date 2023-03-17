@@ -43,7 +43,7 @@ WindowFrame(:program="program" :isMoveable="true")
 </template>
 
 <script lang="ts">
-import { userStore } from '@/stores/userStore';
+import { authStore } from '@/stores/authStore';
 import { ref, reactive, onMounted } from 'vue'
 import WindowFrame from '../../WindowFrame.vue'
 import FileExplorer from '@/components/FileExplorer.vue'
@@ -63,7 +63,7 @@ export default defineComponent({
   },
   setup (props) {
     const canvasRef = ref<HTMLCanvasElement | null>(null)
-    const userstore = userStore()
+    const authstore = authStore()
     const state = reactive({
       color: '#000000',
       brushSize: 5,
@@ -120,7 +120,7 @@ export default defineComponent({
         '',
         text, 
         canvas.toDataURL(),
-        userstore.getUser.uid
+        authstore.getUser.uid
       )
 
       DBHelper.create('paintings', newPainting)
@@ -178,7 +178,7 @@ export default defineComponent({
       canvas.width = canvasElement ? canvasElement.clientWidth : 500
       canvas.height = canvasElement ? canvasElement.clientHeight : 500
 
-      DBHelper.getAllByUserId('paintings', userstore.getUser.uid).then(data => {
+      DBHelper.getAllByUserId('paintings', authstore.getUser.uid).then(data => {
         myPaintings.value = data as IPainting[]
       })
     })

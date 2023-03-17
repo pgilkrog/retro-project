@@ -13,80 +13,40 @@ import type { User } from "firebase/auth"
 import type { IFile, IUser } from "@/models"
 import DBHelper from "@/helpers/DBHelper"
 import { toRaw } from 'vue'
+import { authStore } from './authStore'
 
 export const userStore = defineStore("user", {
   state: () => ({
-    _isLoggedIn: false,
-    _user: {} as User,
     _userData: {} as IUser,
-    _checkedAuth: false,
     errorstore: errorStore(),
-    _backgroundImages: [] as IFile[]
+    _backgroundImages: [] as IFile[],
+    _backgroundInUse: "" as string,
   }),
   getters: {
-    getIsLoggedIn: (state) => state._isLoggedIn,
-    getUser: (state) => state._user,
     getUserData: (state) => toRaw(state._userData),
-    getCheckedAuth: (state) => state._checkedAuth,
-    getUserBackgroundImages: (state) => toRaw(state._backgroundImages)
+    getUserBackgroundImages: (state) => toRaw(state._backgroundImages),
+    getBackgroundInUse: (state) => state._backgroundInUse
   },
   actions: {
-    async init() {
-      await this.checkIfUserIsLoggedIn()
+    async init(userId: string) {
+      await this.loadUserData(userId)
     },
-    async checkIfUserIsLoggedIn() {
-      onAuthStateChanged(auth, (user) => {
-        this._isLoggedIn = Boolean(user)
-        this._user = user || {} as User
-        
-        if (user !== undefined && user !== null)
-          DBHelper.getOneByUserId('users', user.uid).then((userData) => {
-            this._userData = userData as IUser
-            this._backgroundImages = userData.Files.filter((file: IFile) => file.Type === 'BackgroundImage')
-            console.log("USER DATA", userData)
-        })
-        this._checkedAuth = true
-      })
-    },
-    async loginUser(email: string, password: string) {
-      signInWithEmailAndPassword(auth, email, password)
-        .then((data: any) => {
-          this._isLoggedIn = true
-          this._user = data as User
-        })
-        .catch((error: FirebaseError) => {
-          this.errorstore.setError({
-            show: true,
-            text: error.message,
-            icon: '', 
-            timeStamp: new Date()
-          })
-        })
-    },
-    async registerUser(userName: string, password: string) {
-      createUserWithEmailAndPassword(auth, userName, password)
-        .then((data: any) => {
-          this._isLoggedIn = true
-        })        
-        .catch((error: FirebaseError) => {
-          this.errorstore.setError({
-            show: true,
-            text: error.message,
-            icon: '',
-            timeStamp: new Date()
-          })
-        })
-    },
-    async signOut() {
-      signOut(auth)
-      this._isLoggedIn = false
-      this._user = {} as User
-    },
-    async changePassword(password: string) {
-      updatePassword(this.getUser, password)
+    async loadUserData(userId: string) {
+      DBHelper.getOneByUserId('users', userId).then((userData) => {
+        this.setUserData(userData as IUser)
+        this.setBackgroundInUse(userData.UseBackgroundImage)
+        this.setUserBackgroundImages(userData.Files.filter((file: IFile) => file.Type === 'BackgroundImage'))
+        console.log("USER DATA", userData)
+    })
     },
     setUserData(userData: IUser) {
       this._userData = userData
+    },
+    setUserBackgroundImages(files: IFile[]) {
+      this._backgroundImages = files
+    },
+    setBackgroundInUse(url: string) {
+      this._backgroundInUse = url
     }
   }
 })

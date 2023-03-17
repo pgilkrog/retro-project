@@ -15,7 +15,7 @@ WindowFrame(:program="program" :isMoveable="true")
               height="100"
               width="100" 
               src="https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg"
-              :class="userData.UseBackgroundImage === 'undefined' ? 'border border-danger' : ''"
+              :class="backgroundInUse === 'undefined' ? 'border border-danger' : ''"
               @click="imageClicked(undefined)"
             )
           .image-item.m-2(v-for="(item, index) in backgroundImages" :key="index")
@@ -24,7 +24,7 @@ WindowFrame(:program="program" :isMoveable="true")
               width="100" 
               :src="item.Url"
               @click="imageClicked(item)"
-              :class="userData.UseBackgroundImage === item.Url ? 'border border-danger' : ''"
+              :class="backgroundInUse === item.Url ? 'border border-danger' : ''"
             ).pointer
       .row
         input(type="file" @change="onFileSelected")
@@ -43,13 +43,13 @@ WindowFrame(:program="program" :isMoveable="true")
 
 <script lang="ts">
 import WindowFrame from '../WindowFrame.vue'
-import { defineComponent } from 'vue'
-import { storage } from '../../firebase'
-import {  ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
+import { defineComponent, ref, computed, onMounted } from 'vue'
 import DBHelper from '../../helpers/DBHelper'
 import { userStore } from '../../stores/userStore'
 import type { IUser, IFile } from '../../models/index'
 import UserInfo from '@/components/auth/UserInfo.vue'
+import { onFileSelected } from '@/helpers/Fileupload'
+import { authStore } from '@/stores/authStore'
 
 export default defineComponent({
   components: {
@@ -59,62 +59,35 @@ export default defineComponent({
   props: {
     program: Object
   },
-  data() {
-    return {
-      state: 0,
-      progress: 0,
-      userstore: userStore(),
-      userData: {} as IUser,
-      color: "",
-    }
-  },
-  mounted() {
-    this.userData = this.userstore.getUserData
-    this.color = this.userstore.getUserData.BackgroundColor
-  },
-  computed: {
-    backgroundImages() {
-      return this.userstore.getUserBackgroundImages
-    }
-  },
-  methods: {
-    async onFileSelected(e: any) {
-      e.preventDefault()
-      const file = e.target.files[0]
-      
-      if (file === undefined)
-        return
+  setup () {
+    const authstore = authStore()
+    const userstore = userStore()
 
-      const storageRef = ref(storage, `${this.userData.Email}/${file.name}`)
-      const uploadTask = uploadBytesResumable(storageRef, file)
+    const state = ref(0)
+    const progress = ref(0)
+    const color = ref("")
+    const userData = computed(() => userstore.getUserData)
+    const backgroundImages = computed(() => userstore.getUserBackgroundImages)
+    const backgroundInUse = computed(() => userstore.getBackgroundInUse)
 
-      uploadTask.on("state_changed",
-        (snapshot) => {
-          const progress =
-            Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
-            this.progress = progress
-        },
-        (error) => {
-          alert(error)
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            this.saveNewBackgroundURL(file.name, downloadURL, file.size, "BackgroundImage")
-          });
-        }
-      )
-    },
-    onColorSelected(event: any) {
+    onMounted(() => {
+      color.value = userstore.getUserData.BackgroundColor
+    })
+
+    const onColorSelected = (event: any) => {
       event.preventDefault()
-      this.userData.BackgroundColor = this.color
-    },
-    saveNewBackgroundURL(
-      name: string, 
-      url: string, 
-      size: number, 
+      let tempData = userstore.getUserData
+      tempData.BackgroundColor = color.value
+      userstore.setUserData(tempData)
+    }
+
+    const saveNewBackgroundURL = (
+      name: string,
+      url: string,
+      size: number,
       type: string
-    ) {
-      DBHelper.getOneByUserId('users', this.userstore.getUser.uid).then((user: IUser) => {
+    ) => {
+      DBHelper.getOneByUserId('users',  authstore.getUser.uid).then((user: IUser) => {
         user.Files.push({
           Name: name,
           Url: url,
@@ -123,18 +96,38 @@ export default defineComponent({
         } as IFile)
         DBHelper.update('users', user)
       })
-    },
-    imageClicked(file: IFile) {
-      file === undefined
-        this.userData.UseBackgroundImage =file === undefined
-        ? 'undefined' : file.Url
-    },
-    saveUserInfo() {
-      DBHelper.update('users', this.userData)
-      this.userstore.setUserData(this.userData)
-    },
-    changeState(int: number) {
-      this.state = int
+    }
+
+    const imageClicked = (file: IFile) => {
+      let url = file === undefined ? 'undefined' : file.Url
+      let temp = userData.value
+      temp.UseBackgroundImage = url
+      userstore.setUserData(temp)
+      userstore.setBackgroundInUse(url)
+    }
+
+    const saveUserInfo = () => {
+      DBHelper.update('users', userData.value)
+      userstore.setUserData(userData.value)
+    }
+
+    const changeState = (int: number) => {
+      state.value = int
+    }
+
+    return {
+      state,
+      progress,
+      userData,
+      color,
+      backgroundImages,
+      backgroundInUse,
+      onFileSelected,
+      onColorSelected,
+      saveNewBackgroundURL,
+      imageClicked,
+      saveUserInfo,
+      changeState
     }
   }
 })
