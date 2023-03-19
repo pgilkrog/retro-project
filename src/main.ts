@@ -9,8 +9,11 @@ import './styles/main.sass'
 import 'bootstrap'
 import "bootstrap-icons/font/bootstrap-icons.css"
 
+import IconComponent from '@/components/general/IconComponent.vue'
+
 const app = createApp(App)
 
+app.component('IconComponent', IconComponent)
 app.use(createPinia())
 app.use(router)
 

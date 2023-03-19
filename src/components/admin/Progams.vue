@@ -1,28 +1,25 @@
 <template lang="pug">
 .programs-component
-  WindowFrame(:program="{Id: 3245, Name: 'Manage Programs', IsActive: true, Image: ''}" variant="info")
+  WindowFrame(:program="program" variant="info")
     .row.p-4
-
+      h1 hejsa
 </template>
 
 <script lang="ts">
-import DBHelper from '@/helpers/DBHelper';
 import type { IProgram } from '@/models';
 import WindowFrame from '../WindowFrame.vue'
 import { defineComponent } from 'vue'
+import { program } from '@babel/types';
 
 export default defineComponent({
   components: {
     WindowFrame
   },
-  data() {
-    return {
-      allPrograms: DBHelper.getAll('programs').then((data: any) => {
-        debugger
-      })
-    }
+  props: {
+    program: Object
   },
-  methods: {
+  setup (props) {
+    console.log(props.program)
   }
 })
 </script>

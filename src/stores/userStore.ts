@@ -1,19 +1,8 @@
 import { defineStore } from "pinia"
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-  updatePassword
-} from "firebase/auth"
-import { auth } from '@/firebase'
 import { errorStore } from "./errorStore"
-import type { FirebaseError } from "firebase/app"
-import type { User } from "firebase/auth"
 import type { IFile, IUser } from "@/models"
 import DBHelper from "@/helpers/DBHelper"
 import { toRaw } from 'vue'
-import { authStore } from './authStore'
 
 export const userStore = defineStore("user", {
   state: () => ({

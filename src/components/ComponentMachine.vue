@@ -22,6 +22,7 @@ import Calculator from '@/components/programs/Calculator.vue'
 import Minesweeper from '@/components/programs/minesweeper/MinesweeperGame.vue'
 import PCSettings from '@/components/programs/PCSettings.vue'
 import PawPoint from '@/components/programs/PawPoint.vue'
+import AddOrRemovePrograms from '@/components/programs/AddOrRemovePrograms.vue'
 
 export default defineComponent({
   components: {
@@ -32,7 +33,8 @@ export default defineComponent({
     Minesweeper,
     Calculator,
     PCSettings,
-    PawPoint
+    PawPoint,
+    AddOrRemovePrograms
   },
   setup() {
     const programsstore = programsStore()

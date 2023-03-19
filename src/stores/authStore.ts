@@ -31,6 +31,7 @@ export const authStore = defineStore("auth", {
     },
     async checkIfUserIsLoggedIn() {
       await onAuthStateChanged(auth, (user) => {
+        console.log('USER', user)
         this._isLoggedIn = Boolean(user)
         this._user = user || {} as User
         this._checkedAuth = true
