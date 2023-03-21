@@ -1,10 +1,45 @@
 {
   "folders": [
-      {
-          "path": "./"
-      }
+    {
+      "path": "./Frontend",
+      "name": "Frontend"
+    },
+    {
+      "path": "./Backend",
+      "name": "Backend"
+    }
   ],
   "settings": {
-      "editor.tabSize": 4
+    "workbench.colorCustomizations": {
+      "activityBar.activeBackground": "#4bbecc",
+      "activityBar.background": "#4bbecc",
+      "activityBarBadge.background": "#c738b7",
+      "activityBarBadge.foreground": "#e7e7e7",
+      "sash.hoverBorder": "#4bbecc",
+      "statusBar.background": "#32a4b2",
+      "statusBarItem.hoverBackground": "#277f8a",
+      "statusBarItem.remoteBackground": "#32a4b2",
+      "titleBar.activeBackground": "#32a4b2",
+      "titleBar.inactiveBackground": "#32a4b299",
+      "activityBar.foreground": "#15202b",
+      "activityBar.inactiveForeground": "#15202b99",
+      "commandCenter.border": "#15202b99",
+      "statusBar.foreground": "#15202b",
+      "statusBarItem.remoteForeground": "#15202b",
+      "titleBar.activeForeground": "#15202b",
+      "titleBar.inactiveForeground": "#15202b99"
+    },
+    "peacock.color": "#32a4b2",
+    "peacock.showColorInStatusBar": true,
+    "peacock.keepForegroundColor": false,
+    "peacock.affectDebuggingStatusBar": false
+  },
+  "extensions": {
+    "johnpapa.angular2-peacock": {
+      "colors": {
+        "Frontend": "#FF5733",
+        "Backend": "#4CAF50"
+      }
+    }
   }
 }
