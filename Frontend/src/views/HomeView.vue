@@ -4,9 +4,9 @@
     DesktopItem(
       v-for="program in allPrograms()"
       v-on:generateComponent="generateComponent(program)"
-      :key="program.Id"
+      :key="program.id"
       :program="program"
-      :itemColor="program.Color"
+      :itemColor="program.color"
     )
   ComponentMachine
 </template>

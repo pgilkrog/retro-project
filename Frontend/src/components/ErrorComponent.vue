@@ -1,7 +1,7 @@
 <template lang="pug">
 Teleport(to="body")
   .error-component.fixed-top.position-absolute(v-if="error !== undefined")
-    WindowFrame(:program="{Id: 543245, Name: 'Error', IsActive: true, Image: ''}" variant="danger")
+    WindowFrame(:program="{id: 543245, name: 'Error', isActive: true, image: ''}" variant="danger")
       .row.p-4
         .col-1.text-center
           i.bi.bi-exclamation-octagon-fill.text-danger

@@ -1,23 +1,23 @@
 <template lang="pug">
 Component(
   v-for="(program, index) in activePrograms"
-  v-on:closeWindow="closeWindow(program.Name)"
+  v-on:closeWindow="closeWindow(program.name)"
   :key="index"
-  :id="program.Name"
-  :is="program.Name"
+  :id="program.name"
+  :is="program.name"
   :program="program"
 )
 </template>
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import Program from './Progams.vue'
 import { programsStore } from '@/stores/programsStore'
+import ManagePrograms from './ManagePrograms.vue'
 
 export default defineComponent({
   name: 'AdminComponentMachine',
   components: {
-    Program
+    ManagePrograms
   },
   setup() {
     const programsstore = programsStore()

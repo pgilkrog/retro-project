@@ -27,10 +27,11 @@ export default defineComponent({
   },
   setup () {
     const program = {
-      Id: 543, 
-      Name: 'Loading', 
-      IsActive: true, 
-      Image: 'bi-archive'
+      name: 'Loading',
+      displayName: 'Loading',
+      color: 'info', 
+      isActive: true, 
+      image: 'bi-archive'
     } as IProgram
     const progressValues = [1,2,3,4,5,6,7,8,9,10]
     

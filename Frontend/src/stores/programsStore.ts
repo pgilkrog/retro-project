@@ -2,6 +2,9 @@ import { defineStore } from "pinia"
 import type { IProgram } from '@/models/index'
 import DBHelper from "@/helpers/DBHelper"
 import axios from 'axios'
+import { toRaw } from 'vue'
+
+const url = 'http://localhost:4000/api/'
 
 export const programsStore = defineStore("programs", {
   state: () => ({
@@ -15,17 +18,29 @@ export const programsStore = defineStore("programs", {
   },
   actions: {
     async init() {
+      this.getProgramsFromDB()
+      // await DBHelper.getAll(this.collectionName).then(data => {
+      //   let temp = []
+      //   for(let item in data) {
+      //     temp.push(data[+item] as IProgram)
+      //   }
+      //   this._programs = temp
+      // })
+    },
+    async getProgramsFromDB() {
       try {
-       await axios.get('http://localhost:4000/api/program').then((data: any) => {
+       await axios.get(url + 'program').then((data: any) => {
           let tempData = data.data.programs
           let tempArray: IProgram[] = []
           for(const program in tempData) {
             console.log("", tempData[program])
             tempArray.push({
-              Id: tempData[program]._id,
-              Name: tempData[program].name,
-              IsActive: false,
-              Image: tempData[program].image
+              id: tempData[program]._id,
+              name: tempData[program].name,
+              isActive: false,
+              image: tempData[program].image,
+              color: tempData[program].color,
+              displayName: tempData[program].displayName
             } as IProgram)
           }
           console.log("data", tempArray)
@@ -34,43 +49,38 @@ export const programsStore = defineStore("programs", {
       } catch (error) {
         console.log(error)
       }
-      // await DBHelper.getAll(this.collectionName).then(data => {
-      //   let temp = []
-      //   for(let item in data) {
-      //     temp.push(data[+item] as IProgram)
-      //   }
-      //   this._programs = temp
-      // })
-
-      
     },
     setActivePrograms(programs: IProgram[]) {
       this._activePrograms = programs
     },
     addProgramToActive(program: IProgram) {
-      if (this._activePrograms.find(x => x.Id === program.Id) === undefined) {
-        program.IsActive = true
+      if (this._activePrograms.find(x => x.id === program.id) === undefined) {
+        program.isActive = true
         this._activePrograms.push(program)
       }
     },
     removeProgramFromActive(program: IProgram) {
-      this.setActivePrograms(this._activePrograms.filter(x => x.Id !== program.Id))
+      this.setActivePrograms(this._activePrograms.filter(x => x.id !== program.id))
     },
     setProgramActiveState(program: IProgram) {
       this._activePrograms.find(x => {
-        if(x.Id === program.Id)
-          x.IsActive = !x.IsActive
+        if(x.id === program.id)
+          x.isActive = !x.isActive
       })
     },
-    updateProgram(program: IProgram) {
-      DBHelper.update(this.collectionName, program)
+    async updateProgram(program: IProgram) {
+      // DBHelper.update(this.collectionName, program)
+      const response = await axios.put(url + 'program/' + program.id, program)
+      console.log(response)
     },
-    deleteProgram(program: IProgram) {
-      DBHelper.delete(this.collectionName, program.Id.toString())
+    async deleteProgram(program: IProgram) {
+      // DBHelper.delete(this.collectionName, program.id.toString())
+      debugger
+      const response = await axios.delete(url + 'program/' + program.id)
+      console.log(response)
     },
-    async createProgram() {
-      let program = { name: 'Paint', image: 'bi-brush', color: 'info'}
-      const response = axios.post('http://localhost:4000/api/program', program)
+    async createProgram(program: IProgram) {
+      const response = axios.post(url + 'program', program)
       console.log('createReponse', response)
     }
   }

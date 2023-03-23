@@ -6,32 +6,31 @@
       v-on:generateComponent="generateComponent(program)"
       :key="program.Id"
       :program="program"
-      :itemColor="program.Color"
+      :itemColor="program.color"
     )
-  //- AdminComponentMachine
-  button(@click="createProgram()") Test
+  AdminComponentMachine
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-// import AdminComponentMachine from '@/components/admin/AdminComponentMachine.vue'
+import AdminComponentMachine from '@/components/admin/AdminComponentMachine.vue'
 import { programsStore } from '@/stores/programsStore'
 import DesktopItem from '@/components/DesktopItem.vue'
 
 export default defineComponent({
   name: 'adminView',
   components: {
-    // AdminComponentMachine,
+    AdminComponentMachine,
     DesktopItem
   },
   setup() {
     const allPrograms = [
       {
-        Id: 3245, 
-        Name: 'Program',
-        DisplayName: 'Manage Programs',
-        IsActive: true,
-        Image: 'fa-computer'
+        id: 3245, 
+        name: 'ManagePrograms',
+        displayName: 'Manage Programs',
+        isActive: true,
+        image: 'fa-computer'
       },
     ]
     const programsstore = programsStore()
@@ -40,14 +39,9 @@ export default defineComponent({
       programsstore.addProgramToActive({...program})
     }
 
-    const createProgram = () => {
-      programsstore.createProgram()
-    }
-
     return {
       allPrograms,
-      generateComponent,
-      createProgram
+      generateComponent
     }
   }
 })

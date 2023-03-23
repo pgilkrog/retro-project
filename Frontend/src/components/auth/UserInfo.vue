@@ -25,10 +25,10 @@ button.btn.mt-4(@click="printInfo()") Print
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
-import MultipleInputs from './MultipleInputs.vue'
+import MultipleInputs from '../general/MultipleInputs.vue'
 
 export default defineComponent({
-  name: 'component-name',
+  name: 'userInfo',
   components: {
     MultipleInputs
   },

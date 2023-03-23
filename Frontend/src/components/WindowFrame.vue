@@ -1,12 +1,12 @@
 <template lang="pug">
 .window-frame-wrapper.bg-shadow.bg-secondary.d-flex.flex-column.position-absolute.m-4.p-2.rounded(
-  v-if="program !== undefined && program.IsActive === true" 
+  v-if="program !== undefined && program.isActive === true" 
   :style="[ isMoveable ? { top: top + 'px', left: left + 'px'} : {}]"
 )
-  header.top-bar.text-dark.d-flex.justify-content-between.align-items-center.mb-1.p-2(:class="variant !== undefined ? 'bg-'+variant : 'bg-success'" @mousedown="startDrag" )
+  header.top-bar.text-dark.d-flex.justify-content-between.align-items-center.mb-1.p-2.rounded(:class="variant !== undefined ? 'bg-'+ variant : 'bg-success'" @mousedown="startDrag" )
     .d-flex.align-items-center
-      i(:class="program.Image" width="25")
-      .font-weight-bold.pe-4.ps-4 {{ program.DisplayName }}
+      IconComponent(:name="program.image" :size="25")
+      .font-weight-bold.pe-4.ps-4 {{ program.displayName }}
     span
       button.btn.bg-secondary.py-0.px-2.text-black(@click="setInactive()") _
       button.btn.bg-secondary.py-0.px-2.text-black.mx-1 =

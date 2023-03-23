@@ -70,6 +70,25 @@ template(v-if="homeAddress !== undefined")
     @change="$emit('update:homeAddress', $event.target.checked)" 
     id="is-home-address"
   )
+  
+template(v-if="color !== undefined")
+  label.mt-4(for="color") Color:
+  input.bg-shadow-inner(
+    type="text" 
+    :value="color" 
+    @input="$emit('update:color', $event.target.value)" 
+    id="color"
+  )
+  
+template(v-if="image !== undefined")
+  label.mt-4(for="image") Image:
+  input.bg-shadow-inner(
+    type="text" 
+    :value="image" 
+    @input="$emit('update:image', $event.target.value)" 
+    id="image"
+  )
+
 </template>
 
 <script lang="ts">
@@ -100,15 +119,21 @@ export default defineComponent({
       type: String,
       default: '',
       validator: function(value: string) {
-      // check if the value is a valid phone number
-      const regex = /^\d{8}$/;
-      return regex.test(value);
-    }
+        // check if the value is a valid phone number
+        const regex = /^\d{8}$/;
+        return regex.test(value);
+      }
     }, 
     homeAddress: {
-        type: Boolean,
-        default: false,
+      type: Boolean,
+      default: false,
     },
+    color: {
+      type: String,
+    },
+    image: {
+      type: String
+    }
   },
   setup() {
     return {

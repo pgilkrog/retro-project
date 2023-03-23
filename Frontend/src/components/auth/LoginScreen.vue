@@ -73,10 +73,11 @@ export default defineComponent({
     const showHelp = ref(false as boolean)
     const authstore = authStore()
     const program = ref({
-        Id: 543, 
-        Name: 'Log in now', 
-        IsActive: true, 
-        Image: 'bi-archive'
+        name: 'LogInNow', 
+        isActive: true, 
+        image: 'bi-archive',
+        displayName: 'Log in now',
+        color: 'light'
       } as IProgram)
 
     const pressedOk = () => {
@@ -109,17 +110,17 @@ export default defineComponent({
       if (stateVal === 1) {
         state.value = 1
         info.value = 'info'
-        program.value.Name = 'Log in now'
+        program.value.name = 'Log in now'
         infoText.value = 'Type a email and password to log into Windows'
       } else if (stateVal === 2) {
         state.value = 2
         info.value = 'warning'
-        program.value.Name = 'Register user'
+        program.value.name = 'Register user'
         infoText.value = 'Type a email and password to create a user'
       } else if (stateVal === 3) {
         state.value = 3
         info.value = 'success'
-        program.value.Name = 'Reset password'
+        program.value.name = 'Reset password'
         infoText.value = 'Type a email to send an reset email notification'
       }
     }

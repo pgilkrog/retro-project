@@ -14,8 +14,8 @@
           :class="item.IsActive ? 'bg-shadow-inner' : 'bg-shadow'"
           @click="setActiveState(item)"
         )
-          i(:class="item.Image" height="25").m-2.mt-0
-          | {{ item.DisplayName }}
+          i(:class="item.image" height="25").m-2.mt-0
+          | {{ item.displayName }}
     Clock 
 </template>
 

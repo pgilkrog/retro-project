@@ -1,13 +1,17 @@
 export class IProgram {
-  Id: string
-  Name: string
-  IsActive: boolean
-  Image: string
+  id: string
+  name: string
+  isActive: boolean
+  image: string
+  color: string
+  displayName: string
 
-  constructor(_id: string, name: string, isActive: boolean, image: string) {
-    this.Id = _id
-    this.Name = name
-    this.IsActive = isActive
-    this.Image = image
+  constructor(_id: string, name: string, isActive: boolean, image: string, color: string, displayName: string) {
+    this.id = _id
+    this.name = name
+    this.isActive = isActive
+    this.image = image
+    this.color = color
+    this.displayName = displayName
   }
 }

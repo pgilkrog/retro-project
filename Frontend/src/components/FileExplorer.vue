@@ -29,12 +29,12 @@ export default defineComponent({
   },
   setup (props, { emit }) {
     const program = {
-      Id: 245,
-      Name: "FileExplorer",
-      DisplayName: "File explorer",
-      Image: "bi-joystick", 
-      IsActive: true,
-      Color: "warning"
+      id: 245,
+      name: "FileExplorer",
+      displayName: "File explorer",
+      image: "bi-joystick", 
+      isActive: true,
+      color: "warning"
     }
 
     const itemClicked = (item: any) => {

@@ -21,7 +21,7 @@
       .col-8
         .bg-white.p-2.bg-shadow-inner
           .d-flex.align-items-center(v-for="(program, index) in allPrograms" :key="index")
-            IconComponent.me-3(:variant="program.Color === 'light' ? 'dark' : program.Color" :name="program.Image") 
+            IconComponent.me-3(:variant="program.color === 'light' ? 'dark' : program.color" :name="program.image") 
             p {{ program.DisplayName }}
 </template>
 

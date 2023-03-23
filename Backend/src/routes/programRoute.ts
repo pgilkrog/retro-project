@@ -17,7 +17,17 @@ router.get('/', async (req: Request, res: Response) => {
   }
 })
 
-router.post('/', jsonParser, async (req: Request, res: Response, next: any) => {
+router.delete('/:id', async (req: Request, res: Response) => {
+  try {
+    const deletedItem = await Program.findByIdAndDelete({ _id: req.params.id})
+    res.send({ item: deletedItem })
+  } catch (error: any) {
+    console.log(error.message)
+    res.status(500).send('server error')
+  }
+})
+
+router.post('/', jsonParser, async (req: Request, res: Response) => {
   const { name, image, color } = req.body
 
   try {
@@ -29,6 +39,23 @@ router.post('/', jsonParser, async (req: Request, res: Response, next: any) => {
 
     await newProgram.save()
     res.json(newProgram)
+  } catch (error: any) {
+    console.log(error.message)
+    res.status(500).send('server error')
+  }
+})
+
+router.put('/:id', async (req: Request, res: Response) => {
+  const id = req.params.id
+  const programToUpdate = req.body
+  console.log("body", programToUpdate)
+  try {
+    const updateProgram = await Program.findByIdAndUpdate(id, programToUpdate, { new: true})
+
+    if (!updateProgram)
+      return res.status(404).send({ error: 'Program not found'})
+
+    res.send(updateProgram)
   } catch (error: any) {
     console.log(error.message)
     res.status(500).send('server error')

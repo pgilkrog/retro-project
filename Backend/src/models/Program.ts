@@ -5,6 +5,10 @@ const programSchema = new mongoose.Schema ({
     type: String,
     required: true
   },
+  displayName: {
+    type: String, 
+    reguired: true
+  },
   image: {
     type: String,
     required: true 
