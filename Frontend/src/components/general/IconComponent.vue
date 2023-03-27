@@ -16,6 +16,9 @@ export default defineComponent({
   setup(props) {
 
     const iconClass = () => {
+      if (props === undefined || props.name === undefined)
+        return
+
       if (props.name?.startsWith('bi-'))
         return 'bi ' + props.name
       else if (props.name?.startsWith('fa-')) 

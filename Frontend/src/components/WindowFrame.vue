@@ -5,12 +5,15 @@
 )
   header.top-bar.text-dark.d-flex.justify-content-between.align-items-center.mb-1.p-2.rounded(:class="variant !== undefined ? 'bg-'+ variant : 'bg-success'" @mousedown="startDrag" )
     .d-flex.align-items-center
-      IconComponent(:name="program.image" :size="25")
+      IconComponent(:name="program.image" size="25")
       .font-weight-bold.pe-4.ps-4 {{ program.displayName }}
     span
-      button.btn.bg-secondary.py-0.px-2.text-black(@click="setInactive()") _
-      button.btn.bg-secondary.py-0.px-2.text-black.mx-1 =
-      button.btn.bg-secondary.py-0.px-2.text-black(@click="closeWindow") x
+      button.btn.bg-secondary.py-0.px-2.text-black(@click="setInactive()") 
+        IconComponent(name="fa-window-minimize" size="14")
+      button.btn.bg-secondary.py-0.px-2.text-black.mx-1
+        IconComponent(name="fa-reqular fa-square" size="14")
+      button.btn.bg-secondary.py-0.px-2.text-black(@click="closeWindow") 
+        IconComponent(name="fa-xmark" size="14")
   .menu-container.d-flex.mx-2.my-1(v-if="showMenu")
     .me-2 File
     .mx-2 Edit 

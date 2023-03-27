@@ -28,13 +28,15 @@ router.delete('/:id', async (req: Request, res: Response) => {
 })
 
 router.post('/', jsonParser, async (req: Request, res: Response) => {
-  const { name, image, color } = req.body
+  const { name, image, color, displayName, sortOrder } = req.body
 
   try {
     const newProgram = new Program({
       name,
+      displayName,
       image,
-      color
+      color,
+      sortOrder
     })
 
     await newProgram.save()

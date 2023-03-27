@@ -4,7 +4,7 @@ import DBHelper from "@/helpers/DBHelper"
 import axios from 'axios'
 import { toRaw } from 'vue'
 
-const url = 'http://localhost:4000/api/'
+const url = 'http://localhost:4000/api/program'
 
 export const programsStore = defineStore("programs", {
   state: () => ({
@@ -29,22 +29,21 @@ export const programsStore = defineStore("programs", {
     },
     async getProgramsFromDB() {
       try {
-       await axios.get(url + 'program').then((data: any) => {
+       await axios.get(url).then((data: any) => {
           let tempData = data.data.programs
           let tempArray: IProgram[] = []
           for(const program in tempData) {
-            console.log("", tempData[program])
             tempArray.push({
               id: tempData[program]._id,
               name: tempData[program].name,
               isActive: false,
               image: tempData[program].image,
               color: tempData[program].color,
-              displayName: tempData[program].displayName
+              displayName: tempData[program].displayName,
+              sortOrder: tempData[program].sortOrder
             } as IProgram)
           }
-          console.log("data", tempArray)
-          this._programs = tempArray
+          this._programs = tempArray.sort((a: IProgram, b: IProgram,) => a.sortOrder - b.sortOrder)
         })
       } catch (error) {
         console.log(error)
@@ -70,17 +69,16 @@ export const programsStore = defineStore("programs", {
     },
     async updateProgram(program: IProgram) {
       // DBHelper.update(this.collectionName, program)
-      const response = await axios.put(url + 'program/' + program.id, program)
+      const response = await axios.put(url + '/' + program.id, program)
       console.log(response)
     },
     async deleteProgram(program: IProgram) {
       // DBHelper.delete(this.collectionName, program.id.toString())
-      debugger
-      const response = await axios.delete(url + 'program/' + program.id)
+      const response = await axios.delete(url + '/' + program.id).finally(() => this.getProgramsFromDB())
       console.log(response)
     },
     async createProgram(program: IProgram) {
-      const response = axios.post(url + 'program', program)
+      const response = axios.post(url, program).finally(() => this.getProgramsFromDB())
       console.log('createReponse', response)
     }
   }

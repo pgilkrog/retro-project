@@ -3,6 +3,9 @@ import { errorStore } from "./errorStore"
 import type { IFile, IUser } from "@/models"
 import DBHelper from "@/helpers/DBHelper"
 import { toRaw } from 'vue'
+import axios from "axios"
+
+const url = 'http://localhost:4000/api/auth'
 
 export const userStore = defineStore("user", {
   state: () => ({
