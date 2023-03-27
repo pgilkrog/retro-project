@@ -2,9 +2,10 @@ import axios from "axios";
 
 const setAuthToken = (token: string) => {
     if (token) {
-        axios.defaults.headers.common["Authorization"] = token;
+        console.log("SETAUTHTOKEN", token)
+        axios.defaults.headers.common["Authorization"] = token
     } else {
-        delete axios.defaults.headers.common["Authorization"];
+        delete axios.defaults.headers.common["Authorization"]
     }
 };
 

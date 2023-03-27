@@ -1,12 +1,13 @@
 import express, { Request, Response } from 'express'
 import bodyParser from 'body-parser'
+import auth from '../middleware/auth'
 
 import { Program } from '../models/index'
 
 const router = express.Router()
 const jsonParser = bodyParser.json()
 
-router.get('/', async (req: Request, res: Response) => {
+router.get('/', auth, async (req: Request, res: Response) => {
   debugger
   try {
     const fetchedItems = await Program.find({})

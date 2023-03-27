@@ -15,6 +15,7 @@ import axios from "axios"
 import { watch } from 'vue'
 const url = 'http://localhost:4000/api/auth'
 import type { IUser } from "@/models/index"
+import setAuthToken from "@/helpers/setAuthToken"
 
 export const authStore = defineStore("auth", {
   state: () => ({
@@ -46,15 +47,23 @@ export const authStore = defineStore("auth", {
       //   if (user !== undefined && user !== null)
       //     this.userstore.init(user.uid)
       // })
+      const localToken = localStorage.getItem('token')
+      const localUser = localStorage.getItem('userId')
+      if (localUser && localToken)
+        await this.refreshToken()
       
+      this._checkedAuth = true
     },
     async loginUser(email: string, password: string) {
       try {
+        debugger
         const response = await axios.post(url + '/login/', { email: email, password: password })
         const { token, user } = response.data
         localStorage.setItem('token', token)
+        localStorage.setItem('userId', user._id)
         this._user = user
         this._isLoggedIn = true
+        this._checkedAuth = true
         console.log("LOGIN RESPONSE", response)        
       } catch (error) {
         console.log(error)
@@ -75,6 +84,7 @@ export const authStore = defineStore("auth", {
       this._isLoggedIn = false
       this._user = {} as IUser
       localStorage.removeItem('token')
+      localStorage.removeItem('userId')
     },
     async changePassword(password: string) {
       // updatePassword(this.getUser, password)
@@ -89,9 +99,21 @@ export const authStore = defineStore("auth", {
       return { token: this.getToken, refeskToken: refreshToken, user: this.getUser }
     },
     async refreshToken() {
-      const response = await axios.post(url + '/refreshToken', { id: this.getUser.Id})
+      const localUserId= localStorage.getItem('userId')
+      const localToken = localStorage.getItem('token')
+      
+      const response = await axios.post(url + '/refreshToken/', { id: localUserId})
+
+      console.log(response)
+      if (localToken)
+        setAuthToken(localToken)
+
       localStorage.setItem('token', response.data.token)
-      return { token: response.data.token, rToken: this.getRefreshToken, user: this.getUser}
+      localStorage.setItem('userId', response.data.user._id)
+      this.setToken(response.data.token)
+      this._user = response.data.user
+      this._isLoggedIn = true
+      this._checkedAuth = true
     }
     // async loginUser(email: string, password: string) {
       // signInWithEmailAndPassword(auth, email, password)

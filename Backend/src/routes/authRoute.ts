@@ -1,23 +1,24 @@
-import express, { Request, Response } from 'express';
-import bodyParser from 'body-parser';
-import bcrypt from 'bcryptjs';
-import { body, validationResult } from 'express-validator';
-import jwt from 'jsonwebtoken';
-import { User }  from '../models/User';
-import auth from '../middleware/auth';
+import express, { Request, Response } from 'express'
+import bodyParser from 'body-parser'
+import bcrypt from 'bcryptjs'
+import { body, validationResult } from 'express-validator'
+import jwt from 'jsonwebtoken'
+import { User }  from '../models/User'
+import auth from '../middleware/auth'
 
-import * as config from "../config/default.json";
+import * as config from "../config/default.json"
 
-const router = express.Router();
-const jsonParser = bodyParser.json();
+const router = express.Router()
+const jsonParser = bodyParser.json()
 
 // @route       GET api/auth
 // @desc        Get logged in user
 router.post('/refreshToken/', jsonParser, async (req: Request, res: Response) => {
-  try{
-      // const { id } = req.body;
-      const user = await User.findById(req.body.id).select('-password')
 
+  try{
+      const { id } = req.body
+      const user = await User.findById(id).select('-password')
+      console.log("REFRESH TOKEN HIT", req.body)
       if (!user) {
           return res.status(400).json({ msg: 'Invalid credentials!'})
       }
@@ -35,13 +36,15 @@ router.post('/refreshToken/', jsonParser, async (req: Request, res: Response) =>
           if (err) {
               throw err;
           }
-          res.json({ token })
+          res.json({ token, user })
       });            
   } catch(err) {
       res.status(500).send('Server error')
   }
 })
 
+// @route       GET api/auth
+// @desc        Log user in
 router.post('/login/', jsonParser, [
   body('email', 'Please include a valid email').isEmail(),
   body('password', 'Password is required').exists()
@@ -90,6 +93,8 @@ router.post('/login/', jsonParser, [
   }
 })
 
+// @route       GET api/auth
+// @desc        Regiser user
 router.post('/', jsonParser, [
   body('email').isEmail(),
   body('password').isLength({ min: 6 })

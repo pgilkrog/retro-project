@@ -12,6 +12,7 @@ export = (req: Request, res: Response, next: NextFunction) => {
     }
 
     try {
+        console.log("AUTH MIDDLEWARE", token)
         // Verify the token
         const decoded = jwt.verify(token, config.jwtSecret);
         // Get the user

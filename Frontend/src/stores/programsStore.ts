@@ -3,6 +3,7 @@ import type { IProgram } from '@/models/index'
 import DBHelper from "@/helpers/DBHelper"
 import axios from 'axios'
 import { toRaw } from 'vue'
+import setAuthToken from "@/helpers/setAuthToken"
 
 const url = 'http://localhost:4000/api/program'
 
@@ -29,6 +30,7 @@ export const programsStore = defineStore("programs", {
     },
     async getProgramsFromDB() {
       try {
+      setAuthToken(localStorage.getItem('token') as string)
        await axios.get(url).then((data: any) => {
           let tempData = data.data.programs
           let tempArray: IProgram[] = []
