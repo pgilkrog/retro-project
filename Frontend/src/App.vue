@@ -19,7 +19,7 @@ import ErrorComponent from '@/components/ErrorComponent.vue'
 import { userStore } from './stores/userStore'
 import { authStore } from '@/stores/authStore'
 import { programsStore } from './stores/programsStore'
-import { defineComponent, ref, computed, onMounted } from 'vue'
+import { defineComponent, ref, computed, onMounted, watch } from 'vue'
 
 export default defineComponent({
   components: {
@@ -48,6 +48,14 @@ export default defineComponent({
     const changeShowMenu = () => {
       showMenu.value = !showMenu.value
     }
+
+    // Watch for changes in userIsLoggedIn
+    watch(userIsLoggedIn, (newValue, oldValue) => {
+      if (newValue === true && oldValue === false) {
+        // Call the methods you want to run when userIsLoggedIn changes to true
+        programsstore.getProgramsFromDB()
+      }
+    })
 
     return {
       showMenu,

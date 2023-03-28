@@ -1,5 +1,5 @@
 <template lang="pug">
-i.icon(:class="iconClass(), 'text-' + variant" :style="'color: ' + color + '!important;' + 'font-size: ' + size + 'px !important;'")
+i.icon(:class="iconClass(), 'text-' + variant" :style="'color: ' + color + '!important; font-size: ' + size + 'px !important; transform: rotate(' + rotate + 'deg);'")
 </template>
 
 <script lang="ts">
@@ -9,12 +9,24 @@ export default defineComponent({
   name: 'iconComponent',
   props: {
     name: String,
-    variant: String,
-    color: String,
-    size: String
+    variant: {
+      type: String,
+      default: 'dark'
+    },
+    color: {
+      type: String,
+      default: ''
+    },
+    size: {
+      type: String,
+      default: '24'
+    },
+    rotate: {
+      type: [String, Number],
+      default: '0'
+    },
   },
   setup(props) {
-
     const iconClass = () => {
       if (props === undefined || props.name === undefined)
         return
@@ -24,7 +36,7 @@ export default defineComponent({
       else if (props.name?.startsWith('fa-')) 
         return 'fa ' + props.name
       else
-        throw new Error('Invalid icon name')
+        return 'fa fa-bug'
     }
 
     return {

@@ -30,7 +30,7 @@ export const programsStore = defineStore("programs", {
     },
     async getProgramsFromDB() {
       try {
-      setAuthToken(localStorage.getItem('token') as string)
+      setAuthToken(sessionStorage.getItem('token') as string)
        await axios.get(url).then((data: any) => {
           let tempData = data.data.programs
           let tempArray: IProgram[] = []

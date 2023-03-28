@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
   type: {
     type: String,
     default: 'user'
+  },
+  programIds: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Program'
   }
 })
 
