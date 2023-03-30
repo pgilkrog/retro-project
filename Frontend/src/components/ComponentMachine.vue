@@ -20,7 +20,7 @@ import PAWDOS from '@/components/programs/PAWDOS.vue'
 import Paint from '@/components/programs/paint/Paint.vue'
 import Calculator from '@/components/programs/Calculator.vue'
 import Minesweeper from '@/components/programs/minesweeper/MinesweeperGame.vue'
-import PCSettings from '@/components/programs/PCSettings.vue'
+import PCSettings from '@/components/programs/pc-settings/PCSettings.vue'
 import PawPoint from '@/components/programs/PawPoint.vue'
 import AddOrRemovePrograms from '@/components/programs/AddOrRemovePrograms.vue'
 

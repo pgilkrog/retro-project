@@ -1,8 +1,11 @@
 import { defineStore } from "pinia"
 import { errorStore } from "./errorStore"
-import type { IFile, IUser } from "@/models"
+import type { IFile, IUser, IUserSettings } from "@/models"
 import DBHelper from "@/helpers/DBHelper"
 import { toRaw } from 'vue'
+import axios from "axios"
+
+const url = 'http://localhost:4000/api/user'
 
 export const userStore = defineStore("user", {
   state: () => ({
@@ -17,8 +20,9 @@ export const userStore = defineStore("user", {
     getBackgroundInUse: (state) => state._backgroundInUse
   },
   actions: {
-    async init(userId: string) {
-      await this.loadUserData(userId)
+    async init() {
+      // await this.loadUserData(userId)
+      this.getUserById()
     },
     async loadUserData(userId: string) {
       DBHelper.getOneByUserId('users', userId).then((userData) => {
@@ -26,7 +30,7 @@ export const userStore = defineStore("user", {
         this.setBackgroundInUse(userData.UseBackgroundImage)
         this.setUserBackgroundImages(userData.Files.filter((file: IFile) => file.Type === 'BackgroundImage'))
         console.log("USER DATA", userData)
-    })
+      })
     },
     setUserData(userData: IUser) {
       this._userData = userData
@@ -36,6 +40,19 @@ export const userStore = defineStore("user", {
     },
     setBackgroundInUse(url: string) {
       this._backgroundInUse = url
+    },
+    async getUserById() {
+      const res = await axios.get(url + '/' + sessionStorage.getItem('userId'))
+      console.log("GET USER", res)
+      this._userData = res.data.user as IUser
+    },
+    async updateUser(user: IUser) {
+      const res = await axios.put(url + '/' + sessionStorage.getItem('userId'), user)
+      console.log(res)
+    },
+    async updateUserSettings(settings: IUserSettings) {
+      const res = await axios.put(url + '/settings/' + settings.id)
+      console.log(res)
     }
   }
 })

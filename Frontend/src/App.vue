@@ -19,7 +19,7 @@ import ErrorComponent from '@/components/ErrorComponent.vue'
 import { userStore } from './stores/userStore'
 import { authStore } from '@/stores/authStore'
 import { programsStore } from './stores/programsStore'
-import { defineComponent, ref, computed, onMounted } from 'vue'
+import { defineComponent, ref, computed, onMounted, watch } from 'vue'
 
 export default defineComponent({
   components: {
@@ -38,16 +38,24 @@ export default defineComponent({
     const userIsLoggedIn = computed(() => authstore.getIsLoggedIn)
     const checkedAuth = computed(() => authstore.getCheckedAuth)
     const userBackground = computed(() => userstore.getBackgroundInUse)
-    const userBackgroundColor = computed(() => userstore.getUserData.BackgroundColor)
+    const userBackgroundColor = computed(() => '')
 
     onMounted(() => {
       authstore.init()
-      programsstore.init()
     })
 
     const changeShowMenu = () => {
       showMenu.value = !showMenu.value
     }
+
+    // Watch for changes in userIsLoggedIn
+    watch(userIsLoggedIn, (newValue, oldValue) => {
+      if (newValue === true && oldValue === false) {
+        // Call the methods you want to run when userIsLoggedIn changes to true
+        programsstore.init()
+        userstore.init()
+      }
+    })
 
     return {
       showMenu,

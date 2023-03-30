@@ -1,8 +1,21 @@
 <template lang="pug">
 .manage-programs
   WindowFrame(:program="program" :isMoveable="true")
+    .d-flex.flex-column.m-2
+      button.btn.mb-4(@click="changeShowManageProgram(true)") Add new program
+      .d-flex.bg-shadow.py-1.px-4.justify-content-between.align-items-center.rounded(v-for="(program, index) in allPrograms" :key="index") 
+        .d-flex
+          p {{ program.sortOrder + ': ' + program.name }}
+          IconComponent.mx-2(name="fa-pencil" variant="warning" size="25" @click="setUpdateState(true, program); changeShowManageProgram(true)")
+        IconComponent(name="bi-trash-fill" variant="danger" size="25" @click="deleteProgram(program)")
+  
+  WindowFrame(
+    :program="{name: 'ManageProgram', displayName: 'Manage Program', color: 'warning', image: 'fa-pencil', isActive: true}" 
+    :isMoveable="true"
+     v-if="showManageProgram"
+  )
     .add-program.d-flex.flex-column.p-4
-      label.mt-4(for="name") Name:
+      label(for="name") Name:
       input.tb(
         type="text" 
         v-model="name" 
@@ -26,15 +39,19 @@
         v-model="color" 
         id="color"
       )
-      button.btn.mt-3(@click="addProgram()" v-if="updateState === false") Add Program
-      .d-flex.mt-3.justify-content-between(v-else)
-        button.btn(@click="setUpdateState(false)") Cancel
-        button.btn(@click="updateProgram()") Update
-
-    .d-flex(v-for="(program, index) in allPrograms" :key="index") 
-      IconComponent(name="bi-trash-fill" variant="danger" @click="deleteProgram(program)")
-      IconComponent(name="fa-pencil" variant="warning" @click="setUpdateState(true, program)")
-      p {{ program.name }}
+      label.mt-4(for="sortOrder") Sort order:
+      input.tb(
+        type="number"
+        v-model="sortOrder"
+        id="sortOrder"
+      )
+      
+      .d-flex.mt-3.justify-content-between
+        button.btn(@click="changeShowManageProgram(false)") Cancel
+        template(v-if="updateState === true")
+          button.btn(@click="updateProgram()") Update
+        template(v-else)
+          button.btn(@click="addProgram()" ) Add Program
 </template>
 
 <script lang="ts">
@@ -58,6 +75,8 @@ export default defineComponent({
     const displayName = ref('')
     const color = ref('')
     const image = ref('')
+    const sortOrder = ref(0)
+    const showManageProgram = ref(false)
     const updateState = ref(false)
     let selectedProgram = {}
 
@@ -68,19 +87,17 @@ export default defineComponent({
           name: name.value,
           displayName: displayName.value,
           color: color.value,
-          image: image.value
+          image: image.value,
+          sortOrder: sortOrder.value
         } as IProgram
 
-        console.log(program)
         programsstore.createProgram(program)
-        programsstore.getProgramsFromDB()
         resetInputs()
       }
     }
 
     const deleteProgram = (program: IProgram) => {
       programsstore.deleteProgram(program)
-      programsstore.getProgramsFromDB()
       resetInputs()
     }
 
@@ -90,6 +107,7 @@ export default defineComponent({
       temp.displayName = displayName.value
       temp.image = image.value
       temp.color = color.value
+      temp.sortOrder = sortOrder.value
       programsstore.updateProgram(temp)
     }
 
@@ -98,7 +116,9 @@ export default defineComponent({
       displayName.value = ''
       color.value = ''
       image.value = ''
+      sortOrder.value = 0
       selectedProgram = {}
+      changeShowManageProgram(false)
     }
 
     const setUpdateState = (state: boolean, program: IProgram) => {
@@ -110,9 +130,17 @@ export default defineComponent({
         displayName.value = program.displayName
         color.value = program.color
         image.value = program.image
+        sortOrder.value = program.sortOrder
       } else {
         resetInputs()
       }
+    }
+
+    const changeShowManageProgram = (bool: boolean) => {
+      showManageProgram.value = bool
+
+      if (bool === false)
+        setUpdateState(false, {} as IProgram)
     }
 
     return {
@@ -120,13 +148,16 @@ export default defineComponent({
       displayName,
       image,
       color,
+      sortOrder,
       allPrograms,
       updateState,
+      showManageProgram,
       addProgram,
       deleteProgram,
       updateProgram,
       resetInputs,
-      setUpdateState
+      setUpdateState,
+      changeShowManageProgram
     }
   }
 })

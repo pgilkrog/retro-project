@@ -11,12 +11,18 @@ import { errorStore } from "./errorStore"
 import type { FirebaseError } from "firebase/app"
 import type { User } from "firebase/auth"
 import { userStore } from "./userStore"
+import axios from "axios"
+import { watch } from 'vue'
+const url = 'http://localhost:4000/api/auth'
+import type { IUser } from "@/models/index"
+import setAuthToken from "@/helpers/setAuthToken"
 
 export const authStore = defineStore("auth", {
   state: () => ({
-    _isLoggedIn: false,
-    _user: {} as User,
-    _checkedAuth: false,
+    _isLoggedIn: false as Boolean,
+    _user: {} as IUser,
+    _checkedAuth: false as Boolean,
+    _token: "",
     errorstore: errorStore(),
     userstore: userStore(),
   }),
@@ -24,57 +30,70 @@ export const authStore = defineStore("auth", {
     getIsLoggedIn: (state) => state._isLoggedIn,
     getUser: (state) => state._user,
     getCheckedAuth: (state) => state._checkedAuth,
+    getToken: (state) => state._token
   },
   actions: {
     async init() {
       await this.checkIfUserIsLoggedIn()
     },
     async checkIfUserIsLoggedIn() {
-      await onAuthStateChanged(auth, (user) => {
-        console.log('USER', user)
-        this._isLoggedIn = Boolean(user)
-        this._user = user || {} as User
-        this._checkedAuth = true
-        if (user !== undefined && user !== null)
-          this.userstore.init(user.uid)
-      })
+      const localToken = sessionStorage.getItem('token')
+      const localUser = sessionStorage.getItem('userId')
+      if (localUser && localToken)
+        await this.refreshToken()
+      
+      this._checkedAuth = true
     },
     async loginUser(email: string, password: string) {
-      signInWithEmailAndPassword(auth, email, password)
-        .then((data: any) => {
-          this._isLoggedIn = true
-          this._user = data as User
-        })
-        .catch((error: FirebaseError) => {
-          this.errorstore.setError({
-            show: true,
-            text: error.message,
-            icon: '', 
-            timeStamp: new Date()
-          })
-        })
+      try {
+        debugger
+        const response = await axios.post(url + '/login/', { email: email, password: password })
+        const { token, user } = response.data
+        sessionStorage.setItem('token', token)
+        sessionStorage.setItem('userId', user._id)
+        console.log("USER", user)
+        this._user = user
+        this._isLoggedIn = true
+        this._checkedAuth = true
+        console.log("LOGIN RESPONSE", response)        
+      } catch (error) {
+        console.log(error)
+      }
     },
     async registerUser(userName: string, password: string) {
-      createUserWithEmailAndPassword(auth, userName, password)
-        .then((data: any) => {
-          this._isLoggedIn = true
-        })        
-        .catch((error: FirebaseError) => {
-          this.errorstore.setError({
-            show: true,
-            text: error.message,
-            icon: '',
-            timeStamp: new Date()
-          })
-        })
+      let user = {email: userName, password: password}
+      const response = await axios.post(url, user)
+      console.log(response)
     },
     async signOut() {
-      signOut(auth)
+      // signOut(auth)
       this._isLoggedIn = false
-      this._user = {} as User
+      this._user = {} as IUser
+      sessionStorage.removeItem('token')
+      sessionStorage.removeItem('userId')
     },
     async changePassword(password: string) {
-      updatePassword(this.getUser, password)
+      // updatePassword(this.getUser, password)
+    },
+    setToken(token: string) {
+      this._token = token
+      sessionStorage.setItem('token', token)
+    },
+    async refreshToken() {
+      const localUserId= sessionStorage.getItem('userId')
+      const localToken = sessionStorage.getItem('token')
+      
+      const response = await axios.post(url + '/refreshToken/', { id: localUserId})
+
+      console.log(response)
+      if (localToken)
+        setAuthToken(localToken)
+
+      sessionStorage.setItem('userId', response.data.user._id)
+      this.setToken(response.data.token)
+      this._user = response.data.user
+      this._isLoggedIn = true
+      this._checkedAuth = true
     }
   }
 })

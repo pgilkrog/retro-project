@@ -3,23 +3,23 @@ WindowFrame(:program="program" :isMoveable="true")
   .d-flex.flex-column.b-down
     .row.gx-0
       DesktopItem(
-        :program="{DisplayName: '3½ Floppy (A:)', Image: 'bi-joystick'}"
+        :program="{displayName: '3½ Floppy (A:)', image: 'bi-joystick'}"
       ).text-black
       DesktopItem(
-        :program="{DisplayName: '(C:)', Image: 'bi-joystick'}"
+        :program="{displayName: '(C:)', image: 'bi-joystick'}"
       ).text-black
       DesktopItem(
-        :program="{DisplayName: 'New (D:)', Image: 'bi-joystick'}"
+        :program="{displayName: 'New (D:)', image: 'bi-joystick'}"
       ).text-black
     .row.gx-0
       DesktopItem(
-        :program="{DisplayName: 'Control Panel', Image: 'bi-joystick'}"
+        :program="{displayName: 'Control Panel', image: 'bi-joystick'}"
       ).text-black
       DesktopItem(
-        :program="{DisplayName: 'Printers', Image: 'bi-joystick'}"
+        :program="{displayName: 'Printers', image: 'bi-joystick'}"
       ).text-black
       DesktopItem(
-        :program="{DisplayName: 'Dial-Up Networking', Image: 'bi-joystick'}"
+        :program="{displayName: 'Dial-Up Networking', image: 'bi-joystick'}"
       ).text-black            
 </template>
 

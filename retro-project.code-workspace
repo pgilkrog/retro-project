@@ -24,5 +24,9 @@
         }
       }
     },
+    "workbench.colorCustomizations": {
+      "activityBar.background": "#32a4b2",
+      "titleBar.activeBackground": "#32a4b2"
+    },
   }
 }

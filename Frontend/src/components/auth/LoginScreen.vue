@@ -1,14 +1,13 @@
 <template lang="pug">
-.login-screen-wrapper.center-item.text-black
+.login-screen-wrapper.text-black
   WindowFrame(
     :program="program" 
     :showMenu="false" 
     :variant="info"
-  )
+  ).absolute-center
     .d-flex.p-4
-      .image.pe-4
-        .rotate-90
-          i.bi.bi-key-fill.text-warning
+      .d-flex.align-items-center.pe-4
+        IconComponent(name="fa-key" variant="warning" size="40" rotate="0")
       form.d-flex.flex-column
         .row {{ infoText }}
         .row.mt-4

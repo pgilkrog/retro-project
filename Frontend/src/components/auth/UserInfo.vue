@@ -26,6 +26,7 @@ button.btn.mt-4(@click="printInfo()") Print
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
 import MultipleInputs from '../general/MultipleInputs.vue'
+import { userStore } from '@/stores/userStore';
 
 export default defineComponent({
   name: 'userInfo',
@@ -33,6 +34,7 @@ export default defineComponent({
     MultipleInputs
   },
   setup() {
+    const userstore = userStore()
     const info = reactive({
       name: "",
       addressLine: "",
@@ -45,7 +47,8 @@ export default defineComponent({
     });
 
     const printInfo = () => {
-      console.log(info)
+      console.log(userstore.getUserData)
+      userstore.updateUserSettings(userstore.getUserData.settings)
     }
 
     return {

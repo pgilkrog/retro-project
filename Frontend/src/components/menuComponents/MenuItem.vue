@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { userStore } from '@/stores/userStore';
+import { authStore } from '@/stores/authStore';
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -19,7 +19,7 @@ export default defineComponent({
     componentName: String
   },
   setup (props) {
-    const userstore = userStore()
+    const authstore = authStore()
     const router = useRouter()
 
     const openProgram = () => {
@@ -49,11 +49,11 @@ export default defineComponent({
     }
 
     const signOut = () => {
-      userstore.signOut()
+      authstore.signOut()
     }
 
     return {
-      userStore,
+      authstore,
       openProgram
     }
   }
