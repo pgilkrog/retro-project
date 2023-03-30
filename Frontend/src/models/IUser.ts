@@ -1,21 +1,21 @@
-import type { IFile } from "./IFile"
+import type { IFile, IUserSettings } from "./index"
 
 export class IUser {
-  Id: string
-  UserId: string
-  Name: string
-  Email: string
-  Files: IFile[]
-  BackgroundColor: string
-  UseBackgroundImage: string
+  id: string
+  name: string
+  email: string
+  type: string
+  files: IFile[]
+  programIds: string[]
+  settings: IUserSettings
 
-  constructor(id: string, userId: string, name: string, email: string, files: IFile[], backgroundColor: string, useBackgroundImage: string) {
-    this.Id = id
-    this.UserId = userId
-    this.Name = name
-    this.Email = email
-    this.Files = files
-    this.BackgroundColor = backgroundColor
-    this.UseBackgroundImage = useBackgroundImage
+  constructor(id: string, name: string, email: string, type: string, files: IFile[], programIds: string[], settings: IUserSettings) {
+    this.id = id
+    this.name = name
+    this.email = email
+    this.type = type
+    this.files = files
+    this.programIds = programIds
+    this.settings = settings
   }
 }

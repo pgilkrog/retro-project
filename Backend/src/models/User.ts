@@ -22,9 +22,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'user'
   },
-  programIds: {
+  settings: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Program'
+    ref: 'UserSettings'
   }
 })
 

@@ -38,11 +38,10 @@ export default defineComponent({
     const userIsLoggedIn = computed(() => authstore.getIsLoggedIn)
     const checkedAuth = computed(() => authstore.getCheckedAuth)
     const userBackground = computed(() => userstore.getBackgroundInUse)
-    const userBackgroundColor = computed(() => userstore.getUserData.BackgroundColor)
+    const userBackgroundColor = computed(() => '')
 
     onMounted(() => {
       authstore.init()
-      programsstore.init()
     })
 
     const changeShowMenu = () => {
@@ -53,7 +52,8 @@ export default defineComponent({
     watch(userIsLoggedIn, (newValue, oldValue) => {
       if (newValue === true && oldValue === false) {
         // Call the methods you want to run when userIsLoggedIn changes to true
-        programsstore.getProgramsFromDB()
+        programsstore.init()
+        userstore.init()
       }
     })
 

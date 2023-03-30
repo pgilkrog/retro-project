@@ -1,10 +1,10 @@
 <template lang="pug">
-.login-screen-wrapper.center-item.text-black
+.login-screen-wrapper.text-black
   WindowFrame(
     :program="program" 
     :showMenu="false" 
     :variant="info"
-  )
+  ).absolute-center
     .d-flex.p-4
       .d-flex.align-items-center.pe-4
         IconComponent(name="fa-key" variant="warning" size="40" rotate="0")

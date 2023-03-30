@@ -51,6 +51,7 @@ export const authStore = defineStore("auth", {
         const { token, user } = response.data
         sessionStorage.setItem('token', token)
         sessionStorage.setItem('userId', user._id)
+        console.log("USER", user)
         this._user = user
         this._isLoggedIn = true
         this._checkedAuth = true

@@ -1,6 +1,6 @@
 <template lang="pug">
 .add-or-remove-programs
-  WindowFrame(:program="program")
+  WindowFrame(:program="program" :isMoveable="true")
     .row.p-2
       .col-4.gx-0.ps-3
         .d-flex.flex-column
@@ -22,7 +22,7 @@
         .bg-white.p-2.bg-shadow-inner
           .d-flex.align-items-center(v-for="(program, index) in allPrograms" :key="index")
             IconComponent.me-3(:variant="program.color === 'light' ? 'dark' : program.color" :name="program.image") 
-            p {{ program.DisplayName }}
+            p {{ program.displayName }}
 </template>
 
 <script lang="ts">

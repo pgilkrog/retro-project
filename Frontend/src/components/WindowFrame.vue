@@ -3,8 +3,8 @@
   v-if="program !== undefined && program.isActive === true" 
   :style="[ isMoveable ? { top: top + 'px', left: left + 'px'} : {}]"
 )
-  header.top-bar.text-dark.d-flex.justify-content-between.align-items-center.mb-1.p-2.rounded(:class="variant !== undefined ? 'bg-'+ variant : 'bg-success'" @mousedown="startDrag" )
-    .d-flex.align-items-center
+  header.top-bar.text-dark.d-flex.justify-content-between.align-items-center.mb-1.p-2.px-4.rounded(:class="variant !== undefined ? 'bg-'+ variant : 'bg-success'" @mousedown="startDrag" )
+    .d-flex.align-items-center.align-content.center
       IconComponent(:name="program.image" size="25")
       .font-weight-bold.pe-4.ps-4 {{ program.displayName }}
     span

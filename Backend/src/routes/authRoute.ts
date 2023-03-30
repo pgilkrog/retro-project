@@ -3,7 +3,7 @@ import bodyParser from 'body-parser'
 import bcrypt from 'bcryptjs'
 import { body, validationResult } from 'express-validator'
 import jwt from 'jsonwebtoken'
-import { User }  from '../models/User'
+import { User, UserSettings }  from '../models/index'
 import auth from '../middleware/auth'
 
 import * as config from "../config/default.json"
@@ -117,15 +117,27 @@ router.post('/', jsonParser, [
     // Generate a hashed password
     const salt = await bcrypt.genSalt(10)
 
-    let user = new User({
+    let userSettings = new UserSettings({
+      backgroundColour: '#435452',
+      backgroundImage: '',
+      useBackground: false,
+      theme: 'standard'
+    });
+
+   let user = new User({
       firstName,
       lastName,
       email,
-      password: await bcrypt.hash(password, salt)
+      password: await bcrypt.hash(password, salt),
+      settings: userSettings._id
     })
 
-    await user.save()
+    console.log("CREATED USERSETTINGS", userSettings)
+    console.log("CREATED USER", user)
 
+    await userSettings.save()
+    await user.save()
+    console.log("GOT HERE SAVED")
     const payload = {
       user: {
         _id: user._id
@@ -144,9 +156,9 @@ router.post('/', jsonParser, [
       res.json({ token, id, role })
     })
   } catch (error) {
-    res.status(500).send('Server error')
+    res.status(500).send(error)
   }
   
 })
 
-module.exports = router
+export = router
