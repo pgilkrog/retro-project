@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'user'
   },
+  installedPrograms: {
+    type: [],
+    required: false
+  },
   settings: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'UserSettings'

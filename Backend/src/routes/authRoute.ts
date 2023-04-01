@@ -18,7 +18,6 @@ router.post('/refreshToken/', jsonParser, async (req: Request, res: Response) =>
   try{
       const { id } = req.body
       const user = await User.findById(id).select('-password')
-      console.log("REFRESH TOKEN HIT", req.body)
       if (!user) {
           return res.status(400).json({ msg: 'Invalid credentials!'})
       }

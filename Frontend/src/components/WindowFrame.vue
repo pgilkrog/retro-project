@@ -1,6 +1,6 @@
 <template lang="pug">
 .window-frame-wrapper.bg-shadow.bg-secondary.d-flex.flex-column.position-absolute.m-4.p-2.rounded(
-  v-if="program !== undefined && program.isActive === true" 
+  v-if="program?.isActive === true" 
   :style="[ isMoveable ? { top: top + 'px', left: left + 'px'} : {}]"
 )
   header.top-bar.text-dark.d-flex.justify-content-between.align-items-center.mb-1.p-2.px-4.rounded(:class="variant !== undefined ? 'bg-'+ variant : 'bg-success'" @mousedown="startDrag" )
@@ -47,19 +47,19 @@ export default defineComponent({
     const top = ref(0)
 
     const closeWindow = () => {
+      const { program, isNotProgram } = props
       // Remove the program from the active program list
-      if (props.program !== undefined)
-      programsstore.removeProgramFromActive(props.program)
+      if (program) programsstore.removeProgramFromActive(program)
       
       // If the window is not a program but a form of popup emit the close window
-      if (props.isNotProgram === true)
-        emit('closeWindow')
+      if (isNotProgram === true) emit('closeWindow')
     }
     
     const setInactive = () => {
+      const { program } = props
+
       // Set if the window should be hidden on screen, but visible in the taskbar.
-      if (props.program !== undefined)
-        programsstore.setProgramActiveState(props.program)
+      if (program) programsstore.setProgramActiveState(program)
     }
 
     const startDrag = (event: MouseEvent) => {

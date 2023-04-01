@@ -37,19 +37,20 @@ router.put('/:id', auth, jsonParser, async (req: Request, res: Response) => {
   }
 })
 
-// @route       PUT api/user/:id
+// @route       PUT api/user/settings/:id
 // @desc        Update userSettings by id
-router.put('/settings/:id', auth, jsonParser, async (req: Request, res: Response) => {
-  console.log("UPDATE USERSETTINGS", req.params.id)
+router.put('/settings/:id', auth, async (req: Request, res: Response) => {
+  
   const id = req.params.id
-  const userSettingsUpdate = req.body
+  const userSettingsUpdate = req.query
+  console.log("UPDATE USERSETTINGS", id, userSettingsUpdate)
   try {
-    const updateUser = await UserSettings.findByIdAndUpdate(id, userSettingsUpdate, { new: true})
+    const updateUserSetting = await UserSettings.findByIdAndUpdate(id, userSettingsUpdate, { new: true})
 
-    if (!updateUser)
+    if (!updateUserSetting)
       return res.status(404).send({ error: 'Program not found'})
 
-    res.send(updateUser)
+    res.send(updateUserSetting)
   } catch (error: any) {
     console.log(error.message)
     res.status(500).send('server error')

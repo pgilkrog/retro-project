@@ -4,6 +4,7 @@ import type { IFile, IUser, IUserSettings } from "@/models"
 import DBHelper from "@/helpers/DBHelper"
 import { toRaw } from 'vue'
 import axios from "axios"
+import setAuthToken from "@/helpers/setAuthToken"
 
 const url = 'http://localhost:4000/api/user'
 
@@ -19,8 +20,9 @@ export const userStore = defineStore("user", {
   getters: {
     getUserData: (state) => toRaw(state._userData),
     getUserSettings: (state) => (state._userSettings),
+
     getUserBackgroundImage: (state) => toRaw(state._backgroundImage),
-    getBackgroundColour: (state) => (state._backgroundColour),
+    getUserBackgroundColour: (state) => (state._backgroundColour),
     getUseBackgroundImage: (state) => (state._useBackgroundImage)
   },
   actions: {
@@ -29,6 +31,11 @@ export const userStore = defineStore("user", {
     },
     setUserData(userData: IUser) {
       this._userData = userData
+    },
+    setUserSettings(settings: IUserSettings) {
+      this.setUserBackgroundImage(settings.backgroundImage)
+      this.setBackgroundColour(settings.backgroundColour)
+      this.setUseBackgroundImage(settings.useBackgroundImage)
     },
     setUserBackgroundImage(image: string) {
       this._backgroundImage = image
@@ -47,6 +54,7 @@ export const userStore = defineStore("user", {
         email: res.data.user.email,
         firstName: res.data.user.firstName,
         lastName: res.data.user.lastName,
+        installedPrograms: res.data.user.installedPrograms,
         settings: {
           id: res.data.user.settings._id,
           backgroundColour: res.data.user.settings.backgroundColour,
@@ -58,19 +66,19 @@ export const userStore = defineStore("user", {
       this._userData.id = res.data.user._id
 
       if (res.data.user.settings !== undefined) {
-        this.setUserBackgroundImage(res.data.user.settings.backgroundImage)
-        this.setBackgroundColour(res.data.user.settings.backgroundColour)
-        this.setUseBackgroundImage(res.data.user.settings.useBackground)
+        this.setUserSettings(res.data.user.settings)
       }
     },
     async updateUser(user: IUser) {
       const res = await axios.put(url + '/' + sessionStorage.getItem('userId'), user)
       console.log(res)
+      this._userData = res.data.user
     },
     async updateUserSettings(settings: IUserSettings) {
-      debugger
-      const res = await axios.put(url + '/settings/' + settings.id)
-      console.log(res)
+      console.log("UPDATE USERSETTINGS FRONTEND", settings.id, settings)
+      const res = await axios.put(`${url}/settings/${settings.id}`, null, { params: settings })
+      console.log("update user settings", res)
+      this.setUserSettings(res.data)
     }
   }
 })

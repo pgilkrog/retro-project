@@ -7,17 +7,26 @@ export class IUser {
   email: string
   type: string
   files: IFile[]
-  programIds: string[]
+  installedPrograms: string[]
   settings: IUserSettings
 
-  constructor(id: string, firstName: string, lastName: string, email: string, type: string, files: IFile[], programIds: string[], settings: IUserSettings) {
+  constructor(
+    id: string, 
+    firstName: string, 
+    lastName: string, 
+    email: string, 
+    type: string, 
+    files: IFile[], 
+    installedPrograms: string[], 
+    settings: IUserSettings
+  ) {
     this.id = id
     this.firstName = firstName
     this.lastName = lastName
     this.email = email
     this.type = type
     this.files = files
-    this.programIds = programIds
+    this.installedPrograms = installedPrograms
     this.settings = settings
   }
 }

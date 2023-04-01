@@ -40,7 +40,7 @@ export default defineComponent({
 
     const useBackgroundImage = computed(() => userstore.getUseBackgroundImage)    
     const userBackgroundImage = computed(() => userstore.getUserBackgroundImage)
-    const userBackgroundColor = computed(() => userstore.getBackgroundColour)
+    const userBackgroundColor = computed(() => userstore.getUserBackgroundColour)
 
     onMounted(() => {
       authstore.init()
