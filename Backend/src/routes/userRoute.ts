@@ -40,6 +40,7 @@ router.put('/:id', auth, jsonParser, async (req: Request, res: Response) => {
 // @route       PUT api/user/:id
 // @desc        Update userSettings by id
 router.put('/settings/:id', auth, jsonParser, async (req: Request, res: Response) => {
+  console.log("UPDATE USERSETTINGS", req.params.id)
   const id = req.params.id
   const userSettingsUpdate = req.body
   try {

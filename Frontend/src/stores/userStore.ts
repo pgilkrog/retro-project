@@ -10,47 +10,65 @@ const url = 'http://localhost:4000/api/user'
 export const userStore = defineStore("user", {
   state: () => ({
     _userData: {} as IUser,
+    _userSettings: {} as IUserSettings,
     errorstore: errorStore(),
-    _backgroundImages: [] as IFile[],
-    _backgroundInUse: "" as string,
+    _backgroundImage: "" as string,
+    _useBackgroundImage: false as boolean,
+    _backgroundColour: "" as string
   }),
   getters: {
     getUserData: (state) => toRaw(state._userData),
-    getUserBackgroundImages: (state) => toRaw(state._backgroundImages),
-    getBackgroundInUse: (state) => state._backgroundInUse
+    getUserSettings: (state) => (state._userSettings),
+    getUserBackgroundImage: (state) => toRaw(state._backgroundImage),
+    getBackgroundColour: (state) => (state._backgroundColour),
+    getUseBackgroundImage: (state) => (state._useBackgroundImage)
   },
   actions: {
     async init() {
-      // await this.loadUserData(userId)
       this.getUserById()
-    },
-    async loadUserData(userId: string) {
-      DBHelper.getOneByUserId('users', userId).then((userData) => {
-        this.setUserData(userData as IUser)
-        this.setBackgroundInUse(userData.UseBackgroundImage)
-        this.setUserBackgroundImages(userData.Files.filter((file: IFile) => file.Type === 'BackgroundImage'))
-        console.log("USER DATA", userData)
-      })
     },
     setUserData(userData: IUser) {
       this._userData = userData
     },
-    setUserBackgroundImages(files: IFile[]) {
-      this._backgroundImages = files
+    setUserBackgroundImage(image: string) {
+      this._backgroundImage = image
     },
-    setBackgroundInUse(url: string) {
-      this._backgroundInUse = url
+    setUseBackgroundImage(bool: boolean) {
+      this._useBackgroundImage = bool
+    },
+    setBackgroundColour(colour: string) {
+      this._backgroundColour = colour
     },
     async getUserById() {
       const res = await axios.get(url + '/' + sessionStorage.getItem('userId'))
       console.log("GET USER", res)
-      this._userData = res.data.user as IUser
+      this._userData = {
+        id: res.data.user._id,
+        email: res.data.user.email,
+        firstName: res.data.user.firstName,
+        lastName: res.data.user.lastName,
+        settings: {
+          id: res.data.user.settings._id,
+          backgroundColour: res.data.user.settings.backgroundColour,
+          backgroundImage: res.data.user.settings.backgroundImage,
+          useBackgroundImage: res.data.user.settings.useBackground,
+          theme: res.data.user.settings.theme
+        }
+      } as IUser
+      this._userData.id = res.data.user._id
+
+      if (res.data.user.settings !== undefined) {
+        this.setUserBackgroundImage(res.data.user.settings.backgroundImage)
+        this.setBackgroundColour(res.data.user.settings.backgroundColour)
+        this.setUseBackgroundImage(res.data.user.settings.useBackground)
+      }
     },
     async updateUser(user: IUser) {
       const res = await axios.put(url + '/' + sessionStorage.getItem('userId'), user)
       console.log(res)
     },
     async updateUserSettings(settings: IUserSettings) {
+      debugger
       const res = await axios.put(url + '/settings/' + settings.id)
       console.log(res)
     }

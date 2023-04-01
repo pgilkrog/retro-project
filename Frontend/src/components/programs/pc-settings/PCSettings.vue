@@ -67,8 +67,8 @@ export default defineComponent({
     const progress = ref(0)
     const color = ref("")
     const userData = computed(() => userstore.getUserData)
-    const backgroundImages = computed(() => userstore.getUserBackgroundImages)
-    const backgroundInUse = computed(() => userstore.getBackgroundInUse)
+    const backgroundImages = computed(() => userstore.getUserBackgroundImage)
+    const backgroundInUse = computed(() => userstore.getUseBackgroundImage)
 
     onMounted(() => {
       color.value = userstore.getUserData.settings.backgroundColour
@@ -103,12 +103,15 @@ export default defineComponent({
       let temp = userData.value
       temp.settings.backgroundImage = url
       userstore.setUserData(temp)
-      userstore.setBackgroundInUse(url)
+      userstore.setUserBackgroundImage(url)
     }
 
     const saveUserInfo = () => {
-      DBHelper.update('users', userData.value)
-      userstore.setUserData(userData.value)
+      // DBHelper.update('users', userData.value)
+      let tempSettings = userData.value
+      tempSettings.settings.backgroundColour = color.value
+      userstore.updateUserSettings(tempSettings.settings)
+      userstore.setUserData(tempSettings)
     }
 
     const changeState = (int: number) => {

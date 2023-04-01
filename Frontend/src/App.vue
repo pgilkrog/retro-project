@@ -1,8 +1,8 @@
 <template lang="pug">
 template(v-if="userIsLoggedIn === false && checkedAuth === true")
   LoginScreen
-template(v-else-if="userIsLoggedIn === true && userBackground !== undefined && checkedAuth === true")
-  .app-wrapper(:style="[userBackground !== 'undefined' ? {'background-image': 'url('+ userBackground + ')'} : {'background': userBackgroundColor}]")
+template(v-else-if="userIsLoggedIn === true && checkedAuth === true")
+  .app-wrapper(:style="[useBackgroundImage === true ? {'background-image': 'url('+ userBackgroundImage + ')'} : {'background': userBackgroundColor}]")
     router-view()
     Menu(v-bind:showMenu="showMenu")
     Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")
@@ -37,8 +37,10 @@ export default defineComponent({
 
     const userIsLoggedIn = computed(() => authstore.getIsLoggedIn)
     const checkedAuth = computed(() => authstore.getCheckedAuth)
-    const userBackground = computed(() => userstore.getBackgroundInUse)
-    const userBackgroundColor = computed(() => '')
+
+    const useBackgroundImage = computed(() => userstore.getUseBackgroundImage)    
+    const userBackgroundImage = computed(() => userstore.getUserBackgroundImage)
+    const userBackgroundColor = computed(() => userstore.getBackgroundColour)
 
     onMounted(() => {
       authstore.init()
@@ -61,9 +63,10 @@ export default defineComponent({
       showMenu,
       userIsLoggedIn,
       checkedAuth,
-      userBackground,
-      changeShowMenu,
-      userBackgroundColor
+      useBackgroundImage,
+      userBackgroundColor,
+      userBackgroundImage,
+      changeShowMenu
     }
   }
 })
