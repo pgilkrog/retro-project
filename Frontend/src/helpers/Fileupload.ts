@@ -42,7 +42,6 @@ const saveNewBackgroundURL = async (
   type: string,
   userData: IUser
 ) => {
-  debugger
   const user = await DBHelper.getOneByUserId('users', authStore().getUser.uid)
   user.Files.push({
     Name: name,

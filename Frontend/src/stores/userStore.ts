@@ -1,7 +1,6 @@
 import { defineStore } from "pinia"
 import { errorStore } from "./errorStore"
-import type { IFile, IUser, IUserSettings } from "@/models"
-import DBHelper from "@/helpers/DBHelper"
+import type { IUser, IFile, IUserSettings } from "@/models/index"
 import { toRaw } from 'vue'
 import axios from "axios"
 import setAuthToken from "@/helpers/setAuthToken"
@@ -10,6 +9,7 @@ const url = 'http://localhost:4000/api/user'
 
 export const userStore = defineStore("user", {
   state: () => ({
+    _allUsers: [] as IUser[],
     _userData: {} as IUser,
     _userSettings: {} as IUserSettings,
     errorstore: errorStore(),
@@ -20,14 +20,38 @@ export const userStore = defineStore("user", {
   getters: {
     getUserData: (state) => toRaw(state._userData),
     getUserSettings: (state) => (state._userSettings),
+    getAllUsers: (state) => (state._allUsers),
 
     getUserBackgroundImage: (state) => toRaw(state._backgroundImage),
     getUserBackgroundColour: (state) => (state._backgroundColour),
     getUseBackgroundImage: (state) => (state._useBackgroundImage)
   },
   actions: {
-    async init() {
-      this.getUserById()
+    async setAllUsers() {
+      setAuthToken(sessionStorage.getItem('token') as string)
+      const res = axios.get(url).then(data => {
+        let tempData = data.data.users
+        let tempArray: IUser[] = []
+        for(const user in tempData) {
+          tempArray.push({
+            id: tempData[user]._id,
+            email: tempData[user].email,
+            firstName: tempData[user].firstName,
+            lastName: tempData[user].lastName,
+            type: tempData[user].type,
+            installedPrograms: tempData[user].installedPrograms,
+            settings: tempData[user].settings !== undefined ? {
+              id: tempData[user].settings._id,
+              backgroundColour: tempData[user].settings.backgroundColour,
+              backgroundImage: tempData[user].settings.backgroundImage,
+              useBackgroundImage: tempData[user].settings.useBackground,
+              theme: tempData[user].settings.theme
+            } : undefined
+          } as IUser)
+        }
+        this._allUsers = tempArray
+        console.log("SET ALL USERS", res)
+      })
     },
     setUserData(userData: IUser) {
       this._userData = userData
@@ -54,6 +78,7 @@ export const userStore = defineStore("user", {
         email: res.data.user.email,
         firstName: res.data.user.firstName,
         lastName: res.data.user.lastName,
+        type: res.data.user.type,
         installedPrograms: res.data.user.installedPrograms,
         settings: {
           id: res.data.user.settings._id,
@@ -68,9 +93,11 @@ export const userStore = defineStore("user", {
       if (res.data.user.settings !== undefined) {
         this.setUserSettings(res.data.user.settings)
       }
+
+      return this.getUserData
     },
     async updateUser(user: IUser) {
-      const res = await axios.put(url + '/' + sessionStorage.getItem('userId'), user)
+      const res = await axios.put(url + '/' + sessionStorage.getItem('userId'), null, { params: user })
       console.log(res)
       this._userData = res.data.user
     },

@@ -1,5 +1,5 @@
 <template lang="pug">
-WindowFrame(:program="program" :isMoveable="true")
+WindowFrame(:program="program" :isMoveable="true" variant="success")
   .d-flex.flex-column.b-down
     .row.gx-0
       DesktopItem(

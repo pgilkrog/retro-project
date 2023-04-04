@@ -1,9 +1,9 @@
 <template lang="pug">
-.window-frame-wrapper.bg-shadow.bg-secondary.d-flex.flex-column.position-absolute.m-4.p-2.rounded(
+.window-frame-wrapper.bg-shadow.bg-secondary.d-flex.flex-column.position-absolute.p-2.rounded(
   v-if="program?.isActive === true" 
   :style="[ isMoveable ? { top: top + 'px', left: left + 'px'} : {}]"
 )
-  header.top-bar.text-dark.d-flex.justify-content-between.align-items-center.mb-1.p-2.px-4.rounded(:class="variant !== undefined ? 'bg-'+ variant : 'bg-success'" @mousedown="startDrag" )
+  header.top-bar.text-dark.d-flex.justify-content-between.align-items-center.mb-1.p-2.px-4.rounded(:class="variant !== undefined ? 'bg-'+ variant : 'bg-primary'" @mousedown="startDrag" )
     .d-flex.align-items-center.align-content.center
       IconComponent(:name="program.image" size="25")
       .font-weight-bold.pe-4.ps-4 {{ program.displayName }}
@@ -11,7 +11,7 @@
       button.btn.bg-secondary.py-0.px-2.text-black(@click="setInactive()") 
         IconComponent(name="fa-window-minimize" size="14")
       button.btn.bg-secondary.py-0.px-2.text-black.mx-1
-        IconComponent(name="fa-reqular fa-square" size="14")
+        IconComponent(name="bi-square" size="12")
       button.btn.bg-secondary.py-0.px-2.text-black(@click="closeWindow") 
         IconComponent(name="fa-xmark" size="14")
   .menu-container.d-flex.mx-2.my-1(v-if="showMenu")
@@ -29,6 +29,14 @@ import { programsStore } from '@/stores/programsStore'
 import type { PropType } from 'vue'
 import { defineComponent, ref } from 'vue'
 
+interface Props {
+  showMenu: Boolean,
+  program: Object,
+  variant: String,
+  isNotProgram: Boolean,
+  isMoveable: Boolean
+}
+
 export default defineComponent({
   props: {
     showMenu: Boolean,
@@ -43,8 +51,8 @@ export default defineComponent({
     const isDragging = ref(false)
     const startX = ref(0)
     const startY = ref(0)
-    const left = ref(0)
-    const top = ref(0)
+    const left = ref(40)
+    const top = ref(40)
 
     const closeWindow = () => {
       const { program, isNotProgram } = props

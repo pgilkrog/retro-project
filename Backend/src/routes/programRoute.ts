@@ -10,9 +10,8 @@ const jsonParser = bodyParser.json()
 // @route       GET api/program
 // @desc        Get all programs
 router.get('/', auth, async (req: Request, res: Response) => {
-  debugger
   try {
-    const fetchedItems = await Program.find({})
+    const fetchedItems = await Program.find()
     res.json({ programs: fetchedItems })
   } catch (error: any) {
     console.log(error.message)
@@ -59,7 +58,7 @@ router.post('/', auth, jsonParser, async (req: Request, res: Response) => {
 router.put('/:id', auth, async (req: Request, res: Response) => {
   console.log("UPDATE USER")
   const id = req.params.id
-  const programToUpdate = req.body
+  const programToUpdate = req.query
   console.log("body", programToUpdate)
   try {
     const updateProgram = await Program.findByIdAndUpdate(id, programToUpdate, { new: true})

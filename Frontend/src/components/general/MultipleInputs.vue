@@ -117,12 +117,7 @@ export default defineComponent({
     },
     phoneNumber: {
       type: String,
-      default: '',
-      validator: function(value: string) {
-        // check if the value is a valid phone number
-        const regex = /^\d{8}$/;
-        return regex.test(value);
-      }
+      default: ''
     }, 
     homeAddress: {
       type: Boolean,

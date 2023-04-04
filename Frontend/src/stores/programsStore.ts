@@ -1,8 +1,6 @@
 import { defineStore } from "pinia"
 import type { IProgram } from '@/models/index'
-import DBHelper from "@/helpers/DBHelper"
 import axios from 'axios'
-import { toRaw } from 'vue'
 import setAuthToken from "@/helpers/setAuthToken"
 
 const url = 'http://localhost:4000/api/program'
@@ -11,27 +9,22 @@ export const programsStore = defineStore("programs", {
   state: () => ({
     _activePrograms: [] as IProgram[],
     _programs: [] as IProgram[],
+    _installedPrograms: [] as IProgram[],
     collectionName: 'programs'
   }),
   getters: {
     getActivePrograms: (state) => state._activePrograms as IProgram[],
-    getPrograms: (state) => state._programs as IProgram[]
+    getPrograms: (state) => state._programs as IProgram[],
+    getInstalledPrograms: (state) => state._installedPrograms as IProgram[]
   },
   actions: {
     async init() {
-      this.getProgramsFromDB()
-      // await DBHelper.getAll(this.collectionName).then(data => {
-      //   let temp = []
-      //   for(let item in data) {
-      //     temp.push(data[+item] as IProgram)
-      //   }
-      //   this._programs = temp
-      // })
+      await this.getProgramsFromDB()
     },
     async getProgramsFromDB() {
       try {
-      setAuthToken(sessionStorage.getItem('token') as string)
-       await axios.get(url).then((data: any) => {
+        setAuthToken(sessionStorage.getItem('token') as string)
+        await axios.get(url).then((data: any) => {
           let tempData = data.data.programs
           let tempArray: IProgram[] = []
           for(const program in tempData) {
@@ -50,6 +43,19 @@ export const programsStore = defineStore("programs", {
       } catch (error) {
         console.log(error)
       }
+    },
+    setInstalledPrograms(programs: string[]) {
+      if(programs === undefined)
+        return
+
+      const newArray = programs.filter(obj1 => {
+        const obj2 = this.getPrograms.find(obj2 => obj1 === obj2.id)
+        return obj2 !== undefined
+      }).map(obj1 => {
+        const obj2 = this.getPrograms.find(obj2 => obj1 === obj2.id)
+        return obj2
+      })
+      this._installedPrograms = newArray as IProgram[]
     },
     setActivePrograms(programs: IProgram[]) {
       this._activePrograms = programs
@@ -70,12 +76,10 @@ export const programsStore = defineStore("programs", {
       })
     },
     async updateProgram(program: IProgram) {
-      // DBHelper.update(this.collectionName, program)
-      const response = await axios.put(url + '/' + program.id, program)
+      const response = await axios.put(url + '/' + program.id, null, { params: program })
       console.log(response)
     },
     async deleteProgram(program: IProgram) {
-      // DBHelper.delete(this.collectionName, program.id.toString())
       const response = await axios.delete(url + '/' + program.id).finally(() => this.getProgramsFromDB())
       console.log(response)
     },

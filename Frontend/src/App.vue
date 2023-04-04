@@ -55,7 +55,10 @@ export default defineComponent({
       if (newValue === true && oldValue === false) {
         // Call the methods you want to run when userIsLoggedIn changes to true
         programsstore.init()
-        userstore.init()
+        
+        userstore.getUserById().then((data) => {
+          programsstore.setInstalledPrograms(data.installedPrograms)
+        })
       }
     })
 

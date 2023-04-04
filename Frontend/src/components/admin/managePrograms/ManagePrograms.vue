@@ -15,37 +15,14 @@
      v-if="showManageProgram"
   )
     .add-program.d-flex.flex-column.p-4
-      label(for="name") Name:
-      input.tb(
-        type="text" 
-        v-model="name" 
-        id="name"
-      )      
-      label.mt-4(for="displayName") Display Name:
-      input.tb(
-        type="text" 
-        v-model="displayName" 
-        id="displayName"
+      ProgramInputs(
+        v-model:name="programInfo.name"
+        v-model:displayName="programInfo.displayName"
+        v-model:image="programInfo.image"
+        v-model:color="programInfo.color"
+        v-model:sortOrder="programInfo.sortOrder"
       )
-      label.mt-4(for="image") Image:
-      input.tb(
-        type="text" 
-        v-model="image" 
-        id="image"
-      )
-      label.mt-4(for="color") Color:
-      input.tb(
-        type="text" 
-        v-model="color" 
-        id="color"
-      )
-      label.mt-4(for="sortOrder") Sort order:
-      input.tb(
-        type="number"
-        v-model="sortOrder"
-        id="sortOrder"
-      )
-      
+
       .d-flex.mt-3.justify-content-between
         button.btn(@click="changeShowManageProgram(false)") Cancel
         template(v-if="updateState === true")
@@ -55,15 +32,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref, computed, reactive } from 'vue'
 import WindowFrame from '@/components/WindowFrame.vue'
 import { programsStore } from '@/stores/programsStore'
 import type { IProgram } from '@/models/index'
+import ProgramInputs from './ProgramInputs.vue'
 
 export default defineComponent({
   name: 'managePrograms',
   components: {
-    WindowFrame
+    WindowFrame,
+    ProgramInputs
   }, 
   props: {
     program: Object
@@ -71,24 +50,26 @@ export default defineComponent({
   setup() {
     const programsstore = programsStore()
     const allPrograms = computed(() => programsstore.getPrograms)
-    const name = ref('')
-    const displayName = ref('')
-    const color = ref('')
-    const image = ref('')
-    const sortOrder = ref(0)
     const showManageProgram = ref(false)
     const updateState = ref(false)
     let selectedProgram = {}
+    const programInfo = reactive({
+      name: "",
+      displayName: "",
+      image: "",
+      color: "",
+      sortOrder: 0
+    })
 
     const addProgram = () => {
-      if (name.value !== '' && image.value !== '' && displayName.value !== '') {
+      if (programInfo.name !== '' && programInfo.image !== '' && programInfo.displayName !== '') {
         const program = {
           id: '',
-          name: name.value,
-          displayName: displayName.value,
-          color: color.value,
-          image: image.value,
-          sortOrder: sortOrder.value
+          name: programInfo.name,
+          displayName: programInfo.displayName,
+          color: programInfo.color,
+          image: programInfo.image,
+          sortOrder: programInfo.sortOrder
         } as IProgram
 
         programsstore.createProgram(program)
@@ -103,20 +84,21 @@ export default defineComponent({
 
     const updateProgram = () => {
       let temp = selectedProgram as IProgram
-      temp.name = name.value
-      temp.displayName = displayName.value
-      temp.image = image.value
-      temp.color = color.value
-      temp.sortOrder = sortOrder.value
+      debugger
+      temp.name = programInfo.name
+      temp.displayName = programInfo.displayName
+      temp.image = programInfo.image
+      temp.color = programInfo.color
+      temp.sortOrder = programInfo.sortOrder
       programsstore.updateProgram(temp)
     }
 
     const resetInputs = () => {
-      name.value = ''
-      displayName.value = ''
-      color.value = ''
-      image.value = ''
-      sortOrder.value = 0
+      programInfo.name = ''
+      programInfo.displayName = ''
+      programInfo.color = ''
+      programInfo.image = ''
+      programInfo.sortOrder = 0
       selectedProgram = {}
       changeShowManageProgram(false)
     }
@@ -126,11 +108,11 @@ export default defineComponent({
 
       if (state === true) {
         selectedProgram = program
-        name.value = program.name
-        displayName.value = program.displayName
-        color.value = program.color
-        image.value = program.image
-        sortOrder.value = program.sortOrder
+        programInfo.name = program.name
+        programInfo.displayName = program.displayName
+        programInfo.color = program.color
+        programInfo.image = program.image
+        programInfo.sortOrder = program.sortOrder
       } else {
         resetInputs()
       }
@@ -145,10 +127,7 @@ export default defineComponent({
 
     return {
       name,
-      displayName,
-      image,
-      color,
-      sortOrder,
+      programInfo,
       allPrograms,
       updateState,
       showManageProgram,

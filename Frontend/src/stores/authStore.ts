@@ -1,18 +1,7 @@
 import { defineStore } from "pinia"
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-  updatePassword
-} from "firebase/auth"
-import { auth } from '@/firebase'
 import { errorStore } from "./errorStore"
-import type { FirebaseError } from "firebase/app"
-import type { User } from "firebase/auth"
 import { userStore } from "./userStore"
 import axios from "axios"
-import { watch } from 'vue'
 const url = 'http://localhost:4000/api/auth'
 import type { IUser } from "@/models/index"
 import setAuthToken from "@/helpers/setAuthToken"
@@ -46,7 +35,6 @@ export const authStore = defineStore("auth", {
     },
     async loginUser(email: string, password: string) {
       try {
-        debugger
         const response = await axios.post(url + '/login/', { email: email, password: password })
         const { token, user } = response.data
         sessionStorage.setItem('token', token)

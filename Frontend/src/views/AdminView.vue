@@ -1,7 +1,7 @@
 <template lang="pug">
 .admin-view.bg-fill.p-4
   .desktop-container
-    DesktopItem(
+    DesktopItem.mt-4(
       v-for="program in allPrograms"
       v-on:generateComponent="generateComponent(program)"
       :key="program.Id"
@@ -30,7 +30,16 @@ export default defineComponent({
         name: 'ManagePrograms',
         displayName: 'Manage Programs',
         isActive: true,
-        image: 'fa-computer'
+        image: 'fa-computer',
+        color: 'light'
+      },
+      {
+        id: 5432, 
+        name: 'ManageUsers',
+        displayName: 'Manage Users',
+        isActive: true,
+        image: 'fa-users',
+        color: 'light'
       },
     ]
     const programsstore = programsStore()

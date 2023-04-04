@@ -28,7 +28,7 @@ export default defineComponent({
   setup() {
     const programsstore = programsStore()
 
-    const allPrograms = (() => programsstore.getPrograms)
+    const allPrograms = (() => programsstore.getInstalledPrograms)
 
     const generateComponent = (program: IProgram) => {
       programsstore.addProgramToActive({...program})

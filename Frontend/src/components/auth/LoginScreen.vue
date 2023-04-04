@@ -9,7 +9,7 @@
       .d-flex.align-items-center.pe-4
         IconComponent(name="fa-key" variant="warning" size="40" rotate="0")
       form.d-flex.flex-column
-        .row {{ infoText }}
+        .row.mx-0 {{ infoText }}
         .row.mt-4
           .col-3
             .login-text Email:
@@ -68,7 +68,7 @@ export default defineComponent({
     const password = ref("" as string)
     const password2 = ref("" as string)
     const info = ref('info' as string)
-    const infoText = ref('Type a email and password to log into Windows')
+    const infoText = ref('Type a email and password to log in')
     const showHelp = ref(false as boolean)
     const authstore = authStore()
     const program = ref({
