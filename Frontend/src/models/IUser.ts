@@ -8,7 +8,7 @@ export class IUser {
   type: string
   files: IFile[]
   installedPrograms: string[]
-  settings: IUserSettings
+  settings: IUserSettings | string
 
   constructor(
     id: string, 
@@ -18,7 +18,7 @@ export class IUser {
     type: string, 
     files: IFile[], 
     installedPrograms: string[], 
-    settings: IUserSettings
+    settings: IUserSettings | string
   ) {
     this.id = id
     this.firstName = firstName

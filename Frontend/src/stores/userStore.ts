@@ -1,5 +1,6 @@
 import { defineStore } from "pinia"
 import { errorStore } from "./errorStore"
+import { programsStore } from "./programsStore"
 import type { IUser, IFile, IUserSettings } from "@/models/index"
 import { toRaw } from 'vue'
 import axios from "axios"
@@ -12,10 +13,11 @@ export const userStore = defineStore("user", {
     _allUsers: [] as IUser[],
     _userData: {} as IUser,
     _userSettings: {} as IUserSettings,
-    errorstore: errorStore(),
     _backgroundImage: "" as string,
     _useBackgroundImage: false as boolean,
-    _backgroundColour: "" as string
+    _backgroundColour: "" as string,
+    errorstore: errorStore(),
+    programstore: programsStore()
   }),
   getters: {
     getUserData: (state) => toRaw(state._userData),
@@ -53,8 +55,29 @@ export const userStore = defineStore("user", {
         console.log("SET ALL USERS", res)
       })
     },
-    setUserData(userData: IUser) {
-      this._userData = userData
+    setUserData(user: any) {
+      this._userData = {
+        id: user._id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        type: user.type,
+        installedPrograms: user.installedPrograms,
+        settings: {
+          id: user.settings._id,
+          backgroundColour: user.settings.backgroundColour,
+          backgroundImage: user.settings.backgroundImage,
+          useBackgroundImage: user.settings.useBackground,
+          theme: user.settings.theme
+        }
+      } as IUser
+      this._userData.id = user._id
+
+      if (user.settings !== undefined) {
+        this.setUserSettings(user.settings)
+      }
+
+      this.programstore.setInstalledPrograms(user.installedPrograms)
     },
     setUserSettings(settings: IUserSettings) {
       this.setUserBackgroundImage(settings.backgroundImage)
@@ -73,36 +96,18 @@ export const userStore = defineStore("user", {
     async getUserById() {
       const res = await axios.get(url + '/' + sessionStorage.getItem('userId'))
       console.log("GET USER", res)
-      this._userData = {
-        id: res.data.user._id,
-        email: res.data.user.email,
-        firstName: res.data.user.firstName,
-        lastName: res.data.user.lastName,
-        type: res.data.user.type,
-        installedPrograms: res.data.user.installedPrograms,
-        settings: {
-          id: res.data.user.settings._id,
-          backgroundColour: res.data.user.settings.backgroundColour,
-          backgroundImage: res.data.user.settings.backgroundImage,
-          useBackgroundImage: res.data.user.settings.useBackground,
-          theme: res.data.user.settings.theme
-        }
-      } as IUser
-      this._userData.id = res.data.user._id
-
-      if (res.data.user.settings !== undefined) {
-        this.setUserSettings(res.data.user.settings)
-      }
-
+      this.setUserData(res.data.user)
       return this.getUserData
     },
     async updateUser(user: IUser) {
-      const res = await axios.put(url + '/' + sessionStorage.getItem('userId'), null, { params: user })
+      // Need to set the settings to the settings id for the backend to read
+      let tempUser = user
+      tempUser.settings = (user.settings as IUserSettings).id
+      const res = await axios.put(url + '/' + sessionStorage.getItem('userId'), null, { params: tempUser })
       console.log(res)
-      this._userData = res.data.user
+      this.setUserData(res.data)
     },
     async updateUserSettings(settings: IUserSettings) {
-      console.log("UPDATE USERSETTINGS FRONTEND", settings.id, settings)
       const res = await axios.put(`${url}/settings/${settings.id}`, null, { params: settings })
       console.log("update user settings", res)
       this.setUserSettings(res.data)

@@ -128,6 +128,7 @@ router.post('/', jsonParser, [
       lastName,
       email,
       password: await bcrypt.hash(password, salt),
+      installedPrograms: ['641df87fcfd563e12dc3f7d4'],
       settings: userSettings._id
     })
 

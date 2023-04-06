@@ -26,13 +26,13 @@ router.get('/:id', async (req: Request, res: Response) => {
 router.put('/:id', auth, jsonParser, async (req: Request, res: Response) => {
   const id = req.params.id
   const userUpdate = req.query
+  console.log("REACHED HERE", id, userUpdate)
   try {
-    const updateUser = await User.findByIdAndUpdate(id, userUpdate, { new: true})
+    const updatedUser = await User.findByIdAndUpdate(id, userUpdate, { new: true}).populate('settings')
+    if (!updatedUser)
+      return res.status(404).send({ error: 'User not found'})
 
-    if (!updateUser)
-      return res.status(404).send({ error: 'Program not found'})
-
-    res.send(updateUser)
+    res.send(updatedUser)
   } catch (error: any) {
     console.log(error.message)
     res.status(500).send('server error')

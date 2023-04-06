@@ -47,4 +47,6 @@ export default defineComponent({
 </script>
 
 <style lang="sass" scoped>
+.bi:before
+  vertical-align: 0 !important
 </style>

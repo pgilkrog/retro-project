@@ -10,12 +10,14 @@ export const programsStore = defineStore("programs", {
     _activePrograms: [] as IProgram[],
     _programs: [] as IProgram[],
     _installedPrograms: [] as IProgram[],
+    _notInstalledPrograms: [] as IProgram[],
     collectionName: 'programs'
   }),
   getters: {
     getActivePrograms: (state) => state._activePrograms as IProgram[],
     getPrograms: (state) => state._programs as IProgram[],
-    getInstalledPrograms: (state) => state._installedPrograms as IProgram[]
+    getInstalledPrograms: (state) => state._installedPrograms as IProgram[],
+    getNotIntalledPrograms: (state) => state._notInstalledPrograms as IProgram[]
   },
   actions: {
     async init() {
@@ -56,6 +58,15 @@ export const programsStore = defineStore("programs", {
         return obj2
       })
       this._installedPrograms = newArray as IProgram[]
+
+      let notInstalled = [] as IProgram[]
+      this.getPrograms.forEach(obj2 => {
+        const obj1 = newArray.find(obj1 => obj1?.id === obj2.id)
+        if (!obj1) {
+          notInstalled.push(obj2)
+        }
+      })
+      this._notInstalledPrograms = notInstalled
     },
     setActivePrograms(programs: IProgram[]) {
       this._activePrograms = programs
