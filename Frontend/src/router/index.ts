@@ -6,6 +6,7 @@ const SpaceInvaders = () => import('@/phaser/space-invaders/SpaceInvaders.vue')
 const Platformer = () => import('@/phaser/first-game/Platformer.vue')
 const ShutDownVue = () => import('@/views/ShutDown.vue')
 const adminView = () => import('@/views/AdminView.vue')
+const SalvatoreGame = () => import('@/phaser/salvatore/SalvatoreGame.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +40,11 @@ const router = createRouter({
       path: '/platformer',
       name: 'platformer',
       component: Platformer
+    },
+    {
+      path: '/salvatore',
+      name: 'platformer',
+      component: SalvatoreGame
     },
     {
       path: '/admin',
