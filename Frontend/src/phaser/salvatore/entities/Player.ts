@@ -1,8 +1,21 @@
 import Phaser from 'phaser'
+import findPath from '../utils/findPath'
+import StateMachine from '@/phaser/utils/StateMachine'
+
+enum playerStates {
+  idle = 'idle',
+  walk = 'walk',
+  death = 'death',
+  attack = 'attack'
+}
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
   private speed = 200 as number
   private map: any
+  private stateMachine?: StateMachine
+
+  private movePath: Phaser.Math.Vector2[] = []
+  private moveToTarget?: Phaser.Math.Vector2
 
   private keyInputs: {
     [key: string]: Phaser.Input.Keyboard.Key;
@@ -13,7 +26,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     scene.add.existing(this)
     scene.physics.add.existing(this)
-    
+
     this.map = map
 
     this.init()
@@ -26,46 +39,157 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.body.setSize(24, 36, true)
     this.body.setOffset(10, 4)
     this.setScale(1.2)
-  
-    this.scene.input.on(Phaser.Input.Events.POINTER_UP, (pointer: Phaser.Input.Pointer) => {
-     
-      const { worldX, worldY } = pointer
+    this.setInteractive()
 
-      const startVec = this.map.getLayers().collideLayer.worldToTileXY(this.x, this.y)
-      const targetVec = this.map.getLayers().collideLayer.worldToTileXY(worldX, worldY) 
-      console.log("PRESSED", startVec, targetVec)
-    })
+    this.createStateMachine()
 
-    this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
-      this.scene.input.off(Phaser.Input.Events.POINTER_UP)
-    })
+    // this.scene.input.on(Phaser.Input.Events.POINTER_UP, (pointer: Phaser.Input.Pointer) => {
+
+    //   const { worldX, worldY } = pointer
+
+    //   const startVec = this.map.getLayers().groundLayer.worldToTileXY(this.x, this.y)
+    //   const targetVec = this.map.getLayers().groundLayer.worldToTileXY(worldX, worldY)
+
+    //   const path = findPath(startVec, targetVec, this.map.getLayers().groundLayer, this.map.getLayers().collideLayer)
+    //   this.moveAlong(path)
+    // })
+
+    // this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
+    //   this.scene.input.off(Phaser.Input.Events.POINTER_UP)
+    // })
   }
 
-  update() {
-    this.setVelocity(0)
-    this.setDrag(1000)
+  update(dt: number) {
+    this.stateMachine?.update(dt)
+    // let dx = 0
+    // let dy = 0
 
-    if (this.keyInputs['keyD'].isDown) {
-      this.setVelocityX(this.speed)
-    } else if (this.keyInputs['keyA'].isDown) {
-      this.setVelocityX(-this.speed)
+    // if (this.moveToTarget) {
+    //   dx = this.moveToTarget.x - this.x
+    //   dy = this.moveToTarget.y - this.y
+
+    //   if (Math.abs(dx) < 5) {
+    //     dx = 0
+    //   }
+    //   if (Math.abs(dy) < 5) {
+    //     dy = 0
+    //   }
+
+    //   if (dx === 0 && dy === 0) {
+    //     if (this.movePath.length > 0) {
+    //       this.moveTo(this.movePath.shift()!)
+    //       return
+    //     }
+
+    //     this.moveToTarget = undefined
+    //   }
+    // }
+
+    // const leftDown = dx < 0
+    // const rightDown = dx > 0
+    // const upDown = dy < 0
+    // const downDown = dy > 0
+    
+    // if (leftDown)
+    // {
+    //   this.setVelocity(-this.speed, 0)
+    // }
+    // else if (rightDown)
+    // {
+    //   this.setVelocity(this.speed, 0)
+    // }
+    // else if (upDown)
+    // {
+    //   this.setVelocity(0, -this.speed)
+    // }
+    // else if (downDown)
+    // {
+    //   this.setVelocity(0, this.speed)
+    // }
+  }
+
+  moveAlong(path: Phaser.Math.Vector2[]) {
+    if (!path || path.length <= 0) {
+      return
     }
 
-    if (this.keyInputs['keyW'].isDown) {
-      this.setVelocityY(-this.speed)
-    } else if (this.keyInputs['keyS'].isDown) {
-      this.setVelocityY(this.speed)
-    }
+    this.movePath = path
+    this.moveTo(this.movePath.shift()!)
+  }
+
+  moveTo(target: Phaser.Math.Vector2) {
+    this.moveToTarget = target
   }
 
   initEvents() {
     this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this)
   }
 
-  createKeyInputs() {
-    this.keyInputs['keyW'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    this.keyInputs['keyS'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    this.keyInputs['keyA'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    this.keyInputs['keyD'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);    
+  private createKeyInputs() {
+    this.keyInputs['keyW'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
+    this.keyInputs['keyS'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
+    this.keyInputs['keyA'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
+    this.keyInputs['keyD'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
+  }
+
+  private createStateMachine(): void {
+    this.stateMachine = new StateMachine(this, 'player')
+
+    this.stateMachine
+      .addState(playerStates.idle, {
+        onEnter: this.idleOnEnter,
+        onUpdate: this.idleOnUpdate
+      })
+      .addState(playerStates.walk, {
+        onEnter: this.walkOnEnter,
+        onUpdate: this.walkOnUpdate
+      })
+      .setState(playerStates.idle)
+  }
+
+  private idleOnEnter(): void {
+
+  }
+
+  private idleOnUpdate(): void {
+    if (this.keyInputs['keyD'].isDown || this.keyInputs['keyA'].isDown || this.keyInputs['keyW'].isDown || this.keyInputs['keyS'].isDown) {
+      this.stateMachine?.setState(playerStates.walk)
+    }
+  }
+
+  private walkOnEnter(): void {
+
+  }
+
+  private walkOnUpdate(): void {
+    this.setVelocity(0)
+    this.setDrag(1000)
+
+    if (this.keyInputs['keyD'].isDown) {
+      this.setVelocityX(this.speed)
+      this.flipX = false
+    } 
+    else if (this.keyInputs['keyA'].isDown) {
+      this.setVelocityX(-this.speed)
+      this.flipX = true
+    }
+    
+    if (this.keyInputs['keyW'].isDown) {
+      this.setVelocityY(-this.speed)
+    } 
+    else if (this.keyInputs['keyS'].isDown) {
+      this.setVelocityY(this.speed)
+    }
+
+    if (
+      this.keyInputs['keyD'].isDown || 
+      this.keyInputs['keyA'].isDown || 
+      this.keyInputs['keyW'].isDown || 
+      this.keyInputs['keyS'].isDown
+    ) {
+      //Do Nothing
+    } else {
+      this.stateMachine?.setState(playerStates.idle)
+    }
   }
 }

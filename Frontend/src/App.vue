@@ -44,6 +44,10 @@ export default defineComponent({
 
     onMounted(() => {
       authstore.init()
+      window.addEventListener('contextmenu', function (e) { 
+        // do something here... 
+        e.preventDefault(); 
+      }, false);
     })
 
     const changeShowMenu = () => {

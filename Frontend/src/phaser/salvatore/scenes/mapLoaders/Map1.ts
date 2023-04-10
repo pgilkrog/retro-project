@@ -1,6 +1,7 @@
 import type Phaser from 'phaser'
+import Tilesets from '../../utils/tilesets'
 
-export default class MapLoader {
+export default class Map1 {
   private scene: Phaser.Scene
   private layers: any
 
@@ -8,33 +9,11 @@ export default class MapLoader {
     this.scene = scene
 
     const map = this.scene.make.tilemap({ key: 'map1' })
-    const tilesets_bricks = map.addTilesetImage('bricks', 'bricks', 32, 32)
-    const tilesets_terrain = map.addTilesetImage('terrain-v7', 'terrain', 32, 32)
-    const tilesets_vic_access = map.addTilesetImage('victorian-accessories', 'vicAccessories', 32, 32)
-    const tilesets_vic_garden = map.addTilesetImage('victorian-garden', 'vicGarden', 32, 32)
-    const tilesets_vic_mansion = map.addTilesetImage('victorian-mansion', 'vicMansion', 32, 32)
-    const tilesets_vic_market = map.addTilesetImage('victorian-market', 'vicMarket', 32, 32)
-    const tilesets_vic_streets = map.addTilesetImage('victorian-streets', 'vicStreets', 32, 32)
-    const tilesets_vic_tenement = map.addTilesetImage('victorian-tenement', 'vicTenement', 32, 32)
-    const tilesets_vic_win_doors = map.addTilesetImage('victorian-windows-doors', 'vicWindowsDoors', 32, 32)
-    
-    const tilesets = [
-      tilesets_bricks, 
-      tilesets_terrain, 
-      tilesets_vic_access, 
-      tilesets_vic_garden, 
-      tilesets_vic_mansion, 
-      tilesets_vic_market,
-      tilesets_vic_streets,
-      tilesets_vic_tenement,
-      tilesets_vic_win_doors
-    ]
-    
-    this.createLayers(map, tilesets)
+    this.createLayers(map, new Tilesets(map).getTilesets())
   }
 
   private createLayers(map: Phaser.Tilemaps.Tilemap, tilesets: Phaser.Tilemaps.Tileset[]) {
-    const collideLayer = map.createLayer('Colliders', tilesets)
+    const collideLayer = map.createLayer('Colliders', tilesets[1])
     collideLayer.setCollisionByProperty({ collides: true }) 
 
     const groundLayer = map.createLayer('Ground', tilesets[1])

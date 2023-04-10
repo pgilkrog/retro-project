@@ -15,5 +15,11 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     this.body.setSize(24, 36, true)
     this.body.setOffset(5, 4)
     this.setScale(1.2)
+    this.setInteractive()
+    this.setImmovable(true)
+
+    this.on('pointerdown', () => {
+      console.log("CLICKED NPC")
+    }, this)
   }
 }

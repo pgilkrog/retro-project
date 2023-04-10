@@ -52,4 +52,8 @@ export default defineComponent({
   }
 })
 </script>
-  
+
+<style lang="sass">
+.taskbar-container
+  z-index: 999 !important
+</style>

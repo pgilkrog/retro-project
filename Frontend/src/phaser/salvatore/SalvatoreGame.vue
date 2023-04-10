@@ -8,6 +8,8 @@ import Phaser from 'phaser'
 
 import Game from './scenes/Game'
 import Loader from './scenes/Loader'
+import Apartment1 from './scenes/apartments/Apartment1_Scene'
+import SceneManager from './utils/SceneManager'
 
 export default defineComponent({
   name: 'SalvatoreGame',
@@ -23,7 +25,7 @@ export default defineComponent({
       zoomFactor: 1
     }
 
-    const Scenes = [Loader, Game]
+    const Scenes = [Loader, Game, Apartment1]
     const createScene = (Scene: any) => new Scene(SHARED_CONFIG)
     const initScenes = () => Scenes.map(createScene)
 
