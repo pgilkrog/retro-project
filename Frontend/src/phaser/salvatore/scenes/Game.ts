@@ -36,9 +36,12 @@ export default class Game extends Scene {
         case 'door_apartment_1': {
           const test = new Door(this, x, y)
           this.door = { door: test , cords: {x: x, y: y}}
+          break
         }
       }
     })
+
+    // map.getLayers().Decorations.setDepth(someDecortion.deph -1, this.player)
 
     // this.cameras.main.startFollow(this.player, true)
     this.physics.add.collider(this.player, map.getLayers().collideLayer)

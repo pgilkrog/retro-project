@@ -1,5 +1,6 @@
 import type Phaser from 'phaser'
 import Tilesets from '../../utils/tilesets'
+import { nightOverlay } from './MapUtils/index'
 
 export default class Apartment1 {
   private scene: Phaser.Scene
@@ -19,6 +20,10 @@ export default class Apartment1 {
     const wallsLayer = map.createLayer('Walls', tilesets[9])
     wallsLayer.setCollisionByProperty({ collides: true }) 
 
+    var texture = nightOverlay(this.scene, map, 'apartment-night-overlay')
+
+    texture.refresh()
+    
     this.layers = {
       objectLayer: objectLayer,
       groundLayer: groundLayer, 

@@ -6,7 +6,13 @@ enum playerStates {
   idle = 'idle',
   walk = 'walk',
   death = 'death',
-  attack = 'attack'
+  attack = 'attack',
+  combat = 'combat',
+  driving = 'driving'
+}
+
+enum playerAnims {
+  idle = 'idle'
 }
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
@@ -36,12 +42,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
   init() {
     this.setCollideWorldBounds(true)
-    this.body.setSize(24, 36, true)
-    this.body.setOffset(10, 4)
-    this.setScale(1.2)
+    this.body.setSize(20, 10, true)
+    this.body.setOffset(6, 38)
     this.setInteractive()
 
     this.createStateMachine()
+    this.createAnimations()
 
     // this.scene.input.on(Phaser.Input.Events.POINTER_UP, (pointer: Phaser.Input.Pointer) => {
 
@@ -148,17 +154,29 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   private idleOnEnter(): void {
-
+    this.anims.play('characterWalkRight')
   }
 
   private idleOnUpdate(): void {
-    if (this.keyInputs['keyD'].isDown || this.keyInputs['keyA'].isDown || this.keyInputs['keyW'].isDown || this.keyInputs['keyS'].isDown) {
+    if (
+      this.keyInputs['keyD'].isDown || 
+      this.keyInputs['keyA'].isDown || 
+      this.keyInputs['keyW'].isDown || 
+      this.keyInputs['keyS'].isDown
+    ) {
       this.stateMachine?.setState(playerStates.walk)
     }
   }
 
   private walkOnEnter(): void {
-
+    if(this.keyInputs['keyD'].isDown)
+      this.anims.play('characterWalkRight')
+    else if(this.keyInputs['keyA'].isDown)
+      this.anims.play('characterWalkLeft')
+    else if(this.keyInputs['keyW'].isDown)
+      this.anims.play('characterWalkUp')
+    else if(this.keyInputs['keyS'].isDown)
+      this.anims.play('characterWalkDown')
   }
 
   private walkOnUpdate(): void {
@@ -167,11 +185,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     if (this.keyInputs['keyD'].isDown) {
       this.setVelocityX(this.speed)
-      this.flipX = false
     } 
     else if (this.keyInputs['keyA'].isDown) {
       this.setVelocityX(-this.speed)
-      this.flipX = true
     }
     
     if (this.keyInputs['keyW'].isDown) {
@@ -191,5 +207,38 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     } else {
       this.stateMachine?.setState(playerStates.idle)
     }
+  }
+
+  private createAnimations() {
+    this.anims.create({
+      key: 'characterIdle',
+      frames: this.anims.generateFrameNames('player', { start: 1, end: 1, prefix: 'Player/walk_down_2', suffix: '.png' }),
+      repeat: 0,
+      frameRate: 6
+    }) 
+    this.anims.create({
+      key: 'characterWalkLeft',
+      frames: this.anims.generateFrameNames('player', { start: 1, end: 3, prefix: 'Player/walk_left_', suffix: '.png' }),
+      repeat: -1,
+      frameRate: 6
+    }) 
+    this.anims.create({
+      key: 'characterWalkRight',
+      frames: this.anims.generateFrameNames('player', { start: 1, end: 3, prefix: 'Player/walk_right_', suffix: '.png' }),
+      repeat: -1,
+      frameRate: 6
+    }) 
+    this.anims.create({
+      key: 'characterWalkUp',
+      frames: this.anims.generateFrameNames('player', { start: 1, end: 3, prefix: 'Player/walk_up_', suffix: '.png' }),
+      repeat: -1,
+      frameRate: 6
+    }) 
+    this.anims.create({
+      key: 'characterWalkDown',
+      frames: this.anims.generateFrameNames('player', { start: 1, end: 3, prefix: 'Player/walk_down_', suffix: '.png' }),
+      repeat: -1,
+      frameRate: 6
+    }) 
   }
 }

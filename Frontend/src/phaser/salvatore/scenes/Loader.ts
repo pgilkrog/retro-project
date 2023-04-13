@@ -1,7 +1,9 @@
 import { Scene } from 'phaser'
 
-import player from '../assets/rogue-idle-1.png'
+import player from '../assets/Characters/Player/playersheet.png'
+import playerJson from '../assets/Characters/Player/playersheet.json'
 import npc from '../assets/mage-idle-1.png'
+import lamp1 from '../assets/objects/lamp_1.png'
 
 import bricks from '../assets/maps/tilesheets/bricks.png'
 import terrain from '../assets/maps/tilesheets/terrain-v7.png'
@@ -42,8 +44,9 @@ export default class Loader extends Scene {
     this.load.tilemapTiledJSON('apartment_1', apartment1)
 
     // Load other
-    this.load.image('player', player)
+    this.load.atlas('player', player, playerJson)
     this.load.image('npc', npc)
+    this.load.image('streetLamp1', lamp1)
   }
 
   create() {
