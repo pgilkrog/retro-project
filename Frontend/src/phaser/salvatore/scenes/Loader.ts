@@ -4,6 +4,9 @@ import player from '../assets/Characters/Player/playersheet.png'
 import playerJson from '../assets/Characters/Player/playersheet.json'
 import npc from '../assets/mage-idle-1.png'
 import lamp1 from '../assets/objects/lamp_1.png'
+import blueCar from '../assets/objects/blue_car.png'
+import luxuryCar from '../assets/objects/luxury-car/texture.png'
+import luxuryCarJson from '../assets/objects/luxury-car/texture.json'
 
 import bricks from '../assets/maps/tilesheets/bricks.png'
 import terrain from '../assets/maps/tilesheets/terrain-v7.png'
@@ -47,6 +50,7 @@ export default class Loader extends Scene {
     this.load.atlas('player', player, playerJson)
     this.load.image('npc', npc)
     this.load.image('streetLamp1', lamp1)
+    this.load.atlas('car', luxuryCar, luxuryCarJson)
   }
 
   create() {

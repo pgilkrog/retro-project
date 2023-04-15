@@ -34,7 +34,7 @@ router.delete('/:id', auth, async (req: Request, res: Response) => {
 // @route       POST api/program
 // @desc        Create a program
 router.post('/', auth, jsonParser, async (req: Request, res: Response) => {
-  const { name, image, color, displayName, sortOrder } = req.body
+  const { name, image, color, displayName, sortOrder } = req.query
 
   try {
     const newProgram = new Program({

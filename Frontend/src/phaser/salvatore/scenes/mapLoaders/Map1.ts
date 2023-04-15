@@ -2,13 +2,28 @@ import type Phaser from 'phaser'
 import Tilesets from '../../utils/tilesets'
 import { createRoundLight, createConeLight, nightOverlay } from './MapUtils/index'
 
+type Layers = {
+  objectLayer: Phaser.Tilemaps.ObjectLayer
+  collideLayer: Phaser.Tilemaps.TilemapLayer
+  groundLayer: Phaser.Tilemaps.TilemapLayer
+  roadLayer: Phaser.Tilemaps.TilemapLayer
+  brickLayer: Phaser.Tilemaps.TilemapLayer
+  wallsLayer: Phaser.Tilemaps.TilemapLayer
+  buildingsLayer: Phaser.Tilemaps.TilemapLayer
+  doorsLayer: Phaser.Tilemaps.TilemapLayer
+  windowsLayer: Phaser.Tilemaps.TilemapLayer
+  buildingDecosLayer: Phaser.Tilemaps.TilemapLayer
+}
+
 export default class Map1 {
   private scene: Phaser.Scene
-  private layers: any
-
+  private layers!: Layers
+  private lamps: Phaser.GameObjects.Group
+  
   constructor(scene: Phaser.Scene) {
     this.scene = scene
-
+    this.lamps = scene.add.group()
+    
     const map = this.scene.make.tilemap({ key: 'map1' })
     this.createLayers(map, new Tilesets(map).getTilesets())
   }
@@ -44,13 +59,14 @@ export default class Map1 {
           break
         }
         case 'street_lamp_1': {
-          this.scene.physics.add.sprite(x, y+30, 'streetLamp1')
+          const lamp = this.scene.physics.add.sprite(x, y+30, 'streetLamp1').setDepth(y+50).setImmovable(true).setSize(10, 10).setOffset(6, 68)
           createRoundLight(texture, x, y, 100)
+          this.lamps.add(lamp)
         }
       }
     })
 
-    texture.refresh();
+    texture.refresh()
     
     this.layers = {
       objectLayer: objectLayer,
@@ -68,5 +84,9 @@ export default class Map1 {
 
   public getLayers() {
     return this.layers
+  }
+
+  public getLamps() {
+    return this.lamps
   }
 }

@@ -1,0 +1,207 @@
+{
+  "frames": {
+    "LuxuryCar/luxury_car_ne.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 264,
+        "h": 215
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 264,
+        "h": 215
+      },
+      "sourceSize": {
+        "w": 264,
+        "h": 215
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "LuxuryCar/luxury_car_nw.png": {
+      "frame": {
+        "x": 264,
+        "y": 0,
+        "w": 264,
+        "h": 215
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 264,
+        "h": 215
+      },
+      "sourceSize": {
+        "w": 264,
+        "h": 215
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "LuxuryCar/luxury_car_se.png": {
+      "frame": {
+        "x": 528,
+        "y": 0,
+        "w": 264,
+        "h": 215
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 264,
+        "h": 215
+      },
+      "sourceSize": {
+        "w": 264,
+        "h": 215
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "LuxuryCar/luxury_car_sw.png": {
+      "frame": {
+        "x": 792,
+        "y": 0,
+        "w": 264,
+        "h": 215
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 264,
+        "h": 215
+      },
+      "sourceSize": {
+        "w": 264,
+        "h": 215
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "LuxuryCar/luxury_car_e.png": {
+      "frame": {
+        "x": 1056,
+        "y": 0,
+        "w": 199,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 199,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 199,
+        "h": 150
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "LuxuryCar/luxury_car_n.png": {
+      "frame": {
+        "x": 1255,
+        "y": 0,
+        "w": 199,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 199,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 199,
+        "h": 150
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "LuxuryCar/luxury_car_s.png": {
+      "frame": {
+        "x": 1454,
+        "y": 0,
+        "w": 199,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 199,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 199,
+        "h": 150
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "LuxuryCar/luxury_car_w.png": {
+      "frame": {
+        "x": 1653,
+        "y": 0,
+        "w": 199,
+        "h": 150
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 199,
+        "h": 150
+      },
+      "sourceSize": {
+        "w": 199,
+        "h": 150
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.7",
+    "image": "texture.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1852,
+      "h": 215
+    },
+    "scale": 1
+  }
+}

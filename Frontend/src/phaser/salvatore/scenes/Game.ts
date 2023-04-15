@@ -1,14 +1,19 @@
-import Phaser, { Physics, Scene } from 'phaser'
+import Phaser, { GameObjects, Physics, Scene } from 'phaser'
 import Player from '../entities/Player'
 import NPC from '../entities/NPC'
+import Car from '../objects/Car'
 import Door from '../objects/Door'
 import Map1 from './mapLoaders/Map1'
 
 export default class Game extends Scene {
   private config: any
-  private player!: Phaser.Physics.Arcade.Sprite
+  private player!: any
   private npcs: Phaser.Physics.Arcade.Sprite[] = []
   private door!: any
+  private cars: any[] = []
+  private keyInputs: {
+    [key: string]: Phaser.Input.Keyboard.Key;
+  } = {}
 
   constructor(config: any) {
     super({ key: 'Game' })
@@ -25,6 +30,8 @@ export default class Game extends Scene {
       switch (name) {
         case 'player_spawn': {
           this.player = new Player(this, x, y, map)
+          this.player.setDepth(45)
+          console.log("is player in car?", this.player.inCar)
           break
         }
 
@@ -38,14 +45,18 @@ export default class Game extends Scene {
           this.door = { door: test , cords: {x: x, y: y}}
           break
         }
+
+        case 'car_1': {
+          this.cars.push(new Car(this, x, y))
+        }
       }
     })
-
-    // map.getLayers().Decorations.setDepth(someDecortion.deph -1, this.player)
 
     // this.cameras.main.startFollow(this.player, true)
     this.physics.add.collider(this.player, map.getLayers().collideLayer)
     this.physics.add.collider(this.player, this.npcs)
+    this.physics.add.collider(this.player, map.getLamps())
+    this.physics.add.collider(this.player, this.cars)
     this.setupFollowupCameraOn(this.player)
 
     this.input.on('pointerdown', (pointer: any, gameObject: any) => {
@@ -58,7 +69,16 @@ export default class Game extends Scene {
           )
           if (distance < 500)
             this.scene.start('Apartment1')
-        }       
+        } 
+        else {
+          // NEEDS REWORK, find a way to not loop through all cars
+          for (let i = 0; i < this.cars.length; i++) {
+            if(gameObject[0] === this.cars[i]) {
+              this.handleCarInteraction(gameObject[0])
+              break              
+            }
+          }
+        }      
       }
       if (pointer.rightButtonDown())
         console.log('Right clicked on object.', gameObject)
@@ -66,7 +86,9 @@ export default class Game extends Scene {
   }
 
   update() {
-
+    this.player.setDepth(this.player.y)
+    // this.player.x = this.car.x
+    // this.player.y = this.car.y
   }
   
   setupFollowupCameraOn(player: Phaser.Physics.Arcade.Sprite) {
@@ -76,5 +98,22 @@ export default class Game extends Scene {
     this.cameras.main.startFollow(player)
     this.cameras.main.setZoom(2)
     this.cameras.main.setRoundPixels(true)
+  }
+
+  handleCarInteraction(car: any) {
+    if (!this.player.inCar) {
+      this.setupFollowupCameraOn(car)
+      // enter the car
+      car.hasPlayerIn = true
+      this.player.inCar = true
+      this.player.disableBody(true, true)
+      this.player.setPosition(-16, -16)
+    } else {
+      this.setupFollowupCameraOn(this.player)
+      // exit the car
+      car.hasPlayerIn = false
+      this.player.inCar = false
+      this.player.enableBody(true, car.x, car.y - 30, true, true)
+    }
   }
 }

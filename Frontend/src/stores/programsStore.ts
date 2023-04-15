@@ -95,7 +95,7 @@ export const programsStore = defineStore("programs", {
       console.log(response)
     },
     async createProgram(program: IProgram) {
-      const response = axios.post(url, program).finally(() => this.getProgramsFromDB())
+      const response = axios.post(url, null, { params: program }).finally(() => this.getProgramsFromDB())
       console.log('createReponse', response)
     }
   }
