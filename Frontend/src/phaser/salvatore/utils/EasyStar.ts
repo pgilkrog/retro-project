@@ -4,7 +4,6 @@ import NPC from '../entities/NPC'
 import Car from '../objects/Car'
 import Door from '../objects/Door'
 import Map1 from './mapLoaders/Map1'
-import * as EasyStar from 'easystarjs'
 
 export default class Game extends Scene {
   private config: any
@@ -13,12 +12,10 @@ export default class Game extends Scene {
   private door!: any
   private cars: any[] = []
   private map: any
-  private easystar!: any
 
   constructor(config: any) {
     super({ key: 'Game' })
     this.config = config
-    this.easystar = new EasyStar.js()
   }
 
   create() {
@@ -60,8 +57,6 @@ export default class Game extends Scene {
     this.physics.add.collider(this.player, this.cars)
     this.setupFollowupCameraOn(this.player)
 
-    this.easyStarInit()
-
     this.input.on('pointerdown', (pointer: any, gameObject: any) => {
       if (pointer.leftButtonDown()) {
         console.log('Left clicked on object.', gameObject)
@@ -88,7 +83,7 @@ export default class Game extends Scene {
     })
   }
 
-  update = () => {
+  update() {
     this.player.setDepth(this.player.y)
 
     // if (this.player.y > this.map.getLayers().buildingsLayer.y) {
@@ -122,64 +117,5 @@ export default class Game extends Scene {
       this.player.inCar = false
       this.player.enableBody(true, car.x, car.y - 30, true, true)
     }
-  }
-
-  easyStarInit() {
-    console.log("EASYSTAR INIT")
-    const collideLayer = this.map.getLayers().walkPath.layer.data;
-    const grid: any[] = []
-
-    // Loop through all tiles in the layer
-    collideLayer.forEach((row: any) => {
-      const rowData: any[] = []
-      row.forEach((tile: any) => {
-        // Check if tile is walkable or not
-        const isWalkable = tile.properties ? tile.properties.cost : -1
-        rowData.push(isWalkable === undefined ? -1 : isWalkable)
-        // Set tile cost accordingly
-        //this.easystar.setTileCost(tile.x, tile.y, isWalkable ? 1 : Infinity)
-      })
-      grid.push(rowData)
-    })
-    console.log(grid)
-    this.easystar.setAcceptableTiles([1, 2, 3, 4])
-    this.easystar.setGrid(grid)
-    
-    this.time.addEvent({ delay: 500, callback: this.updateNPCPaths, callbackScope: this, loop: true })
-  }
-  
-  private npcDestinations: any[] = [];
-
-  updateNPCPaths() {
-    this.npcs.forEach((npc: any, index: number) => {
-      const npcDestination = this.npcDestinations[index]
-  
-      // if there is no destination or if the NPC has reached its destination
-      if (!npcDestination || (npc.x === npcDestination.x && npc.y === npcDestination.y)) {
-        const startX = Math.floor(npc.x / this.map.getTileSize())
-        const startY = Math.floor(npc.y / this.map.getTileSize())
-  
-        // generate a random destination within the map
-        const endX = Math.floor(Math.random() * this.map.getWidthAndHeight().width)
-        const endY = Math.floor(Math.random() * this.map.getWidthAndHeight().height)
-  
-        this.easystar.calculate()
-        if (startX !== endX || startY !== endY) {
-          console.log(startX, startY, endX, endY)
-          this.easystar.findPath(startX, startY, endX, endY, (path: any) => {
-            console.log(path)
-            if (path) {
-              const worldPath = path.map((p: any) => ({ x: p.x * this.map.getTileSize(), y: p.y * this.map.getTileSize() }))
-  
-              // set the NPC's destination to the end of the path
-              this.npcDestinations[index] = worldPath[worldPath.length - 1]
-  
-              // start the NPC's walk animation along the path
-              npc.startWalkAnimation(worldPath, 50)
-            }
-          })
-        }
-      }
-    })
   }
 }

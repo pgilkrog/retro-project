@@ -1,5 +1,5 @@
 import Phaser, { Physics, Scene } from 'phaser'
-import Player from '../../entities/Player'
+import Player from '../../entities/Player/Player'
 import NPC from '../../entities/NPC'
 import Door from '../../objects/Door'
 import Apartment_1 from '../mapLoaders/Appartment1Loader'

@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
-import findPath from '../utils/findPath'
+import findPath from '../../utils/findPath'
 import StateMachine from '@/phaser/utils/StateMachine'
+import { createPlayerAnimations } from './PlayerAnimations'
 
 enum playerStates {
   idle = 'idle',
@@ -54,7 +55,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.setInteractive()
 
     this.createStateMachine()
-    this.createAnimations()
+    createPlayerAnimations(this.anims, playerAnims)
   }
 
   update(dt: number) {
@@ -163,39 +164,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
   private drivingOnUpdate () {
     
-  }
-
-  private createAnimations() {
-    this.anims.create({
-      key: 'idle',
-      frames: this.anims.generateFrameNames('player', { start: 1, end: 1, prefix: 'Player/walk_down_2', suffix: '.png' }),
-      repeat: 0,
-      frameRate: 6
-    }) 
-    this.anims.create({
-      key: 'walkLeft',
-      frames: this.anims.generateFrameNames('player', { start: 1, end: 3, prefix: 'Player/walk_left_', suffix: '.png' }),
-      repeat: -1,
-      frameRate: 6
-    }) 
-    this.anims.create({
-      key: 'walkRight',
-      frames: this.anims.generateFrameNames('player', { start: 1, end: 3, prefix: 'Player/walk_right_', suffix: '.png' }),
-      repeat: -1,
-      frameRate: 6
-    }) 
-    this.anims.create({
-      key: 'walkUp',
-      frames: this.anims.generateFrameNames('player', { start: 1, end: 3, prefix: 'Player/walk_up_', suffix: '.png' }),
-      repeat: -1,
-      frameRate: 6
-    }) 
-    this.anims.create({
-      key: 'walkDown',
-      frames: this.anims.generateFrameNames('player', { start: 1, end: 3, prefix: 'Player/walk_down_', suffix: '.png' }),
-      repeat: -1,
-      frameRate: 6
-    }) 
   }
 
   moveToPoint() {

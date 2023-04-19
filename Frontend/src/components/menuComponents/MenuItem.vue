@@ -42,6 +42,9 @@ export default defineComponent({
         case 'Platformer':
           router.push('/platformer')
           break
+        case 'Salvatore':
+          router.push('/salvatore')
+          break
         default:
           console.log('')
           break

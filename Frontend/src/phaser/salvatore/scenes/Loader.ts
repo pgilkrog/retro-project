@@ -2,7 +2,7 @@ import { Scene } from 'phaser'
 
 import player from '../assets/Characters/Player/playersheet.png'
 import playerJson from '../assets/Characters/Player/playersheet.json'
-import npc from '../assets/mage-idle-1.png'
+import npc from '../assets/Characters/Gangster1Small.png'
 import lamp1 from '../assets/objects/lamp_1.png'
 import blueCar from '../assets/objects/blue_car.png'
 import luxuryCar from '../assets/objects/luxury-car/texture.png'

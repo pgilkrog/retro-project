@@ -8,7 +8,7 @@ export function nightOverlay(scene: Phaser.Scene, map: any, layerName: string) {
 
   let overlay = scene.add.image(map.widthInPixels / 2, map.heightInPixels / 2, layerName)
   overlay.setDepth(3000)
-  overlay.setAlpha(0.7)
+  overlay.setAlpha(0.8)
 
   return texture
 }

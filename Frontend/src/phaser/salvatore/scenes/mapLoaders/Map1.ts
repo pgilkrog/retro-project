@@ -9,29 +9,35 @@ type Layers = {
   roadLayer: Phaser.Tilemaps.TilemapLayer
   brickLayer: Phaser.Tilemaps.TilemapLayer
   wallsLayer: Phaser.Tilemaps.TilemapLayer
+  wallBuildingLayer: Phaser.Tilemaps.TilemapLayer
   buildingsLayer: Phaser.Tilemaps.TilemapLayer
   doorsLayer: Phaser.Tilemaps.TilemapLayer
   windowsLayer: Phaser.Tilemaps.TilemapLayer
   buildingDecosLayer: Phaser.Tilemaps.TilemapLayer
+  walkPath: Phaser.Tilemaps.TilemapLayer
 }
 
 export default class Map1 {
   private scene: Phaser.Scene
   private layers!: Layers
   private lamps: Phaser.GameObjects.Group
+  private tileSize!: number
+  private map: any
   
   constructor(scene: Phaser.Scene) {
     this.scene = scene
     this.lamps = scene.add.group()
     
-    const map = this.scene.make.tilemap({ key: 'map1' })
-    this.createLayers(map, new Tilesets(map).getTilesets())
+    this.map = this.scene.make.tilemap({ key: 'map1' })
+    this.createLayers(this.map, new Tilesets(this.map).getTilesets())
   }
 
   private createLayers(map: Phaser.Tilemaps.Tilemap, tilesets: Phaser.Tilemaps.Tileset[]) {
     const collideLayer = map.createLayer('Colliders', tilesets[1])
     collideLayer.setCollisionByProperty({ collides: true }) 
 
+    const walkPath = map.createLayer('WalkPath', tilesets[1])
+    console.log("sjdkfh",walkPath)
     const groundLayer = map.createLayer('Ground', tilesets[1])
     const roadLayer = map.createLayer('Road', tilesets[0])
     const brickLayer = map.createLayer('Bricks', tilesets[0])
@@ -40,7 +46,9 @@ export default class Map1 {
     const doorsLayer = map.createLayer('Decorations', [tilesets[5], tilesets[6]])
     const windowsLayer = map.createLayer('WindowsDoors', tilesets[8])
     const buildingDecosLayer = map.createLayer('BuildingDecos', [tilesets[7], tilesets[8], tilesets[6]])
+    const wallBuildingLayer = map.createLayer('WallBuildings', tilesets[7])
 
+    this.tileSize = tilesets[1].tileWidth;
     const objectLayer = map.getObjectLayer('Objects')
 
     var texture = nightOverlay(this.scene, map, 'map1-nightoverlay')
@@ -66,6 +74,9 @@ export default class Map1 {
       }
     })
 
+    wallBuildingLayer.setAlpha(0.5)
+    wallBuildingLayer.setDepth(800)
+
     texture.refresh()
     
     this.layers = {
@@ -75,10 +86,12 @@ export default class Map1 {
       roadLayer: roadLayer, 
       brickLayer: brickLayer, 
       wallsLayer: wallsLayer, 
+      wallBuildingLayer: wallBuildingLayer,
       buildingsLayer: buildingsLayer, 
       doorsLayer: doorsLayer, 
       windowsLayer: windowsLayer, 
-      buildingDecosLayer: buildingDecosLayer
+      buildingDecosLayer: buildingDecosLayer,
+      walkPath: walkPath
     }
   }
 
@@ -88,5 +101,13 @@ export default class Map1 {
 
   public getLamps() {
     return this.lamps
+  }
+
+  public getTileSize() {
+    return this.tileSize
+  }
+
+  public getWidthAndHeight() {
+    return { height: this.map.height, width: this.map.width }
   }
 }

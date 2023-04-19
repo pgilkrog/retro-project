@@ -57,6 +57,11 @@
             "title": "Platformer",
             "img": "bi bi-sliders", 
             "subMenu": []
+          },
+          {
+            "title": "Salvatore",
+            "img": "fa fa-joystic",
+            "subMenu": []
           }
         ]
       }
