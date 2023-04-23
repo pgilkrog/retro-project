@@ -37,7 +37,6 @@ export default class Map1 {
     collideLayer.setCollisionByProperty({ collides: true }) 
 
     const walkPath = map.createLayer('WalkPath', tilesets[1])
-    console.log("sjdkfh",walkPath)
     const groundLayer = map.createLayer('Ground', tilesets[1])
     const roadLayer = map.createLayer('Road', tilesets[0])
     const brickLayer = map.createLayer('Bricks', tilesets[0])

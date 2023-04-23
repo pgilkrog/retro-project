@@ -3,6 +3,9 @@ import { Scene } from 'phaser'
 import player from '../assets/Characters/Player/playersheet.png'
 import playerJson from '../assets/Characters/Player/playersheet.json'
 import npc from '../assets/Characters/Gangster1Small.png'
+import npc2 from '../assets/Characters/Gangster2Small.png'
+import npc3 from '../assets/Characters/Gangster3Small.png'
+
 import lamp1 from '../assets/objects/lamp_1.png'
 import blueCar from '../assets/objects/blue_car.png'
 import luxuryCar from '../assets/objects/luxury-car/texture.png'
@@ -22,6 +25,7 @@ import vicFloors from '../assets/maps/tilesheets/floors.png'
 
 import map1 from '../assets/maps/Map1.json'
 import apartment1 from '../assets/maps/Apartment1.json'
+import musicTheme from '../assets/sounds/music/Closed_Curtains.mp3'
 
 export default class Loader extends Scene {
   constructor() {
@@ -48,9 +52,14 @@ export default class Loader extends Scene {
 
     // Load other
     this.load.atlas('player', player, playerJson)
-    this.load.image('npc', npc)
+    this.load.image('npc-1', npc)
+    this.load.image('npc-2', npc2)
+    this.load.image('npc-3', npc3)
     this.load.image('streetLamp1', lamp1)
     this.load.atlas('car', luxuryCar, luxuryCarJson)
+
+    // Audio
+    this.load.audio('theme', musicTheme)
   }
 
   create() {
