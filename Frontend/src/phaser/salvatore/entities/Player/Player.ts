@@ -34,7 +34,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   } = {}
 
   constructor(scene: Phaser.Scene, x: number, y: number, map: any) {
-    super(scene, x, y, 'player')
+    super(scene, x, y, 'npc-4')
 
     scene.add.existing(this)
     scene.physics.add.existing(this)
@@ -50,12 +50,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
   private init() {
     this.setCollideWorldBounds(true)
-    this.body.setSize(20, 10, true)
-    this.body.setOffset(6, 38)
+    this.setScale(0.6)
+    this.body.setSize(30, 20, true)
+    this.body.setOffset(0, 80)
     this.setInteractive()
 
     this.createStateMachine()
-    createPlayerAnimations(this.anims, playerAnims)
+    // createPlayerAnimations(this.anims, playerAnims)
   }
 
   update(dt: number) {
@@ -118,14 +119,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   private walkOnEnter(): void {
-    if(this.keyInputs['keyD'].isDown)
-      this.anims.play(playerAnims.walkRight)
-    else if(this.keyInputs['keyA'].isDown)
-      this.anims.play(playerAnims.walkLeft)
-    else if(this.keyInputs['keyW'].isDown)
-      this.anims.play(playerAnims.walkUp)
-    else if(this.keyInputs['keyS'].isDown)
-      this.anims.play(playerAnims.walkDown)
+    // if(this.keyInputs['keyD'].isDown)
+    //   this.anims.play(playerAnims.walkRight)
+    // else if(this.keyInputs['keyA'].isDown)
+    //   this.anims.play(playerAnims.walkLeft)
+    // else if(this.keyInputs['keyW'].isDown)
+    //   this.anims.play(playerAnims.walkUp)
+    // else if(this.keyInputs['keyS'].isDown)
+    //   this.anims.play(playerAnims.walkDown)
   }
 
   private walkOnUpdate(): void {

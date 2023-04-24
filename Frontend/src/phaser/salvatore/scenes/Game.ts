@@ -4,8 +4,9 @@ import NPC from '../entities/NPC'
 import Car from '../objects/Car'
 import Door from '../objects/Door'
 import Map1 from './mapLoaders/Map1'
-import * as EasyStar from 'easystarjs'
+// import * as EasyStar from 'easystarjs'
 import { AudioManager } from '../utils/AudioManager'
+import easyStarInit from '../utils/EasyStar'
 
 export default class Game extends Scene {
   private config: any
@@ -20,7 +21,7 @@ export default class Game extends Scene {
   constructor(config: any) {
     super({ key: 'Game' })
     this.config = config
-    this.easystar = new EasyStar.js()
+    // this.easystar = new EasyStar.js()
   }
 
   create() {
@@ -63,7 +64,7 @@ export default class Game extends Scene {
     this.physics.add.collider(this.player, this.cars)
     this.setupFollowupCameraOn(this.player)
 
-    this.easyStarInit()
+    easyStarInit(this.map.getLayers().walkPath.layer.data, this.npcs, this, this.map)
 
     this.input.on('pointerdown', (pointer: any, gameObject: any) => {
       if (pointer.leftButtonDown()) {
@@ -98,7 +99,7 @@ export default class Game extends Scene {
   
   setupFollowupCameraOn(player: Phaser.Physics.Arcade.Sprite) {
     const { height, width, mapOffset, zoomFactor } = this.config
-    
+
     this.physics.world.setBounds(0, 0, width + mapOffset, height + 200)
     this.cameras.main.setBounds(0, 0, width + mapOffset, height).setZoom(zoomFactor)
     this.cameras.main.startFollow(player)
@@ -121,62 +122,5 @@ export default class Game extends Scene {
       this.player.inCar = false
       this.player.enableBody(true, car.x, car.y - 30, true, true)
     }
-  }
-
-  easyStarInit() {
-    const collideLayer = this.map.getLayers().walkPath.layer.data;
-    const grid: any[] = []
-
-    // Loop through all tiles in the layer
-    collideLayer.forEach((row: any) => {
-      const rowData: any[] = []
-      row.forEach((tile: any) => {
-        // Check if tile is walkable or not
-        const isWalkable = tile.properties ? tile.properties.cost : -1
-        rowData.push(isWalkable === undefined ? -1 : isWalkable)
-        // Set tile cost accordingly
-        this.easystar.setTileCost(tile.x, tile.y, isWalkable)
-      })
-      grid.push(rowData)
-    })
-    this.easystar.setAcceptableTiles([1, 2, 3])
-    this.easystar.setGrid(grid)
-    
-    this.time.addEvent({ delay: 500, callback: this.updatePaths, callbackScope: this, loop: true })
-  }
-  
- private npcDestinations: any[] = []
-
-  updatePaths() {
-    this.npcs.forEach((npc: any, index: number) => { 
-      // if there is no destination or if the NPC has reached its destination
-      if (npc.isFollowingPath === false) {
-        console.log("dont call this all the time")
-        const startX = Math.floor(npc.x / this.map.getTileSize())
-        const startY = Math.floor(npc.y / this.map.getTileSize())
-  
-        // generate a random destination within the map
-        const endX = Math.floor(Math.random() * this.map.getWidthAndHeight().width)
-        const endY = Math.floor(Math.random() * this.map.getWidthAndHeight().height)
-  
-        this.easystar.calculate()
-        if (startX !== endX || startY !== endY) {
-          console.log(startX, startY, endX, endY)
-          this.easystar.findPath(startX, startY, endX, endY, (path: any) => {
-            console.log("PATH", path)
-            if (path) {
-              npc.isFollowingPath = true
-              const worldPath = path.map((p: any) => ({ x: p.x * this.map.getTileSize(), y: p.y * this.map.getTileSize() }))
-  
-              // set the NPC's destination to the end of the path
-              this.npcDestinations[index] = worldPath[worldPath.length - 1]
-  
-              // start the NPC's walk animation along the path
-              npc.startWalkAnimation(worldPath, 50)
-            }
-          })
-        }          
-      }
-    })
   }
 }

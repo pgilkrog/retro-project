@@ -8,7 +8,7 @@ interface TilePosition {
 const toKey = (x: number, y: number) => `${x}x${y}`
 
 const findPath = (start: Phaser.Math.Vector2, target: Phaser.Math.Vector2, groundLayer: Phaser.Tilemaps.TilemapLayer, wallsLayer: Phaser.Tilemaps.TilemapLayer) => {
-
+  
   if (!groundLayer.getTileAt(target.x, target.y)) {
     return []
   }

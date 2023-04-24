@@ -47,8 +47,7 @@ import { authStore } from '@/stores/authStore';
 import { ref, reactive, onMounted } from 'vue'
 import WindowFrame from '../../WindowFrame.vue'
 import FileExplorer from '@/components/FileExplorer.vue'
-import DBHelper from '@/helpers/DBHelper'
-import { IPainting } from '@/models/index'
+import type { IPainting } from '@/models/index'
 import { defineComponent } from 'vue'
 import ColorTool from './ColorTool.vue'
 
@@ -116,14 +115,14 @@ export default defineComponent({
       const canvas = canvasRef.value
       if(canvas === null) return
 
-      let newPainting = new IPainting (
-        '',
-        text, 
-        canvas.toDataURL(),
-        authstore.getUser.uid
-      )
+      // let newPainting = new IPainting (
+      //   '',
+      //   text, 
+      //   canvas.toDataURL(),
+      //   authstore.getUser.uid
+      // )
 
-      DBHelper.create('paintings', newPainting)
+      // DBHelper.create('paintings', newPainting)
     }
 
     const loadPainting = (painting: string) => {
@@ -178,9 +177,9 @@ export default defineComponent({
       canvas.width = canvasElement ? canvasElement.clientWidth : 500
       canvas.height = canvasElement ? canvasElement.clientHeight : 500
 
-      DBHelper.getAllByUserId('paintings', authstore.getUser.uid).then(data => {
-        myPaintings.value = data as IPainting[]
-      })
+      // DBHelper.getAllByUserId('paintings', authstore.getUser.uid).then(data => {
+      //   myPaintings.value = data as IPainting[]
+      // })
     })
 
     return {

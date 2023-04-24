@@ -5,6 +5,7 @@ import playerJson from '../assets/Characters/Player/playersheet.json'
 import npc from '../assets/Characters/Gangster1Small.png'
 import npc2 from '../assets/Characters/Gangster2Small.png'
 import npc3 from '../assets/Characters/Gangster3Small.png'
+import npc4 from '../assets/Characters/Gangster4Small.png'
 
 import lamp1 from '../assets/objects/lamp_1.png'
 import blueCar from '../assets/objects/blue_car.png'
@@ -55,6 +56,7 @@ export default class Loader extends Scene {
     this.load.image('npc-1', npc)
     this.load.image('npc-2', npc2)
     this.load.image('npc-3', npc3)
+    this.load.image('npc-4', npc4)
     this.load.image('streetLamp1', lamp1)
     this.load.atlas('car', luxuryCar, luxuryCarJson)
 

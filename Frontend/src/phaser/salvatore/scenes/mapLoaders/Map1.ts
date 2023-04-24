@@ -73,7 +73,6 @@ export default class Map1 {
       }
     })
 
-    wallBuildingLayer.setAlpha(0.5)
     wallBuildingLayer.setDepth(800)
 
     texture.refresh()
