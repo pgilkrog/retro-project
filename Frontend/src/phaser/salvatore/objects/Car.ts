@@ -51,7 +51,6 @@ export default class Car extends Phaser.Physics.Arcade.Sprite {
       
       this.setDepth(this.y) 
     }
-    
   }
 
   private createStateMachine(): void {

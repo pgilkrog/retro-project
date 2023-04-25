@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import findPath from '../../utils/findPath'
 import StateMachine from '@/phaser/utils/StateMachine'
 import { createPlayerAnimations } from './PlayerAnimations'
+import { Inventory } from '../../utils/inventory/Inventory'
 
 enum playerStates {
   idle = 'idle',
@@ -24,6 +25,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   private speed = 200 as number
   private map: any
   private stateMachine?: StateMachine
+  private inventory?: Inventory
 
   private movePath: Phaser.Math.Vector2[] = []
   private moveToTarget?: Phaser.Math.Vector2
@@ -49,6 +51,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   private init() {
+    this.inventory = new Inventory()
     this.setCollideWorldBounds(true)
     this.setScale(0.6)
     this.body.setSize(30, 20, true)

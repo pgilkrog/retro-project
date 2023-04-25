@@ -2,6 +2,7 @@ import type Phaser from 'phaser'
 import * as EasyStar from 'easystarjs'
 
 const easystar = new EasyStar.js()
+const npcDestinations: any[] = []
 
 const easyStarInit = (layer: any, entities: any, scene: Phaser.Scene, map: any) => {
   const grid: any[] = []
@@ -29,8 +30,6 @@ const easyStarInit = (layer: any, entities: any, scene: Phaser.Scene, map: any) 
   })
 }
 
-const npcDestinations: any[] = []
-
 const updatePaths = (array: any[], map: any) => {
   array.forEach((entity: any, index: number) => { 
     // if there is no destination or if the NPC has reached its destination
@@ -39,11 +38,15 @@ const updatePaths = (array: any[], map: any) => {
       const startY = Math.floor(entity.y / map.getTileSize())
 
       // generate a random destination within the map
-      const endX = Math.floor(Math.random() * map.getWidthAndHeight().width)
-      const endY = Math.floor(Math.random() * map.getWidthAndHeight().height)
+      let endX = Math.floor(Math.random() * map.getWidthAndHeight().width)
+      let endY = Math.floor(Math.random() * map.getWidthAndHeight().height)
+
+      if (endX < 1) endX = 10
+      if (endY < 1) endY = 10
 
       easystar.calculate()
       if (startX !== endX || startY !== endY) {
+        if (endX < 1 || endY < 1) console.log("got bad path", startY, endY)
         easystar.findPath(startX, startY, endX, endY, (path: any) => {
           if (path) {
             entity.isFollowingPath = true

@@ -15,6 +15,7 @@ type Layers = {
   windowsLayer: Phaser.Tilemaps.TilemapLayer
   buildingDecosLayer: Phaser.Tilemaps.TilemapLayer
   walkPath: Phaser.Tilemaps.TilemapLayer
+  drivePath: Phaser.Tilemaps.TilemapLayer
 }
 
 export default class Map1 {
@@ -46,6 +47,7 @@ export default class Map1 {
     const windowsLayer = map.createLayer('WindowsDoors', tilesets[8])
     const buildingDecosLayer = map.createLayer('BuildingDecos', [tilesets[7], tilesets[8], tilesets[6]])
     const wallBuildingLayer = map.createLayer('WallBuildings', tilesets[7])
+    const drivePath = map.createLayer('drivePath', tilesets[1])
 
     this.tileSize = tilesets[1].tileWidth;
     const objectLayer = map.getObjectLayer('Objects')
@@ -89,7 +91,8 @@ export default class Map1 {
       doorsLayer: doorsLayer, 
       windowsLayer: windowsLayer, 
       buildingDecosLayer: buildingDecosLayer,
-      walkPath: walkPath
+      walkPath: walkPath,
+      drivePath: drivePath
     }
   }
 
