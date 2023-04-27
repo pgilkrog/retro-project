@@ -1,7 +1,7 @@
 import type { Item } from '../items'
 import { InventoryItem } from './InventoryItem'
 
-export class Inventory {
+export class InventoryManager {
   private items: InventoryItem[] = []
 
   public addItem(item: Item, quantity: number) {

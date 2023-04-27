@@ -82,7 +82,7 @@ export default class Game extends Scene {
           for (let i = 0; i < this.cars.length; i++) {
             if(gameObject[0] === this.cars[i]) {
               this.handleCarInteraction(gameObject[0])
-              break              
+              break
             }
           }
         }      
@@ -107,7 +107,7 @@ export default class Game extends Scene {
     this.cameras.main.setRoundPixels(true)
   }
 
-  handleCarInteraction(car: any) {
+  handleCarInteraction = (car: any) => {
     if (!this.player.inCar) {
       this.setupFollowupCameraOn(car)
       // enter the car

@@ -1,37 +1,18 @@
 import Phaser from 'phaser'
-import { Inventory } from '../utils/inventory/Inventory'
-import { Item, ItemTypes } from '../utils/items/index'
+import { Entity } from './Entity'
 
 const NPC_SPRITES = [
-    'npc-1',
-    'npc-2',
-    'npc-3'
-  ]
+  'npc-1',
+  'npc-2',
+  'npc-3'
+]
 
-export default class NPC extends Phaser.Physics.Arcade.Sprite {
+export default class NPC extends Entity {
   public isFollowingPath: boolean = false
-  public inventory: Inventory | undefined
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
-    super(scene, x, y, Phaser.Math.RND.pick(NPC_SPRITES))
-
-    scene.add.existing(this)
-    scene.physics.add.existing(this)
-
-    this.init()
-  }
-
-  init() {
-    this.inventory = new Inventory()
-    this.inventory.addItem(new Item("money", ItemTypes.money), 102)
-
-    this.setCollideWorldBounds(true)
-    this.body.setSize(40, 20, true)
-    this.body.setOffset(5, 80)
-    this.setScale(0.6)
-    this.setInteractive()
-    this.setImmovable(true)
-
+    super(scene, x, y, Phaser.Math.RND.pick(NPC_SPRITES), 100, 100, 50)
+   
     this.on('pointerdown', () => {
       console.log("CLICKED NPC", this.inventory)
     }, this)

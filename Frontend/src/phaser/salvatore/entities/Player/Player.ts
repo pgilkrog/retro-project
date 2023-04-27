@@ -2,7 +2,8 @@ import Phaser from 'phaser'
 import findPath from '../../utils/findPath'
 import StateMachine from '@/phaser/utils/StateMachine'
 import { createPlayerAnimations } from './PlayerAnimations'
-import { Inventory } from '../../utils/inventory/Inventory'
+import { InventoryManager } from '../../utils/inventory/InventoryManager'
+import { ItemsManager } from '../../utils/items'
 
 enum playerStates {
   idle = 'idle',
@@ -25,7 +26,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   private speed = 200 as number
   private map: any
   private stateMachine?: StateMachine
-  private inventory?: Inventory
+  private inventory?: InventoryManager
 
   private movePath: Phaser.Math.Vector2[] = []
   private moveToTarget?: Phaser.Math.Vector2
@@ -48,10 +49,16 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.init()
     this.initEvents()
     this.createKeyInputs()
+       
+    this.on('pointerdown', () => {
+      console.log("CLICKED Player", this.inventory)
+    }, this)
   }
 
   private init() {
-    this.inventory = new Inventory()
+    this.inventory = new InventoryManager()
+    let itemMan = new ItemsManager()
+    this.inventory.addItem(itemMan.getFoodItems()[0], 1)
     this.setCollideWorldBounds(true)
     this.setScale(0.6)
     this.body.setSize(30, 20, true)
@@ -107,7 +114,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   private idleOnEnter(): void {
-    this.anims.play(playerAnims.walkDown)
+    // this.anims.play(playerAnims.walkDown)
   }
 
   private idleOnUpdate(): void {

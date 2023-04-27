@@ -6,12 +6,7 @@ export enum ItemTypes {
   trash
 }
 
-export class Item {
-  public name: string
-  public type: ItemTypes
-
-  constructor(name: string, type: ItemTypes) {
-    this.name = name
-    this.type = type
-  }
-}
+export { Item } from './Item'
+export { FoodItem } from './itemTypes/FoodItem'
+export { WeaponItem } from './itemTypes/WeaponItem'
+export { ItemsManager } from './ItemsManager'

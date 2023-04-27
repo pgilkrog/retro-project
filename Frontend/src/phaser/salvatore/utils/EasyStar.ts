@@ -11,16 +11,17 @@ const easyStarInit = (layer: any, entities: any, scene: Phaser.Scene, map: any) 
   layer.forEach((row: any) => {
     const rowData: any[] = []
     row.forEach((tile: any) => {
-      // Check if tile is walkable or not
+      // Sets the cost of the tile
       const isWalkable = tile.properties ? tile.properties.cost : -1
       rowData.push(isWalkable === undefined ? -1 : isWalkable)
       // Set tile cost accordingly
-      // easystar.setTileCost(tile.x, tile.y, isWalkable)
+      easystar.setTileCost(isWalkable, isWalkable)
     })
     grid.push(rowData)
   })
-  easystar.setAcceptableTiles([1, 2, 3])
+  easystar.setAcceptableTiles([1, 2, 3, 4])
   easystar.setGrid(grid)
+  easystar.enableCornerCutting()
   
   scene.time.addEvent({ 
     delay: 500, 
