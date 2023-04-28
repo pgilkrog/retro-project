@@ -90,7 +90,7 @@ export default class Game extends Scene {
       if (pointer.rightButtonDown())
         console.log('Right clicked on object.', gameObject)
     })
-    // this.audiomanager.playMusic('theme')
+    this.audiomanager.playMusic('theme')
   }
 
   update = () => {

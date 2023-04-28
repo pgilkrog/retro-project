@@ -57,7 +57,7 @@ const updatePaths = (array: any[], map: any) => {
             npcDestinations[index] = worldPath[worldPath.length - 1]
 
             // start the entity's walk animation along the path
-            entity.startWalkAnimation(worldPath, 50)
+            entity.startWalkAnimation(worldPath)
           }
         })
       }          

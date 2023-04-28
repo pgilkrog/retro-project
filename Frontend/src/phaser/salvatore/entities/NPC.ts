@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import { Entity } from './Entity'
+import { EntityTypes } from '../interfaces/enums'
 
 const NPC_SPRITES = [
   'npc-1',
@@ -11,14 +12,26 @@ export default class NPC extends Entity {
   public isFollowingPath: boolean = false
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
-    super(scene, x, y, Phaser.Math.RND.pick(NPC_SPRITES), 100, 100, 50)
+    super(
+      scene, 
+      x, 
+      y, 
+      Phaser.Math.RND.pick(NPC_SPRITES), 
+      100, 
+      100, 
+      50, 
+      50,
+      EntityTypes.Associate
+    )
    
+    this.inventory.addItem(this.itemsManager.getFoodItems()[0], 2)
+
     this.on('pointerdown', () => {
       console.log("CLICKED NPC", this.inventory)
     }, this)
   }
 
-  startWalkAnimation(path: any, speed: number) {
+  startWalkAnimation(path: any) {
     let currentPointIndex = 0
     let currentPoint = path[currentPointIndex]
   
@@ -42,8 +55,8 @@ export default class NPC extends Entity {
         distance = Math.sqrt(dx * dx + dy * dy)
       }
   
-      const vx = (dx / distance) * speed
-      const vy = (dy / distance) * speed
+      const vx = (dx / distance) * this.speed
+      const vy = (dy / distance) * this.speed
       this.setVelocity(vx, vy)
     }
   

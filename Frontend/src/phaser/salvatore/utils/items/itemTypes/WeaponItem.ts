@@ -1,4 +1,5 @@
-import { Item, ItemTypes } from '../index'
+import { Item } from '../index'
+import { ItemTypes } from '@/phaser/salvatore/interfaces/enums'
 
 export class WeaponItem extends Item {
   public damage: number

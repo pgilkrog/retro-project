@@ -1,4 +1,4 @@
-import type { ItemTypes } from "./index"
+import type { ItemTypes } from "../../interfaces/enums"
 
 export class Item {
   public name: string
