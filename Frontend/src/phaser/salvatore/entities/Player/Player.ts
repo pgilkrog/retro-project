@@ -29,6 +29,8 @@ export default class Player extends Entity {
   private movePath: Phaser.Math.Vector2[] = []
   private moveToTarget?: Phaser.Math.Vector2
   public inCar: boolean = false
+  private showInventory: boolean = true
+  private tabKeyPressed: boolean = false
 
   private keyInputs: {
     [key: string]: Phaser.Input.Keyboard.Key;
@@ -40,9 +42,14 @@ export default class Player extends Entity {
     this.map = map
     this.inCar = false
 
+    this.inventory.addItem(this.itemsManager.getFoodItems()[0], 2)
+    this.inventory.addItem(this.itemsManager.getWeaponItems()[0], 1)
+
     this.initEvents()
     this.createKeyInputs()
     this.createStateMachine()
+    this.createInventory(this.scene)
+    this.toggleInventory(false)
 
     this.on('pointerdown', () => {
       console.log("CLICKED Player", this.inventory)
@@ -51,6 +58,15 @@ export default class Player extends Entity {
 
   update(dt: number) {
     this.stateMachine?.update(dt)
+
+    if (this.keyInputs['tab'].isDown && !this.tabKeyPressed) {
+      this.toggleInventory(this.showInventory)
+      this.showInventory = !this.showInventory
+      this.tabKeyPressed = true
+    } 
+    else if (this.keyInputs['tab'].isUp) {
+      this.tabKeyPressed = false
+    }
   }
 
   moveAlong(path: Phaser.Math.Vector2[]) {
@@ -76,6 +92,8 @@ export default class Player extends Entity {
     this.keyInputs['keyA'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
     this.keyInputs['keyD'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
     this.keyInputs['keyE'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
+
+    this.keyInputs['tab'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB)
   }
 
   private createStateMachine(): void {

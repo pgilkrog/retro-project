@@ -7,21 +7,20 @@ import Map1 from './mapLoaders/Map1'
 // import * as EasyStar from 'easystarjs'
 import { AudioManager } from '../utils/AudioManager'
 import easyStarInit from '../utils/EasyStar'
+import type { IConfig } from '../interfaces/IConfig'
 
 export default class Game extends Scene {
-  private config: any
-  private player!: any
-  private npcs: Phaser.Physics.Arcade.Sprite[] = []
+  private config: IConfig
+  private player!: Player
+  private npcs: NPC[] = []
   private door!: any
   private cars: any[] = []
   private map: any
-  private easystar!: any
   private audiomanager!: AudioManager
 
-  constructor(config: any) {
+  constructor(config: IConfig) {
     super({ key: 'Game' })
     this.config = config
-    // this.easystar = new EasyStar.js()
   }
 
   create() {
@@ -35,7 +34,6 @@ export default class Game extends Scene {
       switch (name) {
         case 'player_spawn': {
           this.player = new Player(this, x, y, this.map)
-          this.player.setDepth(45)
           break
         }
 
@@ -54,10 +52,9 @@ export default class Game extends Scene {
           this.cars.push(new Car(this, x, y))
         }
       }
-      
     })
+    this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
-    // this.cameras.main.startFollow(this.player, true)
     this.physics.add.collider(this.player, this.map.getLayers().collideLayer)
     this.physics.add.collider(this.player, this.npcs)
     this.physics.add.collider(this.player, this.map.getLamps())
@@ -90,7 +87,9 @@ export default class Game extends Scene {
       if (pointer.rightButtonDown())
         console.log('Right clicked on object.', gameObject)
     })
-    this.audiomanager.playMusic('theme')
+    // this.audiomanager.playMusic('theme')
+    
+    this.scene.launch('UIScene', { character: this.player })
   }
 
   update = () => {
@@ -122,5 +121,9 @@ export default class Game extends Scene {
       this.player.inCar = false
       this.player.enableBody(true, car.x, car.y - 30, true, true)
     }
+  }
+
+  destroy() {
+    this.scene.stop('UIScene')
   }
 }

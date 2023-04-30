@@ -37,4 +37,8 @@ export class InventoryManager {
   public getItemFromInventory(item: Item): InventoryItem | undefined {
     return this.items.find(invItem => invItem.item.name === item.name)
   }
+
+  public getAllItems(): InventoryItem[] {
+    return this.items
+  }
 }

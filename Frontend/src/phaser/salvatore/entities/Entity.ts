@@ -1,6 +1,7 @@
 import { InventoryManager } from "../utils/inventory/InventoryManager"
-import { ItemsManager, FoodItem, Item } from "../utils/items/index"
+import { ItemsManager } from "../utils/items/index"
 import type { EntityTypes } from "../interfaces/enums"
+import { InventoryUI } from '../utils/inventory/InventoryUI'
 
 export class Entity extends Phaser.Physics.Arcade.Sprite {
   public health: number
@@ -11,6 +12,7 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
 
   public inventory: InventoryManager
   public itemsManager: ItemsManager
+  private invUI!: InventoryUI
 
   constructor(
     scene: Phaser.Scene, 
@@ -35,7 +37,7 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
 
     this.inventory = new InventoryManager()
     this.itemsManager = new ItemsManager()
-    
+
     this.init()
   }
 
@@ -45,6 +47,14 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
     this.body.setOffset(0, 80)
     this.setScale(0.6)
     this.setInteractive()
-    this.setImmovable(true)
+  }
+
+  createInventory(scene: Phaser.Scene) {
+    this.invUI = new InventoryUI(scene, 150, 250, this.inventory)
+    scene.add.existing(this.invUI)
+  }
+
+  toggleInventory(show: boolean) {
+    this.invUI.setVisible(show)
   }
 }

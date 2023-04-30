@@ -19,7 +19,8 @@ export class ItemsManager {
         "Bread", 
         "A loaf of bread", 
         5, 
-        10
+        10,
+        0.2
       )
     )
 
@@ -28,7 +29,8 @@ export class ItemsManager {
         'Apple', 
         'A lovely red apple', 
         5, 
-        10
+        10,
+        0.1
       )
     )    
   }
@@ -39,25 +41,26 @@ export class ItemsManager {
         'Sawed Off', 
         'Sawed off shotgun for damage', 
         10, 
-        50
+        50, 
+        2.3
       )
     )
   }
 
   createFoodItem(item: FoodItem): void {
-    const foodItem = new FoodItem(item.name, item.description, item.value, item.healing)
+    const foodItem = new FoodItem(item.name, item.description, item.value, item.healing, item.weight)
 
     this.foodItems.push(foodItem)
   }
 
   createWeaponItem(item: WeaponItem): void {
-    const weaponItem = new WeaponItem(item.name, item.description, item.value, item.damage)
+    const weaponItem = new WeaponItem(item.name, item.description, item.value, item.damage, item.weight)
 
     this.weaponItems.push(weaponItem)  
   }
 
   createAlchoholItem(item: AlchoholItem): void {
-    const alchoholItem = new AlchoholItem(item.name, item.description, item.value)
+    const alchoholItem = new AlchoholItem(item.name, item.description, item.value, item.weight)
   }
 
   getFoodItems(): Item[] {

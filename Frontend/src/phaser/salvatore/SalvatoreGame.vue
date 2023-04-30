@@ -10,6 +10,8 @@ import Game from './scenes/Game'
 import Loader from './scenes/Loader'
 import Apartment1 from './scenes/apartments/Apartment1_Scene'
 import SceneManager from './utils/SceneManager'
+import type { IConfig } from './interfaces/IConfig'
+import UIScene from './scenes/UI'
 
 export default defineComponent({
   name: 'SalvatoreGame',
@@ -23,9 +25,9 @@ export default defineComponent({
       width: WIDTH,
       height: HEIGHT,
       zoomFactor: 1
-    }
+    } as IConfig
 
-    const Scenes = [Loader, Game, Apartment1]
+    const Scenes = [Loader, Game, Apartment1, UIScene]
     const createScene = (Scene: any) => new Scene(SHARED_CONFIG)
     const initScenes = () => Scenes.map(createScene)
 

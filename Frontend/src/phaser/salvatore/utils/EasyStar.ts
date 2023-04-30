@@ -42,8 +42,8 @@ const updatePaths = (array: any[], map: any) => {
       let endX = Math.floor(Math.random() * map.getWidthAndHeight().width)
       let endY = Math.floor(Math.random() * map.getWidthAndHeight().height)
 
-      if (endX < 1) endX = 10
-      if (endY < 1) endY = 10
+      if (endX < 2) endX = 10
+      if (endY < 2) endY = 10
 
       easystar.calculate()
       if (startX !== endX || startY !== endY) {
