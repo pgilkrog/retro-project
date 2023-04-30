@@ -1,0 +1,150 @@
+@import './custom'
+@import './elements'
+@import './buttons'
+
+@import './components/login-screen.sass'
+@import './components/menu.sass'
+@import './components/minesweeper.sass'
+@import './components/paint.sass'
+@import './components/loading.sass'
+@import './components/calculator.sass'
+
+body
+  background: #282a36
+
+body, html, .bg-fill
+  margin: 0
+  padding: 0
+  height: 100vh
+  max-height: 100vh
+  width: 100%
+  max-width: 100%
+  font-family: 'RetroFont'
+  font-size: 12px
+  overflow: hidden
+  p 
+    margin: 0
+    padding: 0
+
+  .line 
+    height: 2px
+    width: 100%
+
+  i 
+    font-size: 18px
+
+.app-wrapper
+  background-position: center
+  background-repeat: no-repeat
+  background-size: cover
+
+.center-item
+  height: 100vh
+  width: 100%
+  display: flex
+  justify-content: center
+  align-items: center
+
+.fit-content
+  width: fit-content
+
+.pointer
+  cursor: pointer  
+
+.desktop-item
+  width: 120px
+  text-align: center
+  color: $white
+  font-weight: 500
+
+.window-frame-wrapper
+  top: 0
+  .top-bar
+    user-select: none
+
+.bg-shadow
+  border-left: 2px solid $white
+  border-top: 2px solid $white
+  border-right: 2px solid $black
+  border-bottom: 2px solid $black
+  &:hover
+    border-left: 2px solid $white
+    border-top: 2px solid $white
+    border-right: 2px solid $black
+    border-bottom: 2px solid $black
+
+.bg-shadow-inner
+  border-left: 2px solid $dark
+  border-top: 2px solid $dark
+  border-right: 2px solid $white
+  border-bottom: 2px solid $white
+  &:hover
+    border-left: 2px solid $dark
+    border-top: 2px solid $dark
+    border-right: 2px solid $white
+    border-bottom: 2px solid $white
+
+.shadow-top
+  box-shadow: $shadow-top
+
+@font-face 
+  font-family: "RetroFont"
+  src: url("../assets/PressStart2P-Regular.ttf") format("truetype")
+
+.error-component, .file-explorer
+  z-index: 9999
+  position: relative
+
+.shut-down, .starting-up
+  bottom: 0
+  top: 0
+  right: 0
+  left: 0
+  height: 100vh
+  width: 100%
+  z-index: 9999
+  position: absolute
+  .bi
+    font-size: 12rem
+
+.starting-up
+  background-color: $primary
+
+.shut-down
+  background-color: $dark
+
+.game-container
+  canvas
+    margin: 0 !important
+    padding: 0 !important
+    display: block
+    z-index: 9999
+    position: absolute
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+
+.pc-settings-wrapper
+  .content
+    border-right: 2px solid $white
+    border-bottom: 2px solid $black
+    border-left: 2px solid $black
+  .nav-item, .tab-fill
+    border-bottom: 2px solid $white    
+  .active
+    border-top: 2px solid $black
+    border-right: 2px solid $white
+    border-bottom: 2px solid #c3c3c3
+    border-left: 2px solid $black
+    margin-radius: 5px 5px 0 0
+  .tab-fill
+    flex-grow: 1
+
+.absolute-center
+  top: 40%
+  left: 50%
+  transform: translate(-50%, -50%)
+
+.fit-content
+  width: fit-content
