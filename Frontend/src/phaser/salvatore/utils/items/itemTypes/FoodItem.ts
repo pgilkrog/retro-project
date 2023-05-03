@@ -9,14 +9,16 @@ export class FoodItem extends Item {
     description: string, 
     value: number,
     weight: number, 
-    healing: number
+    healing: number,
+    image: string
   ) {
     super(
       name, 
       description, 
       ItemTypes.food, 
       value,
-      weight
+      weight,
+      image
     )
     this.healing = healing
   }

@@ -44,11 +44,17 @@ export default class Player extends Entity {
 
     this.inventory.addItem(this.itemsManager.getFoodItems()[0], 2)
     this.inventory.addItem(this.itemsManager.getWeaponItems()[0], 1)
+    this.inventory.addItem(this.itemsManager.getFoodItems()[1], 5)
+    this.inventory.addItem(this.itemsManager.getFoodItems()[2], 5)
+    this.inventory.addItem(this.itemsManager.getFoodItems()[3], 5)
+    this.inventory.addItem(this.itemsManager.getFoodItems()[4], 5)
+    this.inventory.addItem(this.itemsManager.getFoodItems()[5], 5)
+    this.inventory.addItem(this.itemsManager.getFoodItems()[6], 5)
 
     this.initEvents()
     this.createKeyInputs()
     this.createStateMachine()
-    this.createInventory(this.scene)
+    this.createInventory(this.scene, true)
     this.toggleInventory(false)
 
     this.on('pointerdown', () => {

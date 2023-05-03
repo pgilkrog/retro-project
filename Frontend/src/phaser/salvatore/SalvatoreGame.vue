@@ -11,7 +11,7 @@ import Loader from './scenes/Loader'
 import Apartment1 from './scenes/apartments/Apartment1_Scene'
 import SceneManager from './utils/SceneManager'
 import type { IConfig } from './interfaces/IConfig'
-import UIScene from './scenes/UI'
+import UIScene from './scenes/ui/UI'
 
 export default defineComponent({
   name: 'SalvatoreGame',
@@ -40,7 +40,7 @@ export default defineComponent({
         physics: {
           default: 'arcade',
           arcade: {
-            debug: true
+            debug: false
           }
         },
         scale: {

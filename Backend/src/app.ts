@@ -25,7 +25,7 @@ app.use((req: any, res: any, next: any) => {
 // set up routes
 app.use('/api/program', require('./routes/programRoute'))
 app.use('/api/auth', require('./routes/authRoute'))
-app.use('/api/user', require('./routes/userRoute') )
+app.use('/api/user', require('./routes/userRoute'))
 
 const PORT = process.env.APP_PORT || 5000
 

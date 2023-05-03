@@ -62,7 +62,7 @@ export default class Game extends Scene {
     this.setupFollowupCameraOn(this.player)
 
     easyStarInit(this.map.getLayers().walkPath.layer.data, this.npcs, this, this.map)
-
+    
     this.input.on('pointerdown', (pointer: any, gameObject: any) => {
       if (pointer.leftButtonDown()) {
         console.log('Left clicked on object.', gameObject)
@@ -77,7 +77,7 @@ export default class Game extends Scene {
         else {
           // NEEDS REWORK, find a way to not loop through all cars
           for (let i = 0; i < this.cars.length; i++) {
-            if(gameObject[0] === this.cars[i]) {
+            if (gameObject[0] === this.cars[i]) {
               this.handleCarInteraction(gameObject[0])
               break
             }

@@ -9,14 +9,16 @@ export class WeaponItem extends Item {
     description: string, 
     value: number, 
     damage: number,
-    weight: number
+    weight: number,
+    image: string
   ) {
     super(
       name, 
       description, 
       ItemTypes.weapon, 
       value,
-      weight
+      weight,
+      image
     )
     this.damage = damage
   }

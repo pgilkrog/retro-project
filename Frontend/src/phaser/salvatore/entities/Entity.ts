@@ -49,12 +49,13 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
     this.setInteractive()
   }
 
-  createInventory(scene: Phaser.Scene) {
-    this.invUI = new InventoryUI(scene, 150, 250, this.inventory)
+  createInventory(scene: Phaser.Scene, isPlayer: boolean) {
+    this.invUI = new InventoryUI(scene, 400, 250, this.inventory, isPlayer)
     scene.add.existing(this.invUI)
   }
 
   toggleInventory(show: boolean) {
     this.invUI.setVisible(show)
+    this.invUI.setPosition(this.x, this.y)
   }
 }

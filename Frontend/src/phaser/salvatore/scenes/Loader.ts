@@ -27,6 +27,9 @@ import vicFloors from '../assets/maps/tilesheets/floors.png'
 import map1 from '../assets/maps/Map1.json'
 import apartment1 from '../assets/maps/Apartment1.json'
 import musicTheme from '../assets/sounds/music/Closed_Curtains.mp3'
+import inventoryUI from '../assets/ui/InventoryUI.png'
+import apple from '../assets/objects/AppleSmall.png'
+import bread from '../assets/objects/BreadSmall.png'
 
 export default class Loader extends Scene {
   constructor() {
@@ -59,6 +62,10 @@ export default class Loader extends Scene {
     this.load.image('npc-4', npc4)
     this.load.image('streetLamp1', lamp1)
     this.load.atlas('car', luxuryCar, luxuryCarJson)
+    this.load.image('inventoryUI', inventoryUI)
+    this.load.image('apple', apple)
+    this.load.image('bread', bread)
+
 
     // Audio
     this.load.audio('theme', musicTheme)

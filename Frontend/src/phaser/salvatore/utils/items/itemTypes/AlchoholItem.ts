@@ -6,14 +6,16 @@ export class AlchoholItem extends Item {
     name: string, 
     description: string, 
     value: number,
-    weight: number
+    weight: number,
+    image: string
   ) {
     super(
       name, 
       description, 
       ItemTypes.alcohol, 
       value,
-      weight
+      weight,
+      image
     )
   }
 }

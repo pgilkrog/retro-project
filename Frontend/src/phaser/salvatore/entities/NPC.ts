@@ -6,10 +6,11 @@ const NPC_SPRITES = [
   'npc-1',
   'npc-2',
   'npc-3'
-]
+] 
 
 export default class NPC extends Entity {
   public isFollowingPath: boolean = false
+  private showInventory: boolean = false
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(
@@ -25,9 +26,13 @@ export default class NPC extends Entity {
     )
    
     this.inventory.addItem(this.itemsManager.getFoodItems()[0], 2)
+    this.createInventory(scene, false)
+    this.toggleInventory(false)
 
     this.on('pointerdown', () => {
       console.log("CLICKED NPC", this.inventory)
+      this.showInventory = !this.showInventory
+      this.toggleInventory(this.showInventory)
     }, this)
   }
 

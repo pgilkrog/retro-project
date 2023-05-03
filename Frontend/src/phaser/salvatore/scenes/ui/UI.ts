@@ -1,5 +1,5 @@
 import Phaser from "phaser"
-import type { IConfig } from '../interfaces/IConfig'
+import type { IConfig } from '../../interfaces/IConfig'
 import { sharedInstance as events } from '@/phaser/first-game/scenes/EventCenter'
 
 type graphicT = Phaser.GameObjects.Graphics
