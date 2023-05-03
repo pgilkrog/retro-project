@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb+srv://slimcrack:sbp6rkos@cluster0.xna9iug.mongodb.net/?retryWrites=true&w=majority",
+    "jwtSecret": "Sir Daniel Fortesque"
+}

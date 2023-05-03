@@ -28,3 +28,5 @@ coverage
 *.sw?
 src/firebase.ts
 Backend/src/config/default.json
+Backend/src/config/default.json
+Frontend/src/firebase.ts
