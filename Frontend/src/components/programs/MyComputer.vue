@@ -24,7 +24,7 @@ WindowFrame(:program="program" :isMoveable="true" variant="success")
 </template>
 
 <script lang="ts">
-import WindowFrame from '../WindowFrame.vue'
+import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import DesktopItem from '../DesktopItem.vue'
 import { defineComponent } from 'vue'
 

@@ -7,18 +7,14 @@
     .d-flex.align-items-center.align-content.center
       IconComponent(:name="program.image" size="25")
       .font-weight-bold.pe-4.ps-4 {{ program.displayName }}
-    span
+    .d-flex
       button.btn.bg-secondary.py-0.px-2.text-black(@click="setInactive()") 
         IconComponent(name="fa-window-minimize" size="14")
       button.btn.bg-secondary.py-0.px-2.text-black.mx-1
         IconComponent(name="bi-square" size="12")
       button.btn.bg-secondary.py-0.px-2.text-black(@click="closeWindow") 
         IconComponent(name="fa-xmark" size="14")
-  .menu-container.d-flex.mx-2.my-1(v-if="showMenu")
-    .me-2 File
-    .mx-2 Edit 
-    .mx-2 View
-    .ms-2 Help
+  windowframeMenu(:showMenu="showMenu")
   .container-fluid.gx-0.bg-secondary.mt-1.bg-shadow-inner.rounded
     slot
 </template>
@@ -28,6 +24,7 @@ import type { IProgram } from '@/models/index'
 import { programsStore } from '@/stores/programsStore'
 import type { PropType } from 'vue'
 import { defineComponent, ref } from 'vue'
+import windowframeMenu from './windowframeMenu.vue'
 
 interface Props {
   showMenu: Boolean,
@@ -44,6 +41,9 @@ export default defineComponent({
     variant: String,
     isNotProgram: Boolean,
     isMoveable: Boolean
+  },
+  components: {
+    windowframeMenu
   },
   setup (props, { emit }) {
     const programsstore = programsStore()

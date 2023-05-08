@@ -7,6 +7,7 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
   public health: number
   public maxHealth: number
   public respect: number
+  public insight: number
   public entityType: EntityTypes
   public speed: number
 
@@ -34,6 +35,7 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
     this.respect = respect
     this.speed = speed
     this.entityType = entityType
+    this.insight = 1
 
     this.inventory = new InventoryManager()
     this.itemsManager = new ItemsManager()

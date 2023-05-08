@@ -5,6 +5,7 @@ button, input
 .btn
   @extend .bg-shadow
   background-color: $secondary
+  width: fit-content
 
   &:hover
     background-color: lightgray
@@ -15,3 +16,8 @@ button, input
 
   &:hover
     background-color: lightgray
+
+.btn-wide
+  min-width: 200px
+  @include media-breakpoint-down(sm) 
+    min-width: auto

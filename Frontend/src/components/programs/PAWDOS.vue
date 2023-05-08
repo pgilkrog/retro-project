@@ -1,5 +1,5 @@
 <template lang="pug">
-WindowFrame(:program="program" variant="primary" :isMoveable="true")
+WindowFrame(:program="program" variant="primary" :isMoveable="true" :showMenu="true")
   .bg-black.text-white.p-4
     p Retro-Project Desktop 97
     P.ms-4 (C)Copyright Someting, Something Complete
@@ -12,7 +12,7 @@ WindowFrame(:program="program" variant="primary" :isMoveable="true")
 </template>
 
 <script lang="ts">
-import WindowFrame from '../WindowFrame.vue'
+import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import { defineComponent } from 'vue'
 
 export default defineComponent({

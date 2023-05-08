@@ -9,7 +9,7 @@ WindowFrame(:program="program" :isMoveable="true")
 </template>
 
 <script lang="ts">
-import WindowFrame from '../WindowFrame.vue'
+import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import ErrorList from '@/components/admin/ErrorList.vue'
 import { defineComponent, ref } from 'vue'
 

@@ -42,7 +42,7 @@ WindowFrame(:program="program" :isMoveable="true")
 </template>
 
 <script lang="ts">
-import WindowFrame from '../../WindowFrame.vue'
+import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import { defineComponent, ref, computed, onMounted } from 'vue'
 import { userStore } from '../../../stores/userStore'
 import type { IUser, IFile } from '../../../models/index'

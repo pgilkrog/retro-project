@@ -14,7 +14,7 @@ WindowFrame(:program="program" :isMoveable="true")
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import WindowFrame from '../WindowFrame.vue'
+import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 
 interface Button {
   text: string

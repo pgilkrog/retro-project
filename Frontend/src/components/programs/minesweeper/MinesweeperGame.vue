@@ -12,7 +12,7 @@ WindowFrame(:program="program" :isMoveable="true")
 </template>
 
 <script lang="ts">
-import WindowFrame from '../../WindowFrame.vue'
+import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import MinesweeperBlock from './MinesweeperBlock.vue'
 import { defineComponent, ref, onMounted } from 'vue'
 

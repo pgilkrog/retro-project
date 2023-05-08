@@ -1,6 +1,4 @@
 import { defineStore } from "pinia"
-import { errorStore } from "./errorStore"
-import { userStore } from "./userStore"
 import axios from "axios"
 const url = 'http://localhost:4000/api/auth'
 import type { IUser } from "@/models/index"
@@ -12,8 +10,6 @@ export const authStore = defineStore("auth", {
     _user: {} as IUser,
     _checkedAuth: false as Boolean,
     _token: "",
-    errorstore: errorStore(),
-    userstore: userStore(),
   }),
   getters: {
     getIsLoggedIn: (state) => state._isLoggedIn,
@@ -49,12 +45,15 @@ export const authStore = defineStore("auth", {
       }
     },
     async registerUser(userName: string, password: string) {
-      let user = {email: userName, password: password}
-      const response = await axios.post(url, user)
-      console.log(response)
+      try {
+        const user = {email: userName, password: password}
+        const response = await axios.post(url, user)
+        console.log(response)
+      } catch (error: any) {
+        console.log(error.log)
+      }
     },
     async signOut() {
-      // signOut(auth)
       this._isLoggedIn = false
       this._user = {} as IUser
       sessionStorage.removeItem('token')

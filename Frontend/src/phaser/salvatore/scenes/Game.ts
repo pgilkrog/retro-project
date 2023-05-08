@@ -53,7 +53,7 @@ export default class Game extends Scene {
         }
       }
     })
-    this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+    this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels)
 
     this.physics.add.collider(this.player, this.map.getLayers().collideLayer)
     this.physics.add.collider(this.player, this.npcs)

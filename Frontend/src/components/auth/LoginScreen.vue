@@ -1,59 +1,59 @@
 <template lang="pug">
-.login-screen-wrapper.text-black
-  WindowFrame(
-    :program="program" 
-    :showMenu="false" 
-    :variant="info"
-  ).absolute-center
-    .d-flex.p-4
-      .d-flex.align-items-center.pe-4
-        IconComponent(name="fa-key" variant="warning" size="40" rotate="0")
-      form.d-flex.flex-column
-        .row.mx-0 {{ infoText }}
-        .row.mt-4
-          .col-3
-            .login-text Email:
-          .col
-            input.text-black.w-100.bg-shadow-inner(
-              type="text" 
-              autocomplete="off" 
-              name="username" 
-              v-model="username"
-            )
-        .row.mt-2(v-if="state === 2 || state === 1")
-          .col-3
-            .login-text Password:
-          .col
-            input.w-100.text-black.bg-shadow-inner(
-              type="password" 
-              name="password" 
-              autocomplete="off" 
-              v-model="password"
-            )
-        .row.mt-2(v-if="state === 2")
-          .col-3
-            .login-text Password:
-          .col
-            input.w-100.text-black.bg-shadow-inner(
-              type="password" 
-              name="password" 
-              autocomplete="off" 
-              v-model="password2"
-            )
-      .buttons.d-flex.flex-column.ps-4
-        button.btn(@click="pressedOk()") OK 
-        button.btn.mt-2(@click="changeShowHelp()") Help
-    .d-flex.flex-column.bg-shadow-inner.p-4.m-2(v-if="showHelp === true")
-      p Some helping info and stuff
-      .d-flex.justify-content-center.mt-4
-        button.btn.me-4(@click="changeState(2)" v-if="state === 1") Create User
-        button.btn.me-4(@click="changeState(1)" v-else) Login
-        button.btn(@click="changeState(3)") Forgot password
-        
+WindowFrame(
+  :program="program" 
+  :showMenu="false" 
+  :variant="info"
+).absolute-center
+  .row.p-2.px-4
+    .col-2.text-center
+      IconComponent(name="fa-key" variant="warning" size="40" rotate="0")
+    .col-10.d-flex.align-items-center
+      | {{ infoText }}
+    .col-12
+      .row.mt-4
+        .col-12.col-lg-2
+          .login-text Email:
+        .col-12.col-lg
+          input.text-black.bg-shadow-inner(
+            type="email" 
+            autocomplete="off" 
+            name="username" 
+            v-model="username"
+          )
+      .row.mt-2(v-if="state === 2 || state === 1")
+        .col-12.col-lg-2
+          .login-text Password:
+        .col-12.col-lg
+          input.text-black.bg-shadow-inner(
+            type="password" 
+            name="password" 
+            autocomplete="off" 
+            v-model="password"
+          )
+      .row.mt-2(v-if="state === 2")
+        .col-12.col-lg-2
+          .login-text Password:
+        .col-12.col-lg
+          input.text-black.bg-shadow-inner(
+            type="password" 
+            name="password" 
+            autocomplete="off" 
+            v-model="password2"
+          )
+    .col-12.mt-4.d-flex.justify-content-center
+      button.btn.btn-wide.me-2(@click="pressedOk()") OK 
+      button.btn.btn-wide(@click="changeShowHelp()") Help
+  .d-flex.flex-column.bg-shadow-inner.p-4.m-2(v-if="showHelp === true")
+    p Some helping info and stuff
+    .d-flex.justify-content-center.mt-4
+      button.btn.me-4(@click="changeState(2)" v-if="state === 1") Create User
+      button.btn.me-4(@click="changeState(1)" v-else) Login
+      button.btn(@click="changeState(3)") Forgot password
+      
 </template>
 
 <script lang="ts">
-import WindowFrame from '../WindowFrame.vue'
+import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import { authStore } from '@/stores/authStore'
 import type { IProgram } from '@/models/index'
 import { defineComponent, ref } from 'vue'

@@ -13,7 +13,7 @@ Teleport(to="body")
 </template>
 
 <script lang="ts">
-import WindowFrame from './WindowFrame.vue'
+import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import { errorStore } from '@/stores/errorStore'
 import { defineComponent, computed } from 'vue'
 

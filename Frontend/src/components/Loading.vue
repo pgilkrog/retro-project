@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import WindowFrame from './WindowFrame.vue'
+import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import { defineComponent, onMounted, ref } from 'vue'
 import type { IProgram } from '@/models/index'
 

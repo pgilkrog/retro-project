@@ -54,7 +54,7 @@ import { programsStore } from '@/stores/programsStore'
 import { userStore } from '@/stores/userStore'
 import type { IProgram } from '@/models/index'
 
-import WindowFrame from '../../WindowFrame.vue'
+import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import ProgramList from '@/components/programs/add-remove-programs/ProgramsList.vue'
 import Loader from '@/components/Loading.vue'
 

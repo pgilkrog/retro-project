@@ -17,7 +17,7 @@ WindowFrame(:program="program" :isMoveable="true")
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
-import WindowFrame from '@/components/WindowFrame.vue'
+import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 
 export default defineComponent({
   props: {

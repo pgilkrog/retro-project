@@ -45,7 +45,7 @@ WindowFrame(:program="program" :isMoveable="true")
 <script lang="ts">
 import { authStore } from '@/stores/authStore';
 import { ref, reactive, onMounted } from 'vue'
-import WindowFrame from '../../WindowFrame.vue'
+import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import FileExplorer from '@/components/FileExplorer.vue'
 import type { IPainting } from '@/models/index'
 import { defineComponent } from 'vue'
