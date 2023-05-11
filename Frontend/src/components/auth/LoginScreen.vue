@@ -4,37 +4,37 @@ WindowFrame(
   :showMenu="false" 
   :variant="info"
 ).absolute-center
-  .row.p-2.px-4
+  .login-screen.row.p-2.px-4
     .col-2.text-center
       IconComponent(name="fa-key" variant="warning" size="40" rotate="0")
     .col-10.d-flex.align-items-center
       | {{ infoText }}
     .col-12
       .row.mt-4
-        .col-12.col-lg-2
+        .col-12.col-lg-3.d-flex.align-items-center
           .login-text Email:
         .col-12.col-lg
-          input.text-black.bg-shadow-inner(
+          input.text-black.bg-shadow-inner.w-100(
             type="email" 
             autocomplete="off" 
             name="username" 
             v-model="username"
           )
       .row.mt-2(v-if="state === 2 || state === 1")
-        .col-12.col-lg-2
+        .col-12.col-lg-3.d-flex.align-items-center
           .login-text Password:
         .col-12.col-lg
-          input.text-black.bg-shadow-inner(
+          input.text-black.bg-shadow-inner.w-100(
             type="password" 
             name="password" 
             autocomplete="off" 
             v-model="password"
           )
       .row.mt-2(v-if="state === 2")
-        .col-12.col-lg-2
+        .col-12.col-lg-3.d-flex.align-items-center
           .login-text Password:
         .col-12.col-lg
-          input.text-black.bg-shadow-inner(
+          input.text-black.bg-shadow-inner.w-100(
             type="password" 
             name="password" 
             autocomplete="off" 
@@ -143,3 +143,8 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="sass" scoped>
+.login-screen
+  max-width: 600px
+</style>

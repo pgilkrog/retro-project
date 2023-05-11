@@ -67,6 +67,7 @@ export const programsStore = defineStore("programs", {
         }
       })
       this._notInstalledPrograms = notInstalled
+      console.log(programs)
     },
     setActivePrograms(programs: IProgram[]) {
       this._activePrograms = programs

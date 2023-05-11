@@ -1,16 +1,22 @@
 <template lang="pug">
 .add-or-remove-programs
-  WindowFrame(:program="program" :isMoveable="true")
+  WindowFrame(
+    :program="program" 
+    :isMoveable="true" 
+    :showMenu="false" 
+    variant="info" 
+    :isNotProgram="false"
+  )
     .d-flex.p-2
       .d-flex.flex-column.pe-3
-        button.btn.d-flex.flex-column.align-items-center(@click="changeState('removePrograms')"  :class="state === 'removePrograms' ? 'btn-active' : 'btn'")
+        button.btn.d-flex.flex-column.align-items-center.w-100(@click="changeState('removePrograms')" :class="state === 'removePrograms' ? 'btn-active' : 'btn'")
           IconComponent(
             name="fa-computer"
             variant="dark"
             size="42"
           )
           p Remove Program
-        button.d-flex.flex-column.align-items-center.mt-2(@click="changeState('addPrograms')" :class="state === 'addPrograms' ? 'btn-active' : 'btn'")
+        button.d-flex.flex-column.align-items-center.mt-2.w-100(@click="changeState('addPrograms')" :class="state === 'addPrograms' ? 'btn-active' : 'btn'")
           IconComponent(
             name="fa-folder-plus"
             variant="dark"
@@ -45,7 +51,7 @@
           @click="removeProgram()"
           :disabled="selectedProgramId === ''" 
         ) Remove
-Loader(v-if="isInstalling === true" v-on:closeLoading="closeLoading()")
+Loader(v-if="isInstalling === true" @closeLoading="closeLoading()")
 </template>
 
 <script lang="ts">
@@ -120,6 +126,7 @@ export default defineComponent({
     }
 
     const closeLoading = () => {
+      debugger
       isInstalling.value = false
     }
 

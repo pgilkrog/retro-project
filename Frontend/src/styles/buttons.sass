@@ -8,14 +8,16 @@ button, input
   width: fit-content
 
   &:hover
-    background-color: lightgray
+    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3)
+    @extend .bg-shadow
 
 .btn-active  
   @extend .bg-shadow-inner
   background-color: $secondary
 
   &:hover
-    background-color: lightgray
+    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3)
+    @extend .bg-shadow-inner
 
 .btn-wide
   min-width: 200px

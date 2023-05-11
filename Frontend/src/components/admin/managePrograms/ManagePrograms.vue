@@ -3,10 +3,11 @@
   WindowFrame(:program="program" :isMoveable="true")
     .d-flex.flex-column.m-2
       button.btn.mb-4(@click="changeShowManageProgram(true)") Add new program
-      .d-flex.bg-shadow.py-1.px-4.justify-content-between.align-items-center.rounded(v-for="(program, index) in allPrograms" :key="index") 
-        .d-flex
-          p {{ program.sortOrder + ': ' + program.name }}
+      
+      .hover.d-flex.bg-shadow.p-1.pe-4.justify-content-between.align-items-center.rounded.pointer.mt-1(v-for="(program, index) in allPrograms" :key="index") 
+        .d-flex.align-items-center
           IconComponent.mx-2(name="fa-pencil" variant="warning" size="25" @click="setUpdateState(true, program); changeShowManageProgram(true)")
+          p.mx-2 {{ `${program.sortOrder}: ${program.name }`}}
         IconComponent(name="bi-trash-fill" variant="danger" size="25" @click="deleteProgram(program)")
   
   WindowFrame(
@@ -22,27 +23,32 @@
         v-model:color="programInfo.color"
         v-model:sortOrder="programInfo.sortOrder"
       )
-
       .d-flex.mt-3.justify-content-between
         button.btn(@click="changeShowManageProgram(false)") Cancel
         template(v-if="updateState === true")
           button.btn(@click="updateProgram()") Update
         template(v-else)
           button.btn(@click="addProgram()" ) Add Program
+  Validating(
+    v-if="showValidation === true" 
+    :text="'Delete program: ' + programInfo.displayName"
+    @ok="ok()"
+    @cancel="cancel()"
+  )
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, computed, reactive } from 'vue'
-import WindowFrame from '@/components/WindowFrame.vue'
 import { programsStore } from '@/stores/programsStore'
 import type { IProgram } from '@/models/index'
 import ProgramInputs from './ProgramInputs.vue'
+import Validating from '@/components/Validating.vue'
 
 export default defineComponent({
   name: 'managePrograms',
   components: {
-    WindowFrame,
-    ProgramInputs
+    ProgramInputs,
+    Validating
   }, 
   props: {
     program: Object
@@ -52,7 +58,7 @@ export default defineComponent({
     const allPrograms = computed(() => programsstore.getPrograms)
     const showManageProgram = ref(false)
     const updateState = ref(false)
-    let selectedProgram = {}
+    let selectedProgram = ref<IProgram | null>(null)
     const programInfo = reactive({
       name: "",
       displayName: "",
@@ -60,6 +66,7 @@ export default defineComponent({
       color: "",
       sortOrder: 0
     })
+    let showValidation = ref(false)
 
     const addProgram = () => {
       if (programInfo.name !== '' && programInfo.image !== '' && programInfo.displayName !== '') {
@@ -78,12 +85,17 @@ export default defineComponent({
     }
 
     const deleteProgram = (program: IProgram) => {
-      programsstore.deleteProgram(program)
-      resetInputs()
+      selectedProgram.value = program
+      programInfo.name = program.name
+      programInfo.displayName = program.displayName
+      programInfo.color = program.color
+      programInfo.image = program.image
+      programInfo.sortOrder = program.sortOrder
+      showValidation.value = true
     }
 
     const updateProgram = () => {
-      let temp = selectedProgram as IProgram
+      let temp = selectedProgram.value as IProgram
       debugger
       temp.name = programInfo.name
       temp.displayName = programInfo.displayName
@@ -99,15 +111,24 @@ export default defineComponent({
       programInfo.color = ''
       programInfo.image = ''
       programInfo.sortOrder = 0
-      selectedProgram = {}
+      selectedProgram.value = null
       changeShowManageProgram(false)
+    }
+
+    const ok = () => {
+      console.log("ok", selectedProgram.value)
+    }
+
+    const cancel = () => {
+      showValidation.value = false
+      resetInputs()
     }
 
     const setUpdateState = (state: boolean, program: IProgram) => {
       updateState.value = state
 
       if (state === true) {
-        selectedProgram = program
+        selectedProgram.value = program
         programInfo.name = program.name
         programInfo.displayName = program.displayName
         programInfo.color = program.color
@@ -126,17 +147,19 @@ export default defineComponent({
     }
 
     return {
-      name,
       programInfo,
       allPrograms,
       updateState,
       showManageProgram,
+      showValidation,
       addProgram,
       deleteProgram,
       updateProgram,
       resetInputs,
       setUpdateState,
-      changeShowManageProgram
+      changeShowManageProgram,
+      ok,
+      cancel
     }
   }
 })

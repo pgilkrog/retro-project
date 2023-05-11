@@ -17,13 +17,9 @@ WindowFrame(
 </template>
 
 <script lang="ts">
-import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  components: {
-    WindowFrame
-  },
   props: {
     files: Array
   },

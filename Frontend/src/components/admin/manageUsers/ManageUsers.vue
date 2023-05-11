@@ -23,7 +23,6 @@
 
 <script lang="ts">
 import { defineComponent, computed, onMounted, reactive, ref } from 'vue'
-import WindowFrame from '@/components/WindowFrame.vue'
 import { userStore } from '@/stores/userStore'
 import UserInputs from './UserInputs.vue'
 import type { IUser, IUserSettings } from '@/models/index'
@@ -31,7 +30,6 @@ import type { IUser, IUserSettings } from '@/models/index'
 export default defineComponent({
   name: 'manageUsers', 
   components: {
-    WindowFrame,
     UserInputs
   }, 
   props: {

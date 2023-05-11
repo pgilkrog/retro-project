@@ -3,8 +3,8 @@
   WindowFrame(
     :program="program" 
     :showMenu="false" 
-    variant="warning"
     :isMoveable="true"
+    @closeWindow="closeLoading()"
   )
     .p-4
       .folder-animation 
@@ -16,13 +16,13 @@
         .loading-box.bg-primary(v-for="item in progressValues")
       div(v-if="file !== undefined && file.length > 0") {{ file[file.length - 1] }}
       .d-flex.justify-content-end.mt-4
-        button.btn(v-if="loadingCompleted === true") Close
+        button.btn(v-if="loadingCompleted === true" @click="closeLoading()") Close
     .bg-dark.text-light.p-4
       div Installing...
       div
         div(:style="{ width: progress + '%' }")
       ul
-        li(v-for="(file, index) in files" :key="index") {{ file }}
+        li(v-for="(file, index) in files.slice(files.length-1, files.length)" :key="index") {{ file }}
 </template>
 
 <script lang="ts">
@@ -74,7 +74,7 @@ export default defineComponent({
       const installationTime = 5000 // 5 seconds
 
       const intervalId = setInterval(() => {
-        if (progress.value >= 100) {
+        if (progress.value >= 200) {
           clearInterval(intervalId)
           return
         }

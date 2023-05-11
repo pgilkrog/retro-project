@@ -1,7 +1,7 @@
 <template lang="pug">
 .menu-item.py-2.px-4.w-100.d-flex.align-items-center.text-black(@click="openProgram()")
   h3.text-bold.me-4
-    IconComponent.me-3(:variant="program.color === 'light' ? 'dark' : program.color" :name="img") 
+    IconComponent.me-3(:variant="color === 'light' ? 'dark' : color" :name="img") 
   |  {{title}}
   span(v-if="hasChildren == true") >
 </template>
