@@ -1,5 +1,8 @@
 <template lang="pug">
-.desktop-item.d-flex.flex-column.align-items-center.pointer.m-1(@click="itemPressed()" :class="itemColor ? 'text-' + itemColor : 'text-success'")
+.desktop-item.d-flex.flex-column.align-items-center.pointer.m-1(
+  @click="itemPressed()" 
+  :class="itemColor ? 'text-' + itemColor : 'text-success'"
+)
   IconComponent(
     :variant="program.color" 
     :name="program.image" 
@@ -29,3 +32,6 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="sass" scoped>
+</style>

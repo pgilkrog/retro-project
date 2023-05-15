@@ -80,6 +80,7 @@ export const userStore = defineStore("user", {
       this.programstore.setInstalledPrograms(user.installedPrograms)
     },
     setUserSettings(settings: IUserSettings) {
+      debugger
       this.setUserBackgroundImage(settings.backgroundImage)
       this.setBackgroundColour(settings.backgroundColour)
       this.setUseBackgroundImage(settings.useBackgroundImage)

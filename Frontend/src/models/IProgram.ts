@@ -6,6 +6,7 @@ export class IProgram {
   color: string
   displayName: string
   sortOrder: number
+  type: string
 
   constructor(
     _id: string, 
@@ -14,7 +15,8 @@ export class IProgram {
     image: string, 
     color: string, 
     displayName: string, 
-    sortOrder: number
+    sortOrder: number,
+    type: ''
   ) {
     this.id = _id
     this.name = name
@@ -23,5 +25,6 @@ export class IProgram {
     this.color = color
     this.displayName = displayName
     this.sortOrder = sortOrder
+    this.type = type
   }
 }

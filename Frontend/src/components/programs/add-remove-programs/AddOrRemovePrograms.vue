@@ -4,7 +4,7 @@
     :program="program" 
     :isMoveable="true" 
     :showMenu="false" 
-    variant="info" 
+    variant="primary" 
     :isNotProgram="false"
   )
     .d-flex.p-2
@@ -15,15 +15,15 @@
             variant="dark"
             size="42"
           )
-          p Remove Program
+          p.mt-2 Remove Program
         button.d-flex.flex-column.align-items-center.mt-2.w-100(@click="changeState('addPrograms')" :class="state === 'addPrograms' ? 'btn-active' : 'btn'")
           IconComponent(
             name="fa-folder-plus"
             variant="dark"
             size="42"
           )
-          p Add program
-      .program-list.bg-white.p-4.bg-shadow-inner.d-flex.flex-column
+          p.mt-2 Add program
+      .program-list.bg-grey.p-4.bg-shadow-inner.d-flex.flex-column
         ProgramList(
           v-show="state === 'removePrograms'"
           title="Installed programs"
@@ -126,7 +126,6 @@ export default defineComponent({
     }
 
     const closeLoading = () => {
-      debugger
       isInstalling.value = false
     }
 
@@ -152,6 +151,8 @@ export default defineComponent({
 <style lang="sass" scoped>
 .program-list
   width: 700px
+  height: 400px
+  overflow: auto
 .active-program 
   background-color: darkblue
   color: white

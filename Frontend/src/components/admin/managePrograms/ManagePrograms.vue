@@ -22,6 +22,7 @@
         v-model:image="programInfo.image"
         v-model:color="programInfo.color"
         v-model:sortOrder="programInfo.sortOrder"
+        v-model:type="programInfo.type"
       )
       .d-flex.mt-3.justify-content-between
         button.btn(@click="changeShowManageProgram(false)") Cancel
@@ -60,23 +61,29 @@ export default defineComponent({
     const updateState = ref(false)
     let selectedProgram = ref<IProgram | null>(null)
     const programInfo = reactive({
-      name: "",
-      displayName: "",
-      image: "",
-      color: "",
-      sortOrder: 0
+      name: '',
+      displayName: '',
+      image: '',
+      color: '',
+      sortOrder: 0,
+      type: ''
     })
     let showValidation = ref(false)
 
     const addProgram = () => {
-      if (programInfo.name !== '' && programInfo.image !== '' && programInfo.displayName !== '') {
+      if (
+        programInfo.name !== '' && 
+        programInfo.image !== '' && 
+        programInfo.displayName !== ''
+      ) {
         const program = {
           id: '',
           name: programInfo.name,
           displayName: programInfo.displayName,
           color: programInfo.color,
           image: programInfo.image,
-          sortOrder: programInfo.sortOrder
+          sortOrder: programInfo.sortOrder,
+          type: programInfo.type
         } as IProgram
 
         programsstore.createProgram(program)
@@ -91,17 +98,18 @@ export default defineComponent({
       programInfo.color = program.color
       programInfo.image = program.image
       programInfo.sortOrder = program.sortOrder
+      programInfo.type = program.type
       showValidation.value = true
     }
 
     const updateProgram = () => {
       let temp = selectedProgram.value as IProgram
-      debugger
       temp.name = programInfo.name
       temp.displayName = programInfo.displayName
       temp.image = programInfo.image
       temp.color = programInfo.color
       temp.sortOrder = programInfo.sortOrder
+      temp.type = programInfo.type
       programsstore.updateProgram(temp)
     }
 
@@ -111,8 +119,8 @@ export default defineComponent({
       programInfo.color = ''
       programInfo.image = ''
       programInfo.sortOrder = 0
+      programInfo.type = ''
       selectedProgram.value = null
-      changeShowManageProgram(false)
     }
 
     const ok = () => {
@@ -125,6 +133,7 @@ export default defineComponent({
     }
 
     const setUpdateState = (state: boolean, program: IProgram) => {
+      debugger
       updateState.value = state
 
       if (state === true) {
@@ -134,12 +143,14 @@ export default defineComponent({
         programInfo.color = program.color
         programInfo.image = program.image
         programInfo.sortOrder = program.sortOrder
+        programInfo.type = program.type
       } else {
         resetInputs()
       }
     }
 
     const changeShowManageProgram = (bool: boolean) => {
+      debugger
       showManageProgram.value = bool
 
       if (bool === false)

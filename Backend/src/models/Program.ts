@@ -21,6 +21,10 @@ const programSchema = new mongoose.Schema ({
   sortOrder: {
     type: Number,
     required: true
+  },
+  type: {
+    type: String,
+    required: true
   }
 })
 

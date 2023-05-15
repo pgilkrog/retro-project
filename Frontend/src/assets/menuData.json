@@ -1,66 +1,66 @@
 [
   {
     "title": "Profile",
-    "img": "bi bi-folder",
+    "img": "bi-folder",
     "subMenu": []
   },
   {
     "title": "Programs",
-    "img": "bi bi-window-fullscreen",
+    "img": "bi-window-fullscreen",
     "subMenu": [
       {
         "title": "Accesories",
-        "img": "bi bi-tools",
+        "img": "bi-tools",
         "subMenu": [
           {
             "title": "Settings",
-            "img": "bi bi-sliders", 
+            "img": "bi-sliders", 
             "subMenu": []
           },
           {
             "title": "Documents",
-            "img": "bi bi-folder", 
+            "img": "bi-folder", 
             "subMenu": []
           }
         ]
       },    
       {
         "title": "Settings",
-        "img": "bi bi-sliders", 
+        "img": "bi-sliders", 
         "subMenu": []
       },
       {
         "title": "Documents",
-        "img": "bi bi-folder", 
+        "img": "bi-folder", 
         "subMenu": []
       },
       {
         "title": "Games",
-        "img": "bi bi-joystick", 
+        "img": "bi-joystick", 
         "subMenu": [
           {
             "title": "Ping Pong",
-            "img": "bi bi-sliders", 
+            "img": "bi-sliders", 
             "subMenu": []
           },      
           {
             "title": "Space Invaders",
-            "img": "bi bi-sliders", 
+            "img": "bi-sliders", 
             "subMenu": []
           },      
           {
             "title": "Flappy Disk",
-            "img": "bi bi-sliders", 
+            "img": "bi-sliders", 
             "subMenu": []
           },      
           {
             "title": "Platformer",
-            "img": "bi bi-sliders", 
+            "img": "bi-sliders", 
             "subMenu": []
           },
           {
             "title": "Salvatore",
-            "img": "fa fa-joystic",
+            "img": "fa-joystic",
             "subMenu": []
           }
         ]
@@ -69,53 +69,53 @@
   },
   {
     "title": "Documents",
-    "img": "bi bi-folder",
+    "img": "bi-folder",
     "subMenu": [  
       {
         "title": "Settings",
-        "img": "bi bi-sliders", 
+        "img": "bi-sliders", 
         "subMenu": []
       },
       {
         "title": "Documents",
-        "img": "bi bi-folder", 
+        "img": "bi-folder", 
         "subMenu": []
       },  
       {
         "title": "Programs",
-        "img": "bi bi-window-fullscreen", 
+        "img": "bi-window-fullscreen", 
         "subMenu": []
       }
     ]
   },  
   {
     "title": "Settings",
-    "img": "bi bi-sliders", 
+    "img": "bi-sliders", 
     "subMenu": []
   },
   {
     "title": "Find",
-    "img": "bi bi-search", 
+    "img": "bi-search", 
     "subMenu": []
   },    
   {
     "title": "Help",
-    "img": "bi bi-question-circle",
+    "img": "bi-question-circle",
     "subMenu": []
   },    
   {
     "title": "Run...",
-    "img": "bi bi-hourglass",   
+    "img": "bi-hourglass",   
     "subMenu": []
   },        
   {
     "title": "Logout",
-    "img": "bi bi-person",
+    "img": "bi-person",
     "subMenu": []
   },        
   {
     "title": "Shutdown...",
-    "img": "bi bi-power",
+    "img": "bi-power",
     "subMenu": []
   }
 ]

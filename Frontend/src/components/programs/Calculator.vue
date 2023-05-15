@@ -2,7 +2,7 @@
 WindowFrame(:program="program" :isMoveable="true")
   .calculator-wrapper
     .d-flex.p-3.w-100
-      .bg-white.w-100.rounded.bg-shadow-inner.d-flex.justify-content-end.p-2.pe-3
+      .bg-light.w-100.rounded.bg-shadow-inner.d-flex.justify-content-end.p-2.pe-3
        p {{ display !== '' ? display : '0' }}
     .button-wrapper.p-3
       button.btn(

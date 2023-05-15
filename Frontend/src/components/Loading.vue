@@ -51,7 +51,7 @@ export default defineComponent({
     const progressValues = ref<number[]>([])
     const files = ref<string[]>([])
     const progress = ref<number>(0)
-    
+
     const addToArray = () => {
       if (progressValues.value.length < 10) {
         setTimeout(() => {

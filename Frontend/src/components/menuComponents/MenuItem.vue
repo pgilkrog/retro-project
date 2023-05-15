@@ -3,7 +3,8 @@
   h3.text-bold.me-4
     IconComponent.me-3(:variant="color === 'light' ? 'dark' : color" :name="img") 
   |  {{title}}
-  span(v-if="hasChildren == true") >
+  span(v-if="hasChildren == true") 
+    IconComponent.ms-2(name="fa-caret-right")
 </template>
 
 <script lang="ts">

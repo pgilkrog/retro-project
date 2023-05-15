@@ -9,7 +9,7 @@ WindowFrame(
       IconComponent(name="fa-key" variant="warning" size="40" rotate="0")
     .col-10.d-flex.align-items-center
       | {{ infoText }}
-    .col-12
+    form.col-12
       .row.mt-4
         .col-12.col-lg-3.d-flex.align-items-center
           .login-text Email:
@@ -49,19 +49,14 @@ WindowFrame(
       button.btn.me-4(@click="changeState(2)" v-if="state === 1") Create User
       button.btn.me-4(@click="changeState(1)" v-else) Login
       button.btn(@click="changeState(3)") Forgot password
-      
 </template>
 
 <script lang="ts">
-import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import { authStore } from '@/stores/authStore'
 import type { IProgram } from '@/models/index'
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
-  components: {
-    WindowFrame
-  },
   setup () {
     const state = ref(1)
     const username = ref("" as string)
@@ -74,7 +69,7 @@ export default defineComponent({
     const program = ref({
         name: 'LogInNow', 
         isActive: true, 
-        image: 'bi-archive',
+        image: 'fa-user-lock',
         displayName: 'Log in now',
         color: 'light'
       } as IProgram)

@@ -38,6 +38,14 @@ input.bg-shadow-inner(
   @input="$emit('update:sortOrder', $event.target.value)" 
   id="sortOrder"
 )
+
+label(for="type") Type:
+input.bg-shadow-inner(
+  type="text" 
+  :value="type" 
+  @input="$emit('update:type', $event.target.value)" 
+  id="type"
+)
 </template>
 
 <script lang="ts">
@@ -60,6 +68,9 @@ export default defineComponent({
     },
     sortOrder: {
       type: Number
+    },
+    type: {
+      type: String
     }
   },
   setup() {

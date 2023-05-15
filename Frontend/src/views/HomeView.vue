@@ -1,6 +1,6 @@
 <template lang="pug">
-.home-wrapper.bg-fill.p-4
-  .desktop-container
+.home-wrapper.bg-fill.p-4(:style="[useBackgroundImage === true ? {'background-image': 'url('+ userBackgroundImage + ')'} : {'background-color': userBackgroundColor}]")
+  .desktop-container.d-flex.flex-column
     DesktopItem(
       v-for="program in allPrograms()"
       v-on:generateComponent="generateComponent(program)"
@@ -13,11 +13,12 @@
 
 <script lang="ts">
 import type { IProgram } from '@/models/index'
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import DesktopItem from '@/components/DesktopItem.vue'
 import { programsStore } from '@/stores/programsStore'
 import ComponentMachine from '@/components/ComponentMachine.vue'
 import Loading from '@/components/Loading.vue'
+import { userStore } from '@/stores/userStore'
 
 export default defineComponent({
   components: {
@@ -28,6 +29,11 @@ export default defineComponent({
   setup() {
     const programsstore = programsStore()
 
+    const userstore = userStore()
+    const useBackgroundImage = computed(() => userstore.getUseBackgroundImage)    
+    const userBackgroundImage = computed(() => userstore.getUserBackgroundImage)
+    const userBackgroundColor = computed(() => userstore.getUserBackgroundColour)
+
     const allPrograms = (() => programsstore.getInstalledPrograms)
 
     const generateComponent = (program: IProgram) => {
@@ -35,6 +41,9 @@ export default defineComponent({
     }
 
     return {
+      useBackgroundImage,
+      userBackgroundImage,
+      userBackgroundColor,
       allPrograms,
       generateComponent
     }

@@ -37,7 +37,8 @@ export const programsStore = defineStore("programs", {
               image: tempData[program].image,
               color: tempData[program].color,
               displayName: tempData[program].displayName,
-              sortOrder: tempData[program].sortOrder
+              sortOrder: tempData[program].sortOrder,
+              type: tempData[program].type
             } as IProgram)
           }
           this._programs = tempArray.sort((a: IProgram, b: IProgram,) => a.sortOrder - b.sortOrder)

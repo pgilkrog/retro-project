@@ -9,12 +9,13 @@
   )
     .col-1
       IconComponent.me-3(:variant="program.color === 'light' ? 'dark' : program.color" :name="program.image") 
-    .col  
+    .col-7
       p {{ program.displayName }}
+    .col-4.text-end {{ size() }}
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import type { IProgram } from '@/models/index'
 
 export default defineComponent({
@@ -29,7 +30,12 @@ export default defineComponent({
       emit('changeSelectedProgram', {...program})
     }
 
+    const size = () => {
+      return `size: ${Math.round(Math.random() * 1000)}mb`
+    }
+
     return {
+      size,
       changeSelectedProgram
     }
   }

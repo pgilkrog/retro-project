@@ -5,3 +5,9 @@ export { IPainting } from '@/models/IPainting'
 export { IUser } from '@/models/IUser'
 export { IUserSettings } from '@/models/IUserSettings'
 export { IFile } from '@/models/IFile'
+
+export enum programTypes {
+  Game,
+  Accesory,
+  Tool
+}
