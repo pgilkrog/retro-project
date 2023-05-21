@@ -1,6 +1,6 @@
 <template lang="pug">
 .home-wrapper.bg-fill.p-4(:style="[useBackgroundImage === true ? {'background-image': 'url('+ userBackgroundImage + ')'} : {'background-color': userBackgroundColor}]")
-  .desktop-container.d-flex.flex-column
+  .desktop-container
     DesktopItem(
       v-for="program in allPrograms()"
       v-on:generateComponent="generateComponent(program)"
@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import type { IProgram } from '@/models/index'
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, onMounted } from 'vue'
 import DesktopItem from '@/components/DesktopItem.vue'
 import { programsStore } from '@/stores/programsStore'
 import ComponentMachine from '@/components/ComponentMachine.vue'
@@ -30,11 +30,15 @@ export default defineComponent({
     const programsstore = programsStore()
 
     const userstore = userStore()
-    const useBackgroundImage = computed(() => userstore.getUseBackgroundImage)    
-    const userBackgroundImage = computed(() => userstore.getUserBackgroundImage)
-    const userBackgroundColor = computed(() => userstore.getUserBackgroundColour)
+    const useBackgroundImage = computed(() => userstore.useBackgroundImage)    
+    const userBackgroundImage = computed(() => userstore.userBackgroundImage)
+    const userBackgroundColor = computed(() => userstore.userBackgroundColour)
 
-    const allPrograms = (() => programsstore.getInstalledPrograms)
+    onMounted(() => {
+      
+    })
+
+    const allPrograms = (() => programsstore.installedPrograms)
 
     const generateComponent = (program: IProgram) => {
       programsstore.addProgramToActive({...program})
@@ -50,3 +54,6 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="sass">
+</style>

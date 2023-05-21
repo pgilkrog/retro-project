@@ -3,7 +3,7 @@ template(v-if="userIsLoggedIn === false && checkedAuth === true")
   LoginScreen
 template(v-else-if="userIsLoggedIn === true && checkedAuth === true")
   .app-wrapper
-    router-view()
+    router-view
     Menu(v-bind:showMenu="showMenu")
     Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")
     ErrorComponent
@@ -19,7 +19,13 @@ import ErrorComponent from '@/components/ErrorComponent.vue'
 import { userStore } from './stores/userStore'
 import { authStore } from '@/stores/authStore'
 import { programsStore } from './stores/programsStore'
-import { defineComponent, ref, computed, onMounted, watch } from 'vue'
+import { 
+  defineComponent, 
+  ref, 
+  computed, 
+  onMounted, 
+  watch
+} from 'vue'
 
 export default defineComponent({
   components: {
@@ -31,12 +37,13 @@ export default defineComponent({
   },
   setup() {
     const showMenu = ref(false)
+
     const authstore = authStore()
     const userstore = userStore()
     const programsstore = programsStore()
 
-    const userIsLoggedIn = computed(() => authstore.getIsLoggedIn)
-    const checkedAuth = computed(() => authstore.getCheckedAuth)
+    const userIsLoggedIn = computed(() => authstore.isLoggedIn)
+    const checkedAuth = computed(() => authstore.checkedAuth)
 
     onMounted(() => {
       authstore.init()
@@ -53,7 +60,8 @@ export default defineComponent({
         programsstore.init()
         
         userstore.getUserById().then((data) => {
-          programsstore.setInstalledPrograms(data.installedPrograms)
+          if (data !== undefined)
+            programsstore.setInstalledPrograms(data.installedPrograms)
         })
       }
     })

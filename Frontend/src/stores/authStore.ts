@@ -3,48 +3,44 @@ import axios from "axios"
 const url = 'http://localhost:4000/api/auth'
 import type { IUser } from "@/models/index"
 import setAuthToken from "@/helpers/setAuthToken"
+import { ref } from 'vue'
 
-export const authStore = defineStore("auth", {
-  state: () => ({
-    _isLoggedIn: false as Boolean,
-    _user: {} as IUser,
-    _checkedAuth: false as Boolean,
-    _token: "",
-  }),
-  getters: {
-    getIsLoggedIn: (state) => state._isLoggedIn,
-    getUser: (state) => state._user,
-    getCheckedAuth: (state) => state._checkedAuth,
-    getToken: (state) => state._token
-  },
-  actions: {
-    async init() {
-      await this.checkIfUserIsLoggedIn()
-    },
-    async checkIfUserIsLoggedIn() {
+export const authStore = defineStore("auth",() => {
+    const isLoggedIn = ref<Boolean>(false)
+    const user = ref<IUser>()
+    const checkedAuth = ref<Boolean>()
+    const token = ref<String>("")
+
+    const init = async () => {
+      await checkIfUserIsLoggedIn()
+    }
+    
+    const checkIfUserIsLoggedIn = async () => {
       const localToken = sessionStorage.getItem('token')
       const localUser = sessionStorage.getItem('userId')
       if (localUser && localToken)
-        await this.refreshToken()
+        await refreshToken()
       
-      this._checkedAuth = true
-    },
-    async loginUser(email: string, password: string) {
+      checkedAuth.value = true
+    }
+
+    const loginUser = async (email: string, password: string) => {
       try {
         const response = await axios.post(url + '/login/', { email: email, password: password })
         const { token, user } = response.data
         sessionStorage.setItem('token', token)
         sessionStorage.setItem('userId', user._id)
         console.log("USER", user)
-        this._user = user
-        this._isLoggedIn = true
-        this._checkedAuth = true
+        user.value = user
+        isLoggedIn.value = true
+        checkedAuth.value = true
         console.log("LOGIN RESPONSE", response)        
       } catch (error) {
         console.log(error)
       }
-    },
-    async registerUser(userName: string, password: string) {
+    }
+
+    const registerUser = async (userName: string, password: string) => {
       try {
         const user = {email: userName, password: password}
         const response = await axios.post(url, user)
@@ -52,21 +48,25 @@ export const authStore = defineStore("auth", {
       } catch (error: any) {
         console.log(error.log)
       }
-    },
-    async signOut() {
-      this._isLoggedIn = false
-      this._user = {} as IUser
+    }
+    
+    const signOut = async () => {
+      isLoggedIn.value = false
+      user.value = {} as IUser
       sessionStorage.removeItem('token')
       sessionStorage.removeItem('userId')
-    },
-    async changePassword(password: string) {
+    }
+
+    const changePassword = (password: string) => {
       // updatePassword(this.getUser, password)
-    },
-    setToken(token: string) {
-      this._token = token
-      sessionStorage.setItem('token', token)
-    },
-    async refreshToken() {
+    }
+    
+    const setToken = (newToken: string) => {
+      token.value = newToken
+      sessionStorage.setItem('token', newToken)
+    }
+    
+    const refreshToken = async () => {
       const localUserId= sessionStorage.getItem('userId')
       const localToken = sessionStorage.getItem('token')
       
@@ -77,10 +77,25 @@ export const authStore = defineStore("auth", {
         setAuthToken(localToken)
 
       sessionStorage.setItem('userId', response.data.user._id)
-      this.setToken(response.data.token)
-      this._user = response.data.user
-      this._isLoggedIn = true
-      this._checkedAuth = true
+      setToken(response.data.token)
+      user.value = response.data.user
+      isLoggedIn.value = true
+      checkedAuth.value = true
     }
-  }
+  
+    return {
+      isLoggedIn,
+      user,
+      checkedAuth,
+      token,
+      init,
+      checkIfUserIsLoggedIn,
+      loginUser,
+      registerUser,
+      signOut,
+      changePassword,
+      setToken,
+      refreshToken,
+
+    }
 })

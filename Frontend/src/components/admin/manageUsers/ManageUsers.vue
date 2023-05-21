@@ -16,9 +16,15 @@
         v-model:type="userInfo.type"
         v-model:installedPrograms="userInfo.installedPrograms"
       )
+      button.btn.w-100.mt-3 Settings
       .d-flex.mt-3.justify-content-between
         button.btn(@click="changeShowManageUser(false)") Cancel
         button.btn(@click="updateUser()") Update
+  WindowFrame(
+    :program="{name: 'ManageUserSettings', displayName: 'Manage User Settings', color: 'warning', image: 'fa-pencil', isActive: true}" 
+    :isMoveable="true"
+    v-if="showManageUserSettings"
+  )
 </template>
 
 <script lang="ts">
@@ -37,6 +43,7 @@ export default defineComponent({
   },
   setup() {
     let showManageUser = ref(false)
+    let showManageUserSettings = ref(false)
     let selectedUser = {}
 
     const userstore = userStore()
@@ -53,7 +60,7 @@ export default defineComponent({
       useBackground: false,
       theme: ""
     })
-    const allUsers = computed(() => userstore.getAllUsers)
+    const allUsers = computed(() => userstore.allUsers)
 
     const updateUser = () => {
       let temp = selectedUser as IUser
@@ -97,6 +104,10 @@ export default defineComponent({
       showManageUser.value = bool
     }
 
+    const changeShowManageUserSettings = (bool: boolean) => {
+      showManageUserSettings.value = bool
+    }
+
     onMounted(() => {
       userstore.setAllUsers()
     })
@@ -107,11 +118,14 @@ export default defineComponent({
       userInfo,
       userSettingsInfo,
       showManageUser,
+      showManageUserSettings,
       updateUser,
       updateUserSettings,
       setSelectedUser,
       deleteUser,
-      resetInputs
+      resetInputs,
+      changeShowManageUser,
+      changeShowManageUserSettings
     }
   }
 })

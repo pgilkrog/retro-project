@@ -45,7 +45,7 @@ WindowFrame(:program="program" :isMoveable="true")
 import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import { defineComponent, ref, computed, onMounted } from 'vue'
 import { userStore } from '../../../stores/userStore'
-import type { IUser, IFile } from '../../../models/index'
+import type { IUser, IFile, IUserSettings } from '../../../models/index'
 import UserInfo from '@/components/auth/UserInfo.vue'
 import { authStore } from '@/stores/authStore'
 
@@ -64,18 +64,20 @@ export default defineComponent({
     const state = ref(0)
     const progress = ref(0)
     const color = ref("")
-    const userData = computed(() => userstore.getUserData)
-    const backgroundImages = computed(() => userstore.getUserBackgroundImage)
-    const backgroundInUse = computed(() => userstore.getUseBackgroundImage)
+    const userData = computed(() => userstore.userData)
+    const backgroundImages = computed(() => userstore.userBackgroundImage)
+    const backgroundInUse = computed(() => userstore.useBackgroundImage)
 
     onMounted(() => {
-      // color.value = userstore.getUserData.settings.backgroundColour
+      color.value = userstore.userBackgroundColour
     })
 
     const onColorSelected = (event: any) => {
       event.preventDefault()
-      let tempData = userstore.getUserData
-      // tempData.settings.backgroundColour = color.value
+      let tempData = userstore.userData
+      if (tempData === undefined) return
+      
+      (tempData.settings as IUserSettings).backgroundColour = color.value
       userstore.setUserData(tempData)
     }
 

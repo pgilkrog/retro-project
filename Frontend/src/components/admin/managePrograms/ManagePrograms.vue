@@ -29,7 +29,7 @@
         template(v-if="updateState === true")
           button.btn(@click="updateProgram()") Update
         template(v-else)
-          button.btn(@click="addProgram()" ) Add Program
+          button.btn(@click="addProgram()") Add Program
   Validating(
     v-if="showValidation === true" 
     :text="'Delete program: ' + programInfo.displayName"
@@ -56,7 +56,7 @@ export default defineComponent({
   },
   setup() {
     const programsstore = programsStore()
-    const allPrograms = computed(() => programsstore.getPrograms)
+    const allPrograms = computed(() => programsstore.allPrograms)
     const showManageProgram = ref(false)
     const updateState = ref(false)
     let selectedProgram = ref<IProgram | null>(null)
@@ -150,7 +150,6 @@ export default defineComponent({
     }
 
     const changeShowManageProgram = (bool: boolean) => {
-      debugger
       showManageProgram.value = bool
 
       if (bool === false)

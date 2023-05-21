@@ -5,7 +5,7 @@
   .w-100.p-1.d-flex.justify-content-between
     .d-flex.py-1.ms-1
       button.rounded.btn.me-1.text-black(variant="dark" @click="changeShowMenu()" :class="showMenu ? 'bg-shadow-inner' : 'bg-shadow'")
-        i.bi.bi-menu-button-wide.me-1
+        IconComponent(name="fa-paw" size="20").me-1
         |   Start
       .programs-container.d-flex
         .taskbar-item.bg-secondary.h-100.pe-4.ps-2.d-flex.align-items-center.rounded.text-black.pointer(
@@ -14,7 +14,7 @@
           :class="item.IsActive ? 'bg-shadow-inner' : 'bg-shadow'"
           @click="setActiveState(item)"
         )
-          IconComponent(:name="item.image" size="20").m-2.mt-0
+          IconComponent(:name="item.image" size="20").me-3
           | {{ item.displayName }}
     Clock 
 </template>
@@ -35,7 +35,7 @@ export default defineComponent({
   setup (props, { emit }) {
     const programsstore = programsStore()
 
-    const activePrograms = computed(() => programsstore.getActivePrograms)
+    const activePrograms = computed(() => programsstore.activePrograms)
 
     const changeShowMenu = () => {
       emit('changeShowMenu')      

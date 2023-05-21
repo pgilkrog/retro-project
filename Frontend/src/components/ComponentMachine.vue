@@ -19,7 +19,7 @@ import Paint from '@/components/programs/paint/Paint.vue'
 import Calculator from '@/components/programs/Calculator.vue'
 import Minesweeper from '@/components/programs/minesweeper/MinesweeperGame.vue'
 import PCSettings from '@/components/programs/pc-settings/PCSettings.vue'
-import PawPoint from '@/components/programs/PawPoint.vue'
+import PawPoint from '@/components/programs/pawpoint/PawPoint.vue'
 import AddOrRemovePrograms from '@/components/programs/add-remove-programs/AddOrRemovePrograms.vue'
 
 export default defineComponent({
@@ -34,10 +34,11 @@ export default defineComponent({
     PawPoint,
     AddOrRemovePrograms
   },
+
   setup() {
     const programsstore = programsStore()
 
-    const activePrograms = computed(() => programsstore.getActivePrograms)
+    const activePrograms = computed(() => programsstore.activePrograms)
 
     return {
       activePrograms

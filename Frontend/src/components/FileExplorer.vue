@@ -2,9 +2,10 @@
 WindowFrame(
   :program="program" 
   variant="warning"
-  @closeWindow="closeWindow()"
   :isNotProgram="true"
   :isMoveable="true"
+  :showMenu="false"
+  @closeWindow="closeWindow()"
 )
   .file-explorer
     span.d-flex.flex-column.align-items-center.pointer(

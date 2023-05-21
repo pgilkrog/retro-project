@@ -4,7 +4,7 @@
     :program="program" 
     :isMoveable="true" 
     :showMenu="false" 
-    variant="primary" 
+    :variant="program.color" 
     :isNotProgram="false"
   )
     .d-flex.p-2
@@ -55,19 +55,17 @@ Loader(v-if="isInstalling === true" @closeLoading="closeLoading()")
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
+import { defineComponent, computed, ref, onMounted } from 'vue'
 import { programsStore } from '@/stores/programsStore'
 import { userStore } from '@/stores/userStore'
 import type { IProgram } from '@/models/index'
 
-import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import ProgramList from '@/components/programs/add-remove-programs/ProgramsList.vue'
 import Loader from '@/components/Loading.vue'
 
 export default defineComponent({
   name: 'addOrRemoveProgram',
   components: {
-    WindowFrame,
     ProgramList,
     Loader
   },
@@ -83,16 +81,23 @@ export default defineComponent({
     let selectedProgram: IProgram | undefined
     let selectedProgramId = ref("")
 
-    const allPrograms = computed(() => programsstore.getPrograms)
-    const notInstalledPrograms = computed(() => programsstore.getNotIntalledPrograms)
-    const installedPrograms = computed(() => programsstore.getInstalledPrograms)
+    const allPrograms = computed(() => programsstore.allPrograms)
+    const notInstalledPrograms = computed(() => programsstore.notInstalledPrograms)
+    const installedPrograms = computed(() => programsstore.installedPrograms)
+
+    onMounted(() => {
+      console.log("GOT MOUNTED")
+    })
 
     const installProgram = () => {
       if (selectedProgram === undefined)
         return
 
       isInstalling.value = true
-      let user = userstore.getUserData
+      let user = userstore.userData
+
+      if (user === undefined) return
+
       user.installedPrograms.push(selectedProgram.id)
 
       userstore.updateUser(user)
@@ -103,13 +108,15 @@ export default defineComponent({
         return
 
       isInstalling.value = true
-      let user = userstore.getUserData
+      let user = userstore.userData
+      if (user === undefined) return
       user.installedPrograms = user.installedPrograms.filter(p => p !== selectedProgram?.id)
       userstore.updateUser(user)
     }
 
     const updateUser = () => {
-      let tempUser = userstore.getUserData
+      let tempUser = userstore.userData
+      if (tempUser === undefined) return
       userstore.updateUser(tempUser)
     }
 

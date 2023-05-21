@@ -44,7 +44,7 @@ export default defineComponent({
 
 <style lang="sass" scoped>
 .active-program 
-  background-color: darkblue
+  background-color: #106BDA
   color: white
   .icon
     color: white !important

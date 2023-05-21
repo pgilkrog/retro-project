@@ -3,9 +3,12 @@
   v-if="program?.isActive === true" 
   :style="[ isMoveable ? { top: top + 'px', left: left + 'px'} : {}]"
 )
-  header.top-bar.text-dark.d-flex.justify-content-between.align-items-center.mb-1.p-2.px-4.rounded(:class="variant !== undefined ? 'bg-'+ variant : 'bg-primary'" @mousedown="startDrag" )
+  header.top-bar.text-light.d-flex.justify-content-between.align-items-center.mb-1.p-2.px-4.rounded(
+    :class="variant !== undefined ? 'bg-'+ variant : 'bg-primary'" 
+    @mousedown="startDrag" 
+  )
     .d-flex.align-items-center.align-content.center
-      IconComponent(:name="program.image" size="25")
+      IconComponent(:name="program.image" size="25" variant="light")
       .font-weight-bold.pe-4.ps-4 {{ program.displayName }}
     .d-flex
       button.btn.bg-secondary.py-0.px-2.text-black(@click="setInactive()") 
@@ -24,7 +27,7 @@ import type { IProgram } from '@/models/index'
 import { programsStore } from '@/stores/programsStore'
 import type { PropType } from 'vue'
 import { defineComponent, ref } from 'vue'
-import windowframeMenu from './windowframeMenu.vue'
+import WindowframeMenu from './windowframeMenu.vue'
 
 interface Props {
   showMenu: Boolean,
@@ -43,7 +46,7 @@ export default defineComponent({
     isMoveable: Boolean
   },
   components: {
-    windowframeMenu
+    WindowframeMenu
   },
   setup (props, { emit }) {
     const programsstore = programsStore()

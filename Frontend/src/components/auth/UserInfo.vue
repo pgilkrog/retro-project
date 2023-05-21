@@ -35,6 +35,7 @@ export default defineComponent({
   },
   setup() {
     const userstore = userStore()
+    
     const info = reactive({
       name: "",
       addressLine: "",
@@ -47,8 +48,8 @@ export default defineComponent({
     });
 
     const printInfo = () => {
-      console.log(userstore.getUserData)
-      userstore.updateUserSettings(userstore.getUserData.settings)
+      console.log(userstore.userData)
+      // userstore.updateUserSettings(userstore.userData.settings)
     }
 
     return {

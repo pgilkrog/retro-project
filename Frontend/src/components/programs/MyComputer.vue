@@ -20,7 +20,7 @@ WindowFrame(:program="program" :isMoveable="true" variant="success")
       ).text-black
       DesktopItem(
         :program="{displayName: 'Dial-Up Networking', image: 'bi-joystick'}"
-      ).text-black            
+      ).text-black
 </template>
 
 <script lang="ts">
@@ -38,3 +38,6 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="sass" scoped>
+</style>

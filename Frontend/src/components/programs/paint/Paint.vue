@@ -1,5 +1,11 @@
 <template lang="pug">
-WindowFrame(:program="program" :isMoveable="true")
+WindowFrame(
+  :program="program" 
+  :isMoveable="true" 
+  :showMenu="false"
+  :isNotProgram="false"
+  variant="info"
+)
   .paint-wrapper.row.gx-0
     .col-10
       .canvas-wrapper.d-flex.h-100.w-100.text-black.bg-grey
