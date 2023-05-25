@@ -130,6 +130,12 @@ body, html, .bg-fill
   top: 40%
   left: 50%
   transform: translate(-50%, -50%)
+  @include media-breakpoint-down(sm)
+    top: 20%
+    left: 0%
+    transform: translate(0, 0)
+    margin: 10px 
+
 
 .fit-content
   width: fit-content

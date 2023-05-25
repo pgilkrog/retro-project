@@ -78,6 +78,8 @@ export const userStore = defineStore("user", () => {
   const getUserById = async () => {
     const res = await axios.get(url + '/' + sessionStorage.getItem('userId'))
     console.log("GET USER", res)
+    res.data.user.id = res.data.user._id
+    res.data.user.settings.id = res.data.user.settings._id
     setUserData(res.data.user)
     return userData.value
   }
@@ -92,6 +94,7 @@ export const userStore = defineStore("user", () => {
   }
 
   const updateUserSettings = async (settings: IUserSettings) => {
+    console.log(settings.id)
     const res = await axios.put(`${url}/settings/${settings.id}`, null, { params: settings })
     console.log("update user settings", res)
     setUserSettings(res.data)
@@ -104,7 +107,6 @@ export const userStore = defineStore("user", () => {
     userBackgroundImage,
     useBackgroundImage,
     userBackgroundColour,
-    errorstore,
     programstore,
     setAllUsers,
     setUserData,

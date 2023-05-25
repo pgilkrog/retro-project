@@ -1,15 +1,19 @@
 <template lang="pug">
-Teleport(to="body")
-  .error-component.fixed-top.position-absolute(v-if="error !== undefined")
-    WindowFrame(:program="{id: 543245, name: 'Error', isActive: true, image: ''}" variant="danger")
+Teleport(to="body" v-if="error !== undefined")
+  WindowFrame(
+    :program="{id: 543245, name: 'Error', displayName: 'Error', isActive: true, image: ''}" 
+    variant="danger"
+    :isMoveable="true"
+  )
+    .error-component
       .row.p-4
-        .col-1.text-center
-          i.bi.bi-exclamation-octagon-fill.text-danger
-        .col-9
+        .col-12.col-sm-1.text-center
+          IconComponent(name="bi-exclamation-octagon-fill" variant="danger" size="40")
+        .col-12.col-sm-8.ms-4.d-flex.align-items-center
           p {{ error.text }}
-        .col-2
+        .col-12.col-sm-2
           .d-flex.justify-content-center.mt-4
-            button.btn(@click="closeErrorComponent()") OK
+            button.btn(@click="closeErrorComponent()").px-4 OK
 </template>
 
 <script lang="ts">
@@ -26,7 +30,7 @@ export default defineComponent({
   },
   setup (props) {
     const errorstore = errorStore()
-    const error = computed(() => errorstore.getError)
+    const error = computed(() => errorstore.error)
 
     const closeErrorComponent = () => {
       errorstore.resetError()
@@ -39,3 +43,6 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="sass">
+</style>

@@ -61,14 +61,14 @@ router.post('/login/', jsonParser, [
       const user = await User.findOne({ email }) as any
       
       if (!user) {
-          return res.status(400).json({ msg: 'Invalid credentials!'})
+          return res.status(400).json({ msg: 'Invalid Email!'})
       }
 
       // Check if passwords match eachother
       const isMatch = await bcrypt.compare(password, user.password)
    
       if(!isMatch) {
-          return res.status(400).json({ msg: 'Invalid credentials!'})
+          return res.status(400).json({ msg: 'Invalid Password!'})
       }
      
       const payload = {

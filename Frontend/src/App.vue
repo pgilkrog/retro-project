@@ -6,7 +6,7 @@ template(v-else-if="userIsLoggedIn === true && checkedAuth === true")
     router-view
     Menu(v-bind:showMenu="showMenu")
     Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")
-    ErrorComponent
+ErrorComponent
 </template>
 
 <script lang="ts">

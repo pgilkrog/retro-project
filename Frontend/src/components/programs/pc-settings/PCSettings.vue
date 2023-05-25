@@ -1,10 +1,15 @@
 <template lang="pug">
-WindowFrame(:program="program" :isMoveable="true")
+WindowFrame(
+  :program="program" 
+  :isMoveable="true"
+  :variant="program.color"
+  :showMenu="false"
+)
   .pc-settings-wrapper.p-4
     .d-flex
-      .nav-item.active.py-2.px-4(@click="changeState(0)")
+      .nav-item.py-2.px-4(@click="changeState(0)" :class="state === 0 ? 'active' : ''")
         | Display
-      .nav-item.py-2.px-4(@click="changeState(1)")
+      .nav-item.py-2.px-4(@click="changeState(1)" :class="state === 1 ? 'active' : ''")
         | Profile
       .tab-fill
     .content.p-4(v-if="state === 0")
@@ -47,7 +52,6 @@ import { defineComponent, ref, computed, onMounted } from 'vue'
 import { userStore } from '../../../stores/userStore'
 import type { IUser, IFile, IUserSettings } from '../../../models/index'
 import UserInfo from '@/components/auth/UserInfo.vue'
-import { authStore } from '@/stores/authStore'
 
 export default defineComponent({
   components: {
@@ -58,17 +62,18 @@ export default defineComponent({
     program: Object
   },
   setup () {
-    const authstore = authStore()
     const userstore = userStore()
 
     const state = ref(0)
     const progress = ref(0)
     const color = ref("")
     const userData = computed(() => userstore.userData)
+    const userSettings = computed(() => userstore.userSettings)
     const backgroundImages = computed(() => userstore.userBackgroundImage)
     const backgroundInUse = computed(() => userstore.useBackgroundImage)
 
     onMounted(() => {
+      console.log(userData.value, userSettings.value)
       color.value = userstore.userBackgroundColour
     })
 
@@ -107,10 +112,12 @@ export default defineComponent({
     }
 
     const saveUserInfo = () => {
-      // DBHelper.update('users', userData.value)
-      let tempSettings = userData.value
-      // tempSettings.settings.backgroundColour = color.value
-      // userstore.updateUserSettings(tempSettings.settings)
+      let tempSettings = userData.value as IUser
+      
+      if (tempSettings === undefined) return
+
+      (tempSettings.settings as IUserSettings).backgroundColour = color.value
+      userstore.updateUserSettings(tempSettings.settings as IUserSettings)
       userstore.setUserData(tempSettings)
     }
 

@@ -11,7 +11,7 @@
         .taskbar-item.bg-secondary.h-100.pe-4.ps-2.d-flex.align-items-center.rounded.text-black.pointer(
           v-for="(item, index) in activePrograms" 
           :key="index"
-          :class="item.IsActive ? 'bg-shadow-inner' : 'bg-shadow'"
+          :class="item.isActive ? 'bg-shadow-inner' : 'bg-shadow'"
           @click="setActiveState(item)"
         )
           IconComponent(:name="item.image" size="20").me-3

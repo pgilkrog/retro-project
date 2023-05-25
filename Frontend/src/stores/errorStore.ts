@@ -1,32 +1,36 @@
 import type { IErrorItem } from "@/models/IErrorItem"
 import { defineStore } from "pinia"
-import { toRaw } from 'vue'
+import { ref, toRaw } from 'vue'
 
-export const errorStore = defineStore("errors", {
-  state: () => ({
-    _error: undefined as IErrorItem | undefined,
-    _errorList: [] as IErrorItem[]
-  }),
-  getters: {
-    getAllErrors: (state) => state._errorList,
-    getError: (state) => toRaw(state._error)
-  },
-  actions: {
-    setErrorList() {
-      // DBHelper.getAll('errorLogs').then(data => {
-      //   let temp = []
-      //   for(let item in data) {
-      //     temp.push(data[+item] as IErrorItem)
-      //   }
-      //   this._errorList = temp
-      // })
-    },
-    setError(error: IErrorItem) {
-      this._error = error
-      // dbHelper.create('errorLogs', error)
-    },
-    resetError() {
-      this._error = undefined
-    }
+export const errorStore = defineStore("errors", () => {
+  const error = ref<IErrorItem>()
+  const errorList = ref<IErrorItem[]>([])
+
+  const setErrorList = () => {
+    errorList.value.push()
+  }
+
+  const setError = (text: string) => {
+    error.value = {
+      icon: 'bi bi-bug-fill',
+      text: text,
+      show: true,
+      timeStamp: new Date()
+    } as IErrorItem
+    
+    let tempList = errorList.value as IErrorItem[]
+    tempList.push(error.value)
+  }
+
+  const resetError = () => {
+    error.value = undefined
+  }
+
+  return {
+    error,
+    errorList,
+    setErrorList,
+    setError,
+    resetError
   }
 })

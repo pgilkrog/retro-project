@@ -6,7 +6,6 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
 import { errorStore } from '@/stores/errorStore'
-import type { IErrorItem } from "@/models"
 
 export default defineComponent({
   setup () {
@@ -26,12 +25,7 @@ export default defineComponent({
     }
 
     const addBug = () => {
-      errorstore.setError({
-        icon: 'bi bi-bug-fill',
-        text: 'Something went wrong lol :D',
-        show: true,
-        timeStamp: new Date()
-      } as IErrorItem)
+      errorstore.setError('Something went wrong lol :D')
     }
 
     onMounted(() => {
