@@ -1,24 +1,28 @@
 <template lang="pug">
-.home-wrapper.bg-fill.p-4(:style="[useBackgroundImage === true ? {'background-image': 'url('+ userBackgroundImage + ')'} : {'background-color': userBackgroundColor}]")
-  .desktop-container
-    DesktopItem(
-      v-for="program in allPrograms()"
-      v-on:generateComponent="generateComponent(program)"
-      :key="program.id"
-      :program="program"
-      :itemColor="program.color"
-    )
-  ComponentMachine
+template(v-if="userData !== undefined")
+  .home-wrapper.bg-fill.p-4(
+    :style="[userData.settings.useBackgroundImage === true ? {'background-image': 'url('+  userData.settings?.userBackgroundImage + ')'} : {'background-color': userData.settings?.backgroundColour}]")
+    .desktop-container
+      DesktopItem(
+        v-for="program in allPrograms()"
+        v-on:generateComponent="generateComponent(program)"
+        :key="program.id"
+        :program="program"
+        :itemColor="program.color"
+      )
+
+ComponentMachine
 </template>
 
 <script lang="ts">
-import type { IProgram } from '@/models/index'
-import { defineComponent, computed, onMounted } from 'vue'
+import type { IProgram, IUser } from '@/models/index'
+import { defineComponent } from 'vue'
 import DesktopItem from '@/components/DesktopItem.vue'
 import { programsStore } from '@/stores/programsStore'
 import ComponentMachine from '@/components/ComponentMachine.vue'
 import Loading from '@/components/Loading.vue'
 import { userStore } from '@/stores/userStore'
+import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   components: {
@@ -28,26 +32,16 @@ export default defineComponent({
   },
   setup() {
     const programsstore = programsStore()
-
     const userstore = userStore()
-    const useBackgroundImage = computed(() => userstore.useBackgroundImage)    
-    const userBackgroundImage = computed(() => userstore.userBackgroundImage)
-    const userBackgroundColor = computed(() => userstore.userBackgroundColour)
-
-    onMounted(() => {
-      
-    })
+    const userData = storeToRefs(userstore).userData
 
     const allPrograms = (() => programsstore.installedPrograms)
-
     const generateComponent = (program: IProgram) => {
       programsstore.addProgramToActive({...program})
     }
 
     return {
-      useBackgroundImage,
-      userBackgroundImage,
-      userBackgroundColor,
+      userData,
       allPrograms,
       generateComponent
     }

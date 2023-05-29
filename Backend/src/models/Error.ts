@@ -5,10 +5,14 @@ const errorSchema = new mongoose.Schema({
     type: String, 
     required: true
   },
-  timeStamp: {
+  date: {
     type: Date,
     required: true
-  } 
+  },
+  userId: {
+    type: String,
+    required: true
+  }
 })
 
 const Error = mongoose.model('Error', errorSchema)

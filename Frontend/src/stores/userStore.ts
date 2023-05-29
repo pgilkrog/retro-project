@@ -25,21 +25,7 @@ export const userStore = defineStore("user", () => {
       let tempData = data.data.users
       let tempArray: IUser[] = []
       for(const user in tempData) {
-        tempArray.push({
-          id: tempData[user]._id,
-          email: tempData[user].email,
-          firstName: tempData[user].firstName,
-          lastName: tempData[user].lastName,
-          type: tempData[user].type,
-          installedPrograms: tempData[user].installedPrograms,
-          settings: tempData[user].settings !== undefined ? {
-            id: tempData[user].settings._id,
-            backgroundColour: tempData[user].settings.backgroundColour,
-            backgroundImage: tempData[user].settings.backgroundImage,
-            useBackgroundImage: tempData[user].settings.useBackground,
-            theme: tempData[user].settings.theme
-          } : undefined
-        } as IUser)
+        tempArray.push(tempData[user] as IUser)
       }
       allUsers.value = tempArray
       console.log("SET ALL USERS", res)
@@ -48,7 +34,6 @@ export const userStore = defineStore("user", () => {
 
   const setUserData = async (user: any) => {
     userData.value = user as IUser
-    userData.value.id = user._id
 
     if (user.settings !== undefined) {
       setUserSettings(user.settings)

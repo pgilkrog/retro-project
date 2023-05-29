@@ -14,13 +14,13 @@ WindowFrame(
       .tab-fill
     .content.p-4(v-if="state === 0")
       .row
-        .background-images-wrapper.d-flex()
+        .background-images-wrapper.d-flex
           .image-item.m-2
             img(
               height="100"
               width="100"
               src="https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg"
-              :class="backgroundInUse === 'undefined' || backgroundInUse === '' ? 'border border-danger' : ''"
+              :class="userData.settings?.userBackgroundImage === 'undefined' || userData.settings?.userBackgroundImage === '' ? 'border border-danger' : ''"
               @click="imageClicked(undefined)"
             )
           .image-item.m-2(v-for="(item, index) in backgroundImages" :key="index")
@@ -29,10 +29,10 @@ WindowFrame(
               width="100"
               :src="item.Url"
               @click="imageClicked(item)"
-              :class="backgroundInUse === item.Url ? 'border border-danger' : ''"
+              :class="userData.settings?.userBackgroundImage === item.Url ? 'border border-danger' : ''"
             ).pointer
       .row
-        input(type="file" @change="onFileSelected")
+        FileUploader
       .row
         .col-1
           input(type="color" @change="onColorSelected" v-model="color")
@@ -48,15 +48,18 @@ WindowFrame(
 
 <script lang="ts">
 import WindowFrame from '@/components/windowframe/WindowFrame.vue'
+import FileUploader from '@/components/FileUploader.vue'
 import { defineComponent, ref, computed, onMounted } from 'vue'
 import { userStore } from '../../../stores/userStore'
 import type { IUser, IFile, IUserSettings } from '../../../models/index'
 import UserInfo from '@/components/auth/UserInfo.vue'
+import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   components: {
     WindowFrame,
-    UserInfo
+    UserInfo,
+    FileUploader
   },
   props: {
     program: Object
@@ -67,13 +70,11 @@ export default defineComponent({
     const state = ref(0)
     const progress = ref(0)
     const color = ref("")
-    const userData = computed(() => userstore.userData)
-    const userSettings = computed(() => userstore.userSettings)
+    const userData = storeToRefs(userstore).userData
     const backgroundImages = computed(() => userstore.userBackgroundImage)
-    const backgroundInUse = computed(() => userstore.useBackgroundImage)
 
     onMounted(() => {
-      console.log(userData.value, userSettings.value)
+      console.log('sdfhj', userData.value)
       color.value = userstore.userBackgroundColour
     })
 
@@ -92,21 +93,12 @@ export default defineComponent({
       size: number,
       type: string
     ) => {
-      // DBHelper.getOneByUserId('users',  authstore.getUser.id).then((user: IUser) => {
-      //   user.files.push({
-      //     Name: name,
-      //     Url: url,
-      //     Size: size,
-      //     Type: type
-      //   } as IFile)
-      //   DBHelper.update('users', user)
-      // })
     }
 
     const imageClicked = (file: IFile) => {
       let url = file === undefined ? 'undefined' : file.Url
       let temp = userData.value
-      // temp.settings.backgroundImage = url
+
       userstore.setUserData(temp)
       userstore.setUserBackgroundImage(url)
     }
@@ -131,7 +123,6 @@ export default defineComponent({
       userData,
       color,
       backgroundImages,
-      backgroundInUse,
       onColorSelected,
       saveNewBackgroundURL,
       imageClicked,

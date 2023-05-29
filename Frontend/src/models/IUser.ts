@@ -1,7 +1,7 @@
 import type { IFile, IUserSettings } from "./index"
 
 export class IUser {
-  id: string
+  _id: string
   firstName: string
   lastName: string
   email: string
@@ -20,7 +20,7 @@ export class IUser {
     installedPrograms: string[], 
     settings: IUserSettings | string
   ) {
-    this.id = id
+    this._id = id
     this.firstName = firstName
     this.lastName = lastName
     this.email = email

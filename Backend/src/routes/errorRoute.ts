@@ -6,19 +6,30 @@ import { Error } from '../models/index'
 const router = express.Router()
 const jsonParser = bodyParser.json()
 
+//
+//
+router.get('/', jsonParser, async (req: Request, res: Response) => {
+  try {
+    const fetchedItems = await Error.find()
+    res.json({ errors: fetchedItems })
+  } catch (error: any) {
+    res.status(500).send('server error')
+  }
+})
+
 // @route     CREATE
 // @desc      Create error
 router.post('/', jsonParser, async (req: Request, res: Response) => {
-  const { text } = req.query
+  const { text, date, userId } = req.query
 
-  const date = Date.now()
+  console.log('create error', req.query)
 
   try {
     const newError = new Error({
       text,
-      date
+      date,
+      userId
     })
-
     await newError.save()
     res.json(newError)
   } catch(error: any) {
