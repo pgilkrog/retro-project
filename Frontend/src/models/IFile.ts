@@ -1,14 +1,20 @@
 export class IFile{
-  Name: string
-  Url: string
-  Size: number
-  Type: string
+  _id: string
+  name: string
+  url: string
+  size: number
+  type: string
+  userId: string
+  createdAt: Date
 
-  constructor(name: string, url: string, size: number, type: string) {
-    this.Name = name
-    this.Url = url
-    this.Size = size
-    this.Type = type
+  constructor(_id: string, name: string, url: string, size: number, type: string, userId: string, createdAt: Date) {
+    this._id = _id
+    this.name = name
+    this.url = url
+    this.size = size
+    this.type = type
+    this.userId = userId
+    this.createdAt = createdAt
   }
 }
   

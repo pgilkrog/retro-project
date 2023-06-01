@@ -1,17 +1,33 @@
 import { defineStore } from "pinia"
 import axios from 'axios'
 import { errorStore } from "./errorStore"
+import type { IFile } from "@/models"
+import { userStore } from './userStore'
 
-const url = 'http://localhost:4000/api/file'
-const errorstore = errorStore()
+const url = 'http://localhost:4000/api/files'
 
-export const fileStore = defineStore('file', () => {
-  const uploadFile = (formData: any) => {
+// const errorstore = errorStore()
+
+export const fileStore = defineStore('filestore', () => {
+  const userstore = userStore()
+  
+  const uploadFile = async (formData: any) => {
     try {
-      const response = axios.post('/', formData)
+      const response = await axios.post(url + '/upload', formData)
       console.log(response)
+      const { filename, size, fieldname, path } = response.data.file
+      const fileToStore = {
+        _id: '',
+        name: filename, 
+        size: size,
+        type: fieldname,
+        url: path,
+        userId: userstore.userData?._id,
+        createdAt: new Date
+      } as IFile
+      await axios.post(url, null, { params: fileToStore })
     } catch {
-      errorstore.createError('Error accured while uploading file')
+      // errorstore.createError('Error accured while uploading file')
     }
   }
 

@@ -6,6 +6,7 @@ form(@submit.prevent="uploadFile").file-uploader
     @change="selectFile"
     placeholder="hejsa"
   )
+  button.btn(type="submit") Submit
 </template>
 
 <script lang="ts">
@@ -24,7 +25,7 @@ export default defineComponent({
 
     const uploadFile = () => {
       const formData = new FormData()
-      formData.append('file', file.value)
+      formData.append('image', file.value)
 
       filestore.uploadFile(formData)
     }
