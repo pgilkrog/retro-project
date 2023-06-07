@@ -1,6 +1,7 @@
 import dotenv from 'dotenv'
 import express from 'express'
 import { ConnectionDatabase } from './config/db'
+import path from 'path'
 
 // Load the enviroment variables from the .env file
 dotenv.config({
@@ -29,6 +30,8 @@ app.use('/api/auth', require('./routes/authRoute'))
 app.use('/api/user', require('./routes/userRoute'))
 app.use('/api/error', require('./routes/errorRoute'))
 app.use('/api/files', require('./routes/fileRoute'))
+
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')))
 
 const PORT = process.env.APP_PORT || 5000
 

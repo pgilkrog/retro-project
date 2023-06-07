@@ -23,13 +23,13 @@ WindowFrame(
               :class="userData.settings?.userBackgroundImage === 'undefined' || userData.settings?.userBackgroundImage === '' ? 'border border-danger' : ''"
               @click="imageClicked(undefined)"
             )
-          .image-item.m-2(v-for="(item, index) in backgroundImages" :key="index")
+          .image-item.m-2(v-for="(item, index) in images" :key="index")
             img(
               height="100"
               width="100"
-              :src="item.Url"
+              :src="getImageUrl(item.name)"
               @click="imageClicked(item)"
-              :class="userData.settings?.userBackgroundImage === item.Url ? 'border border-danger' : ''"
+              :class="userData.settings?.userBackgroundImage === item.name ? 'border border-danger' : ''"
             ).pointer
       .row
         FileUploader
@@ -51,6 +51,7 @@ import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import FileUploader from '@/components/FileUploader.vue'
 import { defineComponent, ref, computed, onMounted } from 'vue'
 import { userStore } from '../../../stores/userStore'
+import { fileStore } from '../../../stores/fileStore'
 import type { IUser, IFile, IUserSettings } from '../../../models/index'
 import UserInfo from '@/components/auth/UserInfo.vue'
 import { storeToRefs } from 'pinia'
@@ -66,16 +67,19 @@ export default defineComponent({
   },
   setup () {
     const userstore = userStore()
+    const filestore = fileStore()
 
     const state = ref(0)
     const progress = ref(0)
     const color = ref("")
+    const images = computed(() => filestore.allFiles)
     const userData = storeToRefs(userstore).userData
     const backgroundImages = computed(() => userstore.userBackgroundImage)
 
     onMounted(() => {
       console.log('sdfhj', userData.value)
       color.value = userstore.userBackgroundColour
+      filestore.getAllFiles()
     })
 
     const onColorSelected = (event: any) => {
@@ -87,20 +91,12 @@ export default defineComponent({
       userstore.setUserData(tempData)
     }
 
-    const saveNewBackgroundURL = (
-      name: string,
-      url: string,
-      size: number,
-      type: string
-    ) => {
-    }
-
     const imageClicked = (file: IFile) => {
-      let url = file === undefined ? 'undefined' : file.Url
-      let temp = userData.value
-
+      let url = file === undefined ? '' : file.name
+      let temp = userData.value as IUser
+      temp.settings.backgroundImage = url
+      temp.settings.useBackground = file === undefined ? false : true
       userstore.setUserData(temp)
-      userstore.setUserBackgroundImage(url)
     }
 
     const saveUserInfo = () => {
@@ -108,7 +104,7 @@ export default defineComponent({
       
       if (tempSettings === undefined) return
 
-      (tempSettings.settings as IUserSettings).backgroundColour = color.value
+      tempSettings.settings.backgroundColour = color.value
       userstore.updateUserSettings(tempSettings.settings as IUserSettings)
       userstore.setUserData(tempSettings)
     }
@@ -117,17 +113,22 @@ export default defineComponent({
       state.value = int
     }
 
+    const getImageUrl = (filename: string) => {
+      return `http://localhost:4000/uploads/${filename}`;
+    }
+
     return {
       state,
       progress,
       userData,
       color,
       backgroundImages,
+      images,
       onColorSelected,
-      saveNewBackgroundURL,
       imageClicked,
       saveUserInfo,
-      changeState
+      changeState,
+      getImageUrl
     }
   }
 })

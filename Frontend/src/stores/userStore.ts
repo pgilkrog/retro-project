@@ -45,7 +45,7 @@ export const userStore = defineStore("user", () => {
   const setUserSettings = (settings: IUserSettings) => {
     setUserBackgroundImage(settings.backgroundImage)
     setBackgroundColour(settings.backgroundColour)
-    setUseBackgroundImage(settings.useBackgroundImage)
+    setUseBackgroundImage(settings.useBackground)
   }
 
   const setUserBackgroundImage = (image: string) => {
@@ -72,14 +72,13 @@ export const userStore = defineStore("user", () => {
   const updateUser = async (user: IUser) => {
     // Need to set the settings to the settings id for the backend to read
     let tempUser = user
-    tempUser.settings = (user.settings as IUserSettings).id
+    // tempUser.settings = (user.settings as IUserSettings).id
     const res = await axios.put(url + '/' + sessionStorage.getItem('userId'), null, { params: tempUser })
     console.log(res)
     setUserData(res.data)
   }
 
   const updateUserSettings = async (settings: IUserSettings) => {
-    console.log(settings.id)
     const res = await axios.put(`${url}/settings/${settings.id}`, null, { params: settings })
     console.log("update user settings", res)
     setUserSettings(res.data)

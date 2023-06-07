@@ -1,7 +1,7 @@
 <template lang="pug">
 template(v-if="userData !== undefined")
   .home-wrapper.bg-fill.p-4(
-    :style="[userData.settings.useBackgroundImage === true ? {'background-image': 'url('+  userData.settings?.userBackgroundImage + ')'} : {'background-color': userData.settings?.backgroundColour}]")
+    :style="[userData.settings.useBackground === true ? {'background-image': 'url('+ getImageUrl(userData.settings?.backgroundImage) + ')'} : {'background-color': userData.settings?.backgroundColour}]")
     .desktop-container
       DesktopItem(
         v-for="program in allPrograms()"
@@ -39,11 +39,16 @@ export default defineComponent({
     const generateComponent = (program: IProgram) => {
       programsstore.addProgramToActive({...program})
     }
+    
+    const getImageUrl = (filename: string) => {
+      return `http://localhost:4000/uploads/${filename}`;
+    }
 
     return {
       userData,
       allPrograms,
-      generateComponent
+      generateComponent,
+      getImageUrl
     }
   }
 })

@@ -2,20 +2,20 @@ export class IUserSettings {
   id: string
   backgroundColour: string
   backgroundImage: string
-  useBackgroundImage: boolean
+  useBackground: boolean
   theme: string
 
   constructor(
     id: string, 
     backgroundColour: string, 
     backgroundImage: string, 
-    useBackgroundImage: boolean, 
+    useBackground: boolean, 
     theme: string
   ) {
     this.id = id
     this.backgroundColour = backgroundColour
     this.backgroundImage = backgroundImage
-    this.useBackgroundImage = useBackgroundImage
+    this.useBackground = useBackground
     this.theme = theme
   }
 }

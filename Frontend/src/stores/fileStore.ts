@@ -3,6 +3,7 @@ import axios from 'axios'
 import { errorStore } from "./errorStore"
 import type { IFile } from "@/models"
 import { userStore } from './userStore'
+import { ref } from 'vue'
 
 const url = 'http://localhost:4000/api/files'
 
@@ -10,6 +11,7 @@ const url = 'http://localhost:4000/api/files'
 
 export const fileStore = defineStore('filestore', () => {
   const userstore = userStore()
+  const allFiles = ref<IFile[]>([])
   
   const uploadFile = async (formData: any) => {
     try {
@@ -31,7 +33,19 @@ export const fileStore = defineStore('filestore', () => {
     }
   }
 
+  const getAllFiles = async () => {
+    try {
+      const response = await axios.get(url)
+      allFiles.value = response.data.files
+      console.log(response)
+    } catch (error: any) {
+      console.warn(error)
+    }
+  }
+
   return {
-    uploadFile
+    allFiles,
+    uploadFile,
+    getAllFiles
   }
 })

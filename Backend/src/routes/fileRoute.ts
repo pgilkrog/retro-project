@@ -32,14 +32,26 @@ const fileFilter = function (req: Request, file: Express.Multer.File, cb: any) {
 // Set up Multer middleware
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
-// @desc upload image
-// 
+// @route       GET files
+// @desc        Get all files
+router.get('/', auth, jsonParser, async (req: Request, res: Response) => {
+  try {
+    const fetchedItems = await File.find()
+    res.json({ files: fetchedItems })
+  } catch (error: any) {
+    console.log(error.message)
+    res.status(500).send('server error')
+  }
+})
+
+// @route       POST api/files/upload
+// @desc        Uploads a file
 router.post('/upload', auth, upload.single('image'), jsonParser, async (req: Request, res: Response) => {
   res.send({ file: req.file })
 })
 
 router.post('/', auth, jsonParser, async (req: Request, res: Response) => {
-  const { name, size, type, url, userId, createdAt } = req.query
+  const { name, size, type, url, userId } = req.query
 
   try {
     const newFile = new File({
