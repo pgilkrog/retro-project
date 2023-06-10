@@ -136,9 +136,18 @@ body, html, .bg-fill
     transform: translate(0, 0)
     margin: 10px 
 
-
 .fit-content
   width: fit-content
 
 .hover:hover
   box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3)
+
+.text-ellips-1
+  display: -webkit-box
+  -webkit-line-clamp: 1
+  -webkit-box-orient: vertical
+  overflow: hidden
+
+.text-ellips-2
+  @extend .text-ellips-1
+  -webkit-line-clamp: 2

@@ -1,36 +1,48 @@
 <template lang="pug">
 .row
-  .background-images-wrapper.d-flex
-    .image-item.m-2
-      img(
-        height="100"
-        width="100"
-        src="https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg"
-        :class="userData.settings?.userBackgroundImage === 'undefined' || userData.settings?.userBackgroundImage === '' ? 'border border-danger' : ''"
-        @click="imageClicked(undefined)"
-      )
-    .image-item.m-2(v-for="(item, index) in images" :key="index")
-      img(
-        height="100"
-        width="100"
-        :src="getImageUrl(item.name)"
-        @click="imageClicked(item)"
-        :class="userData.settings?.userBackgroundImage === item.name ? 'border border-danger' : ''"
-      ).pointer
+  .background-images-wrapper.bg-light.bg-shadow-inner.d-flex.flex-column
+    .image-item.m-1.d-flex.align-items-center.p-1(@click="imageClicked(undefined)")
+      IconComponent.me-3(name="fa-file-excel")
+      p.text-ellips-1(style="height: 14px") No background
+    .image-item.m-1.d-flex.align-items-center.p-1(
+      v-for="(item, index) in images" 
+      :key="index"
+      @click="imageClicked(item)"
+      :class="userData.settings.backgroundImage === item.name ? 'bg-primary color-white' : ''"
+    )
+      IconComponent.me-3(name="fa-file-image")
+      p.text-ellips-1(style="height: 14px") {{ item.originalName || item.name }}
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
+import { userStore } from '@/stores/userStore'
+import { storeToRefs } from 'pinia'
+import { fileStore } from '../../../stores/fileStore'
+import type { IFile } from '@/models'
 
 export default defineComponent({
   name: 'background-images',
-  setup() {
+  setup(props, {emit}) {
+    const userstore = userStore()
+    const filestore = fileStore()
+
+    const userData = storeToRefs(userstore).userData    
+    const images = computed(() => filestore.allFiles)
+
+    const imageClicked = (file: IFile) => {
+      emit('setTempImg', file)
+    }
+
     return {
-      
+      userData,
+      images,
+      imageClicked
     }
   }
 })
 </script>
 
 <style lang="sass" scoped>
+
 </style>

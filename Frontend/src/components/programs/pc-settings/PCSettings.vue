@@ -13,32 +13,29 @@ WindowFrame(
         | Profile
       .tab-fill
     .content.p-4(v-if="state === 0")
-      .row
-        .background-images-wrapper.d-flex
-          .image-item.m-2
+      .row.d-flex.flex-column.align-items-center
+        .bg-shadow.p-4.fit-content
+          .bg-shadow-inner.img-box(
+            :style="[{'background-color': userData.settings?.backgroundColour}]"
+          )
             img(
-              height="100"
-              width="100"
-              src="https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg"
-              :class="userData.settings?.userBackgroundImage === 'undefined' || userData.settings?.userBackgroundImage === '' ? 'border border-danger' : ''"
-              @click="imageClicked(undefined)"
+              v-if="tempImg.name"
+              height="192"
+              width="292"
+              :src="getImageUrl(tempImg.name)"
+              style="margin-top: 2px; margin-left: 2px;"
             )
-          .image-item.m-2(v-for="(item, index) in images" :key="index")
-            img(
-              height="100"
-              width="100"
-              :src="getImageUrl(item.name)"
-              @click="imageClicked(item)"
-              :class="userData.settings?.userBackgroundImage === item.name ? 'border border-danger' : ''"
-            ).pointer
+        .bg-shadow(style="width: 150px; height: 10px;")
+        .bg-shadow(style="width: 120px; height: 20px;")
+        .bg-shadow(style="width: 250px; height: 10px;")
+      .row.mt-4
+        BackgroundImages(@setTempImg="setTempImg($event)")
       .row
         FileUploader
       .row
-        .col-1
+        .col-2
           input(type="color" @change="onColorSelected" v-model="color")
-        .col-11
-      .row.pt-2
-        | {{ progress }}
+        .col
     .content.p-4(v-else-if="state === 1")
       .row
         UserInfo
@@ -52,15 +49,17 @@ import FileUploader from '@/components/FileUploader.vue'
 import { defineComponent, ref, computed, onMounted } from 'vue'
 import { userStore } from '../../../stores/userStore'
 import { fileStore } from '../../../stores/fileStore'
-import type { IUser, IFile, IUserSettings } from '../../../models/index'
+import type { IFile, IUser, IUserSettings } from '../../../models/index'
 import UserInfo from '@/components/auth/UserInfo.vue'
 import { storeToRefs } from 'pinia'
+import BackgroundImages from './BackgroundImages.vue'
 
 export default defineComponent({
   components: {
     WindowFrame,
     UserInfo,
-    FileUploader
+    FileUploader,
+    BackgroundImages
   },
   props: {
     program: Object
@@ -70,11 +69,9 @@ export default defineComponent({
     const filestore = fileStore()
 
     const state = ref(0)
-    const progress = ref(0)
     const color = ref("")
-    const images = computed(() => filestore.allFiles)
+    const tempImg = ref({})
     const userData = storeToRefs(userstore).userData
-    const backgroundImages = computed(() => userstore.userBackgroundImage)
 
     onMounted(() => {
       console.log('sdfhj', userData.value)
@@ -91,7 +88,18 @@ export default defineComponent({
       userstore.setUserData(tempData)
     }
 
-    const imageClicked = (file: IFile) => {
+    const saveUserInfo = () => {
+      let tempSettings = userData.value as IUser
+      
+      if (tempSettings === undefined) return
+
+      setImage(tempImg.value as IFile)
+      tempSettings.settings.backgroundColour = color.value
+      userstore.updateUserSettings(tempSettings.settings as IUserSettings)
+      userstore.setUserData(tempSettings)
+    }
+
+    const setImage = (file: IFile) => {
       let url = file === undefined ? '' : file.name
       let temp = userData.value as IUser
       temp.settings.backgroundImage = url
@@ -99,18 +107,12 @@ export default defineComponent({
       userstore.setUserData(temp)
     }
 
-    const saveUserInfo = () => {
-      let tempSettings = userData.value as IUser
-      
-      if (tempSettings === undefined) return
-
-      tempSettings.settings.backgroundColour = color.value
-      userstore.updateUserSettings(tempSettings.settings as IUserSettings)
-      userstore.setUserData(tempSettings)
-    }
-
     const changeState = (int: number) => {
       state.value = int
+    }
+
+    const setTempImg = (img: IFile) => {
+      tempImg.value = img
     }
 
     const getImageUrl = (filename: string) => {
@@ -119,17 +121,22 @@ export default defineComponent({
 
     return {
       state,
-      progress,
       userData,
       color,
-      backgroundImages,
-      images,
+      tempImg,
+      setImage,
       onColorSelected,
-      imageClicked,
       saveUserInfo,
       changeState,
-      getImageUrl
+      getImageUrl,
+      setTempImg
     }
   }
 })
 </script>
+
+<style lang="sass" scope>
+.img-box
+  width: 300px
+  height: 200px
+</style>

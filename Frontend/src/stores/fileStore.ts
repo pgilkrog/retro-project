@@ -7,20 +7,20 @@ import { ref } from 'vue'
 
 const url = 'http://localhost:4000/api/files'
 
-// const errorstore = errorStore()
-
 export const fileStore = defineStore('filestore', () => {
   const userstore = userStore()
   const allFiles = ref<IFile[]>([])
+  const errorstore = errorStore()
   
   const uploadFile = async (formData: any) => {
     try {
       const response = await axios.post(url + '/upload', formData)
-      console.log(response)
-      const { filename, size, fieldname, path } = response.data.file
+      console.log(formData, response)
+      const { filename, originalname, size, fieldname, path } = response.data.file
       const fileToStore = {
         _id: '',
         name: filename, 
+        originalName: originalname,
         size: size,
         type: fieldname,
         url: path,
@@ -28,8 +28,9 @@ export const fileStore = defineStore('filestore', () => {
         createdAt: new Date
       } as IFile
       await axios.post(url, null, { params: fileToStore })
-    } catch {
-      // errorstore.createError('Error accured while uploading file')
+    } catch (error) {
+      console.log(error)
+      errorstore.createError('Error accured while uploading file')
     }
   }
 

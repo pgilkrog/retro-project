@@ -51,11 +51,13 @@ router.post('/upload', auth, upload.single('image'), jsonParser, async (req: Req
 })
 
 router.post('/', auth, jsonParser, async (req: Request, res: Response) => {
-  const { name, size, type, url, userId } = req.query
+  console.log("HIT CREATE FILE TO DB", req.query)
+  const { name, originalName, size, type, url, userId } = req.query
 
   try {
     const newFile = new File({
       name,
+      originalName,
       size, 
       type,
       url,

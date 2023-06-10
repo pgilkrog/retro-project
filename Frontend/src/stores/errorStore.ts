@@ -33,7 +33,6 @@ export const errorStore = defineStore("errors", () => {
   }
 
   const createError = (text: string) => {
-    debugger
     const response = axios.post(url, null, { 
       params: { 
         text: text, 
