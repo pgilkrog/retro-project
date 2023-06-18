@@ -1,42 +1,34 @@
 <template lang="pug">
-form(@submit.prevent="uploadFile").file-uploader
+form(@submit.prevent="uploadFile").file-uploader.d-flex.align-items-center
   input(
     type="file"
     ref="fileInput"
     @change="selectFile"
-    placeholder="hejsa"
-  )
-  button.btn(type="submit") Submit
+  ) 
+  button.btn.ms-4(type="submit") Submit
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 import { fileStore } from '@/stores/fileStore'
 
-export default defineComponent({
-  name: 'file-uploader',
-  setup() {
-    const file = ref()
-    const filestore = fileStore()
-    
-    const selectFile = (event: any) => {
-      file.value = event.target.files[0]
-    }
+const file = ref()
+const filestore = fileStore()
 
-    const uploadFile = () => {
-      const formData = new FormData()
-      formData.append('image', file.value)
+const selectFile = (event: any) => {
+  file.value = event.target.files[0]
+}
 
-      filestore.uploadFile(formData)
-    }
+const uploadFile = () => {
+  if (!file) return 
+  
+  const formData = new FormData()
+  formData.append('image', file.value)
 
-    return {
-      file,
-      selectFile,
-      uploadFile
-    }
-  }
-})
+  filestore.uploadFile(formData).then(() => {
+    file.value = undefined
+  })
+}
 </script>
 
 <style lang="sass" scoped>

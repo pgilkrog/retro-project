@@ -38,7 +38,7 @@ export const errorStore = defineStore("errors", () => {
         text: text, 
         date: Date.now(), 
         userId: userstore.userData?._id || 0 
-      } 
+      }
     })
     console.log('createError', response)
   }

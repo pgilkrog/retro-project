@@ -55,4 +55,8 @@ export default defineComponent({
 </script>
 
 <style lang="sass">
+.home-wrapper
+  background-position: center
+  background-repeat: no-repeat
+  background-size: cover
 </style>

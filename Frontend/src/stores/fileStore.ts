@@ -27,7 +27,9 @@ export const fileStore = defineStore('filestore', () => {
         userId: userstore.userData?._id,
         createdAt: new Date
       } as IFile
-      await axios.post(url, null, { params: fileToStore })
+      await axios.post(url, null, { params: fileToStore }).then(() => {
+        getAllFiles()
+      })
     } catch (error) {
       console.log(error)
       errorstore.createError('Error accured while uploading file')

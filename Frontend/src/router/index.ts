@@ -7,6 +7,7 @@ const Platformer = () => import('@/phaser/first-game/Platformer.vue')
 const ShutDownVue = () => import('@/views/ShutDown.vue')
 const adminView = () => import('@/views/AdminView.vue')
 const SalvatoreGame = () => import('@/phaser/salvatore/SalvatoreGame.vue')
+const Maze = () => import('@/components/programs/pc-settings/3DMaze.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +51,11 @@ const router = createRouter({
       path: '/admin',
       name: 'admin',
       component: adminView
+    },
+    {
+      path: '/maze',
+      name: 'maze',
+      component: Maze
     }
   ]
 })

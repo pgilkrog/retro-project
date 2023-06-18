@@ -51,92 +51,71 @@ WindowFrame(
       button.btn(@click="changeState(3)") Forgot password
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { authStore } from '@/stores/authStore'
 import type { IProgram } from '@/models/index'
-import { defineComponent, ref } from 'vue'
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup () {
-    const state = ref(1)
-    const username = ref("" as string)
-    const password = ref("" as string)
-    const password2 = ref("" as string)
-    const info = ref('info' as string)
-    const infoText = ref('Type a email and password to log in')
-    const showHelp = ref(false as boolean)
-    const authstore = authStore()
-    const program = ref({
-        name: 'LogInNow', 
-        isActive: true, 
-        image: 'fa-user-lock',
-        displayName: 'Log in now',
-        color: 'light'
-      } as IProgram)
+const state = ref(1)
+const username = ref("" as string)
+const password = ref("" as string)
+const password2 = ref("" as string)
+const info = ref('info' as string)
+const infoText = ref('Type a email and password to log in')
+const showHelp = ref(false as boolean)
+const authstore = authStore()
+const program = ref({
+    name: 'LogInNow', 
+    isActive: true, 
+    image: 'fa-user-lock',
+    displayName: 'Log in now',
+    color: 'light'
+  } as IProgram)
 
-    const pressedOk = () => {
-      if (state.value === 1)
-        confirmLogin()
-      else if (state.value === 2)
-        registerUser()
-      else
-        changePassword()
-    }
+const pressedOk = () => {
+  if (state.value === 1)
+    confirmLogin()
+  else if (state.value === 2)
+    registerUser()
+  else
+    changePassword()
+}
 
-    const confirmLogin = (): void => {
-      authstore.loginUser(username.value, password.value)
-    }
+const confirmLogin = (): void => {
+  authstore.loginUser(username.value, password.value)
+}
 
-    const registerUser = (): void => {
-      if (password.value === password2.value)
-        authstore.registerUser(username.value, password.value)
-    }
+const registerUser = (): void => {
+  if (password.value === password2.value)
+    authstore.registerUser(username.value, password.value)
+}
 
-    const changePassword = (): void => {
-      authstore.changePassword(password.value)
-    }
-    
-    const changeShowHelp = () => {
-      showHelp.value = !showHelp.value
-    }
+const changePassword = (): void => {
+  authstore.changePassword(password.value)
+}
 
-    const changeState = (stateVal: number) => {
-      if (stateVal === 1) {
-        state.value = 1
-        info.value = 'info'
-        program.value.name = 'Log in now'
-        infoText.value = 'Type a email and password to log into Windows'
-      } else if (stateVal === 2) {
-        state.value = 2
-        info.value = 'warning'
-        program.value.name = 'Register user'
-        infoText.value = 'Type a email and password to create a user'
-      } else if (stateVal === 3) {
-        state.value = 3
-        info.value = 'success'
-        program.value.name = 'Reset password'
-        infoText.value = 'Type a email to send an reset email notification'
-      }
-    }
+const changeShowHelp = () => {
+  showHelp.value = !showHelp.value
+}
 
-    return {
-      state,
-      username,
-      info,
-      infoText,
-      showHelp,
-      authstore,
-      program,
-      password,
-      password2,
-      pressedOk,
-      confirmLogin,
-      registerUser,
-      changeShowHelp,
-      changeState
-    }
+const changeState = (stateVal: number) => {
+  if (stateVal === 1) {
+    state.value = 1
+    info.value = 'info'
+    program.value.name = 'Log in now'
+    infoText.value = 'Type a email and password to log into Windows'
+  } else if (stateVal === 2) {
+    state.value = 2
+    info.value = 'warning'
+    program.value.name = 'Register user'
+    infoText.value = 'Type a email and password to create a user'
+  } else if (stateVal === 3) {
+    state.value = 3
+    info.value = 'success'
+    program.value.name = 'Reset password'
+    infoText.value = 'Type a email to send an reset email notification'
   }
-})
+}
 </script>
 
 <style lang="sass" scoped>
