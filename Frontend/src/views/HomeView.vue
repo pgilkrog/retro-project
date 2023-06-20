@@ -12,46 +12,40 @@ template(v-if="userData !== undefined")
       )
 
 ComponentMachine
+Menu(v-bind:showMenu="showMenu")
+Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import type { IProgram, IUser } from '@/models/index'
-import { defineComponent } from 'vue'
+import { ref } from 'vue'
 import DesktopItem from '@/components/DesktopItem.vue'
 import { programsStore } from '@/stores/programsStore'
 import ComponentMachine from '@/components/ComponentMachine.vue'
 import Loading from '@/components/Loading.vue'
 import { userStore } from '@/stores/userStore'
 import { storeToRefs } from 'pinia'
+import Menu from '@/components/menuComponents/Menu.vue'
+import Taskbar from '@/components/taskbar/Taskbar.vue'
 
-export default defineComponent({
-  components: {
-    DesktopItem,
-    ComponentMachine,
-    Loading
-  },
-  setup() {
-    const programsstore = programsStore()
-    const userstore = userStore()
-    const userData = storeToRefs(userstore).userData
+const programsstore = programsStore()
+const userstore = userStore()
+const userData = storeToRefs(userstore).userData
+const showMenu = ref(false)
 
-    const allPrograms = (() => programsstore.installedPrograms)
-    const generateComponent = (program: IProgram) => {
-      programsstore.addProgramToActive({...program})
-    }
-    
-    const getImageUrl = (filename: string) => {
-      return `http://localhost:4000/uploads/${filename}`;
-    }
+const allPrograms = (() => programsstore.installedPrograms)
 
-    return {
-      userData,
-      allPrograms,
-      generateComponent,
-      getImageUrl
-    }
-  }
-})
+const generateComponent = (program: IProgram) => {
+  programsstore.addProgramToActive({...program})
+}
+
+const getImageUrl = (filename: string) => {
+  return `http://localhost:4000/uploads/${filename}`;
+}
+
+const changeShowMenu = () => {
+  showMenu.value = !showMenu.value
+}
 </script>
 
 <style lang="sass">

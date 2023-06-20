@@ -54,15 +54,16 @@ WindowFrame(
 <script setup lang="ts">
 import { authStore } from '@/stores/authStore'
 import type { IProgram } from '@/models/index'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import router from '@/router'
 
 const state = ref(1)
-const username = ref("" as string)
-const password = ref("" as string)
-const password2 = ref("" as string)
-const info = ref('info' as string)
-const infoText = ref('Type a email and password to log in')
-const showHelp = ref(false as boolean)
+const username = ref<string>("")
+const password = ref<string>("")
+const password2 = ref<string>("")
+const info = ref<string>('info')
+const infoText = ref<string>('Type a email and password to log in')
+const showHelp = ref<boolean>(false)
 const authstore = authStore()
 const program = ref({
     name: 'LogInNow', 
@@ -82,7 +83,9 @@ const pressedOk = () => {
 }
 
 const confirmLogin = (): void => {
-  authstore.loginUser(username.value, password.value)
+  authstore.loginUser(username.value, password.value).then(() => {
+    router.push('/')
+  })
 }
 
 const registerUser = (): void => {

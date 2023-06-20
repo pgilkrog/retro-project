@@ -20,9 +20,12 @@ export const authStore = defineStore("auth",() => {
   const checkIfUserIsLoggedIn = async () => {
     const localToken = sessionStorage.getItem('token')
     const localUser = sessionStorage.getItem('userId')
-    if (localUser && localToken)
-      await refreshToken()
+
+    if (!localUser && !localToken) return 
+
+    await refreshToken()
     
+    isLoggedIn.value = true
     checkedAuth.value = true
   }
 

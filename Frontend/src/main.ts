@@ -12,11 +12,12 @@ import IconComponent from '@/components/general/IconComponent.vue'
 import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 
 const app = createApp(App)
+const pinia = createPinia()
 
 app.component('IconComponent', IconComponent)
 app.component('WindowFrame', WindowFrame)
 
-app.use(createPinia())
-app.use(router)
+await app.use(pinia)
+await app.use(router)
 
 app.mount('#app')

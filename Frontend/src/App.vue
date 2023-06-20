@@ -1,15 +1,10 @@
 <template lang="pug">
-template(v-if="userIsLoggedIn === false && checkedAuth === true")
-  LoginScreen
-template(v-else-if="userIsLoggedIn === true && checkedAuth === true")
-  .app-wrapper
-    router-view
-    Menu(v-bind:showMenu="showMenu")
-    Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")
+.app-wrapper
+  router-view
 ErrorComponent
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import LoginScreen from './components/auth/LoginScreen.vue'
 import Taskbar from '@/components/taskbar/Taskbar.vue'
 import Menu from '@/components/menuComponents/Menu.vue'
@@ -20,58 +15,35 @@ import { userStore } from './stores/userStore'
 import { authStore } from '@/stores/authStore'
 import { programsStore } from './stores/programsStore'
 import { 
-  defineComponent, 
-  ref, 
   computed, 
   onMounted, 
   watch
 } from 'vue'
+import router from '@/router'
 
-export default defineComponent({
-  components: {
-    HomeView,
-    Menu,
-    Taskbar,
-    LoginScreen,
-    ErrorComponent
-  },
-  setup() {
-    const showMenu = ref(false)
+const authstore = authStore()
+const userstore = userStore()
+const programsstore = programsStore()
 
-    const authstore = authStore()
-    const userstore = userStore()
-    const programsstore = programsStore()
+const userIsLoggedIn = computed(() => authstore.isLoggedIn)
 
-    const userIsLoggedIn = computed(() => authstore.isLoggedIn)
-    const checkedAuth = computed(() => authstore.checkedAuth)
+onMounted(async () => {
+  await authstore.init()
+  await router.push('/')
+})
 
-    onMounted(() => {
-      authstore.init()
+// Watch for changes in userIsLoggedIn
+watch(userIsLoggedIn, (newValue, oldValue) => {
+  if (newValue === true && oldValue === false) {
+    // Call the methods you want to run when userIsLoggedIn changes to true
+    programsstore.init()
+    
+    userstore.getUserById().then((data) => {
+      if (data !== undefined)
+        programsstore.setInstalledPrograms(data.installedPrograms)
     })
 
-    const changeShowMenu = () => {
-      showMenu.value = !showMenu.value
-    }
-
-    // Watch for changes in userIsLoggedIn
-    watch(userIsLoggedIn, (newValue, oldValue) => {
-      if (newValue === true && oldValue === false) {
-        // Call the methods you want to run when userIsLoggedIn changes to true
-        programsstore.init()
-        
-        userstore.getUserById().then((data) => {
-          if (data !== undefined)
-            programsstore.setInstalledPrograms(data.installedPrograms)
-        })
-      }
-    })
-
-    return {
-      showMenu,
-      userIsLoggedIn,
-      checkedAuth,
-      changeShowMenu
-    }
+    
   }
 })
 </script>
