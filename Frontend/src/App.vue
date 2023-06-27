@@ -28,22 +28,14 @@ const programsstore = programsStore()
 const userIsLoggedIn = computed(() => authstore.isLoggedIn)
 
 onMounted(async () => {
-  await authstore.init()
-  await router.push('/')
-})
-
-// Watch for changes in userIsLoggedIn
-watch(userIsLoggedIn, (newValue, oldValue) => {
-  if (newValue === true && oldValue === false) {
-    // Call the methods you want to run when userIsLoggedIn changes to true
+  await authstore.init().then(() => {
     programsstore.init()
-    
+
     userstore.getUserById().then((data) => {
       if (data !== undefined)
         programsstore.setInstalledPrograms(data.installedPrograms)
     })
-
-    
-  }
+    router.push('/')
+  })
 })
 </script>

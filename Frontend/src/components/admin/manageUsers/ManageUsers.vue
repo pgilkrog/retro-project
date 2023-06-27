@@ -16,27 +16,40 @@
         v-model:type="userInfo.type"
         v-model:installedPrograms="userInfo.installedPrograms"
       )
-      button.btn.w-100.mt-3 Settings
+      button.btn.w-100.mt-3(@click="changeShowManageUserSettings(true)") Settings
       .d-flex.mt-3.justify-content-between
         button.btn(@click="changeShowManageUser(false)") Cancel
         button.btn(@click="updateUser()") Update
+  
   WindowFrame(
     :program="{name: 'ManageUserSettings', displayName: 'Manage User Settings', color: 'warning', image: 'fa-pencil', isActive: true}" 
     :isMoveable="true"
     v-if="showManageUserSettings"
   )
+    .d-flex.flex-column.p-4
+      SettingsInput(
+        v-model:backgroundColour="userSettingsInfo.backgroundColour"
+        v-model:backgroundImage="userSettingsInfo.backgroundImage"
+        v-model:useBackground="userSettingsInfo.useBackground"
+        v-model:theme="userSettingsInfo.theme"
+      )
+      .d-flex.mt-3.justify-content-between
+        button.btn(@click="changeShowManageUserSettings(false)") Cancel
+        button.btn(@click="updateUserSettings()") Update
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, onMounted, reactive, ref } from 'vue'
 import { userStore } from '@/stores/userStore'
 import UserInputs from './UserInputs.vue'
+import SettingsInput from './SettingsInput.vue'
 import type { IUser, IUserSettings } from '@/models/index'
 
 export default defineComponent({
   name: 'manageUsers', 
   components: {
-    UserInputs
+    UserInputs,
+    SettingsInput
   }, 
   props: {
     program: Object
@@ -45,6 +58,7 @@ export default defineComponent({
     let showManageUser = ref(false)
     let showManageUserSettings = ref(false)
     let selectedUser = {}
+    let selectedUserSettings = {}
 
     const userstore = userStore()
     const userInfo = reactive({
@@ -74,12 +88,19 @@ export default defineComponent({
       changeShowManageUser(false)
     }
 
-    const updateUserSettings = (settings: IUserSettings) => {
-
+    const updateUserSettings = () => {
+      let temp = selectedUserSettings as IUserSettings
+      temp.backgroundColour = userSettingsInfo.backgroundColour
+      temp.backgroundImage = userSettingsInfo.backgroundImage
+      temp.useBackground = userSettingsInfo.useBackground
+      temp.theme = userSettingsInfo.theme
+      userstore.updateUserSettings(temp)
+      resetSettingsInputs()
+      changeShowManageUserSettings(false)
     }
 
     const deleteUser = (user: IUser) => {
-
+      
     }
 
     const setSelectedUser = (user: IUser) => {
@@ -89,6 +110,17 @@ export default defineComponent({
       userInfo.email = user.email,
       userInfo.type = user.type,
       userInfo.installedPrograms = user.installedPrograms
+      selectedUser = user
+      setSelectedUserSettings(user.settings)
+    }
+
+    const setSelectedUserSettings = (settings: IUserSettings) => {
+      debugger
+      userSettingsInfo.backgroundColour = settings.backgroundColour
+      userSettingsInfo.backgroundImage = settings.backgroundImage
+      userSettingsInfo.useBackground = settings.useBackground
+      userSettingsInfo.theme = settings.theme
+      selectedUserSettings = settings
     }
 
     const resetInputs = () => {
@@ -98,6 +130,13 @@ export default defineComponent({
       userInfo.type = ''
       userInfo.installedPrograms = []
       selectedUser = {}
+    }
+
+    const resetSettingsInputs = () => {
+      userSettingsInfo.backgroundColour = ''
+      userSettingsInfo.backgroundImage = ''
+      userSettingsInfo.useBackground = false
+      userSettingsInfo.theme = ''
     }
 
     const changeShowManageUser = (bool: boolean) => {
@@ -125,7 +164,9 @@ export default defineComponent({
       deleteUser,
       resetInputs,
       changeShowManageUser,
-      changeShowManageUserSettings
+      changeShowManageUserSettings,
+      setSelectedUserSettings,
+      resetSettingsInputs
     }
   }
 })

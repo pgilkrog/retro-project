@@ -9,16 +9,29 @@ Component(
 )
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { programsStore } from '@/stores/programsStore'
 
 import ManagePrograms from './managePrograms/ManagePrograms.vue'
 import ManageUsers from './manageUsers/ManageUsers.vue'
 
-const programsstore = programsStore()
+export default defineComponent({
+  name: 'AdminComponentMachine',
+  components: {
+    ManagePrograms,
+    ManageUsers
+  },
+  setup() {
+    const programsstore = programsStore()
 
-const activePrograms = computed(() => programsstore.activePrograms)
+    const activePrograms = computed(() => programsstore.activePrograms)
+
+    return {
+      activePrograms
+    }
+  }
+})
 </script>
 
 <style lang="sass" scoped>

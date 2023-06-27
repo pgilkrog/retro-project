@@ -47,7 +47,6 @@ export default defineComponent({
           router.push('/salvatore')
           break
         default:
-          console.log('')
           break
       }
     }

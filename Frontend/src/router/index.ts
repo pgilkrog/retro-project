@@ -22,7 +22,7 @@ const router = createRouter({
       component: HomeView, 
       meta: {
         requiresAuth : true,
-        role: ['user', 'admin']
+        roles: ['user', 'admin']
       }
     },
     {
@@ -31,7 +31,7 @@ const router = createRouter({
       component: LoginView, 
       meta: {
         requiresAuth : false,
-        role: []
+        roles: []
       }
     },
     {
@@ -50,7 +50,7 @@ const router = createRouter({
       component: PingPong, 
       meta: {
         requiresAuth : true,
-        role: ['user', 'admin']
+        roles: ['user', 'admin']
       }
     },
     {
@@ -59,7 +59,7 @@ const router = createRouter({
       component: FlappyDisc, 
       meta: {
         requiresAuth : true,
-        role: ['user', 'admin']
+        roles: ['user', 'admin']
       }
     },
     {
@@ -68,7 +68,7 @@ const router = createRouter({
       component: SpaceInvaders, 
       meta: {
         requiresAuth : true,
-        role: ['user', 'admin']
+        roles: ['user', 'admin']
       }
     },
     {
@@ -77,7 +77,7 @@ const router = createRouter({
       component: Platformer, 
       meta: {
         requiresAuth : true,
-        role: ['user', 'admin']
+        roles: ['user', 'admin']
       }
     },
     {
@@ -86,7 +86,7 @@ const router = createRouter({
       component: SalvatoreGame, 
       meta: {
         requiresAuth : true,
-        role: ['user', 'admin']
+        roles: ['user', 'admin']
       }
     },
     {
@@ -95,7 +95,13 @@ const router = createRouter({
       component: adminView, 
       meta: {
         requiresAuth : true,
-        role: ['admin']
+        roles: ['admin']
+      },
+      beforeEnter(to, from, next) {
+        if(checkAuthendication() === true && checkUserRole(['admin']))
+          next()
+        else
+         next({ name: 'home' })
       }
     },
     {
@@ -104,28 +110,35 @@ const router = createRouter({
       component: Maze, 
       meta: {
         requiresAuth : true,
-        role: ['user', 'admin']
+        roles: ['user', 'admin']
       }
     }
   ]
 })
 
-router.beforeEach(async (to, from, next) => {
-  const isAuthendicated = await checkAuthendication()
+router.beforeEach((to, from, next) => {
+  const isAuthendicated = checkAuthendication()
 
-  if (!isAuthendicated && to.meta.requiresAuth === true) next({ name: 'login' })
-  else if (to.name === 'admin' && checkUserRole('admin')) next()
-  else next()
+  if (!isAuthendicated && to.meta.requiresAuth === true) 
+    next({ name: 'login' })
+  else 
+    next()
 })
 
-const checkAuthendication = async () => {
-  const authstore = await authStore()
+const checkAuthendication = () => {
+  const authstore = authStore()
   return authstore.isLoggedIn
 }
 
-const checkUserRole = (role: string) => {
+const checkUserRole = (roles: string[]) => {
   const userstore = userStore()
-  return userstore.userData?.type === role ?? false
+  const userType = userstore.userData?.type
+
+  if (typeof userType === 'undefined') {
+    return false
+  }
+
+  return roles.includes(userType)
 }
 
 export default router

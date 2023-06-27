@@ -16,41 +16,39 @@
         )
           IconComponent(:name="item.image" size="20").me-3
           | {{ item.displayName }}
-    Clock 
+    div.d-flex
+      button.btn(@click="goToAdmin()") admin
+      Clock 
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import Clock from './Clock.vue'
 import { programsStore } from '@/stores/programsStore'
 import type { IProgram } from '@/models/index'
 import { defineComponent, computed } from 'vue'
+import router from '@/router'
+import { userStore } from '@/stores/userStore'
 
-export default defineComponent({
-  components: {
-    Clock
-  },
-  props: {
-    showMenu: Boolean
-  },
-  setup (props, { emit }) {
-    const programsstore = programsStore()
+const emit = defineEmits([
+  'changeShowMenu'
+])
 
-    const activePrograms = computed(() => programsstore.activePrograms)
+const programsstore = programsStore()
+const userstore = userStore()
 
-    const changeShowMenu = () => {
-      emit('changeShowMenu')      
-    }
-    const setActiveState = (program: IProgram) => {
-      programsstore.setProgramActiveState(program)
-    }
+const activePrograms = computed(() => programsstore.activePrograms)
 
-    return {
-      activePrograms,
-      changeShowMenu,
-      setActiveState
-    }
-  }
-})
+const changeShowMenu = () => {
+  emit('changeShowMenu')      
+}
+const setActiveState = (program: IProgram) => {
+  programsstore.setProgramActiveState(program)
+}
+
+const goToAdmin = () => {
+  router.push('/admin')
+}
+
 </script>
 
 <style lang="sass">

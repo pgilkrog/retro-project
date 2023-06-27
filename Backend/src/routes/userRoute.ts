@@ -26,7 +26,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 router.put('/:id', auth, jsonParser, async (req: Request, res: Response) => {
   const id = req.params.id
   const userUpdate = req.query
-  console.log("REACHED HERE", id, userUpdate)
+
   try {
     const updatedUser = await User.findByIdAndUpdate(id, userUpdate, { new: true}).populate('settings')
     if (!updatedUser)
@@ -42,7 +42,7 @@ router.put('/:id', auth, jsonParser, async (req: Request, res: Response) => {
 // @route       PUT api/user/settings/:id
 // @desc        Update userSettings by id
 router.put('/settings/:id', auth, async (req: Request, res: Response) => {
-  const id = req.params.id
+  const id = req.params._id
   const userSettingsUpdate = req.query
   console.log("UPDATE USERSETTINGS", id, userSettingsUpdate)
   try {
@@ -62,7 +62,7 @@ router.put('/settings/:id', auth, async (req: Request, res: Response) => {
 // @desc        Get all programs
 router.get('/', auth, async (req: Request, res: Response) => {
   try {
-    const fetchedItems = await User.find()
+    const fetchedItems = await User.find().populate('settings')
     console.log("HIT ALL USERS", fetchedItems)
     res.json({ users: fetchedItems })
   } catch (error: any) {

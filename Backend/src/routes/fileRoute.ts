@@ -50,8 +50,9 @@ router.post('/upload', auth, upload.single('image'), jsonParser, async (req: Req
   res.send({ file: req.file })
 })
 
+// @route       POST api/files/upload
+// @desc        Uploads a file object to db
 router.post('/', auth, jsonParser, async (req: Request, res: Response) => {
-  console.log("HIT CREATE FILE TO DB", req.query)
   const { name, originalName, size, type, url, userId } = req.query
 
   try {
@@ -66,6 +67,37 @@ router.post('/', auth, jsonParser, async (req: Request, res: Response) => {
     await newFile.save()
     res.json(newFile)
   } catch (error) {
+    res.status(500).send('server error')
+  }
+})
+
+// @route       DELETE api/files/:id
+// @desc        Delete file by id
+router.delete('/:id', auth, async (req: Request, res: Response) => {
+  try {
+    const deleteItem = await File.findByIdAndDelete({ _id: req.params.id })
+    res.send({ item: deleteItem })    
+  } catch(error: any) {
+    console.log(error.message)
+    res.status(500).send('server error')
+  }
+})
+
+// @route       PUT api/files/:id
+// @desc        Update file by id
+router.put('/:id', auth, async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id
+    const fileToUpdate = req.query
+    
+    const updateFile = await File.findByIdAndUpdate(id, fileToUpdate, { new: true })
+
+    if (!updateFile)
+      return res.status(404).send({ error: 'File not found' })
+
+    res.send(updateFile)    
+  } catch(error: any) {
+    console.log(error.message)
     res.status(500).send('server error')
   }
 })

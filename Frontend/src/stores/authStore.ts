@@ -11,17 +11,19 @@ export const authStore = defineStore("auth",() => {
   const isLoggedIn = ref<Boolean>(false)
   const user = ref<IUser>()
   const checkedAuth = ref<Boolean>()
-  const token = ref<String>("")
+ 
+  const token = ref<string | undefined>()
+  const userId = ref<string | undefined>()
 
   const init = async () => {
     await checkIfUserIsLoggedIn()
   }
   
   const checkIfUserIsLoggedIn = async () => {
-    const localToken = sessionStorage.getItem('token')
-    const localUser = sessionStorage.getItem('userId')
+    token.value = sessionStorage.getItem('token') ?? undefined
+    userId.value = sessionStorage.getItem('userId') ?? undefined
 
-    if (!localUser && !localToken) return 
+    if (!userId.value && !token.value) return 
 
     await refreshToken()
     
@@ -33,13 +35,14 @@ export const authStore = defineStore("auth",() => {
     try {
       const response = await axios.post(url + '/login/', { email: email, password: password })
       const { token, user } = response.data
+
       sessionStorage.setItem('token', token)
       sessionStorage.setItem('userId', user._id)
-      console.log("USER", user)
+
       user.value = user
       isLoggedIn.value = true
       checkedAuth.value = true
-      console.log("LOGIN RESPONSE", response)        
+
     } catch (error: any) {
       console.log(error)
       let message = error.response.data.msg !== undefined ? error.response.data.msg : error.response.data.errors[0].msg
@@ -74,14 +77,13 @@ export const authStore = defineStore("auth",() => {
   }
   
   const refreshToken = async () => {
-    const localUserId= sessionStorage.getItem('userId')
-    const localToken = sessionStorage.getItem('token')
-    
-    const response = await axios.post(url + '/refreshToken/', { id: localUserId})
+    debugger
+    token.value = sessionStorage.getItem('token') ?? undefined
+    userId.value = sessionStorage.getItem('userId') ?? undefined
 
-    console.log(response)
-    if (localToken)
-      setAuthToken(localToken)
+    const response = await axios.post(url + '/refreshToken/', { id: userId.value})
+
+    if (token.value) setAuthToken(token.value)
 
     sessionStorage.setItem('userId', response.data.user._id)
     setToken(response.data.token)

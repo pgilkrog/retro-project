@@ -1,31 +1,22 @@
 <template lang="pug">
-.starting-up.d-flex.justify-content-center.align-items-center.flex-column.text-white
-  h1.bi.bi-pc-display
-  h1 The computer is starting up...
+.starting-up.bg-primary.d-flex.justify-content-center.align-items-center.flex-column.text-white
+  IconComponent(name="fa-computer" variant="light" size="200")
+  h1.light.mt-4 Starting up...
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 
-export default defineComponent({
-  data() {
-    return {
-      progressValue: 0 as number
+const progressValue = ref<number>(0)
+
+const startLoading = () => {
+  let interval = setInterval(() => {
+    if (progressValue.value < 100) {
+      progressValue.value += 1
+    } else {
+      clearInterval(interval)
     }
-  },
-  mounted () {
-    // this.startLoading()
-  },
-  methods: {
-    startLoading () {
-      let interval = setInterval(() => {
-        if (this.progressValue < 100) {
-          this.progressValue += 1
-        } else {
-          clearInterval(interval)
-        }
-      }, 100)
-    }
-  }
-})
+  }, 100)
+}
+
 </script>

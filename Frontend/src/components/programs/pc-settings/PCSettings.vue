@@ -38,7 +38,7 @@ WindowFrame(
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, type Ref, defineProps } from 'vue'
+import { ref, onMounted, type Ref } from 'vue'
 import type { IFile, IProgram, IUser, IUserSettings } from '../../../models/index'
 import { userStore } from '../../../stores/userStore'
 import { fileStore } from '../../../stores/fileStore'

@@ -1,7 +1,7 @@
 <template lang="pug">
 .shut-down.d-flex.justify-content-center.align-items-center.flex-column.text-white
-  h1.bi.bi-pc-display
-  h1 The computer is shutting down...
+  IconComponent(name="fa-power-off" variant="light" size="200")
+  h1.mt-4 Shutting down...
   h4 Don't close down your browser
   //- div.progress
   //-   div.progress-bar(

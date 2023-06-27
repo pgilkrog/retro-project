@@ -54,7 +54,7 @@ WindowFrame(
 <script setup lang="ts">
 import { authStore } from '@/stores/authStore'
 import type { IProgram } from '@/models/index'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import router from '@/router'
 
 const state = ref(1)
