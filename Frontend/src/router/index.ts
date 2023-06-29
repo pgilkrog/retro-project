@@ -1,6 +1,7 @@
 import { authStore } from '@/stores/authStore'
 import { userStore } from '@/stores/userStore'
 import { createRouter, createWebHistory } from 'vue-router'
+
 const HomeView = () => import('../views/HomeView.vue')
 const PingPong = () => import('@/phaser/ping-pong/PingPong.vue')
 const FlappyDisc = () => import('@/phaser/flappy-disk/FlappyDisk.vue')
@@ -116,8 +117,8 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  const isAuthendicated = checkAuthendication()
+router.beforeEach(async(to, from, next) => {
+  const isAuthendicated = await checkAuthendication()
 
   if (!isAuthendicated && to.meta.requiresAuth === true) 
     next({ name: 'login' })
@@ -128,6 +129,11 @@ router.beforeEach((to, from, next) => {
 const checkAuthendication = () => {
   const authstore = authStore()
   return authstore.isLoggedIn
+}
+
+const checkedAuth = () => {
+  const authstore = authStore()
+  return authstore.checkedAuth
 }
 
 const checkUserRole = (roles: string[]) => {

@@ -4,7 +4,7 @@
   .line.bg-white
   .w-100.p-1.d-flex.justify-content-between
     .d-flex.py-1.ms-1
-      button.rounded.btn.me-1.text-black(variant="dark" @click="changeShowMenu()" :class="showMenu ? 'bg-shadow-inner' : 'bg-shadow'")
+      button.rounded.btn.me-1.text-black(variant="dark" @click="changeShowMenu()" :class="props.showMenu ? 'bg-shadow-inner' : 'bg-shadow'")
         IconComponent(name="fa-paw" size="20").me-1
         |   Start
       .programs-container.d-flex
@@ -32,6 +32,10 @@ import { userStore } from '@/stores/userStore'
 const emit = defineEmits([
   'changeShowMenu'
 ])
+
+const props = defineProps({
+  showMenu: Boolean 
+})
 
 const programsstore = programsStore()
 const userstore = userStore()

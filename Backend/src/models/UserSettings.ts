@@ -20,6 +20,11 @@ const userSettingsSchema = new mongoose.Schema({
     type: String,
     required: false,
     default: 'standard'
+  },
+  displayOption: {
+    type: String,
+    required: false,
+    default: 'stretch'
   }
 })
 

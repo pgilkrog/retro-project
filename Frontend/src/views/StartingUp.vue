@@ -5,9 +5,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { authStore } from '@/stores/authStore'
+import { computed, ref, watch, onMounted } from 'vue'
+import router from '@/router'
 
 const progressValue = ref<number>(0)
+const authstore = authStore()
+const checkAuth = computed(() => authstore.checkedAuth)
 
 const startLoading = () => {
   let interval = setInterval(() => {
@@ -18,5 +22,22 @@ const startLoading = () => {
     }
   }, 100)
 }
+
+watch(checkAuth, (newValue, oldValue) => {
+  if (newValue === true && oldValue === false) {
+    goToRoute()
+  }
+})
+
+const goToRoute = () => {
+  if (checkAuth.value)
+    router.push('/home')
+  else
+    router.push('/login')
+}
+
+onMounted(() => {
+  goToRoute()
+})
 
 </script>

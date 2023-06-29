@@ -133,7 +133,6 @@ export default defineComponent({
     }
 
     const setUpdateState = (state: boolean, program: IProgram) => {
-      debugger
       updateState.value = state
 
       if (state === true) {

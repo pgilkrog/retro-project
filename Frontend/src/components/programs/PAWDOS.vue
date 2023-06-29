@@ -1,5 +1,5 @@
 <template lang="pug">
-WindowFrame(:program="program" variant="primary" :isMoveable="true" :showMenu="true")
+WindowFrame(:program="props.program" variant="primary" :isMoveable="true" :showMenu="true")
   .bg-black.text-white.p-4
     p Retro-Project Desktop 97
     P.ms-4 (C)Copyright Someting, Something Complete
@@ -11,62 +11,58 @@ WindowFrame(:program="program" variant="primary" :isMoveable="true" :showMenu="t
         input(autofocus v-model="inputText").bg-black.text-white.w-100.border-none
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import WindowFrame from '@/components/windowframe/WindowFrame.vue'
-import { defineComponent } from 'vue'
+import router from '@/router'
+import { defineComponent, ref } from 'vue'
 
-export default defineComponent({
-  components: {
-    WindowFrame
-  },
-  props: {
-    program: Object
-  },
-  data() {
-    return {
-      inputText: '',
-      textWritten: [] as string[],
-      helpText: [
-        '<ol class="ms-4">' +
-        '<li>Play-PingPong</li>' +
-        '<li>Play-FlappyDisk</li>' +
-        '</ol>'
-      ]
+const props = defineProps({
+  program: Object
+})
+
+const emit = defineEmits([
+  'closeWindow',
+])
+
+const inputText = ref<string>('')
+const textWritten = ref<string[]>([])
+const helpText = [
+  '<ol class="ms-4">' +
+  '<li>Play-PingPong</li>' +
+  '<li>Play-FlappyDisk</li>' +
+  '</ol>'
+]
+
+const closeWindow = () => {
+  emit('closeWindow', 'NetworkNeighborhood')
+}
+const submitMethod = () => {
+  if (inputText.value === '')
+    return
+
+  textWritten.value.push(inputText.value)
+  commands(inputText.value)
+  inputText.value = ''
+}
+
+const commands = (text: string) => {
+  let tempText = text.trim().replace(" ", "").toLocaleLowerCase()
+  switch (tempText) {
+    case 'help': {
+      textWritten.value = textWritten.value.concat(helpText)
+      break
     }
-  },
-  methods: {
-    closeWindow() {
-      this.$emit('closeWindow', 'NetworkNeighborhood')
-    },
-    submitMethod() {
-      if (this.inputText === '')
-        return
-
-      this.textWritten.push(this.inputText)
-      this.commands(this.inputText)
-      this.inputText = ''
-    },
-    commands(text: string) {
-      let tempText = text.trim().replace(" ", "").toLocaleLowerCase()
-      switch (tempText) {
-        case 'help': {
-          this.textWritten = this.textWritten.concat(this.helpText)
-          break
-        }
-        case 'playpingpong': {
-          this.$router.push('/pingpong')
-          break
-        }
-        case 'playflappydisk': {
-          this.$router.push('/flappydisk')
-          break
-        }
-        default: {
-          break
-        }
-      }
-        
+    case 'playpingpong': {
+      router.push('/pingpong')
+      break
+    }
+    case 'playflappydisk': {
+      router.push('/flappydisk')
+      break
+    }
+    default: {
+      break
     }
   }
-})
+}
 </script>

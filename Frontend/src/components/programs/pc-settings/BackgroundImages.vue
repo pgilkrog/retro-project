@@ -16,7 +16,7 @@
     p.text-ellips-1(style="height: 14px") {{ item.originalName || item.name }}
 
 .settings 
-  select
+  select(v-model="displayOption")
     option(value="stretch") Stretch 
     option(value="fill") Fill
     option(value="fit") Fit
@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { userStore } from '@/stores/userStore'
 import { storeToRefs } from 'pinia'
 import { fileStore } from '../../../stores/fileStore'
@@ -41,6 +41,7 @@ const emit = defineEmits([
 const userstore = userStore()
 const filestore = fileStore()
 
+const displayOption = ref<string>('')
 const userData = storeToRefs(userstore).userData    
 const images = computed(() => filestore.allFiles)
 

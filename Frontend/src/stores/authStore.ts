@@ -10,7 +10,7 @@ export const authStore = defineStore("auth",() => {
   const errorstore = errorStore()
   const isLoggedIn = ref<Boolean>(false)
   const user = ref<IUser>()
-  const checkedAuth = ref<Boolean>()
+  const checkedAuth = ref<Boolean>(false)
  
   const token = ref<string | undefined>()
   const userId = ref<string | undefined>()
@@ -77,7 +77,6 @@ export const authStore = defineStore("auth",() => {
   }
   
   const refreshToken = async () => {
-    debugger
     token.value = sessionStorage.getItem('token') ?? undefined
     userId.value = sessionStorage.getItem('userId') ?? undefined
 
@@ -88,8 +87,6 @@ export const authStore = defineStore("auth",() => {
     sessionStorage.setItem('userId', response.data.user._id)
     setToken(response.data.token)
     user.value = response.data.user
-    isLoggedIn.value = true
-    checkedAuth.value = true
   }
 
   return {

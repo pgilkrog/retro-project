@@ -115,7 +115,6 @@ export default defineComponent({
     }
 
     const setSelectedUserSettings = (settings: IUserSettings) => {
-      debugger
       userSettingsInfo.backgroundColour = settings.backgroundColour
       userSettingsInfo.backgroundImage = settings.backgroundImage
       userSettingsInfo.useBackground = settings.useBackground
