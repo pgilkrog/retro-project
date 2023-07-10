@@ -24,11 +24,11 @@ export const authStore = defineStore("auth",() => {
     userId.value = sessionStorage.getItem('userId') ?? undefined
 
     if (!userId.value && !token.value) return 
-
-    await refreshToken()
     
     isLoggedIn.value = true
     checkedAuth.value = true
+
+    await refreshToken()
   }
 
   const loginUser = async (email: string, password: string) => {

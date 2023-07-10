@@ -4,8 +4,8 @@ WindowFrame(:program="program" :isMoveable="true")
     template(#default)
       ErrorList
     template(#fallback)
-      div.d-flex.p-4
-        h1 Loading items...
+      div.d-flex.p-4.justify-content-center
+        .spinner-border
 </template>
 
 <script lang="ts">

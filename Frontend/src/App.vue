@@ -15,25 +15,13 @@ import StartingUp from './views/StartingUp.vue'
 import { userStore } from './stores/userStore'
 import { authStore } from '@/stores/authStore'
 import { programsStore } from './stores/programsStore'
-import { 
-  computed, 
-  onMounted, 
-  ref, 
-  watch
-} from 'vue'
-import router from '@/router'
+import { onMounted, computed, watch } from 'vue'
+import router from './router'
 
 const authstore = authStore()
 const userstore = userStore()
 const programsstore = programsStore()
-
 const checkAuth = computed(() => authstore.checkedAuth)
-
-watch(checkAuth, (newValue, oldValue) => {
-  if (newValue === true && oldValue === false) {
-    router.push('/')
-  }
-})
 
 onMounted(async () => {
   await authstore.init()
@@ -44,5 +32,10 @@ onMounted(async () => {
   })
 })  
 
+watch(checkAuth, (newValue, oldValue) => {
+  if (newValue === true && oldValue === false) {
+    router.push('/')
+  }
+})
 
 </script>

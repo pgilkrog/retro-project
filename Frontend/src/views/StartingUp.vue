@@ -5,13 +5,19 @@
 </template>
 
 <script setup lang="ts">
-import { authStore } from '@/stores/authStore'
 import { computed, ref, watch, onMounted } from 'vue'
 import router from '@/router'
 
-const progressValue = ref<number>(0)
+import { userStore } from '@/stores/userStore'
+import { authStore } from '@/stores/authStore'
+import { programsStore } from '@/stores/programsStore'
+
 const authstore = authStore()
-const checkAuth = computed(() => authstore.checkedAuth)
+const userstore = userStore()
+const programsstore = programsStore()
+
+const progressValue = ref<number>(0)
+const checkAuth = ref<Boolean>(authstore.checkedAuth)
 
 const startLoading = () => {
   let interval = setInterval(() => {
@@ -25,6 +31,7 @@ const startLoading = () => {
 
 watch(checkAuth, (newValue, oldValue) => {
   if (newValue === true && oldValue === false) {
+    debugger
     goToRoute()
   }
 })
@@ -36,8 +43,15 @@ const goToRoute = () => {
     router.push('/login')
 }
 
-onMounted(() => {
+onMounted(async () => {
+  debugger
+  await authstore.init()
+  await programsstore.init()
+  await userstore.getUserById().then((data) => {
+    if (data !== undefined)
+      programsstore.setInstalledPrograms(data.installedPrograms)
+  })
   goToRoute()
-})
+})  
 
 </script>

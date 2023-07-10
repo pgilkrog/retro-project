@@ -1,35 +1,21 @@
 <template lang="pug">
-.error-list(v-if="errorList !== undefined")
-  .error-item(v-for="(error, index) in errorList" :ket="index")
-    p {{ error.text }}
+.error-item(v-for="(error, index) in errorList" :ket="index")
+  p {{ error.text }}
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import type { IErrorItem } from '@/models';
-import { defineComponent, onMounted, ref } from 'vue'
+import { errorStore } from '@/stores/errorStore';
+import { computed } from 'vue'
 
-export default defineComponent({
-  name: 'errorList',
-  async setup() {
-    const errorList = ref()
+const errorstore = errorStore()
+const errorList = computed(() => errorstore.errors)
     
-    // try {
-    //   await DBHelper.getAll('errorLogs').then(data => {
-    //     let temp = []
-    //     for(let item in data) {
-    //       temp.push(data[+item] as IErrorItem)
-    //     }
-    //     errorList.value = temp
-    //   }) 
-    // } catch (error) {
-    //   console.log(error)
-    // }
-
-    return {
-      errorList
-    }
-  }
-})
+try {
+  await errorstore.getErrors()
+} catch {
+  console.error("error getting errors")
+}
 </script>
 
 <style lang="sass" scoped>

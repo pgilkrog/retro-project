@@ -10,6 +10,14 @@ export const errorStore = defineStore("errors", () => {
   const error = ref<IErrorItem>()
   const errorList = ref<IErrorItem[]>([])
   const userstore = userStore()
+  const errors = ref<IErrorItem[]>()
+
+  const getErrors = async () => {
+    const response = await axios.get(url).then((data) => {
+      errors.value = data.data.errors
+    })
+    console.log(response)
+  }
 
   const setErrorList = () => {
     errorList.value.push()
@@ -46,6 +54,8 @@ export const errorStore = defineStore("errors", () => {
   return {
     error,
     errorList,
+    errors,
+    getErrors,
     setErrorList,
     setError,
     resetError,
