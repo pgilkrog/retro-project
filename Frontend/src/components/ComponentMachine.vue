@@ -21,6 +21,7 @@ import Minesweeper from '@/components/programs/minesweeper/MinesweeperGame.vue'
 import PCSettings from '@/components/programs/pc-settings/PCSettings.vue'
 import PawPoint from '@/components/programs/pawpoint/PawPoint.vue'
 import AddOrRemovePrograms from '@/components/programs/add-remove-programs/AddOrRemovePrograms.vue'
+import Chattie from '@/components/programs/chattie/Chattie.vue'
 
 export default defineComponent({
   components: {
@@ -32,7 +33,8 @@ export default defineComponent({
     Calculator,
     PCSettings,
     PawPoint,
-    AddOrRemovePrograms
+    AddOrRemovePrograms,
+    Chattie
   },
 
   setup() {
