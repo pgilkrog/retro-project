@@ -43,17 +43,49 @@ const io = new Server(server, {
     }
 })
 
+interface ChatMessage {
+    room: string,
+    text: string,
+    sender: string
+}
+
+const activeRooms: { [room: string]: string[] } = {}
+
 io.on('connection', async (socket) => {
     console.log('a user connected')
-    // const userId = await fetchUserId(socket)
+    
+    socket.on('joinRoom', (roomName: string) => {
+        console.log(roomName)
+        if (!activeRooms[roomName]) {
+            activeRooms[roomName] = []
+        }
+        activeRooms[roomName].push(socket.id)
 
-    socket.on('chatMessage', (message) => {
+        socket.join(roomName) 
+        console.log(`User ${socket.id} joined room ${roomName}`);
+    })
+
+    socket.on('chatMessage', (message: ChatMessage) => {
+        const { room, text, sender } = message
         console.log('message recieved', message)
-        io.emit('chatMessage', message)
+
+        if (activeRooms[room]) {
+            activeRooms[room].forEach((participant) => {
+                io.to(participant).emit('chatMessage', { text, sender })
+            })
+        }
     })
 
     socket.on('disconnect', () => {
         console.log('user disconnected')
+        Object.keys(activeRooms).forEach((roomName) => {
+            const index = activeRooms[roomName].indexOf(socket.id)
+            if (index !== -1) {
+                activeRooms[roomName].splice(index, 1)
+                if (activeRooms[roomName].length === 0)
+                    delete activeRooms[roomName]
+            }
+        })
     })
 })
 
