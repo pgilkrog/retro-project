@@ -16,32 +16,17 @@ Teleport(to="body" v-if="error !== undefined")
             button.btn(@click="closeErrorComponent()").px-4 OK
 </template>
 
-<script lang="ts">
-import WindowFrame from '@/components/windowframe/WindowFrame.vue'
+<script setup lang="ts">
 import { errorStore } from '@/stores/errorStore'
-import { defineComponent, computed } from 'vue'
+import { computed } from 'vue'
 
-export default defineComponent({
-  props: {
-    variant: String
-  },
-  components: {
-    WindowFrame
-  },
-  setup (props) {
-    const errorstore = errorStore()
-    const error = computed(() => errorstore.error)
+const errorstore = errorStore()
+const error = computed(() => errorstore.error)
 
-    const closeErrorComponent = () => {
-      errorstore.resetError()
-    }
+const closeErrorComponent = () => {
+  errorstore.resetError()
+}
 
-    return {
-      error,
-      closeErrorComponent
-    }
-  }
-})
 </script>
 
 <style lang="sass">

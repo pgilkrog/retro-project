@@ -26,14 +26,10 @@
 </template>
 
 <script lang="ts">
-import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import { defineComponent, onMounted, ref } from 'vue'
 import type { IProgram } from '@/models/index'
 
 export default defineComponent({
-  components: {
-    WindowFrame
-  },
   props: {
     loadingTime: Number
   },

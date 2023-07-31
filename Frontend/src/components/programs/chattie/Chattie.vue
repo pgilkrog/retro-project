@@ -9,15 +9,21 @@ WindowFrame(
     IconComponent(name="fa-user-plus" variant="success" size="40" rotate="0")
     IconComponent(name="fa-comment" variant="success" size="40" rotate="0")
     IconComponent(name="fa-phone" variant="success" size="40" rotate="0")
-  .friends-list.d-flex.flex-column.bg-light.bg-shadow-inner.m-1
-    .item.p-2 Steve 
-    .item.p-2 Hannah
-  ChatWindow(v-on:sendMessage="sendMessage($event)", :socket="socket")
+  .friends-list.d-flex.flex-column.bg-light.bg-shadow-inner
+    span(v-for="(user, index) in chatstore.onlineUsers" :key="index") 
+      .item.p-2.m-1(v-if="user !== userstore.userData?.email" @click="activateRoom(user)") 
+        .d-flex.align-items-center
+          IconComponent(name="fa-user" variant="success" size="20") 
+          .ms-4 {{ user }}
+  ChatWindow(
+    v-for="(chat, index) in chatstore.activeRooms" 
+    :key="index" 
+    :activeChat="chat"
+  )
 </template>
 <script setup lang="ts">
-import { ref, onMounted, type Ref } from 'vue'
+import { onMounted, toRefs } from 'vue'
 import type { IProgram } from '../../../models/index'
-import io from 'socket.io-client'
 import { userStore } from '@/stores/userStore'
 import ChatWindow from './ChatWindow.vue'
 import { chatStore } from '@/stores/chatStore'
@@ -27,11 +33,15 @@ const props = defineProps({
 })
 
 const chatstore = chatStore()
-const socket = ref()
+const userstore = userStore()
 
 onMounted(() => {
   chatstore.init()
 })
+
+const activateRoom = (user: string) => {
+  chatstore.joinRoom([user, userstore.userData!.email])
+}
 
 </script>
 <style lang="sass">
