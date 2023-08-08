@@ -6,9 +6,15 @@ WindowFrame(
   :showMenu="false"
 )
   .d-flex.flex-column.bg-light.p-2
-    p(v-for="(item, index) in chatstore.chatMessages") {{ item.text }}
+    template(v-for="(item, index) in activeChat.messages") 
+      span(style="text-align: right;" v-if="item.sender !== userstore.userData.email") 
+        p.text-primary {{ item.sender }} says:
+        p {{ item.text }}
+      span(style="text-align: left;" v-else)
+        p.text-success {{ item.sender }} says:
+        p {{ item.text }}
   .d-flex.bg-shadow.p-2
-    input(type="text" v-model="messageText").me-4
+    input.bg-shadow-inner(type="text" v-model="messageText").me-4
     button.btn(@click="sendMessage()") Send
 </template>
 
@@ -33,13 +39,9 @@ interface ChatMessage {
   room: string
 }
 
-const room = {
-  roomName: "hejsa"
-}
-
 const program = {
   name: 'ChatWindow', 
-  displayName: room.roomName + ' Chat window', 
+  displayName: 'Chat window', 
   color: 'success', 
   image: 'bi-wechat', 
   isActive: true

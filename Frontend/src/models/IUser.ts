@@ -9,6 +9,7 @@ export class IUser {
   files: IFile[]
   installedPrograms: string[]
   settings: IUserSettings
+  isOnline: boolean
 
   constructor(
     id: string, 
@@ -18,7 +19,8 @@ export class IUser {
     type: string, 
     files: IFile[], 
     installedPrograms: string[], 
-    settings: IUserSettings 
+    settings: IUserSettings,
+    isOnline: boolean 
   ) {
     this._id = id
     this.firstName = firstName
@@ -28,5 +30,6 @@ export class IUser {
     this.files = files
     this.installedPrograms = installedPrograms
     this.settings = settings
+    this.isOnline = isOnline
   }
 }

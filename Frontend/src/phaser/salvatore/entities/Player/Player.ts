@@ -33,7 +33,7 @@ export default class Player extends Entity {
   private tabKeyPressed: boolean = false
 
   private keyInputs: {
-    [key: string]: Phaser.Input.Keyboard.Key;
+    [key: string]: Phaser.Input.Keyboard.Key
   } = {}
 
   constructor(scene: Phaser.Scene, x: number, y: number, map: any) {

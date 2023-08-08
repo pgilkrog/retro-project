@@ -23,7 +23,7 @@ export function setupSocketIO(httpServer: any, app: any) {
     })
 
     io.on('connection', async (socket) => {
-        console.log('a user connected');
+        console.log('a user connected')
 
         socket.on('authendicate', (email: string) => {
             const userInfo: UserInfo = {
@@ -56,17 +56,13 @@ export function setupSocketIO(httpServer: any, app: any) {
         })
 
         socket.on('chatMessage', (data: ChatMessage) => {
-            const { roomName, text } = data
+            const { roomName } = data
             io.to(roomName.join('-')).emit('chatMessage', data)
             console.log("messages", data)
-            
-            // activeRooms[room].forEach((participant) => {
-            //     io.to(participant).emit('chatMessage', { text, sender })
-            // })
         })
 
-        socket.on('disconnect', () => {
-            const userIndex = onlineUsers.findIndex((user) => user.socketId === socket.id)
+        socket.on('disconnect', (email: string) => {
+            const userIndex = onlineUsers.findIndex((user) => user.email === email)
             if (userIndex !== -1) {
               const disconnectedUser = onlineUsers[userIndex]
               onlineUsers.splice(userIndex, 1)

@@ -10,11 +10,12 @@ WindowFrame(
     IconComponent(name="fa-comment" variant="success" size="40" rotate="0")
     IconComponent(name="fa-phone" variant="success" size="40" rotate="0")
   .friends-list.d-flex.flex-column.bg-light.bg-shadow-inner
-    span(v-for="(user, index) in chatstore.onlineUsers" :key="index") 
-      .item.p-2.m-1(v-if="user !== userstore.userData?.email" @click="activateRoom(user)") 
+    span(v-for="(user, index) in userstore.allUsers" :key="index") 
+      .item.p-2.m-1(v-if="user.email !== userstore.userData?.email" @click="activateRoom(user.email)") 
         .d-flex.align-items-center
-          IconComponent(name="fa-user" variant="success" size="20") 
-          .ms-4 {{ user }}
+          IconComponent(name="fa-user" :variant="chatstore.onlineUsers.includes(user.email) ? 'success' : 'danger'" size="20") 
+          .ms-4.text-success(v-if="chatstore.onlineUsers.includes(user.email)") {{ user.email }}
+          .ms-4.text-danger(v-else) {{ user.email }}
   ChatWindow(
     v-for="(chat, index) in chatstore.activeRooms" 
     :key="index" 
@@ -22,7 +23,7 @@ WindowFrame(
   )
 </template>
 <script setup lang="ts">
-import { onMounted, toRefs } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import type { IProgram } from '../../../models/index'
 import { userStore } from '@/stores/userStore'
 import ChatWindow from './ChatWindow.vue'
@@ -35,8 +36,14 @@ const props = defineProps({
 const chatstore = chatStore()
 const userstore = userStore()
 
-onMounted(() => {
-  chatstore.init()
+onMounted(async () => {
+  await chatstore.init()
+  await userstore.getAllUsers()
+  await console.log('', userstore.allUsers)
+})
+
+onUnmounted(() => {
+  chatstore.disconnect()
 })
 
 const activateRoom = (user: string) => {

@@ -86,8 +86,8 @@ const router = createRouter({
       name: 'platformer',
       component: SalvatoreGame, 
       meta: {
-        requiresAuth : true,
-        roles: ['user', 'admin']
+        requiresAuth : false,
+        roles: []
       }
     },
     {
@@ -102,7 +102,7 @@ const router = createRouter({
         if(checkAuthendication() === true && checkUserRole(['admin']))
           next()
         else
-         next({ name: 'home' })
+          next({ name: 'home' })
       }
     },
     {

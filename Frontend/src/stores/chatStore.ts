@@ -25,11 +25,9 @@ export const chatStore = defineStore("chat",() => {
     })
 
     socket.on('chatMessage', (message: IChatMessage) => {
-      debugger
       let tempRoom = activeRooms.value.find(room => room.roomName === message.room)
       if(tempRoom === undefined) return
       tempRoom.messages.push(message)
-      
       chatMessages.value.push(message)
     })
 
@@ -58,9 +56,12 @@ export const chatStore = defineStore("chat",() => {
 
   const sendMessage = (message: IChatMessage, room: any) => {
     socket.emit('chatMessage', { roomName: room.participants, ...message })
-    chatMessages.value.push(message)
     // socket.emit('chatMessage', { roomName: roomT.roomName, ...message})
     console.log("messages", chatMessages)
+  }
+
+  const disconnect = () => {
+    socket.emit('disconnect', userstore.userData?.email)
   }
 
   return {
@@ -69,6 +70,7 @@ export const chatStore = defineStore("chat",() => {
     activeRooms,
     init,
     joinRoom,
-    sendMessage
+    sendMessage,
+    disconnect
   }
 })
