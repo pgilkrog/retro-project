@@ -12,7 +12,6 @@ interface UserInfo {
 }
 
 const onlineUsers: UserInfo[] = []
-const activeRooms: { [room: string]: string[] } = {}
 
 export function setupSocketIO(httpServer: any, app: any) {
     const io = new Server(httpServer, {
@@ -23,53 +22,10 @@ export function setupSocketIO(httpServer: any, app: any) {
     })
 
     io.on('connection', async (socket) => {
-        console.log('a user connected')
-
-        socket.on('authendicate', (email: string) => {
-            const userInfo: UserInfo = {
-                email: email,
-                socketId: socket.id,
-            }
-
-            console.log('user authenticated', email)
-
-            const userIndex = onlineUsers.find((user) => user.email === email)
-            if (!userIndex) {
-                onlineUsers.push(userInfo)
-                socket.broadcast.emit('userOnline', onlineUsers.map((user) => user.email))
-            }
-        })
-
-        socket.on('joinRoom', (roomUsers: string[]) => {
-            console.log("USERS", roomUsers)
-            const usersOnline = roomUsers.every((user) => onlineUsers.some((onlineUser) => onlineUser.email === user))
-
-            if (usersOnline) {
-                socket.join(roomUsers.join('-'))
-                
-                io.to(roomUsers.join('-')).emit('chatMessage', {
-                    id: -1,
-                    text: `Room created with ${roomUsers.join(' and ')}`,
-                    sender: 'System',
-                })
-            }
-        })
-
-        socket.on('chatMessage', (data: ChatMessage) => {
-            const { roomName } = data
-            io.to(roomName.join('-')).emit('chatMessage', data)
-            console.log("messages", data)
-        })
-
-        socket.on('disconnect', (email: string) => {
-            const userIndex = onlineUsers.findIndex((user) => user.email === email)
-            if (userIndex !== -1) {
-              const disconnectedUser = onlineUsers[userIndex]
-              onlineUsers.splice(userIndex, 1)
-        
-              socket.broadcast.emit('userOffline', disconnectedUser.email)
-            }
-        })
+        socket.on('authendicate', handleAuthendication(socket))
+        socket.on('joinRoom', handleJoinRoom(socket, io))
+        socket.on('chatMessage', handleChatMessage(socket, io))
+        socket.on('chatDisconnect', handleDisconnect(socket))
     })
 
   // API endpoint to get the list of online users
@@ -79,3 +35,49 @@ export function setupSocketIO(httpServer: any, app: any) {
   })
 }
 
+const handleAuthendication = (socket: any) => (email: string) => {
+  const userInfo: UserInfo = {
+    email: email,
+    socketId: socket.id,
+  }
+
+  const userIndex = onlineUsers.find((user) => user.email === email)
+  if (!userIndex) {
+    onlineUsers.push(userInfo)
+    socket.broadcast.emit('userOnline', onlineUsers.map((user) => user.email))
+  }
+}
+
+const handleJoinRoom = (socket: any, io: any) => (roomUsers: string[]) => {
+  const usersOnline = roomUsers.every((user) => onlineUsers.some((onlineUser) => onlineUser.email === user))
+
+  if (usersOnline) {
+    socket.join(roomUsers.join('-'))
+        
+    io.to(roomUsers.join('-')).emit('chatMessage', {
+      id: -1,
+      text: `Room created with ${roomUsers.join(' and ')}`,
+      sender: 'System',
+    })
+  }
+}
+
+const handleChatMessage = (socket: any, io: any) => (data: ChatMessage) => {
+  // Get the roomName from the data
+  const { roomName } = data
+  if (data !== undefined)
+    io.to(roomName.join('-')).emit('chatMessage', data)
+}
+
+const handleDisconnect = (socket: any) => (email: string) => {
+  // Get the index of 
+  console.log("DISCONNECT HIT")
+  const userIndex = onlineUsers.findIndex((user) => user.email === email)
+  console.log(userIndex)
+  if (userIndex !== -1) {
+    const disconnectedUser = onlineUsers[userIndex]
+    onlineUsers.splice(userIndex, 1)
+
+    socket.broadcast.emit('userOffline', disconnectedUser.email)
+  }
+}

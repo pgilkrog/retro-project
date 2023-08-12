@@ -8,10 +8,10 @@
   )
     .p-4
       .folder-animation 
-        i.bi.bi-folder-fill.text-warning
+        IconComponent(name="bi-folder-fill" variant="warning" size="32")
         .box(:class="loadingCompleted === true ? '' : 'move-anim'")
-          i.position-absolute.bi.bi-file-earmark-fill.text-white
-        i.bi.bi-folder-fill.text-warning
+          IconComponent(name="bi-file-earmark-fill" variant="white" size="32")
+        IconComponent(name="bi-folder-fill" variant="warning" size="32")
       .loading-bar.bg-shadow-inner.mt-4.d-flex
         .loading-box.bg-primary(v-for="item in progressValues")
       div(v-if="file !== undefined && file.length > 0") {{ file[file.length - 1] }}

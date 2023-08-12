@@ -9,33 +9,50 @@ export const chatStore = defineStore("chat",() => {
   const userstore = userStore()
   const socket = io('http://localhost:4000')
 
-  const chatMessages = ref<IChatMessage[]>([])
+  // const chatMessages = ref<IChatMessage[]>([])
   const onlineUsers = ref<string[]>([])
   const activeRooms = ref<IChatRoom[]>([])
 
   const init = async () => {
-    await authendicate(userstore.userData?.email!)
+    try {
+      await authendicate(userstore.userData?.email!)
+      await initSocketListeners()
+      await fetchOnlineUsers()
+    } catch (error) {
+      console.log('Initialization error:', error)
+    }
 
-    socket.on('userOnline', (userInfo: string[]) => {
-      onlineUsers.value = userInfo
-    })
+  }
 
-    socket.on('userOffline', (userInfo: string[]) => {
-      onlineUsers.value = userInfo
-    })
+  const initSocketListeners = () => {
+    socket.on('userOnline', handleUserOnline)
+    socket.on('userOffline', handleUserOffline)
+    socket.on('chatMessage', handleChatMessage)
+  }  
 
-    socket.on('chatMessage', (message: IChatMessage) => {
-      let tempRoom = activeRooms.value.find(room => room.roomName === message.room)
-      if(tempRoom === undefined) return
-      tempRoom.messages.push(message)
-      chatMessages.value.push(message)
-    })
+  const handleUserOnline = (userInfo: string[]) => {
+    onlineUsers.value = userInfo
+  }
+  
+  const handleUserOffline = (userInfo: string[]) => {
+    onlineUsers.value = userInfo
+  }
+  
+  const handleChatMessage = (message: IChatMessage) => {
+    const tempRoom = activeRooms.value.find(room => room.roomName === message.room)
+    if (tempRoom) {
+      tempRoom.messages.unshift(message)
+      // chatMessages.value.unshift(message)
+    }
+  }
 
-    setTimeout(() => {
-      axios.get('http://localhost:4000/api/online-users').then((data) => {
-        onlineUsers.value = data.data
-      })
-    }, 50)
+  const fetchOnlineUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:4000/api/online-users')
+      onlineUsers.value = response.data
+    } catch (error) {
+      console.error('Error fetching online users:', error)
+    }
   }
 
   const authendicate = async (userEmail: string) => {
@@ -45,32 +62,32 @@ export const chatStore = defineStore("chat",() => {
   const joinRoom = (users: string[]) => {
     let sortedUsers = users.sort((a: string, b: string) => a.localeCompare(b))
     socket.emit('joinRoom', sortedUsers)
-    activeRooms.value.push({
+    const room: IChatRoom = {
       id: 1,
       isActive: true,
       messages: [],
       participants: sortedUsers,
       roomName: sortedUsers.join('-')
-    } as IChatRoom)
+    }
+    activeRooms.value.push(room)
   }
 
   const sendMessage = (message: IChatMessage, room: any) => {
     socket.emit('chatMessage', { roomName: room.participants, ...message })
-    // socket.emit('chatMessage', { roomName: roomT.roomName, ...message})
-    console.log("messages", chatMessages)
+    // console.log("messages", chatMessages)
   }
 
-  const disconnect = () => {
-    socket.emit('disconnect', userstore.userData?.email)
+  const chatDisconnect = () => {
+    socket.emit('chatDisconnect', userstore.userData?.email)
   }
 
   return {
-    chatMessages,
+    // chatMessages,
     onlineUsers,
     activeRooms,
     init,
     joinRoom,
     sendMessage,
-    disconnect
+    chatDisconnect
   }
 })

@@ -118,3 +118,9 @@ export default defineComponent({
   },
 })
 </script>
+<style scoped lang="sass">
+.window-frame-wrapper
+  top: 0
+  .top-bar
+    user-select: none
+</style>

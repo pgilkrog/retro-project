@@ -43,7 +43,7 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-  chatstore.disconnect()
+  chatstore.chatDisconnect()
 })
 
 const activateRoom = (user: string) => {

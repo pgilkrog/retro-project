@@ -18,7 +18,9 @@
           | {{ item.displayName }}
     div.d-flex
       button.btn(@click="goToAdmin()") admin
-      Clock 
+      .px-3.ms-1.d-flex.align-items-center.p-2.bg-shadow-inner.rounded
+        IconComponent.me-4(name="fa-user" variant="success" size="14")
+        Clock
 </template>
 
 <script setup lang="ts">

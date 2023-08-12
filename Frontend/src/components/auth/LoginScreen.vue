@@ -84,7 +84,9 @@ const pressedOk = () => {
 
 const confirmLogin = (): void => {
   authstore.loginUser(username.value, password.value).then(() => {
-    router.push('/')
+    setTimeout(() => {
+      router.push('/')
+    }, 100) 
   })
 }
 

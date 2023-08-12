@@ -62,3 +62,14 @@ export default defineComponent({
   }
 })
 </script>
+<style scoped lang="sass">
+.calculator-wrapper
+  .button-wrapper
+    display: grid
+    grid-template-columns: auto auto auto auto    
+    column-gap: 5px
+    row-gap: 5px
+  .btn 
+    width: -webkit-fill-available
+
+</style>
