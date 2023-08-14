@@ -1,5 +1,5 @@
 <template lang="pug">
-.menu-wrapper.bg-secondary.fixed-bottom.fit-content.bg-shadow.d-flex.rounded(v-if="showMenu").flex-column
+.menu-wrapper.bg-secondary.fixed-bottom.fit-content.bg-shadow.d-flex.rounded.flex-column(v-if="showMenu")
   .menu-item(v-for="(item, index) in menuList" :key="index")
     MenuItem(:title="item.title" :img="item.img" :hasChildren="item.subMenu.length > 0")
     .submenu.bg-secondary.bg-shadow(v-if="item.subMenu.length > 0")
@@ -13,11 +13,10 @@
 </template>
 
 <script setup lang="ts">
+import { defineComponent, ref, onMounted } from 'vue'
 import type { IMenuItem }  from '@/models/index'
-
 import MenuItem from './MenuItem.vue'
 import jsondata from '@/assets/menuData.json'
-import { defineComponent, ref, onMounted } from 'vue'
 
 const props = defineProps({
   showMenu: Boolean

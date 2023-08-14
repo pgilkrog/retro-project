@@ -21,12 +21,16 @@ WindowFrame(
         BackgroundImages(@setTempImg="setTempImg($event)" :tempImg="tempImg")
       .row.mt-4
         FileUploader
-      .row.mt-4 
+      .row.mt-4
         .col
           p Color:
       .row
         .col-2
-          input(type="color" @change="onColorSelected" v-model="color")
+          input(
+            type="color" 
+            @change="onColorSelected" 
+            v-model="color"
+          )
         .col
     .content.p-4(v-else-if="state === 1")
       .row
@@ -79,13 +83,13 @@ const saveUserInfo = () => {
   
   if (tempSettings === undefined) return
 
-  setImage(tempImg.value as IFile)
+  setImage(tempImg.value)
   tempSettings.settings.backgroundColour = color.value
   userstore.updateUserSettings(tempSettings.settings as IUserSettings)
   userstore.setUserData(tempSettings)
 }
 
-const setImage = (file: IFile) => {
+const setImage = (file: IFile | undefined) => {
   let url = file === undefined ? '' : file.name
   let temp = userData.value as IUser
   temp.settings.backgroundImage = url

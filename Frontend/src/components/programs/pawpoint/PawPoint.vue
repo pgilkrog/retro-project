@@ -7,7 +7,7 @@ WindowFrame(
   :showMenu="true"
 )
   .pawpoint.d-flex.flex-column.justify-content-between
-    .active-slide.d-flex.bg-primary.m-4.flex-column.justify-content-center.text-white.pointer
+    .active-slide.h-100.d-flex.bg-primary.m-4.flex-column.justify-content-center.text-white.pointer
       .title.d-flex.justify-content-center.align-items-center.my-4(v-if="activeSlide.title !== undefined && activeSlide.title !== ''")
         h1 {{ activeSlide.title }}
       .text.d-flex.justify-content-center.align-items-center(v-if="activeSlide.text !== undefined && activeSlide.text !== ''")

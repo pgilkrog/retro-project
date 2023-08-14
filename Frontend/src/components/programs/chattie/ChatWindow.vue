@@ -54,10 +54,6 @@ const userstore = userStore()
 const chatstore = chatStore()
 const messageText = ref<string>("")
 
-onMounted(() => {
-
-})
-
 const sendMessage = () => {
   const message: ChatMessage = {
     id: props.activeChat?.messages.length + 1,

@@ -44,30 +44,30 @@ body, html, .bg-fill
 .pointer
   cursor: pointer  
   
+$white-border: 2px solid $white
+$black-border: 2px solid $black
+
 .bg-shadow
-  border-left: 2px solid $white
-  border-top: 2px solid $white
-  border-right: 2px solid $black
-  border-bottom: 2px solid $black
+  border-left: $white-border
+  border-top: $white-border
+  border-right: $black-border
+  border-bottom: $black-border
 
 .bg-shadow-inner
-  border-left: 2px solid $dark
-  border-top: 2px solid $dark
-  border-right: 2px solid $white
-  border-bottom: 2px solid $white
+  border-left: $black-border
+  border-top: $black-border
+  border-right: $white-border
+  border-bottom: $white-border
 
 .shadow-top
   box-shadow: $shadow-top
-
-@font-face 
-  font-family: "RetroFont"
-  src: url("../assets/PressStart2P-Regular.ttf") format("truetype")
 
 .error-component, .file-explorer
   z-index: 9999
   position: relative
 
 .shut-down, .starting-up
+  position: absolute
   bottom: 0
   top: 0
   right: 0
@@ -75,7 +75,6 @@ body, html, .bg-fill
   height: 100vh
   width: 100%
   z-index: 9999
-  position: absolute
   .bi
     font-size: $font-giant
 
@@ -96,16 +95,16 @@ body, html, .bg-fill
 
 .pc-settings-wrapper
   .content
-    border-right: 2px solid $white
-    border-bottom: 2px solid $black
-    border-left: 2px solid $black
+    border-right: $white-border
+    border-bottom: $black-border
+    border-left: $black-border
   .nav-item, .tab-fill
-    border-bottom: 2px solid $white    
+    border-bottom: $white-border
   .active
-    border-top: 2px solid $black
-    border-right: 2px solid $white
+    border-top: $black-border
+    border-right: $white-border
     border-bottom: 2px solid $secondary
-    border-left: 2px solid $black
+    border-left: $black-border
     margin-radius: 5px 5px 0 0
   .tab-fill
     flex-grow: 1

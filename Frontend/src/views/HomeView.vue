@@ -19,14 +19,14 @@ Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")
 <script setup lang="ts">
 import type { IProgram, IUser } from '@/models/index'
 import { ref } from 'vue'
-import DesktopItem from '@/components/DesktopItem.vue'
+import { userStore } from '@/stores/userStore'
+import { storeToRefs } from 'pinia'
 import { programsStore } from '@/stores/programsStore'
 import ComponentMachine from '@/components/ComponentMachine.vue'
 import Loading from '@/components/Loading.vue'
-import { userStore } from '@/stores/userStore'
-import { storeToRefs } from 'pinia'
 import Menu from '@/components/menuComponents/Menu.vue'
 import Taskbar from '@/components/taskbar/Taskbar.vue'
+import DesktopItem from '@/components/DesktopItem.vue'
 
 const programsstore = programsStore()
 const userstore = userStore()
@@ -40,7 +40,7 @@ const generateComponent = (program: IProgram) => {
 }
 
 const getImageUrl = (filename: string) => {
-  return `http://localhost:4000/uploads/${filename}`;
+  return `http://localhost:4000/uploads/${filename}`
 }
 
 const changeShowMenu = () => {

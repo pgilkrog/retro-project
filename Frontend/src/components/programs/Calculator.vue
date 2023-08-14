@@ -1,7 +1,7 @@
 <template lang="pug">
 WindowFrame(:program="program" :isMoveable="true")
   .calculator-wrapper
-    .d-flex.p-3.w-100
+    .d-flex.p-3
       .bg-light.w-100.rounded.bg-shadow-inner.d-flex.justify-content-end.p-2.pe-3
        p {{ display !== '' ? display : '0' }}
     .button-wrapper.p-3
@@ -70,6 +70,6 @@ export default defineComponent({
     column-gap: 5px
     row-gap: 5px
   .btn 
-    width: -webkit-fill-available
+    width: 100%
 
 </style>
