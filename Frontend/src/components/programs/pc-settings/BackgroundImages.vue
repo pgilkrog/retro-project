@@ -1,5 +1,5 @@
 <template lang="pug">
-.background-images-wrapper.bg-light.bg-shadow-inner.d-flex.flex-column
+.background-images-wrapper.bg-light.bg-shadow-inner.d-flex.flex-column.rounded
   .image-item.m-1.d-flex.align-items-center.p-1.hover-bg-primary.pointer(
     @click="imageClicked(undefined)"
     :class="(tempImg === undefined) ? 'bg-primary color-white' : ''"

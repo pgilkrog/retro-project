@@ -8,7 +8,7 @@ WindowFrame(
 )
   .paint-wrapper.row.gx-0
     .col-10
-      .canvas-wrapper.d-flex.h-100.w-100.text-black.bg-grey
+      .canvas-wrapper.d-flex.h-100.w-100.bg-grey
         canvas.bg-white(
           id="canvasWrapper"
           ref="canvasRef" 
@@ -23,9 +23,9 @@ WindowFrame(
         button.btn(@click="setSize(canvasX, canvasY)").mt-2 New
       .icons
         button.btn(type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal")
-          i.icon.bi.bi-save
+          IconComponent(name="fa-floppy-disk" variant="dark" size="24")
         button.btn(@click="changeShowFiles(true)")
-          i.icon.bi.bi-folder-fill
+          IconComponent(name="fa-folder" variant="dark" size="24")
 
         div(class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
           div(class="modal-dialog")
@@ -49,13 +49,14 @@ WindowFrame(
 </template>
 
 <script lang="ts">
-import { authStore } from '@/stores/authStore';
 import { ref, reactive, onMounted } from 'vue'
 import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import FileExplorer from '@/components/FileExplorer.vue'
 import type { IPainting } from '@/models/index'
 import { defineComponent } from 'vue'
 import ColorTool from './ColorTool.vue'
+import { userStore } from '@/stores/userStore'
+import { paintStore } from '@/stores/paintStore'
 
 export default defineComponent({
   props: {
@@ -68,7 +69,8 @@ export default defineComponent({
   },
   setup (props) {
     const canvasRef = ref<HTMLCanvasElement | null>(null)
-    const authstore = authStore()
+    const userstore = userStore()
+    const paintstore = paintStore()
     const state = reactive({
       color: '#000000',
       brushSize: 5,
@@ -121,14 +123,14 @@ export default defineComponent({
       const canvas = canvasRef.value
       if(canvas === null) return
 
-      // let newPainting = new IPainting (
-      //   '',
-      //   text, 
-      //   canvas.toDataURL(),
-      //   authstore.getUser.uid
-      // )
+      const newPainting = {
+        _id: '',
+        name: text,
+        canvas: canvas.toDataURL(),
+        uId: userstore.userData?._id,
+      }  as IPainting
 
-      // DBHelper.create('paintings', newPainting)
+       paintstore.postPainting(newPainting)
     }
 
     const loadPainting = (painting: string) => {
@@ -171,7 +173,7 @@ export default defineComponent({
       showFiles.value = bool
     }
     const itemClicked = (painting: IPainting) => {
-      loadPainting(painting.Canvas)
+      loadPainting(painting.canvas)
     }
 
     onMounted(() => {

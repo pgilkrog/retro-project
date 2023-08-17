@@ -6,7 +6,7 @@ WindowFrame(
   :showMenu="false"
 )
   .pc-settings-wrapper.p-4
-    .d-flex
+    .d-flex.custom-menu
       .nav-item.py-2.px-4.pointer(@click="state = 0" :class="state === 0 ? 'active' : ''")
         | Display
       .nav-item.py-2.px-4.pointer(@click="state = 1" :class="state === 1 ? 'active' : ''")
@@ -14,7 +14,7 @@ WindowFrame(
       .nav-item.py-2.px-4.pointer(@click="state = 2" :class="state === 2 ? 'active' : ''")
         | Profile
       .tab-fill
-    .content.p-4(v-if="state === 0")
+    .content.p-4.main-wrap.rounded(v-if="state === 0")
       .row.d-flex.flex-column.align-items-center
         PCScreen(:tempImg="tempImg")
       .row.mt-4
@@ -32,9 +32,9 @@ WindowFrame(
             v-model="color"
           )
         .col
-    .content.p-4(v-else-if="state === 1")
+    .content.p-4.main-wrap.rounded(v-else-if="state === 1")
       .row
-    .content.p-4(v-else-if="state === 2")
+    .content.p-4.main-wrap.rounded(v-else-if="state === 2")
       .row
         UserInfo
     .d-flex.justify-content-end.mt-4
@@ -108,5 +108,10 @@ const getImageUrl = (filename: string) => {
 </script>
 
 <style lang="sass" scope>
-
+.main-wrap
+  border-top-left-radius: 0px !important
+  z-index: 10
+  position: relative
+  margin-top: -1px
+  margin-right: -5px
 </style>

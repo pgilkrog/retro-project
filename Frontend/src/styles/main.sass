@@ -23,6 +23,7 @@ body, html, .bg-fill
   bottom: 0
   font-family: 'RetroFont'
   font-size: $font-normal
+  color: $dark
   overflow: hidden
   p 
     margin: 0
@@ -45,7 +46,7 @@ body, html, .bg-fill
   cursor: pointer  
   
 $white-border: 2px solid $white
-$black-border: 2px solid $black
+$black-border: 2px solid $dark
 
 .bg-shadow
   border-left: $white-border
@@ -96,10 +97,10 @@ $black-border: 2px solid $black
 .pc-settings-wrapper
   .content
     border-right: $white-border
-    border-bottom: $black-border
+    border-bottom: $white-border
     border-left: $black-border
   .nav-item, .tab-fill
-    border-bottom: $white-border
+    border-bottom: $black-border
   .active
     border-top: $black-border
     border-right: $white-border

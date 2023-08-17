@@ -21,7 +21,6 @@ export const chatStore = defineStore("chat",() => {
     } catch (error) {
       console.log('Initialization error:', error)
     }
-
   }
 
   const initSocketListeners = () => {

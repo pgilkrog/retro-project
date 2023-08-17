@@ -21,8 +21,6 @@ router.get('/', jsonParser, async (req: Request, res: Response) => {
 router.post('/', jsonParser, async (req: Request, res: Response) => {
   const { text, date, userId } = req.query
 
-  console.log('create error', req.query)
-
   try {
     const newError = new Error({
       text,

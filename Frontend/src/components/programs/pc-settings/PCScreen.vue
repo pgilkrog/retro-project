@@ -1,5 +1,5 @@
 <template lang="pug">
-.bg-shadow.p-4.fit-content
+.bg-shadow.p-4.fit-content.rounded
   .bg-shadow-inner.img-box()
     img.box(
       v-if="tempImg !== undefined && tempImg.name"
@@ -9,9 +9,9 @@
       v-else
       :style="[{'background-color': userData.settings?.backgroundColour}]"
     )
-.bg-shadow.square-1
+.bg-shadow.square-1.rounded-bottom
 .bg-shadow.square-2
-.bg-shadow.square-3
+.bg-shadow.square-3.rounded-top
 </template>
 
 <script setup lang="ts">

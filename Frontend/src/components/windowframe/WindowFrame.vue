@@ -11,11 +11,11 @@
       IconComponent(:name="program.image" size="25" variant="light")
       .font-weight-bold.pe-4.ps-4 {{ program.displayName }}
     .d-flex
-      button.btn.bg-secondary.py-0.px-2.text-black(@click="setInactive()") 
+      button.btn.bg-secondary.py-0.px-2(@click="setInactive()") 
         IconComponent(name="fa-window-minimize" size="14")
-      button.btn.bg-secondary.py-0.px-2.text-black.mx-1
+      button.btn.bg-secondary.py-0.px-2.mx-1
         IconComponent(name="bi-square" size="12")
-      button.btn.bg-secondary.py-0.px-2.text-black(@click="closeWindow") 
+      button.btn.bg-secondary.py-0.px-2(@click="closeWindow") 
         IconComponent(name="fa-xmark" size="14")
   windowframeMenu(:showMenu="showMenu")
   .container-fluid.gx-0.bg-secondary.mt-1.bg-shadow-inner.rounded

@@ -1,5 +1,5 @@
 <template lang="pug">
-.menu-item.py-2.px-4.w-100.d-flex.align-items-center.text-black(@click="openProgram()")
+.menu-item.py-2.px-4.w-100.d-flex.align-items-center.text-dark(@click="openProgram()")
   h3.text-bold.me-4
     IconComponent.me-3(:variant="props.color === 'light' ? 'dark' : props.color" :name="props.img") 
   |  {{title}}

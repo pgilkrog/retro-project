@@ -14,7 +14,7 @@ WindowFrame(
         .col-12.col-lg-3.d-flex.align-items-center
           .login-text Email:
         .col-12.col-lg
-          input.text-black.bg-shadow-inner.w-100(
+          input.bg-shadow-inner.w-100(
             type="email" 
             autocomplete="off" 
             name="username" 
@@ -24,7 +24,7 @@ WindowFrame(
         .col-12.col-lg-3.d-flex.align-items-center
           .login-text Password:
         .col-12.col-lg
-          input.text-black.bg-shadow-inner.w-100(
+          input.bg-shadow-inner.w-100(
             type="password" 
             name="password" 
             autocomplete="off" 
@@ -34,7 +34,7 @@ WindowFrame(
         .col-12.col-lg-3.d-flex.align-items-center
           .login-text Password:
         .col-12.col-lg
-          input.text-black.bg-shadow-inner.w-100(
+          input.bg-shadow-inner.w-100(
             type="password" 
             name="password" 
             autocomplete="off" 

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
 import axios from 'axios'
 import { errorStore } from "./errorStore"
-import type { IFile } from "@/models"
+import type { IFile, IPainting } from "@/models"
 import { userStore } from './userStore'
 import { ref } from 'vue'
 

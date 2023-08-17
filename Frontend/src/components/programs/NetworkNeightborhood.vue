@@ -1,5 +1,5 @@
 <template lang="pug">
-WindowFrame(:program="program" :isMoveable="true")
+WindowFrame(:program="props.program" :isMoveable="true")
   Suspense(timeout="0")
     template(#default)
       ErrorList
@@ -8,26 +8,15 @@ WindowFrame(:program="program" :isMoveable="true")
         .spinner-border
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import ErrorList from '@/components/admin/ErrorList.vue'
-import { defineComponent, ref } from 'vue'
+import { ref } from 'vue'
 
-export default defineComponent({
-  name: 'NetworkNeightborhood',
-  components: {
-    WindowFrame,
-    ErrorList
-  },
-  props: {
-    program: Object
-  },
-  setup() {
-    const items = ref([] as any)
-
-    return {
-      items,
-    }
-  },
+const props = defineProps({
+  program: Object
 })
+
+const items = ref([] as any)
+
 </script>
