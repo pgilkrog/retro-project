@@ -8,7 +8,7 @@ WindowFrame(
 )
   .paint-wrapper.row.gx-0
     .col-10
-      .canvas-wrapper.d-flex.h-100.w-100.bg-grey
+      .canvas-wrapper.d-flex.h-100.w-100.bg-dark
         canvas.bg-white(
           id="canvasWrapper"
           ref="canvasRef" 
@@ -21,11 +21,20 @@ WindowFrame(
         input.tb(type="number" v-model="canvasX").w-100.mb-2
         input.tb(type="number" v-model="canvasY").w-100
         button.btn(@click="setSize(canvasX, canvasY)").mt-2 New
-      .icons
+      .icons.d-flex.justify-content-between
+        button.btn(@click="createNew()")
+          IconComponent(name="fa-file" variant="dark" size="18")
         button.btn(type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal")
-          IconComponent(name="fa-floppy-disk" variant="dark" size="24")
+          IconComponent(name="fa-floppy-disk" variant="dark" size="18")
         button.btn(@click="changeShowFiles(true)")
-          IconComponent(name="fa-folder" variant="dark" size="24")
+          IconComponent(name="fa-folder" variant="dark" size="18")
+      .brushes.mt-4.d-flex.justify-content-between
+        button.btn(type="button" @click="setBrushType('circle')")
+          IconComponent(name="fa-circle" variant="dark" size="18")
+        button.btn(type="button" @click="setBrushType('square')")
+          IconComponent(name="fa-square" variant="dark" size="18")
+        button.btn(type="button" @click="setBrushType('spray')")
+          IconComponent(name="fa-spray-can" variant="dark" size="18")
 
         div(class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
           div(class="modal-dialog")
@@ -41,174 +50,181 @@ WindowFrame(
         label Brush Size:
         input(type="range" min="1" max="50" v-model.number="state.brushSize")
   FileExplorer(
-    :files="myPaintings" 
+    :files="paintstore.usersPaintings" 
     v-if="showFiles === true"
     @itemClicked="itemClicked($event)"
     @closeWindow="changeShowFiles(false)"
   )
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
-import WindowFrame from '@/components/windowframe/WindowFrame.vue'
-import FileExplorer from '@/components/FileExplorer.vue'
 import type { IPainting } from '@/models/index'
-import { defineComponent } from 'vue'
-import ColorTool from './ColorTool.vue'
 import { userStore } from '@/stores/userStore'
 import { paintStore } from '@/stores/paintStore'
+import ColorTool from './ColorTool.vue'
+import WindowFrame from '@/components/windowframe/WindowFrame.vue'
+import FileExplorer from '@/components/FileExplorer.vue'
 
-export default defineComponent({
-  props: {
-    program: Object
-  },
-  components: {
-    WindowFrame,
-    FileExplorer,
-    ColorTool
-  },
-  setup (props) {
-    const canvasRef = ref<HTMLCanvasElement | null>(null)
-    const userstore = userStore()
-    const paintstore = paintStore()
-    const state = reactive({
-      color: '#000000',
-      brushSize: 5,
-      drawing: false,
-    })
+const props = defineProps({
+  program: Object
+})
 
-    const canvasX = ref(undefined)
-    const canvasY = ref(undefined)
-    const inputSave = ref('')
-    const showFiles = ref(false)
-    const myPaintings = ref([] as IPainting[])
-    const brushSizes = ref([
-        1,
-        3,
-        5,
-        7,
-        9
-      ])
+const userstore = userStore()
+const paintstore = paintStore()
 
-    const startDrawing = (event: MouseEvent) => {
-      state.drawing = true
-      draw(event)
-    }
+const canvasRef = ref<HTMLCanvasElement | null>(null)
+const state = reactive({
+  color: '#000000',
+  brushSize: 5,
+  drawing: false,
+})
 
-    const stopDrawing = () => {
-      state.drawing = false
-    }
+const canvasX = ref<number>(0)
+const canvasY = ref<number>(0)
+const inputSave = ref('')
+const showFiles = ref(false)
+const myPaintings = ref([] as IPainting[])
+const brushSizes = ref([
+  1,
+  3,
+  5,
+  7,
+  9
+])
+const brushTypes = ref([
+  'circle', 
+  'square', 
+  'line', 
+  'spray'
+])
+const selectedBrush = ref(brushTypes.value[0])
 
-    const draw = (event: MouseEvent) => {
-      if (!state.drawing) return
+const startDrawing = (event: MouseEvent) => {
+  state.drawing = true
+  draw(event)
+}
 
-      const canvas = canvasRef.value
-      if (!canvas) return
+const stopDrawing = () => {
+  state.drawing = false
+}
 
-      const ctx = canvas.getContext('2d')
-      if (!ctx) return
+const draw = (event: MouseEvent) => {
+  if (!state.drawing) return
 
-      // To center the brush on the mouse, you can use the canvas's getBoundingClientRect() method to calculate the difference between the canvas's top-left corner and the viewport's top-left corner, and then subtract that difference from the clientX and clientY values
-      const rect = canvas.getBoundingClientRect()
-      const x = event.clientX - rect.left
-      const y = event.clientY - rect.top
+  const canvas = canvasRef.value
+  if (!canvas) return
 
-      ctx.fillStyle = state.color
-      ctx.beginPath()
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return
+
+  // To center the brush on the mouse, you can use the canvas's getBoundingClientRect() method to calculate the difference between the canvas's top-left corner and the viewport's top-left corner, and then subtract that difference from the clientX and clientY values
+  const rect = canvas.getBoundingClientRect()
+  const x = event.clientX - rect.left
+  const y = event.clientY - rect.top
+
+  ctx.fillStyle = state.color
+
+  ctx.beginPath()
+
+  switch (selectedBrush.value) {
+    case 'circle': 
       ctx.arc(x, y, state.brushSize, 0, 2 * Math.PI)
-      ctx.fill()
-    }
+      break
+    case 'square':
+      ctx.fillRect(x - state.brushSize / 2, y - state.brushSize / 2, state.brushSize, state.brushSize)
+      break
+    case 'line':
+      break
+    case 'spray':
+      const sprayRadius = state.brushSize / 0.5
 
-    const savePainting = (text: string) => {
-      const canvas = canvasRef.value
-      if(canvas === null) return
+      for (let i = 0; i < 50; i++) { // Adjust the number of dots as needed
+        const offsetX = (Math.random() - 0.5) * sprayRadius * 2
+        const offsetY = (Math.random() - 0.5) * sprayRadius * 2
 
-      const newPainting = {
-        _id: '',
-        name: text,
-        canvas: canvas.toDataURL(),
-        uId: userstore.userData?._id,
-      }  as IPainting
+        const sprayX = x + offsetX
+        const sprayY = y + offsetY
 
-       paintstore.postPainting(newPainting)
-    }
-
-    const loadPainting = (painting: string) => {
-      const canvas = canvasRef.value
-      if (!canvas) return
-
-      const ctx = canvas.getContext('2d')
-      if (!ctx) return
-
-      const image = new Image()
-      image.src = painting
-      image.onload = () => {
-        canvas.width = image.width
-        canvas.height = image.height
-
-        const ctx = canvas.getContext('2d')
-        if (!ctx) return
-
-        ctx.drawImage(image, 0, 0)
+        ctx.fillRect(sprayX, sprayY, 1, 1) // Draw small dots
       }
-    }
+      break
+  }
+ 
+  ctx.fill()
+}
 
-    const setSize = (x: number, y: number) => {
-      const canvas = canvasRef.value
-      if (!canvas) return
+const savePainting = (text: string) => {
+  const canvas = canvasRef.value
+  if(canvas === null) return
 
-      if (x != 0)
-        canvas.width = x
-      if (y != 0)
-        canvas.height = y
+  const newPainting = {
+    _id: '',
+    name: text,
+    canvas: canvas.toDataURL(),
+    uId: userstore.userData?._id,
+  }  as IPainting
 
-      const ctx = canvas.getContext('2d')
-      if (!ctx) return
-    }
+    paintstore.postPainting(newPainting)
+}
 
-    const changeColor = (color: string) => {
-      state.color = color
-    }
-    const changeShowFiles = (bool: boolean) => {
-      showFiles.value = bool
-    }
-    const itemClicked = (painting: IPainting) => {
-      loadPainting(painting.canvas)
-    }
+const loadPainting = (painting: string) => {
+  const canvas = canvasRef.value
+  if (!canvas) return
 
-    onMounted(() => {
-      const canvas = canvasRef.value
-      if (!canvas) return
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return
 
-      let canvasElement = document.getElementById("canvasWrapper")
+  const image = new Image()
+  image.src = painting
+  image.onload = () => {
+    canvas.width = image.width
+    canvas.height = image.height
 
-      canvas.width = canvasElement ? canvasElement.clientWidth : 500
-      canvas.height = canvasElement ? canvasElement.clientHeight : 500
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
 
-      // DBHelper.getAllByUserId('paintings', authstore.getUser.uid).then(data => {
-      //   myPaintings.value = data as IPainting[]
-      // })
-    })
+    ctx.drawImage(image, 0, 0)
+  }
+}
 
-    return {
-      canvasRef,
-      state,
-      canvasX,
-      canvasY,
-      inputSave,
-      brushSizes,
-      showFiles,
-      myPaintings,
-      startDrawing,
-      stopDrawing,
-      draw,
-      savePainting,
-      loadPainting,
-      setSize,
-      changeColor,
-      changeShowFiles,
-      itemClicked
-    }
-  },
+const setSize = (x: number, y: number) => {
+  const canvas = canvasRef.value
+  if (!canvas) return
+
+  if (x != 0)
+    canvas.width = x
+  if (y != 0)
+    canvas.height = y
+
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return
+
+  console.log(canvas)
+}
+
+const setBrushType = (brushType: string) => {
+  selectedBrush.value = brushType
+} 
+
+const changeColor = (color: string) => {
+  state.color = color
+}
+const changeShowFiles = (bool: boolean) => {
+  showFiles.value = bool
+}
+const itemClicked = (painting: IPainting) => {
+  loadPainting(painting.canvas)
+}
+
+onMounted(() => {
+  paintstore.getAllPaintingsByUserId(userstore.userData?._id !== undefined ? userstore.userData?._id : '')
+  const canvas = canvasRef.value
+  if (!canvas) return
+
+  let canvasElement = document.getElementById("canvasWrapper")
+
+  canvas.width = canvasElement ? canvasElement.clientWidth : 500
+  canvas.height = canvasElement ? canvasElement.clientHeight : 500
 })
 </script>

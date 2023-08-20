@@ -16,32 +16,33 @@ router.get('/', jsonParser, async (req: Request, res: Response) => {
   }
 })
 
-router.get('/:id', auth, jsonParser, async (req: Request, res: Response) => {
-try {
-  const fetchedPaintings = Painting.findById({ uId: req.params.id })
-  res.json({ paintings: fetchedPaintings })
-} catch (error) {
-  console.log(error)
-  res.status(500).send('error getting paintings with userId')
-}
+router.get('/:id', auth, async (req: Request, res: Response) => {
+  console.log(req.params)
+  try {
+    const fetchedPaintings = await Painting.find({ uId: req.params.id }).exec()
+    console.log(fetchedPaintings)
+    res.json({ paintings: fetchedPaintings })
+  } catch (error) {
+    console.log(error)
+    res.status(500).send('error getting paintings with userId')
+  }
 })
 
-router.post('/', auth, jsonParser, async (req: Request, res: Response) => {
-  // const { name, canvas, uId } = req.body
-  console.log(req.body, req.query)
-  // try {
-  //   const newPainting = new Painting({
-  //     name,
-  //     canvas,
-  //     uId
-  //   })
-  //   console.log(newPainting)
-  //   await newPainting.save()
-  //   res.json(newPainting)
-  // } catch (error) {
-  //   console.log(error)
-  //   res.status(500).send('server error')
-  // }
+router.post('/', jsonParser, async (req: Request, res: Response) => {
+  try {
+    const { name, canvas, uId } = req.body
+    const newPainting = new Painting({
+      name,
+      canvas,
+      uId,
+    });
+    await newPainting.save()
+    res.json(newPainting)
+    console.log(req.body)
+  } catch (error) {
+    console.log(error)
+    res.status(500).send('server error')
+  }
 })
 
 export = router

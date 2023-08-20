@@ -14,7 +14,6 @@
         IconComponent(name="bi-folder-fill" variant="warning" size="32")
       .loading-bar.bg-shadow-inner.mt-4.d-flex
         .loading-box.bg-primary(v-for="item in progressValues")
-      div(v-if="file !== undefined && file.length > 0") {{ file[file.length - 1] }}
       .d-flex.justify-content-end.mt-4
         button.btn(v-if="loadingCompleted === true" @click="closeLoading()") Close
     .bg-dark.text-light.p-4
@@ -25,98 +24,88 @@
         li(v-for="(file, index) in files.slice(files.length-1, files.length)" :key="index") {{ file }}
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
 import type { IProgram } from '@/models/index'
 
-export default defineComponent({
-  props: {
-    loadingTime: Number
-  },
-  setup (props, { emit }) {
-    const program = {
-      id: "345345",
-      name: 'Loading',
-      displayName: 'Loading',
-      color: 'info', 
-      isActive: true, 
-      image: 'bi-archive',
-    } as IProgram
+const props = defineProps({
+  loadingTime: Number
+})
 
-    const loadingCompleted = ref(false)
-    const progressValues = ref<number[]>([])
-    const files = ref<string[]>([])
-    const progress = ref<number>(0)
+const emit = defineEmits([
+  'closeLoading'
+])
 
-    const addToArray = () => {
-      if (progressValues.value.length < 10) {
-        setTimeout(() => {
-          progressValues.value.push(1)
-          addToArray()
-        }, Math.random() * 1000 + 100)
-      }
+const program = {
+  id: "345345",
+  name: 'Loading',
+  displayName: 'Loading',
+  color: 'info', 
+  isActive: true, 
+  image: 'bi-archive',
+} as IProgram
 
-      if (progressValues.value.length === 10) {
-        loadingCompleted.value = true
-      }
-    }
+const loadingCompleted = ref(false)
+const progressValues = ref<number[]>([])
+const files = ref<string[]>([])
+const progress = ref<number>(0)
 
-    const closeLoading = () => {
-      emit('closeLoading')
-    }
-
-    const startInstallation = () => {
-      const fileTypes = ['exe', 'dll', 'cfg', 'log']
-      const installationTime = 5000 // 5 seconds
-
-      const intervalId = setInterval(() => {
-        if (progress.value >= 200) {
-          clearInterval(intervalId)
-          return
-        }
-
-        const fileName = `${generateRandomString()}.${fileTypes[Math.floor(Math.random() * fileTypes.length)]}`
-        files.value.push(fileName)
-
-        progress.value += Math.random() * 5
-        progress.value = Math.min(progress.value, 100)
-      }, 100)
-
-      setTimeout(() => {
-        clearInterval(intervalId)
-        files.value = []
-        progress.value = 100
-      }, installationTime)
-    };
-
-    const generateRandomString = () => {
-      const length = 8
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-      let result = ''
-
-      for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * characters.length))
-      }
-
-      return result
-    };
-
-    onMounted(() => {
+const addToArray = () => {
+  if (progressValues.value.length < 10) {
+    setTimeout(() => {
+      progressValues.value.push(1)
       addToArray()
-      startInstallation()
-    })
-
-    return {
-      files,
-      progress,
-      startInstallation,
-      program,
-      progressValues,
-      loadingCompleted,
-      addToArray,
-      closeLoading
-    }
+    }, Math.random() * 1000 + 100)
   }
+
+  if (progressValues.value.length === 10) {
+    loadingCompleted.value = true
+  }
+}
+
+const closeLoading = () => {
+  emit('closeLoading')
+}
+
+const startInstallation = () => {
+  const fileTypes = ['exe', 'dll', 'cfg', 'log']
+  const installationTime = 5000 // 5 seconds
+
+  const intervalId = setInterval(() => {
+    if (progress.value >= 200) {
+      clearInterval(intervalId)
+      return
+    }
+
+    const fileName = `${generateRandomString()}.${fileTypes[Math.floor(Math.random() * fileTypes.length)]}`
+    files.value.push(fileName)
+
+    progress.value += Math.random() * 5
+    progress.value = Math.min(progress.value, 100)
+  }, 100)
+
+  setTimeout(() => {
+    clearInterval(intervalId)
+    files.value = []
+    progress.value = 100
+  }, installationTime)
+}
+
+const generateRandomString = () => {
+  const length = 8
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  let result = ''
+
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length))
+  }
+
+  return result
+}
+
+onMounted(() => {
+  addToArray()
+  startInstallation()
 })
 </script>
 

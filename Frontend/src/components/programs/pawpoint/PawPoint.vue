@@ -21,64 +21,52 @@ WindowFrame(
           h1 {{ index }}
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
 import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 
-export default defineComponent({
-  props: {
-    program: Object
-  },
-  components: {
-    WindowFrame
-  },
-  setup (props, { emit }) {
-    const activeSlide = ref(Object as any)
-    const slides = ref([
-      {
-        title: "Paws Projekt", 
-        text: '<ul><li>Vue 3</li><li>Pinia</li><li>Phaser 3</li></ul>'
-      },
-      {
-        title: "Vue 3",
-        text: '<ul>'+
-          '<li>Forbedret og hurtigere performance</li>' +
-          '<li>Composition API</li>' +
-          '<li>Fuld typescript support</li>' +
-          '<li>Teleport/Portal</li>' +
-          '<li>Fragments: flere root nodes</li>' +
-          '<li>Suspense</li>' +
-          '<li>Multiple v-models</li>' +
-          '</ul>'
-      },
-      {
-        title: "Pinia",
-        text: ''
-      },
-      {
-        title: "Phaser 3",
-        text: '<ul>' +
-        '<li>PingPong</li>' +
-        '<li>Flappy Bird copi</li>' +
-        '<li>Simple platformer</li>' +
-        '</ul>'
-      },
-    ])
-    
-    const setActiveSlide = (slide: any) => {
-      activeSlide.value = slide
-    }
+const props = defineProps({
+  program: Object
+})
 
-    onMounted (() => {
-      activeSlide.value = slides.value[0]
-    })
+const activeSlide = ref(Object as any)
+const slides = ref([
+  {
+    title: "Paws Projekt", 
+    text: '<ul><li>Vue 3</li><li>Pinia</li><li>Phaser 3</li></ul>'
+  },
+  {
+    title: "Vue 3",
+    text: '<ul>'+
+      '<li>Forbedret og hurtigere performance</li>' +
+      '<li>Composition API</li>' +
+      '<li>Fuld typescript support</li>' +
+      '<li>Teleport/Portal</li>' +
+      '<li>Fragments: flere root nodes</li>' +
+      '<li>Suspense</li>' +
+      '<li>Multiple v-models</li>' +
+      '</ul>'
+  },
+  {
+    title: "Pinia",
+    text: ''
+  },
+  {
+    title: "Phaser 3",
+    text: '<ul>' +
+    '<li>PingPong</li>' +
+    '<li>Flappy Bird copi</li>' +
+    '<li>Simple platformer</li>' +
+    '</ul>'
+  },
+])
 
-    return {
-      slides,
-      activeSlide,
-      setActiveSlide
-    }
-  }
+const setActiveSlide = (slide: any) => {
+  activeSlide.value = slide
+}
+
+onMounted (() => {
+  activeSlide.value = slides.value[0]
 })
 </script>
 

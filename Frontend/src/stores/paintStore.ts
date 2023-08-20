@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, toRaw } from 'vue'
 import type { IPainting } from '../models/index'
 import axios from 'axios'
 
@@ -15,24 +15,29 @@ export const paintStore = defineStore("paint", () => {
     })
   }
 
-  const getAllPaintingsByUserId = (userId: string) => {
-    axios.get(url + '/' + userId).then(data => {
-      usersPaintings.value = data.data.paintings
-    })
+  const getAllPaintingsByUserId = async (userId: string) => {
+    const response  = await axios.get(url + '/' + userId)
+    usersPaintings.value = toRaw(response.data.paintings)
+    console.log("skdfhu", toRaw(response.data.paintings))
   }
 
-  const postPainting = (painting: IPainting) => {
+  const postPainting = async (painting: IPainting) => {
     console.log(painting)
-    axios.post(url, {
-      name: painting.name,
-      canvas: painting.canvas,
-      uId: painting.uId
-    })
+    try {
+      await axios.post(url, painting, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return {
     allPaintings,
     usersPaintings,
+    getAllPaintings,
     getAllPaintingsByUserId,
     postPainting
   }

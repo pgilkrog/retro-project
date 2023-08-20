@@ -22,6 +22,7 @@ import PCSettings from '@/components/programs/pc-settings/PCSettings.vue'
 import PawPoint from '@/components/programs/pawpoint/PawPoint.vue'
 import AddOrRemovePrograms from '@/components/programs/add-remove-programs/AddOrRemovePrograms.vue'
 import Chattie from '@/components/programs/chattie/Chattie.vue'
+import PawPlayer from '@/components/programs/paw-player/PawPlayer.vue'
 
 export default defineComponent({
   components: {
@@ -34,7 +35,8 @@ export default defineComponent({
     PCSettings,
     PawPoint,
     AddOrRemovePrograms,
-    Chattie
+    Chattie,
+    PawPlayer
   },
 
   setup() {
