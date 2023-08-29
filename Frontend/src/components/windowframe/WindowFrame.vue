@@ -35,7 +35,8 @@ interface Props {
   program: Object,
   variant: String,
   isNotProgram: Boolean,
-  isMoveable: Boolean
+  isMoveable: Boolean,
+  type: String
 }
 
 const props = defineProps({
@@ -43,7 +44,8 @@ const props = defineProps({
   program: Object as PropType<IProgram>,
   variant: String,
   isNotProgram: Boolean,
-  isMoveable: Boolean
+  isMoveable: Boolean,
+  type: String
 })
 
 const emit = defineEmits([

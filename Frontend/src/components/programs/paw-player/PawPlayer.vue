@@ -8,8 +8,8 @@ WindowFrame(:program="props.program")
         src="https://www.youtube.com/embed/jfswIdiiQhU"
         frameborder="0" 
         title="YouTube video player" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;" 
         allowfullscreen
+        allow="autoplay; encrypted-media"
       )
     .buttons.bg-shadow.d-flex
       button.btn

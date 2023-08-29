@@ -7,23 +7,21 @@ WindowFrame(
   :showMenu="true"
 )
   .pawpoint.d-flex.flex-column.justify-content-between
-    .active-slide.h-100.d-flex.bg-primary.m-4.flex-column.justify-content-center.text-white.pointer
-      .title.d-flex.justify-content-center.align-items-center.my-4(v-if="activeSlide.title !== undefined && activeSlide.title !== ''")
-        h1 {{ activeSlide.title }}
-      .text.d-flex.justify-content-center.align-items-center(v-if="activeSlide.text !== undefined && activeSlide.text !== ''")
-        h3(v-html="activeSlide.text")
+    SlideTitleText(:title="activeSlide.title" :text="activeSlide.text" v-if="activeSlide.type === 'titletext'")
+    SlideTitleImage(:title="activeSlide.title" :image="activeSlide.image" v-else)
     .group-slides.d-flex
       .group-slides-item.m-4.d-flex.pointer(
         v-for="(slide, index) in slides"
         @click="setActiveSlide(slide)"
       )
-        .d-flex.bg-primary.text-white.w-100.d-flex.justify-content-center.align-items-center(        :class="activeSlide.title === slide.title ? 'border border-danger' : ''")
+        .d-flex.bg-primary.text-white.w-100.d-flex.justify-content-center.align-items-center(:class="activeSlide.title === slide.title ? 'border border-danger' : ''")
           h1 {{ index }}
 </template>
 
 <script setup lang="ts">
-import { defineComponent, ref, onMounted } from 'vue'
-import WindowFrame from '@/components/windowframe/WindowFrame.vue'
+import { ref, onMounted } from 'vue'
+import SlideTitleText from './slides/SlideTitleText.vue'
+import SlideTitleImage from './slides/SlideTitleImage.vue'
 
 const props = defineProps({
   program: Object
@@ -33,7 +31,13 @@ const activeSlide = ref(Object as any)
 const slides = ref([
   {
     title: "Paws Projekt", 
-    text: '<ul><li>Vue 3</li><li>Pinia</li><li>Phaser 3</li></ul>'
+    text: '<ul><li>Vue 3</li><li>Pinia</li><li>Phaser 3</li></ul>',
+    type: 'titletext'
+  },
+  {
+    title: "Paws billede", 
+    image: 'https://umbrellacreative.com.au/wp-content/uploads/2020/01/hide-the-pain-harold-why-you-should-not-use-stock-photos-1024x683.jpg',
+    type: 'titleimage'
   },
   {
     title: "Vue 3",
@@ -45,11 +49,13 @@ const slides = ref([
       '<li>Fragments: flere root nodes</li>' +
       '<li>Suspense</li>' +
       '<li>Multiple v-models</li>' +
-      '</ul>'
+      '</ul>',
+    type: 'titletext'
   },
   {
     title: "Pinia",
-    text: ''
+    text: '',
+    type: 'titletext'
   },
   {
     title: "Phaser 3",
@@ -57,7 +63,8 @@ const slides = ref([
     '<li>PingPong</li>' +
     '<li>Flappy Bird copi</li>' +
     '<li>Simple platformer</li>' +
-    '</ul>'
+    '</ul>',
+    type: 'titletext'
   },
 ])
 
@@ -72,8 +79,8 @@ onMounted (() => {
 
 <style lang="sass" scoped>
 .pawpoint
-  width: 90vw
-  height: 80vh
+  width: 90vw !important
+  height: 80vh !important
   .active-slide
     width: -webkit-fill-available
     height: -webkit-fill-available

@@ -6,17 +6,16 @@ WindowFrame(
   :isNotProgram="false"
   variant="info"
 )
-  .paint-wrapper.row.gx-0
-    .col-10
-      .canvas-wrapper.d-flex.h-100.w-100.bg-dark
-        canvas.bg-white(
-          id="canvasWrapper"
-          ref="canvasRef" 
-          @mousedown="startDrawing" 
-          @mousemove="draw" 
-          @mouseup="stopDrawing"
-        )
-    .col-2.bg-shadow.p-4
+  .paint-wrapper.d-flex
+    .canvas-wrapper.d-flex.h-100.w-100.bg-dark
+      canvas.bg-white(
+        id="canvasWrapper"
+        ref="canvasRef" 
+        @mousedown="startDrawing" 
+        @mousemove="draw" 
+        @mouseup="stopDrawing"
+      )
+    .tools.bg-shadow.p-4
       .size.mb-4
         input.tb(type="number" v-model="canvasX").w-100.mb-2
         input.tb(type="number" v-model="canvasY").w-100
@@ -132,12 +131,12 @@ const draw = (event: MouseEvent) => {
       ctx.arc(x, y, state.brushSize, 0, 2 * Math.PI)
       break
     case 'square':
-      ctx.fillRect(x - state.brushSize / 2, y - state.brushSize / 2, state.brushSize, state.brushSize)
+      ctx.fillRect(x - state.brushSize, y - state.brushSize, state.brushSize*2, state.brushSize*2)
       break
     case 'line':
       break
     case 'spray':
-      const sprayRadius = state.brushSize / 0.5
+      const sprayRadius = state.brushSize / 1
 
       for (let i = 0; i < 50; i++) { // Adjust the number of dots as needed
         const offsetX = (Math.random() - 0.5) * sprayRadius * 2
@@ -150,7 +149,7 @@ const draw = (event: MouseEvent) => {
       }
       break
   }
- 
+  
   ctx.fill()
 }
 
@@ -228,3 +227,7 @@ onMounted(() => {
   canvas.height = canvasElement ? canvasElement.clientHeight : 500
 })
 </script>
+<style scoped lang="sass">
+.tools
+  width: 200px
+</style>

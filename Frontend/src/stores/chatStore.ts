@@ -9,7 +9,6 @@ export const chatStore = defineStore("chat",() => {
   const userstore = userStore()
   const socket = io('http://localhost:4000')
 
-  // const chatMessages = ref<IChatMessage[]>([])
   const onlineUsers = ref<string[]>([])
   const activeRooms = ref<IChatRoom[]>([])
 
@@ -41,7 +40,6 @@ export const chatStore = defineStore("chat",() => {
     const tempRoom = activeRooms.value.find(room => room.roomName === message.room)
     if (tempRoom) {
       tempRoom.messages.unshift(message)
-      // chatMessages.value.unshift(message)
     }
   }
 
@@ -73,7 +71,6 @@ export const chatStore = defineStore("chat",() => {
 
   const sendMessage = (message: IChatMessage, room: any) => {
     socket.emit('chatMessage', { roomName: room.participants, ...message })
-    // console.log("messages", chatMessages)
   }
 
   const chatDisconnect = () => {
@@ -81,7 +78,6 @@ export const chatStore = defineStore("chat",() => {
   }
 
   return {
-    // chatMessages,
     onlineUsers,
     activeRooms,
     init,

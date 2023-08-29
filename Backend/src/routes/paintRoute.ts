@@ -20,7 +20,6 @@ router.get('/:id', auth, async (req: Request, res: Response) => {
   console.log(req.params)
   try {
     const fetchedPaintings = await Painting.find({ uId: req.params.id }).exec()
-    console.log(fetchedPaintings)
     res.json({ paintings: fetchedPaintings })
   } catch (error) {
     console.log(error)
@@ -38,7 +37,6 @@ router.post('/', jsonParser, async (req: Request, res: Response) => {
     });
     await newPainting.save()
     res.json(newPainting)
-    console.log(req.body)
   } catch (error) {
     console.log(error)
     res.status(500).send('server error')

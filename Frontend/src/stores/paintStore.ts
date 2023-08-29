@@ -18,7 +18,6 @@ export const paintStore = defineStore("paint", () => {
   const getAllPaintingsByUserId = async (userId: string) => {
     const response  = await axios.get(url + '/' + userId)
     usersPaintings.value = toRaw(response.data.paintings)
-    console.log("skdfhu", toRaw(response.data.paintings))
   }
 
   const postPainting = async (painting: IPainting) => {

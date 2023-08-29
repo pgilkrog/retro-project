@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import type { IMenuItem }  from '@/models/index'
 import MenuItem from './MenuItem.vue'
 import jsondata from '@/assets/menuData.json'
