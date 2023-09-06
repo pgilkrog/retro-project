@@ -22,9 +22,11 @@ WindowFrame(
 import { ref, onMounted } from 'vue'
 import SlideTitleText from './slides/SlideTitleText.vue'
 import SlideTitleImage from './slides/SlideTitleImage.vue'
+import type { PropType } from 'vue'
+import type { IProgram } from '@/models/index'
 
 const props = defineProps({
-  program: Object
+  program: Object as PropType<IProgram>
 })
 
 const activeSlide = ref(Object as any)
@@ -81,6 +83,7 @@ onMounted (() => {
 .pawpoint
   width: 90vw !important
   height: 80vh !important
+  max-width: 1500px
   .active-slide
     width: -webkit-fill-available
     height: -webkit-fill-available

@@ -17,8 +17,10 @@ WindowFrame(:program="props.program")
 
 </template>
 <script setup lang="ts">
+import type { PropType } from 'vue'
+import type { IProgram } from '@/models/index'
 const props = defineProps({
-  program: Object
+  program: Object as PropType<IProgram>
 })
 
 const videoUrl = "https://www.youtube.com/embed/Hmyn67dWBe4"

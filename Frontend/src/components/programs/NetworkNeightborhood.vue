@@ -12,9 +12,11 @@ WindowFrame(:program="props.program" :isMoveable="true")
 import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import ErrorList from '@/components/admin/ErrorList.vue'
 import { ref } from 'vue'
+import type { PropType } from 'vue'
+import type { IProgram } from '@/models'
 
 const props = defineProps({
-  program: Object
+  program: Object as PropType<IProgram>
 })
 
 const items = ref([] as any)

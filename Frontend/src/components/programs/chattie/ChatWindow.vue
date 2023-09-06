@@ -26,13 +26,15 @@ WindowFrame(
 import { ref, onMounted } from 'vue'
 import { userStore } from '@/stores/userStore'
 import { chatStore } from '@/stores/chatStore'
+import type { PropType } from 'vue'
+import type { IChatRoom } from '@/models'
 
 const emit = defineEmits([
   'sendMessage'
 ])
 
 const props = defineProps({
-  activeChat: Object
+  activeChat: Object as PropType<IChatRoom>
 })
 
 interface ChatMessage {
@@ -55,8 +57,9 @@ const chatstore = chatStore()
 const messageText = ref<string>("")
 
 const sendMessage = () => {
+  const idOfMessage = (props.activeChat !== undefined && props.activeChat.messages !== undefined) ? props.activeChat.messages.length : 0 
   const message: ChatMessage = {
-    id: props.activeChat?.messages.length + 1,
+    id: idOfMessage + 1,
     text: messageText.value,
     sender: userstore.userData?.email ?? "",
     room: props.activeChat!.participants.join('-')

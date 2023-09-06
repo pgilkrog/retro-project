@@ -23,6 +23,10 @@ globalCookiesConfig({
 const app = createApp(App)
 const pinia = createPinia()
 
+app.config.errorHandler = (err, vm, info) => {
+  console.error(err, vm, info)
+}
+
 app.component('IconComponent', IconComponent)
 app.component('WindowFrame', WindowFrame)
 

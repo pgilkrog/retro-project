@@ -11,3 +11,7 @@ const props = defineProps({
   image: String
 })
 </script>
+<style lang="sass">
+img 
+  max-width: 1000px
+</style>

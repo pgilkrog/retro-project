@@ -23,6 +23,7 @@ import PawPoint from '@/components/programs/pawpoint/PawPoint.vue'
 import AddOrRemovePrograms from '@/components/programs/add-remove-programs/AddOrRemovePrograms.vue'
 import Chattie from '@/components/programs/chattie/Chattie.vue'
 import PawPlayer from '@/components/programs/paw-player/PawPlayer.vue'
+import PawExplore from '@/components/programs/paw-explore/PawExplore.vue'
 
 export default defineComponent({
   components: {
@@ -36,7 +37,8 @@ export default defineComponent({
     PawPoint,
     AddOrRemovePrograms,
     Chattie,
-    PawPlayer
+    PawPlayer,
+    PawExplore
   },
 
   setup() {

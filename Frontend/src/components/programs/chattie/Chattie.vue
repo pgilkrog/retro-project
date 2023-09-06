@@ -28,9 +28,10 @@ import type { IProgram } from '../../../models/index'
 import { userStore } from '@/stores/userStore'
 import ChatWindow from './ChatWindow.vue'
 import { chatStore } from '@/stores/chatStore'
+import type { PropType } from 'vue'
 
 const props = defineProps({
-  program: Object as () => IProgram
+  program: Object as PropType<IProgram>
 })
 
 const chatstore = chatStore()

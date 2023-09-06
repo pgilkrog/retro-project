@@ -47,11 +47,12 @@ import { defineComponent, computed, onMounted, reactive, ref } from 'vue'
 import { userStore } from '@/stores/userStore'
 import UserInputs from './UserInputs.vue'
 import SettingsInput from './SettingsInput.vue'
-import type { IUser, IUserSettings } from '@/models/index'
+import type { IProgram, IUser, IUserSettings } from '@/models/index'
 import UsersList from './UsersList.vue'
+import type { PropType } from 'vue'
 
 const props = defineProps({
-  program: Object
+  program: Object as PropType<IProgram>
 })
 
 const showManageUser = ref(false)

@@ -1,33 +1,34 @@
 <template lang="pug">
 Teleport(to="body")
-  .window-frame-wrapper.bg-shadow.bg-secondary.d-flex.flex-column.position-absolute.p-2.rounded(
-    v-if="program?.isActive === true" 
-    :style="[ isMoveable ? { top: top + 'px', left: left + 'px'} : {}]"
-  )
-    header.top-bar.text-light.d-flex.justify-content-between.align-items-center.mb-1.p-2.px-4.rounded(
-      :class="variant !== undefined ? 'bg-'+ variant : 'bg-primary'" 
-      @mousedown="startDrag" 
+  Transition(name="window" appear)
+    .window-frame-wrapper.bg-shadow.bg-secondary.d-flex.flex-column.position-absolute.p-2.rounded(
+      v-if="program?.isActive === true" 
+      :style="[ isMoveable ? { top: top + 'px', left: left + 'px'} : {}]"
     )
-      .d-flex.align-items-center.align-content.center
-        IconComponent(:name="program.image" size="25" variant="light")
-        .font-weight-bold.pe-4.ps-4 {{ program.displayName }}
-      .d-flex
-        button.btn.bg-secondary.py-0.px-2(@click="setInactive()") 
-          IconComponent(name="fa-window-minimize" size="14")
-        button.btn.bg-secondary.py-0.px-2.mx-1
-          IconComponent(name="bi-square" size="12")
-        button.btn.bg-secondary.py-0.px-2(@click="closeWindow") 
-          IconComponent(name="fa-xmark" size="14")
-    windowframeMenu(:showMenu="showMenu")
-    .container-fluid.gx-0.bg-secondary.mt-1.bg-shadow-inner.rounded
-      slot
+      header.top-bar.text-light.d-flex.justify-content-between.align-items-center.mb-1.p-2.px-4.rounded(
+        :class="variant !== undefined ? 'bg-'+ variant : 'bg-primary'" 
+        @mousedown="startDrag" 
+      )
+        .d-flex.align-items-center.align-content.center
+          IconComponent(:name="program.image" size="25" variant="light")
+          .font-weight-bold.pe-4.ps-4 {{ program.displayName }}
+        .d-flex
+          button.btn.bg-secondary.py-0.px-2(@click="setInactive()") 
+            IconComponent(name="fa-window-minimize" size="14")
+          button.btn.bg-secondary.py-0.px-2.mx-1
+            IconComponent(name="bi-square" size="12")
+          button.btn.bg-secondary.py-0.px-2(@click="closeWindow") 
+            IconComponent(name="fa-xmark" size="14")
+      windowframeMenu(:showMenu="showMenu")
+      .container-fluid.gx-0.bg-secondary.mt-1.bg-shadow-inner.rounded
+        slot
 </template>
 
 <script setup lang="ts">
 import type { IProgram } from '@/models/index'
 import { programsStore } from '@/stores/programsStore'
 import type { PropType } from 'vue'
-import { defineComponent, ref } from 'vue'
+import { ref } from 'vue'
 import WindowframeMenu from './windowframeMenu.vue'
 
 interface Props {

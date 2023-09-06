@@ -23,7 +23,7 @@ WindowFrame(
       .icons.d-flex.justify-content-between
         button.btn(@click="createNew()")
           IconComponent(name="fa-file" variant="dark" size="18")
-        button.btn(type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal")
+        button.btn(type="button" data-bs-toggle="modal" data-bs-target="#exampleModal")
           IconComponent(name="fa-floppy-disk" variant="dark" size="18")
         button.btn(@click="changeShowFiles(true)")
           IconComponent(name="fa-folder" variant="dark" size="18")
@@ -58,15 +58,16 @@ WindowFrame(
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
-import type { IPainting } from '@/models/index'
+import type { IPainting, IProgram } from '@/models/index'
 import { userStore } from '@/stores/userStore'
 import { paintStore } from '@/stores/paintStore'
 import ColorTool from './ColorTool.vue'
 import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import FileExplorer from '@/components/FileExplorer.vue'
+import type { PropType } from 'vue'
 
 const props = defineProps({
-  program: Object
+  program: Object as PropType<IProgram>
 })
 
 const userstore = userStore()

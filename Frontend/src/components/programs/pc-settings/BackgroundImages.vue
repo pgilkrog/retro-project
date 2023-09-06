@@ -24,14 +24,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, type PropType } from 'vue'
 import { userStore } from '@/stores/userStore'
 import { storeToRefs } from 'pinia'
 import { fileStore } from '../../../stores/fileStore'
 import type { IFile } from '@/models'
 
 const props = defineProps({
-  tempImg: Object 
+  tempImg: Object as PropType<IFile>
 })
 
 const emit = defineEmits([

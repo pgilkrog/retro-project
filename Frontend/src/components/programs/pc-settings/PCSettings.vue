@@ -42,7 +42,7 @@ WindowFrame(
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, type Ref } from 'vue'
+import { ref, onMounted, type Ref, type PropType } from 'vue'
 import type { IFile, IProgram, IUser, IUserSettings } from '../../../models/index'
 import { userStore } from '../../../stores/userStore'
 import { fileStore } from '../../../stores/fileStore'
@@ -53,7 +53,7 @@ import BackgroundImages from './BackgroundImages.vue'
 import UserInfo from '@/components/auth/UserInfo.vue'
 
 const props = defineProps({
-  program: Object as () => IProgram
+  program: Object as PropType<IProgram>
 })
 
 const userstore = userStore()

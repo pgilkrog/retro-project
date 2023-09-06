@@ -18,8 +18,11 @@ WindowFrame(
 </template>
 
 <script setup lang="ts">
+import type { IFile } from '@/models'
+import type { PropType } from 'vue'
+
 const props = defineProps({
-  files: Array
+  files: Array as PropType<IFile[]>
 })
 
 const emit = defineEmits([

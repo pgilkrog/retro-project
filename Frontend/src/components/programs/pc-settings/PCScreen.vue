@@ -15,13 +15,13 @@
 </template>
 
 <script setup lang="ts">
-import type { Ref } from 'vue'
+import type { Ref, PropType } from 'vue'
 import { storeToRefs } from 'pinia'
 import { userStore } from '../../../stores/userStore'
-import type { IUser } from '../../../models/index'
+import type { IFile, IUser } from '../../../models/index'
 
 const props = defineProps({
-  tempImg: Object 
+  tempImg: Object as PropType<IFile>
 })
 
 const userstore = userStore()
