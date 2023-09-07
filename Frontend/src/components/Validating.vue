@@ -9,39 +9,32 @@ WindowFrame(:program="program" :isMoveable="true" variant="danger")
       button.btn.btn-wide(@click="cancel()") Cancel
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'component-name',
-  props: {
-    text: String
-  },
-  setup(props, { emit }) {
-    const program = {
-      id: 245,
-      name: "Validate",
-      displayName: "Validate",
-      image: "fa-radiation", 
-      isActive: true,
-      color: "warning"
-    }
-
-    const ok = () => {
-      emit('ok')
-    }
-
-    const cancel = () => {
-      emit('cancel')
-    }
-
-    return {
-      program,
-      ok,
-      cancel
-    }
-  }
+<script setup lang="ts">
+const { text } = defineProps({
+  text: String
 })
+
+const emit = defineEmits([
+  'ok',
+  'cancel'
+]) 
+
+const program = {
+  id: 245,
+  name: "Validate",
+  displayName: "Validate",
+  image: "fa-radiation", 
+  isActive: true,
+  color: "warning"
+}
+
+const ok = () => {
+  emit('ok')
+}
+
+const cancel = () => {
+  emit('cancel')
+}
 </script>
 
 <style lang="sass" scoped>

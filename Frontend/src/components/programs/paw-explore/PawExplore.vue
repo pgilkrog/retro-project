@@ -16,7 +16,7 @@ WindowFrame(
 import type { IProgram } from '@/models/index'
 import type { PropType } from 'vue'
 
-const props = defineProps({
+const { program } = defineProps({
   program: Object as PropType<IProgram>
 })
 

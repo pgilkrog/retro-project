@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { errorStore } from '@/stores/errorStore'
 
 const time = ref('')

@@ -52,7 +52,7 @@ import FileUploader from '@/components/FileUploader.vue'
 import BackgroundImages from './BackgroundImages.vue'
 import UserInfo from '@/components/auth/UserInfo.vue'
 
-const props = defineProps({
+const { program } = defineProps({
   program: Object as PropType<IProgram>
 })
 

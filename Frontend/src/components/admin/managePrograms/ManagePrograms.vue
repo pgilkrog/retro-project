@@ -38,140 +38,116 @@
   )
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, reactive } from 'vue'
+<script setup lang="ts">
+import { ref, computed, reactive } from 'vue'
 import { programsStore } from '@/stores/programsStore'
 import type { IProgram } from '@/models/index'
 import ProgramInputs from './ProgramInputs.vue'
 import Validating from '@/components/Validating.vue'
 
-export default defineComponent({
-  name: 'managePrograms',
-  components: {
-    ProgramInputs,
-    Validating
-  }, 
-  props: {
-    program: Object
-  },
-  setup() {
-    const programsstore = programsStore()
-    const allPrograms = computed(() => programsstore.allPrograms)
-    const showManageProgram = ref(false)
-    const updateState = ref(false)
-    let selectedProgram = ref<IProgram | null>(null)
-    const programInfo = reactive({
-      name: '',
-      displayName: '',
-      image: '',
-      color: '',
-      sortOrder: 0,
-      type: ''
-    })
-    let showValidation = ref(false)
-
-    const addProgram = () => {
-      if (
-        programInfo.name !== '' && 
-        programInfo.image !== '' && 
-        programInfo.displayName !== ''
-      ) {
-        const program = {
-          id: '',
-          name: programInfo.name,
-          displayName: programInfo.displayName,
-          color: programInfo.color,
-          image: programInfo.image,
-          sortOrder: programInfo.sortOrder,
-          type: programInfo.type
-        } as IProgram
-
-        programsstore.createProgram(program)
-        resetInputs()
-      }
-    }
-
-    const deleteProgram = (program: IProgram) => {
-      selectedProgram.value = program
-      programInfo.name = program.name
-      programInfo.displayName = program.displayName
-      programInfo.color = program.color
-      programInfo.image = program.image
-      programInfo.sortOrder = program.sortOrder
-      programInfo.type = program.type
-      showValidation.value = true
-    }
-
-    const updateProgram = () => {
-      let temp = selectedProgram.value as IProgram
-      temp.name = programInfo.name
-      temp.displayName = programInfo.displayName
-      temp.image = programInfo.image
-      temp.color = programInfo.color
-      temp.sortOrder = programInfo.sortOrder
-      temp.type = programInfo.type
-      programsstore.updateProgram(temp)
-    }
-
-    const resetInputs = () => {
-      programInfo.name = ''
-      programInfo.displayName = ''
-      programInfo.color = ''
-      programInfo.image = ''
-      programInfo.sortOrder = 0
-      programInfo.type = ''
-      selectedProgram.value = null
-    }
-
-    const ok = () => {
-      console.log("ok", selectedProgram.value)
-    }
-
-    const cancel = () => {
-      showValidation.value = false
-      resetInputs()
-    }
-
-    const setUpdateState = (state: boolean, program: IProgram) => {
-      updateState.value = state
-
-      if (state === true) {
-        selectedProgram.value = program
-        programInfo.name = program.name
-        programInfo.displayName = program.displayName
-        programInfo.color = program.color
-        programInfo.image = program.image
-        programInfo.sortOrder = program.sortOrder
-        programInfo.type = program.type
-      } else {
-        resetInputs()
-      }
-    }
-
-    const changeShowManageProgram = (bool: boolean) => {
-      showManageProgram.value = bool
-
-      if (bool === false)
-        setUpdateState(false, {} as IProgram)
-    }
-
-    return {
-      programInfo,
-      allPrograms,
-      updateState,
-      showManageProgram,
-      showValidation,
-      addProgram,
-      deleteProgram,
-      updateProgram,
-      resetInputs,
-      setUpdateState,
-      changeShowManageProgram,
-      ok,
-      cancel
-    }
-  }
+const { program } = defineProps({
+  program: Object
 })
+
+const programsstore = programsStore()
+const allPrograms = computed(() => programsstore.allPrograms)
+const showManageProgram = ref(false)
+const updateState = ref(false)
+let selectedProgram = ref<IProgram | null>(null)
+const programInfo = reactive({
+  name: '',
+  displayName: '',
+  image: '',
+  color: '',
+  sortOrder: 0,
+  type: ''
+})
+let showValidation = ref(false)
+
+const addProgram = () => {
+  if (
+    programInfo.name !== '' && 
+    programInfo.image !== '' && 
+    programInfo.displayName !== ''
+  ) {
+    const program = {
+      id: '',
+      name: programInfo.name,
+      displayName: programInfo.displayName,
+      color: programInfo.color,
+      image: programInfo.image,
+      sortOrder: programInfo.sortOrder,
+      type: programInfo.type
+    } as IProgram
+
+    programsstore.createProgram(program)
+    resetInputs()
+  }
+}
+
+const deleteProgram = (program: IProgram) => {
+  selectedProgram.value = program
+  programInfo.name = program.name
+  programInfo.displayName = program.displayName
+  programInfo.color = program.color
+  programInfo.image = program.image
+  programInfo.sortOrder = program.sortOrder
+  programInfo.type = program.type
+  showValidation.value = true
+}
+
+const updateProgram = () => {
+  let temp = selectedProgram.value as IProgram
+  temp.name = programInfo.name
+  temp.displayName = programInfo.displayName
+  temp.image = programInfo.image
+  temp.color = programInfo.color
+  temp.sortOrder = programInfo.sortOrder
+  temp.type = programInfo.type
+  programsstore.updateProgram(temp)
+}
+
+const resetInputs = () => {
+  programInfo.name = ''
+  programInfo.displayName = ''
+  programInfo.color = ''
+  programInfo.image = ''
+  programInfo.sortOrder = 0
+  programInfo.type = ''
+  selectedProgram.value = null
+}
+
+const ok = () => {
+  console.log("ok", selectedProgram.value)
+}
+
+const cancel = () => {
+  showValidation.value = false
+  resetInputs()
+}
+
+const setUpdateState = (state: boolean, program: IProgram) => {
+  updateState.value = state
+
+  if (state === true) {
+    selectedProgram.value = program
+    programInfo.name = program.name
+    programInfo.displayName = program.displayName
+    programInfo.color = program.color
+    programInfo.image = program.image
+    programInfo.sortOrder = program.sortOrder
+    programInfo.type = program.type
+  } else {
+    resetInputs()
+  }
+}
+
+const changeShowManageProgram = (bool: boolean) => {
+  showManageProgram.value = bool
+
+  if (bool === false)
+    setUpdateState(false, {} as IProgram)
+}
 </script>
 
 <style lang="sass" scoped>

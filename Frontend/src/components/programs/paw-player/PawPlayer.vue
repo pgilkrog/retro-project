@@ -1,5 +1,5 @@
 <template lang="pug">
-WindowFrame(:program="props.program")
+WindowFrame(:program="program")
   .paw-player
     .display.bg-light
       iframe(
@@ -19,7 +19,8 @@ WindowFrame(:program="props.program")
 <script setup lang="ts">
 import type { PropType } from 'vue'
 import type { IProgram } from '@/models/index'
-const props = defineProps({
+
+const { program } = defineProps({
   program: Object as PropType<IProgram>
 })
 

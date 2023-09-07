@@ -1,6 +1,6 @@
 <template lang="pug">
 Teleport(to="body")
-  Transition(name="window" appear)
+  Transition(name="window-animation" appear)
     .window-frame-wrapper.bg-shadow.bg-secondary.d-flex.flex-column.position-absolute.p-2.rounded(
       v-if="program?.isActive === true" 
       :style="[ isMoveable ? { top: top + 'px', left: left + 'px'} : {}]"
@@ -40,7 +40,7 @@ interface Props {
   type: String
 }
 
-const props = defineProps({
+const { showMenu, program, variant, isNotProgram, isMoveable, type } = defineProps({
   showMenu: Boolean,
   program: Object as PropType<IProgram>,
   variant: String,
@@ -62,7 +62,6 @@ const left = ref(40)
 const top = ref(40)
 
 const closeWindow = () => {
-  const { program, isNotProgram } = props
   // Remove the program from the active program list
   if (program) programsstore.removeProgramFromActive(program)
   
@@ -71,14 +70,12 @@ const closeWindow = () => {
 }
 
 const setInactive = () => {
-  const { program } = props
-
   // Set if the window should be hidden on screen, but visible in the taskbar.
   if (program) programsstore.setProgramActiveState(program)
 }
 
 const startDrag = (event: MouseEvent) => {
-  if (props.isMoveable === true) {
+  if (isMoveable === true) {
     isDragging.value = true
     startX.value = event.clientX
     startY.value = event.clientY    

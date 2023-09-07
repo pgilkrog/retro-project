@@ -1,5 +1,5 @@
 <template lang="pug">
-WindowFrame(:program="props.program" :isMoveable="true")
+WindowFrame(:program="program" :isMoveable="true")
   Suspense(timeout="0")
     template(#default)
       ErrorList
@@ -15,7 +15,7 @@ import { ref } from 'vue'
 import type { PropType } from 'vue'
 import type { IProgram } from '@/models'
 
-const props = defineProps({
+const { program } = defineProps({
   program: Object as PropType<IProgram>
 })
 

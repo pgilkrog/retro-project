@@ -91,49 +91,39 @@ template(v-if="image !== undefined")
 
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'component-name',
-  props: {
-    name: {
-      type: String,
-    },
-    addressLine: {
-      type: String,
-    },
-    streetNumber: {
-      type: String,
-    },
-    town: {
-      type: String,
-    },
-    country: {
-      type: String,
-    },
-    postcode: {
-      type: String,
-    },
-    phoneNumber: {
-      type: String,
-      default: ''
-    }, 
-    homeAddress: {
-      type: Boolean,
-      default: false,
-    },
-    color: {
-      type: String,
-    },
-    image: {
-      type: String
-    }
+<script setup lang="ts">
+const { name, addressLine, streetNumber, town, country, postcode, phoneNumber, homeAddress, color, image } = defineProps({
+  name: {
+    type: String,
   },
-  setup() {
-    return {
-
-    }
+  addressLine: {
+    type: String,
+  },
+  streetNumber: {
+    type: String,
+  },
+  town: {
+    type: String,
+  },
+  country: {
+    type: String,
+  },
+  postcode: {
+    type: String,
+  },
+  phoneNumber: {
+    type: String,
+    default: ''
+  }, 
+  homeAddress: {
+    type: Boolean,
+    default: false,
+  },
+  color: {
+    type: String,
+  },
+  image: {
+    type: String
   }
 })
 </script>

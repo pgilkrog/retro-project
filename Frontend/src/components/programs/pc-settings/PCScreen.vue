@@ -20,7 +20,7 @@ import { storeToRefs } from 'pinia'
 import { userStore } from '../../../stores/userStore'
 import type { IFile, IUser } from '../../../models/index'
 
-const props = defineProps({
+const { tempImg } = defineProps({
   tempImg: Object as PropType<IFile>
 })
 

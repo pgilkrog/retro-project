@@ -12,13 +12,12 @@ WindowFrame(:program="props.program" variant="primary" :isMoveable="true" :showM
 </template>
 
 <script setup lang="ts">
-import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import type { IProgram } from '@/models'
 import router from '@/router'
 import type { PropType } from 'vue'
-import { defineComponent, ref } from 'vue'
+import { ref } from 'vue'
 
-const props = defineProps({
+const { program } = defineProps({
   program: Object as PropType<IProgram>
 })
 

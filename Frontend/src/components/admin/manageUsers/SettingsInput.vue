@@ -34,33 +34,22 @@ input.bg-shadow-inner(
 
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'program-inputs',
-  props: {
-    backgroundColour: {
-      type: String,
-    },
-    backgroundImage: {
-      type: String,
-    },
-    useBackground: {
-      type: Boolean
-    },
-    theme: {
-      type: String
-    }
+<script setup lang="ts"> 
+const { backgroundColour, backgroundImage, useBackground, theme } = defineProps({
+  backgroundColour: {
+    type: String,
   },
-  setup() {
-    return {
-      
-    }
+  backgroundImage: {
+    type: String,
+  },
+  useBackground: {
+    type: Boolean
+  },
+  theme: {
+    type: String
   }
 })
 </script>
 
 <style lang="sass" scoped>
 </style>
-  

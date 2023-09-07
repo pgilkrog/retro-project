@@ -11,49 +11,34 @@
   AdminComponentMachine
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import AdminComponentMachine from '@/components/admin/AdminComponentMachine.vue'
 import { programsStore } from '@/stores/programsStore'
 import DesktopItem from '@/components/DesktopItem.vue'
 
-export default defineComponent({
-  name: 'adminView',
-  components: {
-    AdminComponentMachine,
-    DesktopItem
+const allPrograms = [
+  {
+    id: 3245, 
+    name: 'ManagePrograms',
+    displayName: 'Manage Programs',
+    isActive: true,
+    image: 'fa-computer',
+    color: 'light'
   },
-  setup() {
-    const allPrograms = [
-      {
-        id: 3245, 
-        name: 'ManagePrograms',
-        displayName: 'Manage Programs',
-        isActive: true,
-        image: 'fa-computer',
-        color: 'light'
-      },
-      {
-        id: 5432, 
-        name: 'ManageUsers',
-        displayName: 'Manage Users',
-        isActive: true,
-        image: 'fa-users',
-        color: 'light'
-      },
-    ]
-    const programsstore = programsStore()
-    
-    const generateComponent = (program: any) => {
-      programsstore.addProgramToActive({...program})
-    }
+  {
+    id: 5432, 
+    name: 'ManageUsers',
+    displayName: 'Manage Users',
+    isActive: true,
+    image: 'fa-users',
+    color: 'light'
+  },
+]
+const programsstore = programsStore()
 
-    return {
-      allPrograms,
-      generateComponent
-    }
-  }
-})
+const generateComponent = (program: any) => {
+  programsstore.addProgramToActive({...program})
+}
 </script>
 
 <style lang="sass" scoped>

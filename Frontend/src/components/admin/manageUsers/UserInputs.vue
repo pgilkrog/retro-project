@@ -41,35 +41,22 @@ input.bg-shadow-inner(
 //-   )
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'program-inputs',
-  props: {
-    firstName: {
-      type: String,
-    },
-    lastName: {
-      type: String,
-    },
-    email: {
-      type: String
-    },
-    type: {
-      type: String
-    },
-    installedPrograms: {
-      type: Array
-    }
+<script setup lang="ts">
+const { firstName, lastName, email, type, installedPrograms } = defineProps({
+  firstName: {
+    type: String,
   },
-  setup() {
-    return {
-      
-    }
+  lastName: {
+    type: String,
+  },
+  email: {
+    type: String
+  },
+  type: {
+    type: String
+  },
+  installedPrograms: {
+    type: Array
   }
 })
 </script>
-
-<style lang="sass" scoped>
-</style>

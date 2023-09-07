@@ -1,7 +1,7 @@
 <template lang="pug">
 .desktop-item.d-flex.flex-column.align-items-center.pointer.text-light(
   @click="itemPressed()" 
-  :class="itemColor ? 'text-' + itemColor : 'text-success'"
+  :class="'text-' + itemColor"
 )
   IconComponent(
     :variant="program.color" 
@@ -15,7 +15,7 @@
 import type { PropType } from 'vue'
 import type { IProgram } from '@/models/index'
 
-const props = defineProps({
+const { itemColor = 'success', program } = defineProps({
   program: Object as PropType<IProgram>,
   itemColor: String
 })

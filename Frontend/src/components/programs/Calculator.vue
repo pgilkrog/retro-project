@@ -12,55 +12,46 @@ WindowFrame(:program="program" :isMoveable="true")
       ) {{ button.text }}
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import WindowFrame from '@/components/windowframe/WindowFrame.vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 
 interface Button {
   text: string
   value: string
 }
 
-export default defineComponent({
-  components: {
-    WindowFrame
-  },
-  props: {
-    program: Object
-  },
-  data() {
-    return {
-      display: '',
-      buttons: [
-        { text: '1', value: '1' },
-        { text: '2', value: '2' },
-        { text: '3', value: '3' },
-        { text: '+', value: '+' },
-        { text: '4', value: '4' },
-        { text: '5', value: '5' },
-        { text: '6', value: '6' },
-        { text: '-', value: '-' },
-        { text: '7', value: '7' },
-        { text: '8', value: '8' },
-        { text: '9', value: '9' },
-        { text: '*', value: '*' },
-        { text: '0', value: '0' },
-        { text: '.', value: '.' },
-        { text: '/', value: '/' },
-        { text: '=', value: '=' },
-      ] as Button[],
-    }
-  },
-  methods: {
-    handleClick(button: Button) {
-      if (button.value === '=') {
-        this.display = eval(this.display);
-      } else {
-        this.display += button.value;
-      }
-    },
-  }
+const { program } = defineProps({
+  program: Object
 })
+
+const display = ref('')
+const buttons = [
+  { text: '1', value: '1' },
+  { text: '2', value: '2' },
+  { text: '3', value: '3' },
+  { text: '+', value: '+' },
+  { text: '4', value: '4' },
+  { text: '5', value: '5' },
+  { text: '6', value: '6' },
+  { text: '-', value: '-' },
+  { text: '7', value: '7' },
+  { text: '8', value: '8' },
+  { text: '9', value: '9' },
+  { text: '*', value: '*' },
+  { text: '0', value: '0' },
+  { text: '.', value: '.' },
+  { text: '/', value: '/' },
+  { text: '=', value: '=' },
+] as Button[]
+ 
+const handleClick = (button: Button) => {
+  if (button.value === '=') {
+    display.value = eval(display.value);
+  } else {
+    display.value += button.value;
+  }
+}
+
 </script>
 <style scoped lang="sass">
 .calculator-wrapper

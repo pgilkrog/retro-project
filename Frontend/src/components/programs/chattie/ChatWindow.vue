@@ -6,7 +6,7 @@ WindowFrame(
   :showMenu="false"
 )
   .message-wrapper.d-flex.flex-column.bg-light.p-2
-    template(v-for="(item, index) in props.activeChat.messages") 
+    template(v-for="(item, index) in activeChat.messages") 
       span(style="text-align: right;" v-if="item.sender !== userstore.userData.email") 
         p.text-primary {{ item.sender }} says:
         p(v-html="item.text")
@@ -33,7 +33,7 @@ const emit = defineEmits([
   'sendMessage'
 ])
 
-const props = defineProps({
+const { activeChat } = defineProps({
   activeChat: Object as PropType<IChatRoom>
 })
 
@@ -57,14 +57,14 @@ const chatstore = chatStore()
 const messageText = ref<string>("")
 
 const sendMessage = () => {
-  const idOfMessage = (props.activeChat !== undefined && props.activeChat.messages !== undefined) ? props.activeChat.messages.length : 0 
+  const idOfMessage = (activeChat !== undefined && activeChat.messages !== undefined) ? activeChat.messages.length : 0 
   const message: ChatMessage = {
     id: idOfMessage + 1,
     text: messageText.value,
     sender: userstore.userData?.email ?? "",
-    room: props.activeChat!.participants.join('-')
+    room: activeChat!.participants.join('-')
   }
-  chatstore.sendMessage(message, props.activeChat)
+  chatstore.sendMessage(message, activeChat)
   messageText.value = ""
 }
 

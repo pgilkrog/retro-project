@@ -12,18 +12,8 @@
       | {{ Block.index }}
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  props: {
-    Block: Object || undefined
-  },
-  components: {
-
-  },
-  setup (props) {
-    
-  }
+<script setup lang="ts">
+const { Block } = defineProps({
+  Block: Object || undefined
 })
 </script>

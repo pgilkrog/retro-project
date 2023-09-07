@@ -1,18 +1,17 @@
 <template lang="pug">
 .menu-item.py-2.px-4.w-100.d-flex.align-items-center.text-dark(@click="openProgram()")
   h3.text-bold.me-4
-    IconComponent.me-3(:variant="props.color === 'light' ? 'dark' : props.color" :name="props.img") 
+    IconComponent.me-3(:variant="color === 'light' ? 'dark' : color" :name="img") 
   |  {{title}}
-  span(v-if="props.hasChildren == true") 
+  span(v-if="hasChildren === true") 
     IconComponent.ms-2(name="fa-caret-right")
 </template>
 
 <script setup lang="ts">
-import { authStore } from '@/stores/authStore';
-import { defineComponent } from 'vue'
+import { authStore } from '@/stores/authStore'
 import { useRouter } from 'vue-router'
 
-const props = defineProps({
+const { img, title = 'Title not given', hasChildren = false, componentName = 'Name not given' } = defineProps({
   img: String,
   title: String,
   hasChildren: Boolean,
@@ -23,7 +22,7 @@ const authstore = authStore()
 const router = useRouter()
 
 const openProgram = () => {
-  switch(props.title) {
+  switch(title) {
     case 'Shutdown...':
       router.push('/shutdown')
       break

@@ -23,41 +23,28 @@
 button.btn.mt-4(@click="printInfo()") Print
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive } from 'vue'
+<script setup lang="ts">
+import { reactive } from 'vue'
 import MultipleInputs from '../general/MultipleInputs.vue'
 import { userStore } from '@/stores/userStore';
 
-export default defineComponent({
-  name: 'userInfo',
-  components: {
-    MultipleInputs
-  },
-  setup() {
-    const userstore = userStore()
-    
-    const info = reactive({
-      name: "",
-      addressLine: "",
-      streetNumber: "",
-      town: "",
-      country: "",
-      postcode: "",
-      phoneNumber: "",
-      homeAddress: false,
-    });
+const userstore = userStore()
 
-    const printInfo = () => {
-      console.log(userstore.userData)
-      // userstore.updateUserSettings(userstore.userData.settings)
-    }
+const info = reactive({
+  name: "",
+  addressLine: "",
+  streetNumber: "",
+  town: "",
+  country: "",
+  postcode: "",
+  phoneNumber: "",
+  homeAddress: false,
+});
 
-    return {
-      info,
-      printInfo
-    };
-  }
-})
+const printInfo = () => {
+  console.log(userstore.userData)
+  // userstore.updateUserSettings(userstore.userData.settings)
+}
 </script>
 
 <style lang="sass" scoped>

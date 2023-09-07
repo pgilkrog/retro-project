@@ -23,20 +23,14 @@ WindowFrame(:program="program" :isMoveable="true" variant="success")
       )
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import DesktopItem from '../DesktopItem.vue'
-import { defineComponent } from 'vue'
 
-export default defineComponent({
-  components: {
-    WindowFrame,
-    DesktopItem
-  },
-  props: {
-    program: Object
-  }
+const { program } = defineProps({
+  program: Object
 })
+
 </script>
 
 <style lang="sass" scoped>

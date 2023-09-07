@@ -66,7 +66,7 @@ import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import FileExplorer from '@/components/FileExplorer.vue'
 import type { PropType } from 'vue'
 
-const props = defineProps({
+const { program } = defineProps({
   program: Object as PropType<IProgram>
 })
 

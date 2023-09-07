@@ -12,28 +12,17 @@
   //-   ) {{ progressValue }}%
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  data() {
-    return {
-      progressValue: 0 as number
+<script setup lang="ts"> 
+import { ref } from 'vue'
+const progressValue = ref<number>(0)
+ 
+const startLoading = () => {
+  let interval = setInterval(() => {
+    if (progressValue.value < 100) {
+      progressValue.value += 1
+    } else {
+      clearInterval(interval)
     }
-  },
-  mounted () {
-    // this.startLoading()
-  },
-  methods: {
-    startLoading () {
-      let interval = setInterval(() => {
-        if (this.progressValue < 100) {
-          this.progressValue += 1
-        } else {
-          clearInterval(interval)
-        }
-      }, 100)
-    }
-  }
-})
+  }, 100)
+}
 </script>

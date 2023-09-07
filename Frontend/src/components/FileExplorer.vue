@@ -21,7 +21,7 @@ WindowFrame(
 import type { IFile } from '@/models'
 import type { PropType } from 'vue'
 
-const props = defineProps({
+const { files } = defineProps({
   files: Array as PropType<IFile[]>
 })
 

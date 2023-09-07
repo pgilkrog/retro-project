@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, computed, onMounted, reactive, ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { userStore } from '@/stores/userStore'
 import UserInputs from './UserInputs.vue'
 import SettingsInput from './SettingsInput.vue'
@@ -51,7 +51,7 @@ import type { IProgram, IUser, IUserSettings } from '@/models/index'
 import UsersList from './UsersList.vue'
 import type { PropType } from 'vue'
 
-const props = defineProps({
+const { program } = defineProps({
   program: Object as PropType<IProgram>
 })
 
@@ -147,9 +147,6 @@ const changeShowManageUserSettings = (bool: boolean) => {
   showManageUserSettings.value = bool
 }
 
-// onMounted(() => {
-//   userstore.getAllUsers()
-// })
 </script>
 
 <style lang="sass" scoped>

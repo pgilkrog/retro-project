@@ -4,7 +4,7 @@
   .line.bg-white
   .w-100.p-1.d-flex.justify-content-between
     .d-flex.py-1.ms-1
-      button.rounded.btn.me-1(variant="dark" @click="changeShowMenu()" :class="props.showMenu ? 'bg-shadow-inner' : 'bg-shadow'")
+      button.rounded.btn.me-1(variant="dark" @click="changeShowMenu()" :class="showMenu ? 'bg-shadow-inner' : 'bg-shadow'")
         IconComponent(name="fa-paw" size="20").me-1
         |   Start
       .programs-container.d-flex
@@ -27,7 +27,7 @@
 import Clock from './Clock.vue'
 import { programsStore } from '@/stores/programsStore'
 import type { IProgram } from '@/models/index'
-import { defineComponent, computed } from 'vue'
+import { computed } from 'vue'
 import router from '@/router'
 import { userStore } from '@/stores/userStore'
 
@@ -35,7 +35,7 @@ const emit = defineEmits([
   'changeShowMenu'
 ])
 
-const props = defineProps({
+const { showMenu } = defineProps({
   showMenu: Boolean 
 })
 

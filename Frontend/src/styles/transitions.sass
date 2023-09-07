@@ -8,6 +8,7 @@
   animation: bounce-in 0.5s
 .bounce-leave-active 
   animation: bounce-in 0.5s reverse
+
 @keyframes bounce-in 
   0% 
     transform: scale(0)
@@ -16,22 +17,19 @@
   100% 
     transform: scale(1)
 
-.window 
-  width: 300px
-  height: 200px
-  background-color: white
-  border: 2px solid #333
-  position: fixed
-  top: 50%
-  left: 50%
-  transform: translate(-50%, -50%)
-  opacity: 0
-  transition: all 0.3s ease-in-out
+.window-animation-enter-active,
+.window-animation-leave-active 
+  animation: window-expand 0.5s ease-in-out
 
-.window-enter-active,
-.window-leave-active 
-  transition: all 0.3s ease-in-out
+.window-animation-enter-from,
+.window-animation-leave-to 
+  transform: scaleX(0) scaleY(0)
+  transform-origin: bottom left
 
-.window-enter, .window-leave-to, .window-leave-active
-  opacity: 1
-  transform: translate(-50%, -50%)
+@keyframes window-expand 
+  0% 
+    transform-origin: bottom left
+    transform: scaleX(0) scaleY(0)
+  100% 
+    transform-origin: top right
+    transform: scaleX(1) scaleY(1)

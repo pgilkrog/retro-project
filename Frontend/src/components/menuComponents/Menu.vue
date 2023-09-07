@@ -18,7 +18,7 @@ import type { IMenuItem }  from '@/models/index'
 import MenuItem from './MenuItem.vue'
 import jsondata from '@/assets/menuData.json'
 
-const props = defineProps({
+const { showMenu = false } = defineProps({
   showMenu: Boolean
 })
 

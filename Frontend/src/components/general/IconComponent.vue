@@ -6,7 +6,7 @@ i.icon(
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
+const { name, variant, color, size, rotate } = defineProps({
   name: String,
   variant: {
     type: String,
@@ -27,13 +27,13 @@ const props = defineProps({
 })
 
 const iconClass = () => {
-  if (props === undefined || props.name === undefined)
+  if (name === undefined)
     return
 
-  if (props.name?.startsWith('bi-'))
-    return 'bi ' + props.name
-  else if (props.name?.startsWith('fa-')) 
-    return 'fa ' + props.name
+  if (name?.startsWith('bi-'))
+    return 'bi ' + name
+  else if (name?.startsWith('fa-')) 
+    return 'fa ' + name
   else
     return 'fa fa-bug'
 }

@@ -6,19 +6,9 @@
   .ms-2 Help
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'windowframeMenu',
-  props: {
-    showMenu: Boolean
-  },
-  setup() {
-    return {
-      
-    }
-  }
+<script setup lang="ts">
+const { showMenu } = defineProps({
+  showMenu: Boolean
 })
 </script>
 

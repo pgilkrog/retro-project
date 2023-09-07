@@ -25,7 +25,7 @@ import SlideTitleImage from './slides/SlideTitleImage.vue'
 import type { PropType } from 'vue'
 import type { IProgram } from '@/models/index'
 
-const props = defineProps({
+const { program } = defineProps({
   program: Object as PropType<IProgram>
 })
 

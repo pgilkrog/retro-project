@@ -28,7 +28,7 @@
 import { onMounted, ref } from 'vue'
 import type { IProgram } from '@/models/index'
 
-const props = defineProps({
+const { loadingTime = 10 } = defineProps({
   loadingTime: Number
 })
 

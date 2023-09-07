@@ -14,32 +14,27 @@
     .col-4.text-end {{ size() }}
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue'
+<script setup lang="ts">
+import { computed } from 'vue'
 import type { IProgram } from '@/models/index'
 
-export default defineComponent({
-  name: 'programs-list',
-  props: {
-    programList: Array,
-    title: String,
-    selectedProgramId: String
-  },
-  setup(props, { emit }) {
-    const changeSelectedProgram = (program: IProgram) => {
-      emit('changeSelectedProgram', {...program})
-    }
-
-    const size = () => {
-      return `size: ${Math.round(Math.random() * 1000)}mb`
-    }
-
-    return {
-      size,
-      changeSelectedProgram
-    }
-  }
+const { programList, title, selectedProgramId } = defineProps({
+  programList: Array,
+  title: String,
+  selectedProgramId: String
 })
+
+const emit = defineEmits([
+  'changeSelectedProgram'
+])
+ 
+const changeSelectedProgram = (program: IProgram) => {
+  emit('changeSelectedProgram', {...program})
+}
+
+const size = () => {
+  return `size: ${Math.round(Math.random() * 1000)}mb`
+}
 </script>
 
 <style lang="sass" scoped>

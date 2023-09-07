@@ -30,7 +30,7 @@ import ChatWindow from './ChatWindow.vue'
 import { chatStore } from '@/stores/chatStore'
 import type { PropType } from 'vue'
 
-const props = defineProps({
+const { program } = defineProps({
   program: Object as PropType<IProgram>
 })
 
