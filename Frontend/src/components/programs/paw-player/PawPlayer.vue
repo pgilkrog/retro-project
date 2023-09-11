@@ -12,8 +12,7 @@ WindowFrame(:program="program")
         allow="autoplay; encrypted-media"
       )
     .buttons.bg-shadow.d-flex
-      button.btn
-        IconComponent(name="fa-circle-play" variant="dark" size="24")
+      Btn(icon="fa-circle-play")
 
 </template>
 <script setup lang="ts">

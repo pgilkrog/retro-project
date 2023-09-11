@@ -20,10 +20,10 @@
         v-model:type="userInfo.type"
         v-model:installedPrograms="userInfo.installedPrograms"
       )
-      button.btn.w-100.mt-3(@click="changeShowManageUserSettings(true)") Settings
+      Btn.mt-3(@clicked="changeShowManageUserSettings(true)" text="Settings" size="full")
       .d-flex.mt-3.justify-content-between
-        button.btn(@click="changeShowManageUser(false)") Cancel
-        button.btn(@click="updateUser()") Update
+        Btn(@clicked="changeShowManageUser(false)" text="Cancel")
+        Btn(@clicked="updateUser()" text="Update")
   
   WindowFrame(
     :program="{name: 'ManageUserSettings', displayName: 'Manage User Settings', color: 'warning', image: 'fa-pencil', isActive: true}" 
@@ -38,8 +38,8 @@
         v-model:theme="userSettingsInfo.theme"
       )
       .d-flex.mt-3.justify-content-between
-        button.btn(@click="changeShowManageUserSettings(false)") Cancel
-        button.btn(@click="updateUserSettings()") Update
+        Btn(@clicked="changeShowManageUserSettings(false)" text="Cancel")
+        Btn(@clicked="updateUserSettings()" text="Update")
 </template>
 
 <script setup lang="ts">

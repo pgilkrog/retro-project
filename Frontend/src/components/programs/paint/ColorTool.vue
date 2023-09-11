@@ -1,7 +1,7 @@
 <template lang="pug">
 .color-wrapper.mt-4
   .d-flex.flex-wrap
-    button.btn.btn-color.bg-shadow-inner(
+    div.btn.btn-color.bg-shadow-inner(
       v-for="(color, index) in colors"
       :key="index"
       @click="changeColor(color)"

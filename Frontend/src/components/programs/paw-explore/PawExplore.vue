@@ -9,7 +9,7 @@ WindowFrame(
       iframe(
         height="500"
         width="800"
-        src="http://www.google.com"
+        src="http://www.pawgilkrog.dk"
       )
 </template>
 <script setup lang="ts">

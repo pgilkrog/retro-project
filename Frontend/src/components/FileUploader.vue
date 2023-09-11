@@ -5,7 +5,8 @@ form(@submit.prevent="uploadFile").file-uploader.d-flex.align-items-center
     ref="fileInput"
     @change="selectFile"
   ) 
-  button.btn.ms-4(type="submit") Submit
+  //- button.btn.ms-4(type="submit") Submit
+  Btn(text="Submit" type="submit")
 </template>
 
 <script setup lang="ts">

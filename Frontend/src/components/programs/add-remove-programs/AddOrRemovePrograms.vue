@@ -9,20 +9,20 @@
   )
     .d-flex.p-2
       .d-flex.flex-column.pe-3
-        button.btn.d-flex.flex-column.align-items-center.w-100(@click="changeState('removePrograms')" :class="state === 'removePrograms' ? 'btn-active' : 'btn'")
-          IconComponent(
-            name="fa-computer"
-            variant="dark"
-            size="42"
-          )
-          p.mt-2 Remove Program
-        button.d-flex.flex-column.align-items-center.mt-2.w-100(@click="changeState('addPrograms')" :class="state === 'addPrograms' ? 'btn-active' : 'btn'")
-          IconComponent(
-            name="fa-folder-plus"
-            variant="dark"
-            size="42"
-          )
-          p.mt-2 Add program
+        Btn(
+          @clicked="changeState('removePrograms')" 
+          :class="state === 'removePrograms' ? 'btn-active' : 'btn'" 
+          text="Remove Program" 
+          icon="fa-computer" 
+          size="full"
+        )
+        Btn(
+          @clicked="changeState('addPrograms')" 
+          :class="state === 'addPrograms' ? 'btn-active' : 'btn'" 
+          text="Add Program" 
+          icon="fa-folder-plus" 
+          size="full"
+        )
       .program-list.bg-grey.p-4.bg-shadow-inner.d-flex.flex-column
         ProgramList(
           v-show="state === 'removePrograms'"
@@ -39,18 +39,19 @@
           v-on:changeSelectedProgram="changeSelectedProgram($event)"
         )
     .row.p-2
-      span(v-if="selectedProgram !== undefined") {{ selectedProgram.displayName }}
       .d-flex.justify-content-end
-        button.btn(
+        Btn(
           v-if="state === 'addPrograms'" 
-          @click="installProgram()"
+          @clicked="installProgram()"
           :disabled="selectedProgramId === ''" 
-        ) Install
-        button.btn(
+          text="Install"
+        )
+        Btn(
           v-else 
-          @click="removeProgram()"
-          :disabled="selectedProgramId === ''" 
-        ) Remove
+          @clicked="removeProgram()"
+          text="Remove"
+          :disabled="selectedProgramId === ''"
+        )
 Loader(v-if="isInstalling === true" @closeLoading="closeLoading()")
 </template>
 

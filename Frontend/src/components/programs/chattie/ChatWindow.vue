@@ -19,7 +19,7 @@ WindowFrame(
       v-model="messageText"
       @keydown.enter="sendMessage()"
     ).me-4
-    button.btn(@click="sendMessage()") Send
+    Btn(@clicked="sendMessage()" text="Send")
 </template>
 
 <script setup lang="ts">

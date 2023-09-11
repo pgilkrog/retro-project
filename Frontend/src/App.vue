@@ -1,5 +1,5 @@
 <template lang="pug">
-.app-wrapper
+.app-wrapper(id="app")
   router-view
 ErrorComponent
 </template>

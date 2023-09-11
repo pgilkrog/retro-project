@@ -15,7 +15,7 @@
       .loading-bar.bg-shadow-inner.mt-4.d-flex
         .loading-box.bg-primary(v-for="item in progressValues")
       .d-flex.justify-content-end.mt-4
-        button.btn(v-if="loadingCompleted === true" @click="closeLoading()") Close
+        Btn(name="Close" v-if="loadingCompleted === true" @clicked="closeLoading()")
     .bg-dark.text-light.p-4
       div Installing...
       div

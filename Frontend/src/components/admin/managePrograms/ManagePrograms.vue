@@ -2,7 +2,7 @@
 .manage-programs
   WindowFrame(:program="program" :isMoveable="true")
     .d-flex.flex-column.m-2
-      button.btn.mb-4(@click="changeShowManageProgram(true)") Add new program
+      Btn.mb-4(@clicked="changeShowManageProgram(true)" text="Add new program" size="full") 
       
       .hover.d-flex.bg-shadow.p-1.pe-4.justify-content-between.align-items-center.rounded.pointer.mt-1(v-for="(program, index) in allPrograms" :key="index") 
         .d-flex.align-items-center
@@ -25,11 +25,11 @@
         v-model:type="programInfo.type"
       )
       .d-flex.mt-3.justify-content-between
-        button.btn(@click="changeShowManageProgram(false)") Cancel
+        Btn(@clicked="changeShowManageProgram(false)" text="Cancel")
         template(v-if="updateState === true")
-          button.btn(@click="updateProgram()") Update
+          Btn(@clicked="updateProgram()" text="Update")
         template(v-else)
-          button.btn(@click="addProgram()") Add Program
+          Btn(@clicked="addProgram()" text="Add Program")
   Validating(
     v-if="showValidation === true" 
     :text="'Delete program: ' + programInfo.displayName"

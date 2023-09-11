@@ -19,29 +19,23 @@ WindowFrame(
       .size.mb-4
         input.tb(type="number" v-model="canvasX").w-100.mb-2
         input.tb(type="number" v-model="canvasY").w-100
-        button.btn(@click="setSize(canvasX, canvasY)").mt-2 New
+        Btn(@clicked="setSize(canvasX, canvasY)" text="New").mt-2
       .icons.d-flex.justify-content-between
-        button.btn(@click="createNew()")
-          IconComponent(name="fa-file" variant="dark" size="18")
-        button.btn(type="button" data-bs-toggle="modal" data-bs-target="#exampleModal")
-          IconComponent(name="fa-floppy-disk" variant="dark" size="18")
-        button.btn(@click="changeShowFiles(true)")
-          IconComponent(name="fa-folder" variant="dark" size="18")
+        Btn(icon="fa-file" size="small" @clicked="createNew()")
+        Btn(icon="fa-floppy-disk" size="small" data-bs-toggle="modal" data-bs-target="#exampleModal")
+        Btn(icon="fa-folder" size="small" @clicked="changeShowFiles(true)")
       .brushes.mt-4.d-flex.justify-content-between
-        button.btn(type="button" @click="setBrushType('circle')")
-          IconComponent(name="fa-circle" variant="dark" size="18")
-        button.btn(type="button" @click="setBrushType('square')")
-          IconComponent(name="fa-square" variant="dark" size="18")
-        button.btn(type="button" @click="setBrushType('spray')")
-          IconComponent(name="fa-spray-can" variant="dark" size="18")
+        Btn(icon="fa-circle" size="small" @clicked="setBrushType('circle')")
+        Btn(icon="fa-square" size="small" @clicked="setBrushType('square')")
+        Btn(icon="fa-spray-can" size="small" @clicked="setBrushType('spray')")
 
         div(class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
           div(class="modal-dialog")
             div(class="modal-content")
               div(class="modal-body")
                 input(v-model="inputSave")
-                button(type="button" class="btn btn-secondary" data-bs-dismiss="modal") Close
-                button(type="button" class="btn btn-primary" @click="savePainting(inputSave)") Save changes
+                Btn(type="button" variant="danger" data-bs-dismiss="modal" text="Close")
+                Btn(type="button" variant="info" @clicked="savePainting(inputSave)" text="Save changes") 
       ColorTool(v-on:changeColor="changeColor($event)")
       div.mt-4
         input(type="color" v-model="state.color")

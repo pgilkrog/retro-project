@@ -9,7 +9,6 @@ import Phaser from 'phaser'
 import Game from './scenes/Game'
 import Loader from './scenes/Loader'
 import Apartment1 from './scenes/apartments/Apartment1_Scene'
-import SceneManager from './utils/SceneManager'
 import type { IConfig } from './interfaces/IConfig'
 import UIScene from './scenes/ui/UI'
 

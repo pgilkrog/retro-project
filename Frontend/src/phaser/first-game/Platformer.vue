@@ -19,6 +19,7 @@ export default defineComponent ({
     const gameContainer = ref<HTMLDivElement>()
 
     onMounted(() => {
+      console.log("DID THIS RUN")
       new Phaser.Game({
         type: Phaser.AUTO,
         width: "100%",

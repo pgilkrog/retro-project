@@ -1,5 +1,5 @@
 <template lang="pug">
-.clock-text {{ time }}
+.clock-text(@click="addBug()") {{ time }}
 </template>
 
 <script setup lang="ts">

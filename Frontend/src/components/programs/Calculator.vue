@@ -5,11 +5,12 @@ WindowFrame(:program="program" :isMoveable="true")
       .bg-light.w-100.rounded.bg-shadow-inner.d-flex.justify-content-end.p-2.pe-3
        p {{ display !== '' ? display : '0' }}
     .button-wrapper.p-3
-      button.btn(
+      Btn(
         v-for="button in buttons" 
         :key="button.text"
-        @click="handleClick(button)"
-      ) {{ button.text }}
+        @clicked="handleClick(button)"
+        :text="button.text"
+      )
 </template>
 
 <script setup lang="ts">
@@ -60,7 +61,5 @@ const handleClick = (button: Button) => {
     grid-template-columns: auto auto auto auto    
     column-gap: 5px
     row-gap: 5px
-  .btn 
-    width: 100%
 
 </style>

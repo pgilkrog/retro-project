@@ -4,9 +4,7 @@
   .line.bg-white
   .w-100.p-1.d-flex.justify-content-between
     .d-flex.py-1.ms-1
-      button.rounded.btn.me-1(variant="dark" @click="changeShowMenu()" :class="showMenu ? 'bg-shadow-inner' : 'bg-shadow'")
-        IconComponent(name="fa-paw" size="20").me-1
-        |   Start
+      Btn(text="Start" icon="fa-paw" v-on:clicked="changeShowMenu()" :active="showMenu" variant="primary")
       .programs-container.d-flex
         .taskbar-item.bg-secondary.h-100.pe-4.ps-2.d-flex.align-items-center.rounded.pointer(
           v-for="(item, index) in activePrograms" 
@@ -17,7 +15,7 @@
           IconComponent(:name="item.image" size="20").me-3
           | {{ item.displayName }}
     div.d-flex
-      button.btn(@click="goToAdmin()") admin
+      Btn(text="admin" v-on:clicked="goToAdmin()" variant="danger")
       .px-3.ms-1.d-flex.align-items-center.p-2.bg-shadow-inner.rounded
         IconComponent.me-4(name="fa-user" variant="success" size="14")
         Clock

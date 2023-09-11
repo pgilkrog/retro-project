@@ -8,37 +8,24 @@ Component(
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, defineAsyncComponent } from 'vue'
 import { programsStore } from '@/stores/programsStore'
-
-// Components
-import MyComputer from '@/components/programs/MyComputer.vue'
-import NetworkNeighborhood from '@/components/programs/NetworkNeightborhood.vue'
-import PAWDOS from '@/components/programs/PAWDOS.vue'
-import Paint from '@/components/programs/paint/Paint.vue'
-import Calculator from '@/components/programs/Calculator.vue'
-import Minesweeper from '@/components/programs/minesweeper/MinesweeperGame.vue'
-import PCSettings from '@/components/programs/pc-settings/PCSettings.vue'
-import PawPoint from '@/components/programs/pawpoint/PawPoint.vue'
-import AddOrRemovePrograms from '@/components/programs/add-remove-programs/AddOrRemovePrograms.vue'
-import Chattie from '@/components/programs/chattie/Chattie.vue'
-import PawPlayer from '@/components/programs/paw-player/PawPlayer.vue'
-import PawExplore from '@/components/programs/paw-explore/PawExplore.vue'
 
 export default defineComponent({
   components: {
-    MyComputer,
-    NetworkNeighborhood,
-    PAWDOS,
-    Paint,
-    Minesweeper,
-    Calculator,
-    PCSettings,
-    PawPoint,
-    AddOrRemovePrograms,
-    Chattie,
-    PawPlayer,
-    PawExplore
+    MyComputer: defineAsyncComponent(() => import('@/components/programs/MyComputer.vue')),
+    NetworkNeighborhood: defineAsyncComponent(() => import('@/components/programs/NetworkNeightborhood.vue')),
+    PAWDOS: defineAsyncComponent(() => import('@/components/programs/PAWDOS.vue')),
+    Paint: defineAsyncComponent(() => import('@/components/programs/paint/Paint.vue')),
+    Minesweeper: defineAsyncComponent(() => import('@/components/programs/minesweeper/MinesweeperGame.vue')),
+    Calculator: defineAsyncComponent(() => import('@/components/programs/Calculator.vue')),
+    PCSettings: defineAsyncComponent(() => import('@/components/programs/pc-settings/PCSettings.vue')),
+    PawPoint: defineAsyncComponent(() => import('@/components/programs/pawpoint/PawPoint.vue')),
+    AddOrRemovePrograms: defineAsyncComponent(() => import('@/components/programs/add-remove-programs/AddOrRemovePrograms.vue')),
+    Chattie: defineAsyncComponent(() => import('@/components/programs/chattie/Chattie.vue')),
+    PawPlayer: defineAsyncComponent(() => import('@/components/programs/paw-player/PawPlayer.vue')),
+    PawExplore: defineAsyncComponent(() => import('@/components/programs/paw-explore/PawExplore.vue')),
+    ErrorComponent: defineAsyncComponent(() => import('@/components/ErrorComponent.vue'))
   },
 
   setup() {

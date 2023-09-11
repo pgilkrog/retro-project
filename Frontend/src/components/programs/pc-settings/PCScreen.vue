@@ -41,6 +41,7 @@ const getImageUrl = (filename: string) => {
     width: 292px
     margin-top: 2px
     margin-left: 2px
+    image-rendering: pixelated
 
 .square-1
   width: 150px

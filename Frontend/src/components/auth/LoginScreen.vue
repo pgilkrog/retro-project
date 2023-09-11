@@ -41,14 +41,14 @@ WindowFrame(
             v-model="password2"
           )
     .col-12.mt-4.d-flex.justify-content-center
-      button.btn.btn-wide.me-2(@click="pressedOk()") OK 
-      button.btn.btn-wide(@click="changeShowHelp()") Help
+      Btn.me-2(@clicked="pressedOk()" text="OK") 
+      Btn(@clicked="changeShowHelp()" text="Help" :active="showHelp")
   .d-flex.flex-column.bg-shadow-inner.p-4.m-2(v-if="showHelp === true")
     p Some helping info and stuff
     .d-flex.justify-content-center.mt-4
-      button.btn.me-4(@click="changeState(2)" v-if="state === 1") Create User
-      button.btn.me-4(@click="changeState(1)" v-else) Login
-      button.btn(@click="changeState(3)") Forgot password
+      Btn.me-4(@clicked="changeState(2)" v-if="state === 1" text="Create User") 
+      Btn.me-4(@clicked="changeState(1)" v-else text="Login")
+      Btn(@clicked="changeState(3)" text="Forgot password") 
 </template>
 
 <script setup lang="ts">
@@ -66,12 +66,12 @@ const infoText = ref<string>('Type a email and password to log in')
 const showHelp = ref<boolean>(false)
 const authstore = authStore()
 const program = ref({
-    name: 'LogInNow', 
-    isActive: true, 
-    image: 'fa-user-lock',
-    displayName: 'Log in now',
-    color: 'light'
-  } as IProgram)
+  name: 'LogInNow', 
+  isActive: true, 
+  image: 'fa-user-lock',
+  displayName: 'Log in now',
+  color: 'light'
+} as IProgram)
 
 const pressedOk = () => {
   if (state.value === 1)

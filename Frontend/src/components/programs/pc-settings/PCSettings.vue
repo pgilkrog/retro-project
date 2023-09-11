@@ -38,7 +38,10 @@ WindowFrame(
       .row
         UserInfo
     .d-flex.justify-content-end.mt-4
-      button(@click="saveUserInfo()").btn.px-4.py-2 OK
+      Btn(
+        text="OK" 
+        v-on:clicked="saveUserInfo()"
+      )
 </template>
 
 <script setup lang="ts">

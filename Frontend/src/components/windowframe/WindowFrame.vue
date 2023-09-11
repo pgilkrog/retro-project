@@ -1,5 +1,5 @@
 <template lang="pug">
-Teleport(to="body")
+Teleport(to="#app")
   Transition(name="window-animation" appear)
     .window-frame-wrapper.bg-shadow.bg-secondary.d-flex.flex-column.position-absolute.p-2.rounded(
       v-if="program?.isActive === true" 
@@ -13,12 +13,9 @@ Teleport(to="body")
           IconComponent(:name="program.image" size="25" variant="light")
           .font-weight-bold.pe-4.ps-4 {{ program.displayName }}
         .d-flex
-          button.btn.bg-secondary.py-0.px-2(@click="setInactive()") 
-            IconComponent(name="fa-window-minimize" size="14")
-          button.btn.bg-secondary.py-0.px-2.mx-1
-            IconComponent(name="bi-square" size="12")
-          button.btn.bg-secondary.py-0.px-2(@click="closeWindow") 
-            IconComponent(name="fa-xmark" size="14")
+          Btn(icon="fa-window-minimize" @clicked="setInactive()" size="small")
+          Btn(icon="fa-square" size="small")
+          Btn(icon="fa-xmark" @clicked="closeWindow()" size="small")
       windowframeMenu(:showMenu="showMenu")
       .container-fluid.gx-0.bg-secondary.mt-1.bg-shadow-inner.rounded
         slot

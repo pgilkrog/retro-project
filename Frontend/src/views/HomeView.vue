@@ -12,19 +12,19 @@ template(v-if="userData !== undefined")
       )
 
 ComponentMachine
-Menu(v-bind:showMenu="showMenu")
+Menu(v-if="showMenu")
 Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")
 </template>
 
 <script setup lang="ts">
 import type { IProgram, IUser } from '@/models/index'
-import { ref } from 'vue'
+import { ref, defineAsyncComponent } from 'vue'
 import { userStore } from '@/stores/userStore'
 import { storeToRefs } from 'pinia'
 import { programsStore } from '@/stores/programsStore'
+
 import ComponentMachine from '@/components/ComponentMachine.vue'
-import Loading from '@/components/Loading.vue'
-import Menu from '@/components/menuComponents/Menu.vue'
+const Menu = defineAsyncComponent(() => import('@/components/menuComponents/Menu.vue'))
 import Taskbar from '@/components/taskbar/Taskbar.vue'
 import DesktopItem from '@/components/DesktopItem.vue'
 
@@ -53,4 +53,5 @@ const changeShowMenu = () => {
   background-position: center
   background-repeat: no-repeat
   background-size: cover
+  image-rendering: pixelated
 </style>

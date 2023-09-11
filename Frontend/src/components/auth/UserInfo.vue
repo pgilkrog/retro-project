@@ -10,7 +10,7 @@
     v-model:phoneNumber="info.phoneNumber"
     v-model:homeAddress="info.homeAddress"
   )
-.d-flex.flex-column.mt-4
+.d-flex.flex-column.my-4
   p name: {{ info.name }}
   p address: {{ info.addressLine }}
   p streetnumber: {{ info.streetNumber }}
@@ -20,7 +20,7 @@
   p phone {{ info.phoneNumber }}
   p is Homeaddress {{ info.homeAddress }}
 
-button.btn.mt-4(@click="printInfo()") Print
+Btn(text="Print" @clicked="printInfo()" size="full")
 </template>
 
 <script setup lang="ts">
