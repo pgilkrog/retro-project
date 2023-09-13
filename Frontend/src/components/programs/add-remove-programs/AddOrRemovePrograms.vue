@@ -11,18 +11,18 @@
       .d-flex.flex-column.pe-3
         Btn(
           @clicked="changeState('removePrograms')" 
-          :class="state === 'removePrograms' ? 'btn-active' : 'btn'" 
           text="Remove Program" 
           icon="fa-computer" 
           size="full"
+          :active="state === 'removePrograms'"
         )
         Btn(
-          @clicked="changeState('addPrograms')" 
-          :class="state === 'addPrograms' ? 'btn-active' : 'btn'" 
+          @clicked="changeState('addPrograms')"
           text="Add Program" 
           icon="fa-folder-plus" 
           size="full"
-        )
+          :active="state === 'addPrograms'"
+        ).mt-2
       .program-list.bg-grey.p-4.bg-shadow-inner.d-flex.flex-column
         ProgramList(
           v-show="state === 'removePrograms'"

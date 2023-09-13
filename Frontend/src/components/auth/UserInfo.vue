@@ -1,15 +1,13 @@
 <template lang="pug">
 .d-flex.flex-column
-  MultipleInputs(
-    v-model:name="info.name" 
-    v-model:addressLine="info.addressLine"
-    v-model:streetNumber="info.streetNumber" 
-    v-model:town="info.town" 
-    v-model:country="info.country"
-    v-model:postcode="info.postcode" 
-    v-model:phoneNumber="info.phoneNumber"
-    v-model:homeAddress="info.homeAddress"
-  )
+  BaseInput(v-model="info.name" placeholder="Name")
+  BaseInput(v-model="info.addressLine" placeholder="Addressline")
+  BaseInput(v-model="info.streetNumber" placeholder="Street number")
+  BaseInput(v-model="info.town" placeholder="Town")
+  BaseInput(v-model="info.country" placeholder="Country")
+  BaseInput(v-model="info.postcode" placeholder="Postcode")
+  BaseInput(v-model="info.phoneNumber" placeholder="Phone")
+  BaseInput(v-model="info.homeAddress" label="Home Address" type="checkbox")
 .d-flex.flex-column.my-4
   p name: {{ info.name }}
   p address: {{ info.addressLine }}
@@ -25,8 +23,7 @@ Btn(text="Print" @clicked="printInfo()" size="full")
 
 <script setup lang="ts">
 import { reactive } from 'vue'
-import MultipleInputs from '../general/MultipleInputs.vue'
-import { userStore } from '@/stores/userStore';
+import { userStore } from '@/stores/userStore'
 
 const userstore = userStore()
 

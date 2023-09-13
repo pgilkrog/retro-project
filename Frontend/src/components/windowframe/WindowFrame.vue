@@ -37,7 +37,7 @@ interface Props {
   type: String
 }
 
-const { showMenu, program, variant, isNotProgram, isMoveable, type } = defineProps({
+const { showMenu, program, variant, isNotProgram, isMoveable = true, type } = defineProps({
   showMenu: Boolean,
   program: Object as PropType<IProgram>,
   variant: String,

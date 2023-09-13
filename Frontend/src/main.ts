@@ -11,7 +11,8 @@ import "bootstrap-icons/font/bootstrap-icons.css"
 
 import IconComponent from '@/components/general/IconComponent.vue'
 import WindowFrame from '@/components/windowframe/WindowFrame.vue'
-import ButtonComponent from './components/utils/ButtonComponent.vue'
+import ButtonComponent from '@/components/utils/ButtonComponent.vue'
+import InputComponent from '@/components/utils/InputComponent.vue'
 
 globalCookiesConfig({
   expireTimes: '30d',
@@ -31,6 +32,7 @@ app.config.errorHandler = (err, vm, info) => {
 app.component('IconComponent', IconComponent)
 app.component('WindowFrame', WindowFrame)
 app.component('Btn', ButtonComponent)
+app.component('BaseInput', InputComponent)
 
 await app.use(pinia)
 await app.use(router)

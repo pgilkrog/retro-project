@@ -1,23 +1,35 @@
 <template lang="pug">
 WindowFrame(
-  :program="props.program"
+  :program="program"
+  :isMoveable="true"
 )
   .paw-eplorer
-    .top-bar
-      input.bg-shadow-inner
+    .top-bar.d-flex.p-1
+      Btn(icon="fa-caret-left")
+      Btn(icon="fa-caret-right").mx-2
+      Btn(icon="fa-rotate")
+      input.bg-shadow-inner.w-100(v-model="inputText").mx-2
+      Btn(icon="fa-rotate-right" text="GO" @click="go()")
     .browser-content
       iframe(
         height="500"
         width="800"
-        src="http://www.pawgilkrog.dk"
-      )
+        :src="url"
+      ).bg-shadow-inner
 </template>
 <script setup lang="ts">
 import type { IProgram } from '@/models/index'
-import type { PropType } from 'vue'
+import { type PropType, ref } from 'vue'
 
 const { program } = defineProps({
   program: Object as PropType<IProgram>
 })
+
+const url = ref<string>('http://www.pawgilkrog.dk')
+const inputText = ref<string>('')
+
+const go = () => {
+  url.value = inputText.value
+}
 
 </script>

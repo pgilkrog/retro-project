@@ -32,6 +32,10 @@ WindowFrame(
             v-model="color"
           )
         .col
+      .row
+        .col 
+          BaseInput(v-model="firstName" type="text" label="Text")
+          | {{ firstName }}
     .content.p-4.main-wrap.rounded(v-else-if="state === 1")
       .row
     .content.p-4.main-wrap.rounded(v-else-if="state === 2")
@@ -66,6 +70,7 @@ const state = ref<number>(0)
 const color = ref<string>("")
 const tempImg = ref<IFile | undefined>(undefined)
 const userData = storeToRefs(userstore).userData as Ref<IUser | undefined>
+const firstName = ref("")
 
 onMounted(() => {
   color.value = userstore.userBackgroundColour

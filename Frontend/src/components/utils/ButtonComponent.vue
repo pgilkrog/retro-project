@@ -16,7 +16,6 @@ button.btn.d-flex.align-content-center.align-items-center.bg-secondary.hover(
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
 const { text = 'OK', icon, size = 'default', active = false, type = 'button', disabled, color, variant } = defineProps({
   text: String,
   icon: String,
