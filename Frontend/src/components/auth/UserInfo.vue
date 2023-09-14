@@ -36,7 +36,7 @@ const info = reactive({
   postcode: "",
   phoneNumber: "",
   homeAddress: false,
-});
+})
 
 const printInfo = () => {
   console.log(userstore.userData)
