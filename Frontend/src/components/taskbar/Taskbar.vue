@@ -4,16 +4,22 @@
   .line.bg-white
   .w-100.p-1.d-flex.justify-content-between
     .d-flex.py-1.ms-1
-      Btn(text="Start" icon="fa-paw" v-on:clicked="changeShowMenu()" :active="showMenu" variant="primary")
-      .programs-container.d-flex
-        .taskbar-item.bg-secondary.h-100.pe-4.ps-2.d-flex.align-items-center.rounded.pointer(
+      Btn(
+        text="Start" 
+        icon="fa-paw" 
+        v-on:clicked="changeShowMenu()" 
+        :active="showMenu" 
+        variant="primary"
+      )
+      .programs-container.d-flex.ms-2
+        Btn(
           v-for="(item, index) in activePrograms" 
-          :key="index"
-          :class="item.isActive ? 'bg-shadow-inner' : 'bg-shadow'"
-          @click="setActiveState(item)"
+          :key="index" 
+          :text="item.displayName" 
+          :icon="item.image"
+          @clicked="setActiveState(item)"
+          :active="item.isActive"
         )
-          IconComponent(:name="item.image" size="20").me-3
-          | {{ item.displayName }}
     div.d-flex
       Btn(text="admin" v-on:clicked="goToAdmin()" variant="danger")
       .px-3.ms-1.d-flex.align-items-center.p-2.bg-shadow-inner.rounded

@@ -3,7 +3,7 @@
   WindowFrame(:program="program" :isMoveable="true")
     Suspense(timeout="0")
       template(#default)
-        UsersList 
+        UsersList(v-on:setSelectedUser="setSelectedUser($event)")
       template(#fallback)
         .d-flex.justify-content-center.py-4
           .spinner-border.text-dark
@@ -13,13 +13,11 @@
     v-if="showManageUser"
   )
     .d-flex.flex-column.p-4
-      UserInputs(
-        v-model:firstName="userInfo.firstName"
-        v-model:lastName="userInfo.lastName"
-        v-model:email="userInfo.email"
-        v-model:type="userInfo.type"
-        v-model:installedPrograms="userInfo.installedPrograms"
-      )
+      BaseInput(v-model="userInfo.firstName" label="First Name")
+      BaseInput(v-model="userInfo.lastName" label="Last Name")
+      BaseInput(v-model="userInfo.email" label="Email")
+      BaseInput(v-model="userInfo.type" label="Type")
+      //- BaseInput(v-model="userInfo.installedPrograms" label="Installed Programs")
       Btn.mt-3(@clicked="changeShowManageUserSettings(true)" text="Settings" size="full")
       .d-flex.mt-3.justify-content-between
         Btn(@clicked="changeShowManageUser(false)" text="Cancel")
@@ -31,12 +29,10 @@
     v-if="showManageUserSettings"
   )
     .d-flex.flex-column.p-4
-      SettingsInput(
-        v-model:backgroundColour="userSettingsInfo.backgroundColour"
-        v-model:backgroundImage="userSettingsInfo.backgroundImage"
-        v-model:useBackground="userSettingsInfo.useBackground"
-        v-model:theme="userSettingsInfo.theme"
-      )
+      BaseInput(v-model="userSettingsInfo.backgroundColour" label="Background color")
+      BaseInput(v-model="userSettingsInfo.backgroundImage" label="Background Image")
+      BaseInput(v-model="userSettingsInfo.useBackground" label="Use Background" type="checkbox")
+      BaseInput(v-model="userSettingsInfo.theme" label="Theme")
       .d-flex.mt-3.justify-content-between
         Btn(@clicked="changeShowManageUserSettings(false)" text="Cancel")
         Btn(@clicked="updateUserSettings()" text="Update")
@@ -45,8 +41,6 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { userStore } from '@/stores/userStore'
-import UserInputs from './UserInputs.vue'
-import SettingsInput from './SettingsInput.vue'
 import type { IProgram, IUser, IUserSettings } from '@/models/index'
 import UsersList from './UsersList.vue'
 import type { PropType } from 'vue'
@@ -112,6 +106,7 @@ const setSelectedUser = (user: IUser) => {
   userInfo.type = user.type,
   userInfo.installedPrograms = user.installedPrograms
   selectedUser = user
+  changeShowManageUser(true)
   setSelectedUserSettings(user.settings)
 }
 

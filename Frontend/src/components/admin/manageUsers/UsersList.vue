@@ -13,6 +13,10 @@ import { computed } from 'vue'
 const userstore = userStore()
 const allUsers = computed(() => userstore.allUsers)
 
+const emit = defineEmits([
+  'setSelectedUser'
+])
+
 try {
   await userstore.getAllUsers()
 } catch {
@@ -21,6 +25,7 @@ try {
 
 const setSelectedUser = (item: any) => {
   console.log(item)
+  emit('setSelectedUser', item)
 }
 
 </script>

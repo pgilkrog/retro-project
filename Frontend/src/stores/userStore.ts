@@ -73,10 +73,9 @@ export const userStore = defineStore("user", () => {
   }
 
   const updateUser = async (user: IUser) => {
-    // Need to set the settings to the settings id for the backend to read
-    let tempUser = user
+    debugger
     // tempUser.settings = (user.settings as IUserSettings).id
-    const res = await axios.put(url + '/' + sessionStorage.getItem('userId'), null, { params: tempUser })
+    const res = await axios.put(url + '/' + user._id, null, { params: user })
     console.log(res)
     setUserData(res.data)
   }

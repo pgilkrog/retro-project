@@ -10,7 +10,7 @@ Component(
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, defineAsyncComponent } from 'vue'
 import { programsStore } from '@/stores/programsStore'
 
 import ManagePrograms from './managePrograms/ManagePrograms.vue'

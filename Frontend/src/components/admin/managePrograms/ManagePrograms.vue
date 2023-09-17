@@ -16,14 +16,12 @@
      v-if="showManageProgram"
   )
     .add-program.d-flex.flex-column.p-4
-      ProgramInputs(
-        v-model:name="programInfo.name"
-        v-model:displayName="programInfo.displayName"
-        v-model:image="programInfo.image"
-        v-model:color="programInfo.color"
-        v-model:sortOrder="programInfo.sortOrder"
-        v-model:type="programInfo.type"
-      )
+      BaseInput(v-model="programInfo.name" label="Name" placeholder="name")
+      BaseInput(v-model="programInfo.displayName" label="Display name" placeholder="displayName")
+      BaseInput(v-model="programInfo.image" label="image" placeholder="image")
+      BaseInput(v-model="programInfo.color" label="color" placeholder="color")
+      BaseInput(v-model="programInfo.sortOrder" label="sort order" type="number")
+      BaseInput(v-model="programInfo.type" label="type" placeholder="type")
       .d-flex.mt-3.justify-content-between
         Btn(@clicked="changeShowManageProgram(false)" text="Cancel")
         template(v-if="updateState === true")
@@ -42,7 +40,6 @@
 import { ref, computed, reactive } from 'vue'
 import { programsStore } from '@/stores/programsStore'
 import type { IProgram } from '@/models/index'
-import ProgramInputs from './ProgramInputs.vue'
 import Validating from '@/components/Validating.vue'
 
 const { program } = defineProps({

@@ -63,7 +63,6 @@ router.put('/settings/:id', auth, async (req: Request, res: Response) => {
 router.get('/', auth, async (req: Request, res: Response) => {
   try {
     const fetchedItems = await User.find().populate('settings')
-    console.log("HIT ALL USERS", fetchedItems)
     res.json({ users: fetchedItems })
   } catch (error: any) {
     console.log(error.message)

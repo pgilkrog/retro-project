@@ -16,7 +16,7 @@ const activePrograms = computed(() => programsstore.activePrograms)
 
 // :is="defineAsyncComponent(() => import(`@/components/programs/${program.name}.vue`))"
 const getPath = (name: string): string => {
-  return ('./programs/'+name.split('$').join('/')+'.vue').split('/').join('\/')
+  return ('./programs/'+name+'.vue').split('/').join('\/')
 }
 
 </script>
