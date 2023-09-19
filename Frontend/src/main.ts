@@ -9,7 +9,7 @@ import './styles/main.sass'
 import 'bootstrap'
 import "bootstrap-icons/font/bootstrap-icons.css"
 
-import IconComponent from '@/components/general/IconComponent.vue'
+import IconComponent from '@/components/utils/IconComponent.vue'
 import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import ButtonComponent from '@/components/utils/ButtonComponent.vue'
 import InputComponent from '@/components/utils/InputComponent.vue'

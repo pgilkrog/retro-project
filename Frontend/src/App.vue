@@ -5,29 +5,20 @@ ErrorComponent
 </template>
 
 <script setup lang="ts">
-import { userStore } from './stores/userStore'
 import { authStore } from '@/stores/authStore'
-import { programsStore } from './stores/programsStore'
 import { onMounted, computed, watch } from 'vue'
 import router from './router'
 import ErrorComponent from './components/ErrorComponent.vue'
 import { useCookies } from 'vue3-cookies'
 
 const authstore = authStore()
-const userstore = userStore()
-const programsstore = programsStore()
 const checkAuth = computed(() => authstore.checkedAuth)
 const { cookies } = useCookies()
 
 onMounted(async () => {
   await authstore.init()
-  await programsstore.init()
-  await userstore.getUserById().then((data) => {
-    if (data !== undefined)
-      programsstore.setInstalledPrograms(data.installedPrograms)
-  })
   let my_cookies_value = cookies.get("myCookie")
-  console.log(my_cookies_value)
+  console.log("COOKIE", my_cookies_value)
   cookies.set('LAST_RESULT_ENTRY_KEY', 'your_cookie_value', '7d', undefined, undefined, true, 'None')
 })  
 

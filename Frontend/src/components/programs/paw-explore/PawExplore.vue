@@ -8,7 +8,7 @@ WindowFrame(
       Btn(icon="fa-caret-left")
       Btn(icon="fa-caret-right").mx-2
       Btn(icon="fa-rotate")
-      input.bg-shadow-inner.w-100(v-model="inputText").mx-2
+      BaseInput(v-model="inputText").mx-2
       Btn(icon="fa-rotate-right" text="GO" @click="go()")
     .browser-content
       iframe(

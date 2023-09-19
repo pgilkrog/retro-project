@@ -18,7 +18,7 @@ Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")
 
 <script setup lang="ts">
 import type { IProgram, IUser } from '@/models/index'
-import { ref, defineAsyncComponent } from 'vue'
+import { ref, defineAsyncComponent, onMounted } from 'vue'
 import { userStore } from '@/stores/userStore'
 import { storeToRefs } from 'pinia'
 import { programsStore } from '@/stores/programsStore'
@@ -27,11 +27,23 @@ import ComponentMachine from '@/components/ComponentMachine.vue'
 const Menu = defineAsyncComponent(() => import('@/components/menuComponents/Menu.vue'))
 import Taskbar from '@/components/taskbar/Taskbar.vue'
 import DesktopItem from '@/components/DesktopItem.vue'
+import { authStore } from '@/stores/authStore'
 
+const authstore = authStore()
 const programsstore = programsStore()
 const userstore = userStore()
 const userData = storeToRefs(userstore).userData
 const showMenu = ref(false)
+
+onMounted(async () => {
+  if (authstore.isLoggedIn) {
+    await programsstore.init()
+    await userstore.getUserById().then((data) => {
+      if (data !== undefined)
+        programsstore.setInstalledPrograms(data.installedPrograms)
+    })    
+  }
+})
 
 const allPrograms = (() => programsstore.installedPrograms)
 

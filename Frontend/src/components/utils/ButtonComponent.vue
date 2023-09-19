@@ -1,22 +1,36 @@
 <template lang="pug">
-button.btn.d-flex.align-content-center.align-items-center.bg-secondary.hover(
+button.btn.d-flex.align-content-center.align-items-center.bg-secondary.rounded.hover(
   @click="buttonClicked"
   :type="type"
   :disabled="disabled"
   :style="'background: ' + color"
   :class="`${buttonClasses} ${active ? ' bg-shadow-inner btn-active' : ' bg-shadow'}`"
 )
-  IconComponent(
-    v-if="icon" 
-    :name="icon" 
-    size="16" 
-    :class="text !== undefined ? 'me-2' : ''"
-  )  
-  p(v-if="text") {{ text }}
+  template(v-if="!isLoading")
+    IconComponent(
+      v-if="icon" 
+      :name="icon" 
+      size="16" 
+      :class="text !== undefined ? 'me-2' : ''"
+    )
+    p(v-if="text") {{ text }}
+  template(v-else)
+    div.spinner-border.spinner-border-sm.m-1(role="status")
+      span(class="visually-hidden") Loading... 
 </template>
 
 <script setup lang="ts">
-const { text = 'OK', icon, size = 'default', active = false, type = 'button', disabled, color, variant } = defineProps({
+const { 
+  text = 'OK', 
+  icon, 
+  size = 'default', 
+  active = false, 
+  type = 'button', 
+  disabled, 
+  color, 
+  variant, 
+  isLoading = false 
+} = defineProps({
   text: String,
   icon: String,
   size: String,
@@ -24,7 +38,8 @@ const { text = 'OK', icon, size = 'default', active = false, type = 'button', di
   type: String,
   disabled: Boolean,
   color: String,
-  variant: String
+  variant: String,
+  isLoading: Boolean
 })
 
 const emit = defineEmits([
@@ -44,7 +59,6 @@ const buttonClicked = () => {
 
 <style lang="sass" scoped>
 button
-  border-radius: 0.5rem
   line-height: 1.3
   width: fit-content
   height: fit-content

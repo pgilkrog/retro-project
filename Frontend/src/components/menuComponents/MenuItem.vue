@@ -50,8 +50,9 @@ const openProgram = () => {
   }
 }
 
-const signOut = () => {
-  authstore.signOut()
+const signOut = async () => {
+  await authstore.signOut()
+  router.push('/login')
 }
 
 </script>

@@ -22,7 +22,6 @@
       .d-flex.mt-3.justify-content-between
         Btn(@clicked="changeShowManageUser(false)" text="Cancel")
         Btn(@clicked="updateUser()" text="Update")
-  
   WindowFrame(
     :program="{name: 'ManageUserSettings', displayName: 'Manage User Settings', color: 'warning', image: 'fa-pencil', isActive: true}" 
     :isMoveable="true"

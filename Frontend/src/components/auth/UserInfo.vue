@@ -5,7 +5,7 @@
   BaseInput(v-model="info.streetNumber" placeholder="Street number")
   BaseInput(v-model="info.town" placeholder="Town")
   BaseInput(v-model="info.country" placeholder="Country")
-  BaseInput(v-model="info.postcode" placeholder="Postcode")
+  BaseInput(v-model="info.postcode" placeholder="Postcode" type="number")
   BaseInput(v-model="info.phoneNumber" placeholder="Phone")
   BaseInput(v-model="info.homeAddress" label="Home Address" type="checkbox")
 .d-flex.flex-column.my-4
@@ -39,8 +39,7 @@ const info = reactive({
 })
 
 const printInfo = () => {
-  console.log(userstore.userData)
-  // userstore.updateUserSettings(userstore.userData.settings)
+  console.log(info)
 }
 </script>
 

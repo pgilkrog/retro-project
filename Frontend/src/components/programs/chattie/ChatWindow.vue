@@ -8,26 +8,22 @@ WindowFrame(
   .message-wrapper.d-flex.flex-column.bg-light.p-2
     template(v-for="(item, index) in activeChat.messages") 
       span(style="text-align: right;" v-if="item.sender !== userstore.userData.email") 
-        p.text-primary {{ item.sender }} says:
+        p.text-primary {{ item.sender }}
         p(v-html="item.text")
       span(style="text-align: left;" v-else)
         p.text-success {{ item.sender }}
         p(v-html="item.text")
   .d-flex.bg-shadow.p-2
-    input.bg-shadow-inner(
-      type="text" 
-      v-model="messageText"
-      @keydown.enter="sendMessage()"
-    ).me-4
+    BaseInput(v-model="messageText" @keydown.enter="sendMessage()")
     Btn(@clicked="sendMessage()" text="Send")
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { userStore } from '@/stores/userStore'
 import { chatStore } from '@/stores/chatStore'
 import type { PropType } from 'vue'
-import type { IChatRoom } from '@/models'
+import type { IChatMessage, IChatRoom } from '@/models'
 
 const emit = defineEmits([
   'sendMessage'
@@ -36,13 +32,6 @@ const emit = defineEmits([
 const { activeChat } = defineProps({
   activeChat: Object as PropType<IChatRoom>
 })
-
-interface ChatMessage {
-  id: number
-  text: string
-  sender: string
-  room: string
-}
 
 const program = {
   name: 'ChatWindow', 
@@ -58,7 +47,7 @@ const messageText = ref<string>("")
 
 const sendMessage = () => {
   const idOfMessage = (activeChat !== undefined && activeChat.messages !== undefined) ? activeChat.messages.length : 0 
-  const message: ChatMessage = {
+  const message: IChatMessage = {
     id: idOfMessage + 1,
     text: messageText.value,
     sender: userstore.userData?.email ?? "",

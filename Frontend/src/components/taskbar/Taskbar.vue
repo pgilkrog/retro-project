@@ -21,19 +21,24 @@
           :active="item.isActive"
         )
     div.d-flex
-      Btn(text="admin" v-on:clicked="goToAdmin()" variant="danger")
+      Btn(
+        v-if="userstore.userData?.type === 'admin'" 
+        text="admin" 
+        v-on:clicked="goToAdmin()" 
+        variant="danger"
+      )
       .px-3.ms-1.d-flex.align-items-center.p-2.bg-shadow-inner.rounded
         IconComponent.me-4(name="fa-user" variant="success" size="14")
         Clock
 </template>
 
 <script setup lang="ts">
-import Clock from './Clock.vue'
+import { computed } from 'vue'
+import { userStore } from '@/stores/userStore'
 import { programsStore } from '@/stores/programsStore'
 import type { IProgram } from '@/models/index'
-import { computed } from 'vue'
 import router from '@/router'
-import { userStore } from '@/stores/userStore'
+import Clock from './Clock.vue'
 
 const emit = defineEmits([
   'changeShowMenu'
@@ -51,6 +56,7 @@ const activePrograms = computed(() => programsstore.activePrograms)
 const changeShowMenu = () => {
   emit('changeShowMenu')      
 }
+
 const setActiveState = (program: IProgram) => {
   programsstore.setProgramActiveState(program)
 }
@@ -58,10 +64,13 @@ const setActiveState = (program: IProgram) => {
 const goToAdmin = () => {
   router.push('/admin')
 }
-
 </script>
 
 <style lang="sass">
 .taskbar-container
   z-index: 999 !important
+
+.line 
+  height: 2px
+  width: 100%
 </style>

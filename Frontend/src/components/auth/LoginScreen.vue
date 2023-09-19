@@ -3,7 +3,7 @@ WindowFrame(
   :program="program" 
   :showMenu="false" 
   :variant="info"
-).absolute-center
+)
   .login-screen.row.p-2.px-4
     .col-2.text-center
       IconComponent(name="fa-key" variant="warning" size="40" rotate="0")
@@ -14,32 +14,17 @@ WindowFrame(
         .col-12.col-lg-3.d-flex.align-items-center
           .login-text Email:
         .col-12.col-lg
-          input.bg-shadow-inner.w-100(
-            type="email" 
-            autocomplete="off" 
-            name="username" 
-            v-model="username"
-          )
+          BaseInput(v-model="username")
       .row.mt-2(v-if="state === 2 || state === 1")
         .col-12.col-lg-3.d-flex.align-items-center
           .login-text Password:
         .col-12.col-lg
-          input.bg-shadow-inner.w-100(
-            type="password" 
-            name="password" 
-            autocomplete="off" 
-            v-model="password"
-          )
+          BaseInput(v-model="password" type="password")
       .row.mt-2(v-if="state === 2")
         .col-12.col-lg-3.d-flex.align-items-center
           .login-text Password:
         .col-12.col-lg
-          input.bg-shadow-inner.w-100(
-            type="password" 
-            name="password" 
-            autocomplete="off" 
-            v-model="password2"
-          )
+          BaseInput(v-model="password2" type="password")
     .col-12.mt-4.d-flex.justify-content-center
       Btn.me-2(@clicked="pressedOk()" text="OK") 
       Btn(@clicked="changeShowHelp()" text="Help" :active="showHelp")
