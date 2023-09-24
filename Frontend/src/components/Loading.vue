@@ -37,7 +37,7 @@ const emit = defineEmits([
 ])
 
 const program = {
-  id: "345345",
+  _id: "345345",
   name: 'Loading',
   displayName: 'Loading',
   color: 'info', 

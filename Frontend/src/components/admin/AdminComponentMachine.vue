@@ -1,8 +1,8 @@
 <template lang="pug">
 Component(
-  v-for="(program, index) in activePrograms"
+  v-for="program in activePrograms"
   v-on:closeWindow="closeWindow(program.name)"
-  :key="index"
+  :key="program._id"
   :id="program.name"
   :is="program.name"
   :program="program"

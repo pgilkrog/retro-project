@@ -1,7 +1,7 @@
 <template lang="pug">
 Component(
-  v-for="(program, index) in activePrograms"
-  :key="index"
+  v-for="program in activePrograms"
+  :key="program._id"
   :is="defineAsyncComponent(() => import(/* @vite-ignore */getPath(program.name)))"
   :program="program"
 )

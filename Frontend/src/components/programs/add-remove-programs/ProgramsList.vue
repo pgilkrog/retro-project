@@ -2,8 +2,8 @@
 .programs-list
   h2.mb-4 {{ title }}
   .program-item.row.align-items-center.px-4.pointer.mx-0.py-2(
-    v-for="(program, index) in programList" 
-    :key="index" 
+    v-for="program in programList" 
+    :key="program._id" 
     @click="changeSelectedProgram(program)"
     :class="selectedProgramId !== '' && program.id === selectedProgramId ? 'active-program' : ''"
   )

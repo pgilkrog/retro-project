@@ -6,7 +6,7 @@ template(v-if="userData !== undefined")
       DesktopItem(
         v-for="program in allPrograms()"
         v-on:generateComponent="generateComponent(program)"
-        :key="program.id"
+        :key="program._id"
         :program="program"
         :itemColor="program.color"
       )

@@ -1,10 +1,10 @@
 export type { IProgram } from "@/models/IProgram"
-export { IMenuItem } from "@/models/IMenuItem"
-export { IErrorItem } from "@/models/IErrorItem"
+export type { IMenuItem } from "@/models/IMenuItem"
+export type { IErrorItem } from "@/models/IErrorItem"
 export type { IPainting } from '@/models/IPainting'
-export { IUser } from '@/models/IUser'
-export { IUserSettings } from '@/models/IUserSettings'
-export { IFile } from '@/models/IFile'
+export type { IUser } from '@/models/IUser'
+export type { IUserSettings } from '@/models/IUserSettings'
+export type { IFile } from '@/models/IFile'
 export type { IChatMessage, IChatRoom } from '@/models/ChatTypes'
 
 export enum programTypes {

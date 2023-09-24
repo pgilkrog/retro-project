@@ -7,8 +7,8 @@
     IconComponent.me-3(name="fa-file-excel")
     p.text-ellips-1(style="height: 14px") No background
   .image-item.m-1.d-flex.align-items-center.p-1.pointer.hover-bg-info(
-    v-for="(item, index) in images" 
-    :key="index"
+    v-for="item in images" 
+    :key="item._id"
     @click="imageClicked(item)"
     :class="(tempImg !== undefined && tempImg.name === item.name) ? 'bg-primary text-white' : ''"
   )

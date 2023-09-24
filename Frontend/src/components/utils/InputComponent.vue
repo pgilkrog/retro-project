@@ -11,7 +11,12 @@
 </template>
 <script setup lang="ts">
 
-const { label, modelValue, type = 'text', placeholder = '' } = defineProps({
+const { 
+  label,
+  modelValue,
+  type = 'text',
+  placeholder = ''
+} = defineProps({
   label: String,
   modelValue: [String, Number, Boolean],
   type: String,

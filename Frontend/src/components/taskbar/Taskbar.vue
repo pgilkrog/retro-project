@@ -13,21 +13,21 @@
       )
       .programs-container.d-flex.ms-2
         Btn(
-          v-for="(item, index) in activePrograms" 
-          :key="index" 
+          v-for="item in activePrograms" 
+          :key="item.id" 
           :text="item.displayName" 
           :icon="item.image"
           @clicked="setActiveState(item)"
           :active="item.isActive"
         )
-    div.d-flex
+    .d-flex.align-items-center
       Btn(
         v-if="userstore.userData?.type === 'admin'" 
         text="admin" 
         v-on:clicked="goToAdmin()" 
         variant="danger"
       )
-      .px-3.ms-1.d-flex.align-items-center.p-2.bg-shadow-inner.rounded
+      .px-3.ms-1.d-flex.align-items-center.p-2.bg-shadow-inner.rounded.h-100
         IconComponent.me-4(name="fa-user" variant="success" size="14")
         Clock
 </template>

@@ -1,7 +1,7 @@
 <template lang="pug">
 Teleport(to="body" v-if="error !== undefined")
   WindowFrame(
-    :program="{id: 543245, name: 'Error', displayName: 'Error', isActive: true, image: ''}" 
+    :program="{_id: 543245, name: 'Error', displayName: 'Error', isActive: true, image: ''}" 
     variant="danger"
     :isMoveable="true"
   )

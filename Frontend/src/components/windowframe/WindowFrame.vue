@@ -11,7 +11,7 @@ Teleport(to="#app")
       )
         .d-flex.align-items-center.align-content.center
           IconComponent(:name="program.image" size="25" variant="light")
-          .font-weight-bold.pe-4.ps-4 {{ program.displayName }}
+          .font-title.font-weight-bold.pe-4.ps-4 {{ program.displayName }}
         .d-flex
           Btn(icon="fa-window-minimize" @clicked="setInactive()" size="small")
           Btn(icon="fa-square" size="small")

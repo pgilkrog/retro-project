@@ -10,7 +10,7 @@ WindowFrame(
     IconComponent(name="fa-comment" variant="success" size="40" rotate="0")
     IconComponent(name="fa-phone" variant="success" size="40" rotate="0")
   .friends-list.d-flex.flex-column.bg-light.bg-shadow-inner
-    span(v-for="(user, index) in userstore.allUsers" :key="index") 
+    span(v-for="user in userstore.allUsers" :key="user._id") 
       .item.p-2.m-1(v-if="user.email !== userstore.userData?.email" @click="activateRoom(user.email)") 
         .d-flex.align-items-center
           IconComponent(name="fa-user" :variant="chatstore.onlineUsers.includes(user.email) ? 'success' : 'danger'" size="20") 

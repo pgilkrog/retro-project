@@ -24,16 +24,7 @@ export const programsStore = defineStore("programs", () => {
         let tempData = data.data.programs
         let tempArray: IProgram[] = []
         for(const program in tempData) {
-          tempArray.push({
-            id: tempData[program]._id,
-            name: tempData[program].name,
-            isActive: false,
-            image: tempData[program].image,
-            color: tempData[program].color,
-            displayName: tempData[program].displayName,
-            sortOrder: tempData[program].sortOrder,
-            type: tempData[program].type
-          } as IProgram)
+          tempArray.push(tempData[program] as IProgram)
         }
         allPrograms.value = tempArray.sort((a: IProgram, b: IProgram,) => a.sortOrder - b.sortOrder)
       })
@@ -47,10 +38,10 @@ export const programsStore = defineStore("programs", () => {
       return
 
     const newArray = programs.filter(obj1 => {
-      const obj2 = allPrograms.value.find(obj2 => obj1 === obj2.id)
+      const obj2 = allPrograms.value.find(obj2 => obj1 === obj2._id)
       return obj2 !== undefined
     }).map(obj1 => {
-      const obj2 = allPrograms.value.find(obj2 => obj1 === obj2.id)
+      const obj2 = allPrograms.value.find(obj2 => obj1 === obj2._id)
       return obj2
     })
     
@@ -58,7 +49,7 @@ export const programsStore = defineStore("programs", () => {
 
     let notInstalled = [] as IProgram[]
     allPrograms.value.forEach(obj2 => {
-      const obj1 = newArray.find(obj1 => obj1?.id === obj2.id)
+      const obj1 = newArray.find(obj1 => obj1?._id === obj2._id)
       if (!obj1) {
         notInstalled.push(obj2)
       }
@@ -72,30 +63,30 @@ export const programsStore = defineStore("programs", () => {
   }
 
   const addProgramToActive = (program: IProgram) => {
-    if (activePrograms.value.find(x => x.id === program.id) === undefined) {
+    if (activePrograms.value.find(x => x._id === program._id) === undefined) {
       program.isActive = true
       activePrograms.value.push(program)
     }
   }
 
   const removeProgramFromActive = (program: IProgram) => {
-    setActivePrograms(activePrograms.value.filter(x => x.id !== program.id))
+    setActivePrograms(activePrograms.value.filter(x => x._id !== program._id))
   }
 
   const setProgramActiveState = (program: IProgram) => {
     activePrograms.value.find(x => {
-      if(x.id === program.id)
+      if(x._id === program._id)
         x.isActive = !x.isActive
     })
   }
 
   const updateProgram = async(program: IProgram) => {
-    const response = await axios.put(url + '/' + program.id, null, { params: program })
+    const response = await axios.put(url + '/' + program._id, null, { params: program })
     console.log(response)
   }
 
   const deleteProgram = async(program: IProgram) => {
-    const response = await axios.delete(url + '/' + program.id).finally(() => getProgramsFromDB())
+    const response = await axios.delete(url + '/' + program._id).finally(() => getProgramsFromDB())
     console.log(response)
   }
 

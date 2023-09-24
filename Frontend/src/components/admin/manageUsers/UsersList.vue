@@ -1,7 +1,7 @@
 <template lang="pug">
 .d-flex.bg-shadow.py-1.px-4.justify-content-between.align-items-center.rounded.pointer(
-  v-for="(item, index) in userstore.allUsers" 
-  :key="index" 
+  v-for="item in userstore.allUsers" 
+  :key="item._id" 
   @click="setSelectedUser(item)"
 ) {{ item.email }}
 </template>

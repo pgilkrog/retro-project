@@ -4,7 +4,7 @@
     .d-flex.flex-column.m-2
       Btn.mb-4(@clicked="changeShowManageProgram(true)" text="Add new program" size="full") 
       
-      .hover.d-flex.bg-shadow.p-1.pe-4.justify-content-between.align-items-center.rounded.pointer.mt-1(v-for="(program, index) in allPrograms" :key="index") 
+      .hover.d-flex.bg-shadow.p-1.pe-4.justify-content-between.align-items-center.rounded.pointer.mt-1(v-for="program in allPrograms" :key="program._id") 
         .d-flex.align-items-center
           IconComponent.mx-2(name="fa-pencil" variant="warning" size="25" @click="setUpdateState(true, program); changeShowManageProgram(true)")
           p.mx-2 {{ `${program.sortOrder}: ${program.name }`}}
@@ -68,7 +68,7 @@ const addProgram = () => {
     programInfo.displayName !== ''
   ) {
     const program = {
-      id: '',
+      _id: '',
       name: programInfo.name,
       displayName: programInfo.displayName,
       color: programInfo.color,

@@ -31,7 +31,7 @@ const emit = defineEmits([
 ])
 
 const program = {
-  id: 245,
+  _id: 245,
   name: "FileExplorer",
   displayName: "File explorer",
   image: "bi-joystick", 

@@ -4,7 +4,7 @@
     DesktopItem.mt-4(
       v-for="program in allPrograms"
       v-on:generateComponent="generateComponent(program)"
-      :key="program.Id"
+      :key="program._id"
       :program="program"
       :itemColor="program.color"
     )

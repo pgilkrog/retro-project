@@ -93,7 +93,7 @@ const installProgram = () => {
 
   if (user === undefined) return
 
-  user.installedPrograms.push(selectedProgram.id)
+  user.installedPrograms.push(selectedProgram._id)
 
   userstore.updateUser(user)
 }
@@ -105,7 +105,7 @@ const removeProgram = () => {
   isInstalling.value = true
   let user = userstore.userData
   if (user === undefined) return
-  user.installedPrograms = user.installedPrograms.filter(p => p !== selectedProgram?.id)
+  user.installedPrograms = user.installedPrograms.filter(p => p !== selectedProgram?._id)
   userstore.updateUser(user)
 }
 
@@ -124,7 +124,7 @@ const changeState = (newState: string) => {
 const changeSelectedProgram = (program: IProgram) => {
   if (program === undefined) return
   selectedProgram = program
-  selectedProgramId.value = program.id
+  selectedProgramId.value = program._id
 }
 
 const closeLoading = () => {

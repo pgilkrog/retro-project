@@ -41,7 +41,7 @@ const handleAuthendication = (socket: Socket) => (email: string) => {
   // Create a user object with socketid and email
   const userInfo: UserInfo = {
     email: email,
-    socketId: socket.id,
+    socketId: socket.id
   }
 
   // Check if the user is already in the onlineUsers array

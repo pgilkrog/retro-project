@@ -2,8 +2,8 @@
 .color-wrapper.mt-4
   .d-flex.flex-wrap
     div.btn.btn-color.bg-shadow-inner(
-      v-for="(color, index) in colors"
-      :key="index"
+      v-for="color in colors"
+      :key="color"
       @click="changeColor(color)"
       :style="'background: '+ color"
     ) 
