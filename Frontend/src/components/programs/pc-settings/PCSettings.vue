@@ -104,7 +104,7 @@ const setTempImg = (img: IFile) => {
 }
 
 const getImageUrl = (filename: string) => {
-  return `http://localhost:4000/uploads/${filename}`;
+  return `${import.meta.env.VITE_BASE_URL}/uploads/${filename}`;
 }
 
 </script>

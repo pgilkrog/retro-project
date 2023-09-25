@@ -4,7 +4,7 @@ import { ref, toRaw } from 'vue'
 import axios from 'axios'
 import { userStore } from "./userStore"
 
-const url = 'http://localhost:4000/api/error'
+const url = import.meta.env.VITE_BASE_URL + '/error'
 
 export const errorStore = defineStore("errors", () => {
   const error = ref<IErrorItem>()

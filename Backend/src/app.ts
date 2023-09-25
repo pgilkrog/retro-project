@@ -19,7 +19,7 @@ const app = express()
 app.use(express.json({ limit: '10mb'}))
 
 const corsOptions = {
-    origin: 'http://127.0.0.1:5173',
+    origin: process.env.APP_URL,
     credentials: true
 }
 app.use(cors(corsOptions))
@@ -35,7 +35,7 @@ app.use('/api/files', require('./routes/fileRoute'))
 app.use('/api/paint', require('./routes/paintRoute'))
 
 // Folder for uploads
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')))
+app.use('/api/uploads', express.static(path.join(__dirname, '../uploads')))
 
 // Get port from enviroment file or use 5000
 const PORT = process.env.APP_PORT || 5000

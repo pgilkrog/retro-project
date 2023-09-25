@@ -4,7 +4,7 @@ import axios from 'axios'
 import setAuthToken from "@/helpers/setAuthToken"
 import { ref } from "vue"
 
-const url = 'http://localhost:4000/api/program'
+const url = import.meta.env.VITE_BASE_URL + '/program'
 
 export const programsStore = defineStore("programs", () => {
   const activePrograms = ref<IProgram[]>([])
@@ -86,12 +86,12 @@ export const programsStore = defineStore("programs", () => {
   }
 
   const deleteProgram = async(program: IProgram) => {
-    const response = await axios.delete(url + '/' + program._id).finally(() => getProgramsFromDB())
+    const response = await axios.delete(url + '/' + program._id).then(() => getProgramsFromDB())
     console.log(response)
   }
 
   const createProgram = async(program: IProgram) => {
-    const response = axios.post(url, null, { params: program }).finally(() => getProgramsFromDB())
+    const response = axios.post(url, null, { params: program }).then(() => getProgramsFromDB())
     console.log('createReponse', response)
   }
 

@@ -28,7 +28,7 @@ const userstore = userStore()
 const userData = storeToRefs(userstore).userData as Ref<IUser | undefined>
 
 const getImageUrl = (filename: string) => {
-  return `http://localhost:4000/uploads/${filename}`;
+  return `${import.meta.env.VITE_BASE_URL}/uploads/${filename}`;
 }
 </script>
 

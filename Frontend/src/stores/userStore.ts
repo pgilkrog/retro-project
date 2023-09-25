@@ -7,7 +7,7 @@ import { toRaw, ref } from 'vue'
 import axios from "axios"
 import setAuthToken from "@/helpers/setAuthToken"
 
-const url = 'http://localhost:4000/api/user'
+const url = import.meta.env.VITE_BASE_URL + '/user'
 
 export const userStore = defineStore("user", () => {
 

@@ -22,12 +22,11 @@ import { ref, defineAsyncComponent, onMounted } from 'vue'
 import { userStore } from '@/stores/userStore'
 import { storeToRefs } from 'pinia'
 import { programsStore } from '@/stores/programsStore'
-
 import ComponentMachine from '@/components/ComponentMachine.vue'
-const Menu = defineAsyncComponent(() => import('@/components/menuComponents/Menu.vue'))
 import Taskbar from '@/components/taskbar/Taskbar.vue'
 import DesktopItem from '@/components/DesktopItem.vue'
 import { authStore } from '@/stores/authStore'
+const Menu = defineAsyncComponent(() => import('@/components/menuComponents/Menu.vue'))
 
 const authstore = authStore()
 const programsstore = programsStore()
@@ -52,7 +51,7 @@ const generateComponent = (program: IProgram) => {
 }
 
 const getImageUrl = (filename: string) => {
-  return `http://localhost:4000/uploads/${filename}`
+  return `${import.meta.env.VITE_BASE_URL}/uploads/${filename}`
 }
 
 const changeShowMenu = () => {

@@ -6,7 +6,6 @@ const HomeView = () => import('../views/HomeView.vue')
 const PingPong = () => import('@/phaser/ping-pong/PingPong.vue')
 const FlappyDisc = () => import('@/phaser/flappy-disk/FlappyDisk.vue')
 const SpaceInvaders = () => import('@/phaser/space-invaders/SpaceInvaders.vue')
-const Platformer = () => import('@/phaser/first-game/Platformer.vue')
 const ShutDown = () => import('@/views/ShutDown.vue')
 const StartingUp = () => import('@/views/StartingUp.vue')
 const adminView = () => import('@/views/AdminView.vue')
@@ -67,15 +66,6 @@ const router = createRouter({
       path: '/spaceinvaders',
       name: 'spaceinvaders',
       component: SpaceInvaders, 
-      meta: {
-        requiresAuth : true,
-        roles: ['user', 'admin']
-      }
-    },
-    {
-      path: '/platformer',
-      name: 'platformer',
-      component: Platformer, 
       meta: {
         requiresAuth : true,
         roles: ['user', 'admin']

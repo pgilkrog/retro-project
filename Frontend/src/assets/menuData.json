@@ -54,11 +54,6 @@
             "subMenu": []
           },      
           {
-            "title": "Platformer",
-            "img": "bi-sliders", 
-            "subMenu": []
-          },
-          {
             "title": "Salvatore",
             "img": "fa-joystic",
             "subMenu": []

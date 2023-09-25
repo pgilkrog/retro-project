@@ -34,7 +34,7 @@ app.component('WindowFrame', WindowFrame)
 app.component('Btn', ButtonComponent)
 app.component('BaseInput', InputComponent)
 
-await app.use(pinia)
-await app.use(router)
+app.use(pinia)
+app.use(router)
 
 app.mount('#app')

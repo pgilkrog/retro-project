@@ -39,9 +39,6 @@ const openProgram = () => {
     case 'Flappy Disk':
       router.push('/flappydisk')
       break        
-    case 'Platformer':
-      router.push('/platformer')
-      break
     case 'Salvatore':
       router.push('/salvatore')
       break

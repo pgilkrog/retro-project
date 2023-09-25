@@ -5,7 +5,7 @@ import type { IFile, IPainting } from "@/models"
 import { userStore } from './userStore'
 import { ref } from 'vue'
 
-const url = 'http://localhost:4000/api/files'
+const url = import.meta.env.VITE_BASE_URL + '/files'
 
 export const fileStore = defineStore('filestore', () => {
   const userstore = userStore()

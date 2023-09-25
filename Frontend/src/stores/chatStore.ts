@@ -7,7 +7,7 @@ import type { IChatMessage, IChatRoom } from '@/models'
 
 export const chatStore = defineStore("chat",() => {
   const userstore = userStore()
-  const socket = io('http://localhost:4000')
+  const socket = io(import.meta.env.VITE_BASE_URL.replace('/api', ''))
 
   const onlineUsers = ref<string[]>([])
   const activeRooms = ref<IChatRoom[]>([])
@@ -45,7 +45,7 @@ export const chatStore = defineStore("chat",() => {
 
   const fetchOnlineUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/api/online-users')
+      const response = await axios.get(import.meta.env.VITE_BASE_URL + '/online-users')
       onlineUsers.value = response.data
     } catch (error) {
       console.error('Error fetching online users:', error)

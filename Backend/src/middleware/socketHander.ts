@@ -18,7 +18,7 @@ const onlineUsers: UserInfo[] = []
 export function setupSocketIO(httpServer: http.Server, app: express.Application) {
     const io = new Server(httpServer, {
       cors: {
-        origin: 'http://127.0.0.1:5173',
+        origin: process.env.APP_URL,
         methods: ['GET', 'POST', 'PUT'],
       },
     })

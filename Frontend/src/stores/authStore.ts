@@ -1,10 +1,11 @@
 import { defineStore } from "pinia"
 import axios from "axios"
-const url = 'http://localhost:4000/api/auth'
 import type { IUser } from "@/models/index"
 import setAuthToken from "@/helpers/setAuthToken"
 import { ref } from 'vue'
 import { errorStore } from "./errorStore"
+
+const url = import.meta.env.VITE_BASE_URL + '/auth'
 
 export const authStore = defineStore("auth",() => {
   const errorstore = errorStore()

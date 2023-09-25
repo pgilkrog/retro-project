@@ -3,7 +3,7 @@ import { ref, toRaw } from 'vue'
 import type { IPainting } from '../models/index'
 import axios from 'axios'
 
-const url = 'http://localhost:4000/api/paint'
+const url = import.meta.env.VITE_BASE_URL + '/paint'
 
 export const paintStore = defineStore("paint", () => {
   const allPaintings = ref<IPainting[]>([])
