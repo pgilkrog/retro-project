@@ -38,7 +38,7 @@ app.use('/api/paint', require('./routes/paintRoute'))
 app.use('/api/uploads', express.static(path.join(__dirname, '../uploads')))
 
 // Get port from enviroment file or use 5000
-const PORT = process.env.APP_PORT || 5000
+const PORT = process.env.PORT || process.env.APP_PORT || 5000
 
 // Create the server
 const server = http.createServer(app)
