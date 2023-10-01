@@ -14,6 +14,7 @@ template(v-if="userData !== undefined")
 ComponentMachine
 Menu(v-if="showMenu")
 Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")
+Salvatore
 </template>
 
 <script setup lang="ts">
@@ -27,6 +28,7 @@ import Taskbar from '@/components/taskbar/Taskbar.vue'
 import DesktopItem from '@/components/DesktopItem.vue'
 import { authStore } from '@/stores/authStore'
 const Menu = defineAsyncComponent(() => import('@/components/menuComponents/Menu.vue'))
+import Salvatore from '@/phaser/salvatore/SalvatoreGame.vue'
 
 const authstore = authStore()
 const programsstore = programsStore()
@@ -65,4 +67,7 @@ const changeShowMenu = () => {
   background-repeat: no-repeat
   background-size: cover
   image-rendering: pixelated
+canvas
+  z-index: 9999
+  position: absolute
 </style>

@@ -37,19 +37,20 @@ export default class Player extends Entity {
   } = {}
 
   constructor(scene: Phaser.Scene, x: number, y: number, map: any) {
-    super(scene, x, y, 'npc-4', 100, 100, 0, 200, EntityTypes.Player)
+    super(scene, x, y, 'npc-4', 100, 100, 0, 200, EntityTypes.Player, 50, 'Salvatore')
 
     this.map = map
     this.inCar = false
 
-    this.inventory.addItem(this.itemsManager.getFoodItems()[0], 2)
-    this.inventory.addItem(this.itemsManager.getWeaponItems()[0], 1)
-    this.inventory.addItem(this.itemsManager.getFoodItems()[1], 5)
-    this.inventory.addItem(this.itemsManager.getFoodItems()[2], 5)
-    this.inventory.addItem(this.itemsManager.getFoodItems()[3], 5)
-    this.inventory.addItem(this.itemsManager.getFoodItems()[4], 5)
-    this.inventory.addItem(this.itemsManager.getFoodItems()[5], 5)
-    this.inventory.addItem(this.itemsManager.getFoodItems()[6], 5)
+    this.inventory.addItem(this.itemsManager.getFoodItems()[0], 2, 0)
+    this.inventory.addItem(this.itemsManager.getWeaponItems()[0], 1, 2)
+    this.inventory.addItem(this.itemsManager.getFoodItems()[1], 5, 3)
+    this.inventory.addItem(this.itemsManager.getFoodItems()[2], 5, 4)
+    this.inventory.addItem(this.itemsManager.getFoodItems()[3], 5, 5)
+    this.inventory.addItem(this.itemsManager.getFoodItems()[4], 5, 6)
+    this.inventory.addItem(this.itemsManager.getFoodItems()[5], 5, 7)
+    this.inventory.addItem(this.itemsManager.getFoodItems()[6], 5, 8)
+    this.inventory.addItem(this.itemsManager.getFoodItems()[6], 5, 9)
 
     this.initEvents()
     this.createKeyInputs()

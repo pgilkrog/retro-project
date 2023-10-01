@@ -12,7 +12,7 @@ export default class NPC extends Entity {
   public isFollowingPath: boolean = false
   private showInventory: boolean = false
 
-  constructor(scene: Phaser.Scene, x: number, y: number) {
+  constructor(scene: Phaser.Scene, x: number, y: number, name: string) {
     super(
       scene, 
       x, 
@@ -22,10 +22,12 @@ export default class NPC extends Entity {
       100, 
       50, 
       50,
-      EntityTypes.Associate
+      EntityTypes.Associate,
+      50,
+      name
     )
    
-    this.inventory.addItem(this.itemsManager.getFoodItems()[0], 2)
+    this.inventory.addItem(this.itemsManager.getFoodItems()[0], 2, 4)
     this.createInventory(scene, false)
     this.toggleInventory(false)
 

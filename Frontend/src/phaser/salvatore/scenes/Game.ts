@@ -38,7 +38,7 @@ export default class Game extends Scene {
         }
 
         case 'npc_spawn': {
-          this.npcs.push(new NPC(this, x, y))
+          this.npcs.push(new NPC(this, x, y, 'npc-'+(this.npcs.length+1)))
           break
         }
 
@@ -68,7 +68,7 @@ export default class Game extends Scene {
         console.log('Left clicked on object.', gameObject)
         if (gameObject[0] === this.door.door.zone) {
           const distance = Phaser.Math.Distance.BetweenPointsSquared(
-            { x: this.player.x, y: this.player.y}, 
+            { x: this.player.x, y: this.player.y }, 
             { x: this.door.cords.x, y: this.door.cords.y }
           )
           if (distance < 500)

@@ -4,13 +4,13 @@ import { InventoryItem } from './InventoryItem'
 export class InventoryManager {
   private items: InventoryItem[] = []
 
-  public addItem(item: Item, quantity: number) {
+  public addItem(item: Item, quantity: number, inventoryIndex: number) {
     const invItem = this.getItemFromInventory(item)
 
     if (invItem)
-    invItem.quantity += quantity
+      invItem.quantity += quantity
     else
-      this.items.push(new InventoryItem(item, quantity))
+      this.items.push(new InventoryItem(item, quantity, inventoryIndex))
   }
 
   public removeItem(item: Item, quantity: number) {
@@ -19,6 +19,7 @@ export class InventoryManager {
     if (invItem) {
       invItem.quantity -= quantity
       if (invItem.quantity <= 0) {
+        console.log("DELTED ITEM")
         const index = this.items.indexOf(invItem)
         this.items.splice(index, 1)
       }

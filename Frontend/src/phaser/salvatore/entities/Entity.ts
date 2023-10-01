@@ -10,6 +10,8 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
   public insight: number
   public entityType: EntityTypes
   public speed: number
+  public carryWeight: number
+  public name: string
 
   public inventory: InventoryManager
   public itemsManager: ItemsManager
@@ -24,7 +26,9 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
     maxHealth: number, 
     respect: number, 
     speed: number,
-    entityType: EntityTypes
+    entityType: EntityTypes,
+    carryWeight: number,
+    name: string
   ) {
     super(scene, x, y, sprite)
     scene.add.existing(this)
@@ -36,6 +40,8 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
     this.speed = speed
     this.entityType = entityType
     this.insight = 1
+    this.carryWeight = carryWeight
+    this.name = name
 
     this.inventory = new InventoryManager()
     this.itemsManager = new ItemsManager()
@@ -52,7 +58,7 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
   }
 
   createInventory(scene: Phaser.Scene, isPlayer: boolean) {
-    this.invUI = new InventoryUI(scene, 400, 250, this.inventory, isPlayer)
+    this.invUI = new InventoryUI(scene, 400, 250, this.inventory, isPlayer, this)
     scene.add.existing(this.invUI)
   }
 
