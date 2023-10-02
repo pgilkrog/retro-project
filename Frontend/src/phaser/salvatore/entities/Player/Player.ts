@@ -59,7 +59,7 @@ export default class Player extends Entity {
     this.toggleInventory(false)
 
     this.on('pointerdown', () => {
-      console.log("CLICKED Player", this.inventory)
+      console.log("CLICKED Player")
     }, this)
   }
 

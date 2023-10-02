@@ -14,11 +14,12 @@ template(v-if="userData !== undefined")
 ComponentMachine
 Menu(v-if="showMenu")
 Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")
-Salvatore
+//- Salvatore
+TestStuff
 </template>
 
 <script setup lang="ts">
-import type { IProgram, IUser } from '@/models/index'
+import type { IProgram } from '@/models/index'
 import { ref, defineAsyncComponent, onMounted } from 'vue'
 import { userStore } from '@/stores/userStore'
 import { storeToRefs } from 'pinia'
@@ -29,6 +30,7 @@ import DesktopItem from '@/components/DesktopItem.vue'
 import { authStore } from '@/stores/authStore'
 const Menu = defineAsyncComponent(() => import('@/components/menuComponents/Menu.vue'))
 import Salvatore from '@/phaser/salvatore/SalvatoreGame.vue'
+import TestStuff from '@/phaser/test-stuff/TestStuff.vue'
 
 const authstore = authStore()
 const programsstore = programsStore()

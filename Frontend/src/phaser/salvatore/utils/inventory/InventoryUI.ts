@@ -5,6 +5,7 @@ import type { InventoryItem } from './InventoryItem';
 export class InventoryUI extends Phaser.GameObjects.Container {
   private inventory: InventoryManager
   private itemElements: Map<InventoryItem, Phaser.GameObjects.Container>
+  private gridContainer: Phaser.GameObjects.Grid
   private invInd = [
     {x: -174, y: -125},
     {x: -124, y: -125},
@@ -69,15 +70,16 @@ export class InventoryUI extends Phaser.GameObjects.Container {
 
     this.createBacks(scene, isPlayer)
 
-    const grid = new Phaser.GameObjects.Grid(scene, 0, 0, 40, 40, 4, 7)
-    grid.setScale(0.5)
-    this.add(grid)
+    // Create the grid container.
+    this.gridContainer = new Phaser.GameObjects.Grid(scene, 0, 0, 40, 40, 4, 7)
+    this.gridContainer.setScale(0.5)
 
     this.inventory.getAllItems().forEach((item, index) => {
       const itemElement = this.createItemElement(item, item.inventoryIndex)
       this.itemElements.set(item, itemElement)
       this.add(itemElement)
     })
+    this.add(this.gridContainer)
 
     this.setDepth(3001)
   }
@@ -133,6 +135,7 @@ export class InventoryUI extends Phaser.GameObjects.Container {
   }
 
   public updateSingleItem(itemElement: any, item: any) {
+    console.log("updateSingleItem", itemElement, item)
     const quantityLabel = itemElement?.getAt(1) as Phaser.GameObjects.Text
     if (!quantityLabel) return
 
@@ -141,6 +144,7 @@ export class InventoryUI extends Phaser.GameObjects.Container {
     else if (item.quantity <= 0) {
       this.itemElements.delete(item)
       console.log("remove element", this.itemElements)
+      itemElement.destroy()
     }
     else 
       quantityLabel.setText(`x${item.quantity}`)

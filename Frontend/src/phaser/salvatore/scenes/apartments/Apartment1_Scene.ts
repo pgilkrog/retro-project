@@ -27,7 +27,7 @@ export default class Apartment1 extends Scene {
         }
 
         case 'npc_spawn': {
-          this.npcs.push(new NPC(this, x, y))
+          this.npcs.push(new NPC(this, x, y, 'zf'))
           break
         }
 
