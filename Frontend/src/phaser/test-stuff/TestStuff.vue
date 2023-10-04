@@ -5,7 +5,7 @@ div(ref="gameContainer" class="game-container")
 <script lang="ts">
 import Phaser from 'phaser'
 import Loader from './scenes/Loader'
-import GameScene from './scenes/GameScene'
+import GameScene from './scenes/inventory/GameScene'
 import { defineComponent, ref, onMounted } from 'vue'
 
 export default defineComponent ({
@@ -23,7 +23,7 @@ export default defineComponent ({
         physics: {
           default: "arcade",
           arcade: {
-            debug: false
+            debug: true
           }
         },
         scale: {
@@ -42,4 +42,4 @@ export default defineComponent ({
     }
   }
 })
-</script>
+</script>./scenes/inventory/GameScene

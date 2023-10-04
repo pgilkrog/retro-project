@@ -1,10 +1,10 @@
 import { Scene } from 'phaser'
-import ball from '@/phaser/ping-pong/assets/ball.png'
-import paddle from '@/phaser/ping-pong/assets/paddle.png'
-import hitSound from '@/phaser/ping-pong/assets/blip.mp3'
-import pointUp from '@/phaser/ping-pong/assets/powerup.mp3'
-import bigBox from '@/phaser/ping-pong/assets/bigBox.png'
-
+import ball from '@/phaser/test-stuff/assets/ball.png'
+import paddle from '@/phaser/test-stuff/assets/paddle.png'
+import hitSound from '@/phaser/test-stuff/assets/blip.mp3'
+import pointUp from '@/phaser/test-stuff/assets/powerup.mp3'
+import bigBox from '@/phaser/test-stuff/assets/bigBox.png'
+import largeBox from '@/phaser/test-stuff/assets/2x4Box.png'
 export default class Loader extends Scene {
   constructor() {
     super({ key: 'Loader' })
@@ -14,6 +14,7 @@ export default class Loader extends Scene {
     this.load.image('bigBox', bigBox)
     this.load.image('ball', ball)
     this.load.image('paddle', paddle)
+    this.load.image('largeBox', largeBox)
 
     // Sounds
     this.load.audio('hit-sound', hitSound)
