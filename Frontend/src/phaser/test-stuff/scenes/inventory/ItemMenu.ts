@@ -41,6 +41,7 @@ export default class ContextMenu {
     dropButton.setInteractive()
     closeButton.setInteractive()
   
+    /** BUTTON ACTIONS **/
     infoButton.on('pointerdown', () => {
       console.log('Info button clicked', item)
     })
