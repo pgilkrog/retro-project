@@ -6,7 +6,7 @@ import { Item } from './models/Item'
 interface IItem {
   name: string
   sprite: Phaser.GameObjects.Image | null  
-  description?: string
+  description: string
   amount: number
   maxStack: number  
   width: number
@@ -50,7 +50,6 @@ export default class InventoryManger {
     this.contextMenu = new ContextMenu(this, this.scene)
 
     this.renderGrid()
-    this.createItems()
     // Add a keyboard event listener for the 'r' key press
     this.scene.input.keyboard.on('keydown-R', () => {
       if (this.isDraggingItem) {
@@ -61,98 +60,24 @@ export default class InventoryManger {
         }
       }
     })
-
-    // Add a pointerdown event listener to each item
-    this.inventoryGrid.flat().forEach((inventoryItem: IInventoryItem) => {
-      if (inventoryItem.item.sprite) {
-        // Listen for the right mouse button down event
-        inventoryItem.item.sprite.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-          if (pointer.rightButtonDown()) {
-            this.contextMenu.showMenu(pointer.x, pointer.y, inventoryItem)
-            // Prevent the default behavior to avoid the browser's context menu
-            pointer.event.preventDefault()
-          }
-        })
-      }
-    })
-
-    // Enable input events for each item's sprite
-    this.inventoryGrid.flat().forEach((inventoryItem: InventoryItem) => {
-      if (inventoryItem.item.sprite) {
-        inventoryItem.item.sprite.on('dragstart', (pointer: Phaser.Input.Pointer) => {
-          inventoryItem.item.sprite?.setDepth(1)
-          inventoryItem.item.sprite?.setTint(this.TINT_COLOR)
-          inventoryItem.isDragging = true
-          this.isDraggingItem = true
-          this.removeItemFromGrid(inventoryItem)
-        })
-
-        inventoryItem.item.sprite.on('drag', (pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
-          if (inventoryItem.item.sprite === null) return
-          inventoryItem.item.sprite.setPosition(dragX, dragY)
-        })
-
-        inventoryItem.item.sprite.on('dragend', (pointer: Phaser.Input.Pointer, dropped: boolean) => {
-          inventoryItem.item.sprite?.clearTint()
-          if (dropped) {
-            this.isDraggingItem = false
-            inventoryItem.isDragging = false
-            inventoryItem.item.sprite?.setDepth(0)
-        
-            const isSmallItem = inventoryItem.item.width === 1 && inventoryItem.item.height === 1;
-        
-            // Calculate the new position based on the pointer
-            let newCol = Math.floor(pointer.x / this.squareSize)
-            let newRow = Math.floor(pointer.y / this.squareSize)
-        
-            // Adjust for the parent's position
-            newCol -= Math.floor(this.x / this.squareSize)
-            newRow -= Math.floor(this.y / this.squareSize)
-        
-            if (!isSmallItem) {
-              // For larger items, adjust the new position based on item width and height
-              newCol -= Math.floor((inventoryItem.item.width - 1) / 2)
-              newRow -= Math.floor((inventoryItem.item.height - 1) / 2)
-            }
-        
-            const validGridPosition = this.isValidGridPosition(newRow, newCol)
-            const isGridOccupied = this.isGridOccupied(newRow, newCol, inventoryItem.item.width, inventoryItem.item.height)
-        
-            console.log(`old col: ${inventoryItem.col}`,`old row: ${inventoryItem.row}`)
-            console.log(`new col: ${newCol}`,`new row: ${newRow}`)
-            console.log(`validGridPosition: ${validGridPosition}`, `isGridOccupied: ${isGridOccupied}`)
-
-            if (validGridPosition && !isGridOccupied) {
-              console.log("IS MOVING TO NEW POSITION")
-              // Move the item to the new grid position
-              this.moveItem(inventoryItem, newRow, newCol)
-            } else {
-              console.log("IS MOVING BACK TO OLD POSITION")
-              this.moveItem(inventoryItem, inventoryItem.row, inventoryItem.col)
-            }
-          }
-        });
-             
-      }
-    })
   }
 
-  addItemToGrid(row: number, col: number, itemName: string, width: number, height: number) {
-    if (this.isValidGridPosition(row, col) && !this.isGridOccupied(row, col, width, height)) {
+  addItemToGrid(row: number, col: number, item: Item) {
+    if (this.isValidGridPosition(row, col) && !this.isGridOccupied(row, col, item.width, item.height)) {
       // Check if the item is already present in the specified position
       if (!this.inventoryGrid[row][col].item.sprite) {
         // Create only one sprite for the entire item
-        this.createInventoryItem(row, col, itemName, height, width)
+        this.createInventoryItem(row, col, item)
   
         // Mark the occupied positions
-        for (let i = 0; i < height; i++) {
-          for (let j = 0; j < width; j++) {
+        for (let i = 0; i < item.height; i++) {
+          for (let j = 0; j < item.width; j++) {
             this.inventoryGrid[row + i][col + j] = this.inventoryGrid[row][col]
           }
         }
       }
     } else {
-      console.error(`Invalid grid position or position is already occupied for ${itemName}.`)
+      console.error(`Invalid grid position or position is already occupied for ${item.name}.`)
     }
   }
 
@@ -200,37 +125,55 @@ export default class InventoryManger {
     })
   }
 
-  createInventoryItem(row: number, col: number, itemName: string, height: number, width: number) {
+  createInventoryItem(row: number, col: number, item: Item) {
     // Calculate the offsetX and offsetY based on item size
-    const offsetX = (width * this.squareSize) / 2;
-    const offsetY = (height * this.squareSize) / 2;
+    const offsetX = (item.width * this.squareSize) / 2
+    const offsetY = (item.height * this.squareSize) / 2
   
     // Calculate the actual position based on the container's position
-    const itemX = col * this.squareSize + offsetX;
-    const itemY = row * this.squareSize + offsetY;
+    const itemX = col * this.squareSize + offsetX
+    const itemY = row * this.squareSize + offsetY
   
     // Create the actual item for the slot in the grid
     let inventoryItem = {
       item: {
-        name: itemName,
-        sprite: this.scene.add.image(
-          itemX,
-          itemY,
-          itemName
-        ),
-        width: width,
-        height: height,
+        name: item.name,
+        sprite: item.sprite,
+        width: item.width,
+        height: item.height,
         amount: 5,
-        maxStack: 10
+        maxStack: 10,
+        description: ''
       },
       col: col,
       row: row,
       isDragging: false
-    };
+    }
+
+    inventoryItem.item.sprite?.setPosition(itemX, itemY)
   
-    this.inventoryGrid[row][col] = inventoryItem;
-    inventoryItem.item.sprite.setInteractive({ draggable: true });
-    this.inventoryContainer?.add(inventoryItem.item.sprite);
+    this.inventoryGrid[row][col] = inventoryItem
+    this.initActions(inventoryItem)
+    inventoryItem.item.sprite?.setInteractive({ draggable: true })
+    this.inventoryContainer?.add(inventoryItem.item.sprite!)
+  }
+
+  addItemToInventory(item: Item) {
+    console.log(item)
+    // Iterate through the grid to find an available spot
+    for (let row = 0; row < this.rows - item.height + 1; row++) {
+      for (let col = 0; col < this.cols - item.width + 1; col++) {
+        // Check if the spot is available
+        if (!this.isGridOccupied(row, col, item.width, item.height)) {
+          // Add the item to the inventory grid at this position
+          this.addItemToGrid(row, col, item)
+          return // Exit the loop after placing the item
+        }
+      }
+    }
+  
+    // If no available spot was found, you can handle it as needed
+    console.error(`No available spot found for ${item.name}.`);
   }
 
   removeItemFromInventory(inventoryItem: InventoryItem) {
@@ -239,19 +182,20 @@ export default class InventoryManger {
       // Remove the item from the grid
       for (let i = 0; i < inventoryItem.item.height; i++) {
         for (let j = 0; j < inventoryItem.item.width; j++) {
-          this.inventoryGrid[inventoryItem.row + i][inventoryItem.col + j] = {
-            item: {
-              name: '',
-              sprite: null,
-              width: 1,
-              height: 1,
-              amount: 0,
-              maxStack: 0
-            },
-            row: -1,
-            col: -1,
-            isDragging: false,
-          };
+          this.inventoryGrid[inventoryItem.row + i][inventoryItem.col + j] = new InventoryItem(
+            new Item(              
+              '',
+              null,
+              '',
+              1,
+              1,
+              0,
+              0
+            ),
+            -1,
+            -1,
+            false,
+          )
         }
       }
       // Remove the item's sprite
@@ -313,12 +257,72 @@ export default class InventoryManger {
   isValidGridPosition(row: number, col: number): boolean {
     return row >= 0 && row < this.rows && col >= 0 && col < this.cols
   }
+  
+  initActions(inventoryItem: InventoryItem) {
+    // Add a pointerdown event listener to each item
+    if (inventoryItem.item.sprite !== null && inventoryItem.item.sprite !== undefined) {
+      // Listen for the right mouse button down event
+      inventoryItem.item.sprite.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
+        if (pointer.rightButtonDown()) {
+          this.contextMenu.showMenu(pointer.x, pointer.y, inventoryItem)
+          // Prevent the default behavior to avoid the browser's context menu
+          pointer.event.preventDefault()
+        }
+      })
 
-  createItems() {
-    this.addItemToGrid(0, 2, 'ball', 1, 1)
-    this.addItemToGrid(1, 2, 'ball', 1, 1)
-    this.addItemToGrid(0, 3, 'paddle', 1, 2)
-    this.addItemToGrid(0, 0, 'bigBox', 2, 2)
-    this.addItemToGrid(2, 0, 'largeBox', 4, 2)
+      inventoryItem.item.sprite.on('dragstart', (pointer: Phaser.Input.Pointer) => {
+        inventoryItem.item.sprite?.setDepth(100)
+        inventoryItem.item.sprite?.setTint(this.TINT_COLOR)
+        inventoryItem.isDragging = true
+        this.isDraggingItem = true
+        this.removeItemFromGrid(inventoryItem)
+      })
+
+      inventoryItem.item.sprite.on('drag', (pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
+        inventoryItem.item.sprite?.setPosition(dragX, dragY)
+      })
+
+      inventoryItem.item.sprite.on('dragend', (pointer: Phaser.Input.Pointer, dropped: boolean) => {
+        if (dropped) {
+          inventoryItem.item.sprite?.clearTint()
+          this.isDraggingItem = false
+          inventoryItem.isDragging = false
+          inventoryItem.item.sprite?.setDepth(0)
+      
+          const isSmallItem = inventoryItem.item.width === 1 && inventoryItem.item.height === 1
+      
+          // Calculate the new position based on the pointer
+          let newCol = Math.floor(pointer.x / this.squareSize)
+          let newRow = Math.floor(pointer.y / this.squareSize)
+      
+          // Adjust for the parent's position
+          newCol -= Math.floor(this.x / this.squareSize)
+          newRow -= Math.floor(this.y / this.squareSize)
+      
+          if (!isSmallItem) {
+            // For larger items, adjust the new position based on item width and height
+            newCol -= Math.floor((inventoryItem.item.width - 1) / 2)
+            newRow -= Math.floor((inventoryItem.item.height - 1) / 2)
+          }
+      
+          const validGridPosition = this.isValidGridPosition(newRow, newCol)
+          const isGridOccupied = this.isGridOccupied(newRow, newCol, inventoryItem.item.width, inventoryItem.item.height)
+      
+          console.log(`old col: ${inventoryItem.col}`,`old row: ${inventoryItem.row}`)
+          console.log(`new col: ${newCol}`,`new row: ${newRow}`)
+          console.log(`validGridPosition: ${validGridPosition}`, `isGridOccupied: ${isGridOccupied}`)
+
+          if (validGridPosition && !isGridOccupied) {
+            console.log("IS MOVING TO NEW POSITION")
+            // Move the item to the new grid position
+            this.moveItem(inventoryItem, newRow, newCol)
+          } else {
+            console.log("IS MOVING BACK TO OLD POSITION")
+            this.moveItem(inventoryItem, inventoryItem.row, inventoryItem.col)
+          }
+        }
+      })
+    }
   }
+
 }

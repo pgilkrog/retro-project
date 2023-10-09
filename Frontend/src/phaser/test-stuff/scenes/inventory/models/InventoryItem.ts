@@ -11,7 +11,8 @@ export class InventoryItem {
     row: number,
     col: number,
     isDragging: boolean
-  ) {
+  ) {console.log('InventoryItem constructor called:', item, row, col, isDragging);
+    
     this.item = item
     this.row = row
     this.col = col

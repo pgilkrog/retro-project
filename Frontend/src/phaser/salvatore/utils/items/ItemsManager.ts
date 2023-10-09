@@ -100,15 +100,11 @@ export class ItemsManager {
   }
 
   createFoodItem(item: FoodItem): void {
-    const foodItem = new FoodItem(item.name, item.description, item.value, item.healing, item.weight, item.image)
-
-    this.foodItems.push(foodItem)
+    this.foodItems.push(item)
   }
 
   createWeaponItem(item: WeaponItem): void {
-    const weaponItem = new WeaponItem(item.name, item.description, item.value, item.damage, item.weight, item.image)
-
-    this.weaponItems.push(weaponItem)  
+    this.weaponItems.push(item)  
   }
 
   createAlchoholItem(item: AlchoholItem): void {
