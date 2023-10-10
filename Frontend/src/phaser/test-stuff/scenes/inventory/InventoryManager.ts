@@ -2,25 +2,10 @@ import type Phaser from 'phaser'
 import ContextMenu from './ItemMenu'
 import { InventoryItem } from './models/InventoryItem'
 import { Item } from './models/Item'
-
-interface IItem {
-  name: string
-  sprite: Phaser.GameObjects.Image | null  
-  description: string
-  amount: number
-  maxStack: number  
-  width: number
-  height: number
-}
-
-interface IInventoryItem {
-  item: IItem
-  row: number
-  col: number
-  isDragging: boolean,
-}
+import type { inventoryTypes } from './models/Enums'
 
 export default class InventoryManger {
+  private inventoryType: inventoryTypes
   private scene: Phaser.Scene
   private inventoryGrid: InventoryItem[][] = []
   private rows: number
@@ -34,7 +19,8 @@ export default class InventoryManger {
   private x: number
   private y: number
 
-  constructor(scene: Phaser.Scene, x: number, y: number, rows: number, cols: number) {
+  constructor(invOwner: inventoryTypes, scene: Phaser.Scene, x: number, y: number, rows: number, cols: number) {
+    this.inventoryType = invOwner
     this.scene = scene
     this.x = x
     this.y = y
@@ -47,7 +33,7 @@ export default class InventoryManger {
     this.graphics = this.scene.add.graphics()
     // Create the inventory container and its contents here
     this.inventoryContainer = this.scene.add.container(this.x, this.y)
-    this.contextMenu = new ContextMenu(this, this.scene)
+    this.contextMenu = new ContextMenu(this, this.scene, this.inventoryType)
 
     this.renderGrid()
     // Add a keyboard event listener for the 'r' key press
@@ -116,6 +102,10 @@ export default class InventoryManger {
       }
     }
 
+    this.scene.add.text(this.x + 10, this.y - 50, this.inventoryType) 
+      .setFont('32px Arial')
+      .setStroke('#FFFFFF', 2)
+
     // Create the lines for the grid, to show the slots
     this.inventoryGrid.forEach((row, rowIndex) => {
       row.forEach((_, colIndex) => {
@@ -150,6 +140,10 @@ export default class InventoryManger {
       isDragging: false
     }
 
+    inventoryItem.item.sprite?.setDepth(1)
+    // this.scene.add.text(itemX, itemY, inventoryItem.item.amount.toString())
+    //   .setFont('14px Arial')
+
     inventoryItem.item.sprite?.setPosition(itemX, itemY)
   
     this.inventoryGrid[row][col] = inventoryItem
@@ -159,7 +153,6 @@ export default class InventoryManger {
   }
 
   addItemToInventory(item: Item) {
-    console.log(item)
     // Iterate through the grid to find an available spot
     for (let row = 0; row < this.rows - item.height + 1; row++) {
       for (let col = 0; col < this.cols - item.width + 1; col++) {
@@ -173,7 +166,7 @@ export default class InventoryManger {
     }
   
     // If no available spot was found, you can handle it as needed
-    console.error(`No available spot found for ${item.name}.`);
+    console.error(`No available spot found for ${item.name}.`)
   }
 
   removeItemFromInventory(inventoryItem: InventoryItem) {
@@ -197,7 +190,7 @@ export default class InventoryManger {
             false,
           )
         }
-      }
+      } 
       // Remove the item's sprite
       if (inventoryItem.item.sprite) {
         inventoryItem.item.sprite.destroy()
@@ -228,7 +221,7 @@ export default class InventoryManger {
     inventoryItem.item.sprite?.setPosition(
       oldCol * this.squareSize + offsetX,
       oldRow * this.squareSize + offsetY
-    );
+    )
   }
 
   // Function to remove the item from the grid
@@ -271,10 +264,12 @@ export default class InventoryManger {
       })
 
       inventoryItem.item.sprite.on('dragstart', (pointer: Phaser.Input.Pointer) => {
-        inventoryItem.item.sprite?.setDepth(100)
+        inventoryItem.item.sprite?.setDepth(99)
         inventoryItem.item.sprite?.setTint(this.TINT_COLOR)
         inventoryItem.isDragging = true
         this.isDraggingItem = true
+
+        // Removes the item from the grid when its being dragged
         this.removeItemFromGrid(inventoryItem)
       })
 
@@ -308,9 +303,9 @@ export default class InventoryManger {
           const validGridPosition = this.isValidGridPosition(newRow, newCol)
           const isGridOccupied = this.isGridOccupied(newRow, newCol, inventoryItem.item.width, inventoryItem.item.height)
       
-          console.log(`old col: ${inventoryItem.col}`,`old row: ${inventoryItem.row}`)
-          console.log(`new col: ${newCol}`,`new row: ${newRow}`)
-          console.log(`validGridPosition: ${validGridPosition}`, `isGridOccupied: ${isGridOccupied}`)
+          // console.log(`old col: ${inventoryItem.col}`,`old row: ${inventoryItem.row}`)
+          // console.log(`new col: ${newCol}`,`new row: ${newRow}`)
+          // console.log(`validGridPosition: ${validGridPosition}`, `isGridOccupied: ${isGridOccupied}`)
 
           if (validGridPosition && !isGridOccupied) {
             console.log("IS MOVING TO NEW POSITION")

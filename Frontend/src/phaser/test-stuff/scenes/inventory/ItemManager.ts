@@ -13,7 +13,7 @@ export class ItemsManager {
     this.create1by1()
     this.create1by2()
     this.create2by2()
-    this.create4by2()    
+    this.create4by2()
   }
 
   create1by1() {
