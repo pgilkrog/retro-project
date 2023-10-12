@@ -10,23 +10,5 @@
     }
   ],
   "settings": {
-    "whenFile.change": {
-      "/Frontend/": {
-        "workbenchColor": {
-          "activityBar.background": "#32a4b2",
-          "titleBar.activeBackground": "#32a4b2",
-        }
-      },
-      "/Backend/": {
-        "workbenchColor": {
-          "activityBar.background": "#b24032",
-          "titleBar.activeBackground": "#b24032"
-        }
-      }
-    },
-    "workbench.colorCustomizations": {
-      "activityBar.background": "#32a4b2",
-      "titleBar.activeBackground": "#32a4b2"
-    },
   }
 }

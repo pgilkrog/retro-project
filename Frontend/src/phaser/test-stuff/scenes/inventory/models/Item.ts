@@ -8,6 +8,7 @@ export class Item {
   public height: number
   public amount: number
   public maxStack: number
+  public text: Phaser.GameObjects.Text | null
 
   constructor(
     name: string,
@@ -16,7 +17,8 @@ export class Item {
     width: number, 
     height: number,
     amount: number, 
-    maxStack: number
+    maxStack: number,
+    text: Phaser.GameObjects.Text  | null
   ) {
     this.name = name
     this.sprite = sprite
@@ -25,5 +27,6 @@ export class Item {
     this.height = height
     this.amount = amount
     this.maxStack = maxStack
+    this.text = text
   }
 }

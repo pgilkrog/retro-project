@@ -28,7 +28,8 @@ export class ItemsManager {
       1,
       1,
       2,
-      20
+      20,
+      this.createText('2')
     )
 
     return newItem
@@ -46,7 +47,8 @@ export class ItemsManager {
       1,
       2,
       1,
-      10
+      10,
+      this.createText('1')
     )
 
     return newItem
@@ -64,7 +66,8 @@ export class ItemsManager {
       2,
       2,
       2,
-      5
+      5,
+      this.createText('2')
     )
 
     return newItem
@@ -82,10 +85,18 @@ export class ItemsManager {
       4,
       2,
       1,
-      1
+      1,
+      this.createText('1')
     )
 
     return newItem
+  }
+
+  createText(amount: string) {
+    return this.scene.add.text(0, 0, '')      
+      .setFont('24px Arial')
+      .setStroke('#000000', 2)
+      .setColor('#FFFFFF')
   }
 
   getItems(): Item[] {

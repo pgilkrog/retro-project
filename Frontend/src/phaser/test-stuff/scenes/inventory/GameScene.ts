@@ -30,18 +30,37 @@ export default class Game extends Scene {
   }
 
   createItems(inventory: InventoryManger) {
-    inventory.addItemToInventory(this.itemManager.create1by1())
-    inventory.addItemToInventory(this.itemManager.create1by1())
-    inventory.addItemToInventory(this.itemManager.create1by2())
-    inventory.addItemToInventory(this.itemManager.create2by2())
-    inventory.addItemToInventory(this.itemManager.create4by2())
-    inventory.addItemToInventory(this.itemManager.create1by1())
+    inventory.checkItemInInventory(this.itemManager.create1by1())
+    inventory.checkItemInInventory(this.itemManager.create1by1())
+    inventory.checkItemInInventory(this.itemManager.create1by2())
+    inventory.checkItemInInventory(this.itemManager.create2by2())
+    inventory.checkItemInInventory(this.itemManager.create4by2())
+    inventory.checkItemInInventory(this.itemManager.create1by1())
   }
 
   transforItem(item: InventoryItem) {
-    // first remove the item from its original inventory, 
-    this.inventoryManger2.removeItemFromGrid(item)
     // Add the item to the new inventory
-    this.playerInventory.addItemToInventory(item.item)
+    this.playerInventory.checkItemInInventory(this.getItem(item.item.name)!)
+    // first remove the item from its original inventory, 
+    this.inventoryManger2.removeItemFromInventory(item)
+  }
+
+  getItem(name: string) {
+    switch(name) {
+      case '1 by 1':  {
+        return this.itemManager.create1by1()        
+      }
+      case '1 by 2': {
+        return this.itemManager.create1by2()
+      }
+      case '2 by 2': {
+        return this.itemManager.create2by2()
+      }
+      case '4 by 2': {
+        return this.itemManager.create4by2()
+      }
+    }
+
+
   }
 }
