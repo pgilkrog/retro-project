@@ -11,6 +11,9 @@ export default defineConfig({
         compilerOptions: {
           isCustomElement: (tag) => ['md-linedivider'].includes(tag),
         }
+      },
+      script: {
+        propsDestructure: true
       }
     })
   ],

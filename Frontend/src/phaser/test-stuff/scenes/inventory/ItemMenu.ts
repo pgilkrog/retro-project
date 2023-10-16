@@ -64,7 +64,7 @@ export default class ContextMenu {
     const takeButton = this.createButtonBasics('Take', x, this.buttonY)
     takeButton.on('pointerdown', () => {
       console.log('take button clicked')
-      events.emit('transforItem', item)
+      events.emit('transforItem', { inventoryItem: item, amount: 3 })
       this.menuGroup.setVisible(false)
     })
   }
@@ -73,7 +73,7 @@ export default class ContextMenu {
     const dropButton = this.createButtonBasics('Drop', x, this.buttonY)
     dropButton.on('pointerdown', () => {
       console.log('Delete button clicked')
-      this.game.removeItemFromInventory(item)
+      this.game.removeItemFromInventory({ inventoryItem: item, amount: 1 })
       this.menuGroup.setVisible(false)
     })
   }

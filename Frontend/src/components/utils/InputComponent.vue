@@ -15,12 +15,12 @@ const {
   label,
   modelValue,
   type = 'text',
-  placeholder = ''
-} = defineProps({
-  label: String,
-  modelValue: [String, Number, Boolean],
-  type: String,
-  placeholder: String
-})
+  placeholder
+} = defineProps([
+  'label',
+  'modelValue',
+  'type',
+  'placeholder'
+])
 
 </script>

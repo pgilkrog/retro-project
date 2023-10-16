@@ -27,7 +27,6 @@ export class ItemsManager {
       'a tiny box',
       1,
       1,
-      2,
       20,
       this.createText('2')
     )
@@ -46,7 +45,6 @@ export class ItemsManager {
       'a box that is more longer than wide',
       1,
       2,
-      1,
       10,
       this.createText('1')
     )
@@ -63,7 +61,6 @@ export class ItemsManager {
         'bigBox'
       ),
       'a tiny box',
-      2,
       2,
       2,
       5,
@@ -85,7 +82,6 @@ export class ItemsManager {
       4,
       2,
       1,
-      1,
       this.createText('1')
     )
 
@@ -101,5 +97,22 @@ export class ItemsManager {
 
   getItems(): Item[] {
     return this.items
+  }
+
+  getItem(name: string) {
+    switch(name) {
+      case '1 by 1':  {
+        return this.create1by1()        
+      }
+      case '1 by 2': {
+        return this.create1by2()
+      }
+      case '2 by 2': {
+        return this.create2by2()
+      }
+      case '4 by 2': {
+        return this.create4by2()
+      }
+    }
   }
 }

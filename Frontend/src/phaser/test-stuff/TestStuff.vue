@@ -13,6 +13,7 @@ export interface IConfig {
   height: number,
   zoomFactor: number
 }
+
 export default defineComponent ({
   name: 'GameComponent',
   setup() {
@@ -56,4 +57,4 @@ export default defineComponent ({
     }
   }
 })
-</script>./scenes/inventory/GameScene
+</script>

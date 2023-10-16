@@ -21,12 +21,12 @@ button.btn.d-flex.align-content-center.align-items-center.bg-secondary.rounded.h
 
 <script setup lang="ts">
 const { 
-  text = 'OK', 
+  text, 
   icon, 
   size = 'default', 
   active = false, 
   type = 'button', 
-  disabled, 
+  disabled = false, 
   color, 
   variant, 
   isLoading = false 

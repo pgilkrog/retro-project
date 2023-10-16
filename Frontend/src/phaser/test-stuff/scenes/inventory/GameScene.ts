@@ -30,37 +30,19 @@ export default class Game extends Scene {
   }
 
   createItems(inventory: InventoryManger) {
-    inventory.checkItemInInventory(this.itemManager.create1by1())
-    inventory.checkItemInInventory(this.itemManager.create1by1())
-    inventory.checkItemInInventory(this.itemManager.create1by2())
-    inventory.checkItemInInventory(this.itemManager.create2by2())
-    inventory.checkItemInInventory(this.itemManager.create4by2())
-    inventory.checkItemInInventory(this.itemManager.create1by1())
+    inventory.checkItemInInventory(this.itemManager.create1by1(), 2)
+    inventory.checkItemInInventory(this.itemManager.create1by1(), 2)
+    inventory.checkItemInInventory(this.itemManager.create1by2(), 2)
+    inventory.checkItemInInventory(this.itemManager.create2by2(), 8)
+    inventory.checkItemInInventory(this.itemManager.create4by2(), 2)
+    inventory.checkItemInInventory(this.itemManager.create1by1(), 2)
   }
 
-  transforItem(item: InventoryItem) {
+  transforItem(props: any) {
+    debugger
     // Add the item to the new inventory
-    this.playerInventory.checkItemInInventory(this.getItem(item.item.name)!)
+    this.playerInventory.checkItemInInventory(this.itemManager.getItem(props.inventoryItem.item.name)!, props.amount)
     // first remove the item from its original inventory, 
-    this.inventoryManger2.removeItemFromInventory(item)
-  }
-
-  getItem(name: string) {
-    switch(name) {
-      case '1 by 1':  {
-        return this.itemManager.create1by1()        
-      }
-      case '1 by 2': {
-        return this.itemManager.create1by2()
-      }
-      case '2 by 2': {
-        return this.itemManager.create2by2()
-      }
-      case '4 by 2': {
-        return this.itemManager.create4by2()
-      }
-    }
-
-
+    this.inventoryManger2.removeItemFromInventory(props)
   }
 }

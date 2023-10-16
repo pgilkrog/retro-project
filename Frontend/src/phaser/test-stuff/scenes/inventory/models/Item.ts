@@ -5,8 +5,7 @@ export class Item {
   public sprite: Phaser.GameObjects.Image | null
   public description?: string
   public width: number
-  public height: number
-  public amount: number
+  public height: number 
   public maxStack: number
   public text: Phaser.GameObjects.Text | null
 
@@ -15,8 +14,7 @@ export class Item {
     sprite: Phaser.GameObjects.Image | null,
     description: string,
     width: number, 
-    height: number,
-    amount: number, 
+    height: number, 
     maxStack: number,
     text: Phaser.GameObjects.Text  | null
   ) {
@@ -25,7 +23,6 @@ export class Item {
     this.description = description
     this.width = width
     this.height = height
-    this.amount = amount
     this.maxStack = maxStack
     this.text = text
   }
