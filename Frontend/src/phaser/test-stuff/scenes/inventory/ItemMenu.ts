@@ -3,6 +3,7 @@ import type InventoryManager from './InventoryManager'
 import type {inventoryTypes} from './models/Enums'
 import type { InventoryItem } from './models/InventoryItem'
 import { sharedInstance as events } from '../../utils/EventCenter'
+import AmountMenu from './AmountMenu'
 
 export default class ContextMenu {
   private scene
@@ -13,28 +14,29 @@ export default class ContextMenu {
   private buttonSpace: number = 30
   private inventoryType: inventoryTypes
   private buttonY: number = 0
+  private amountMenu
 
   private readonly WHITE = '#FFFFFF'
 
   constructor(manager: InventoryManager, scene: Phaser.Scene, inventoryType: inventoryTypes) {
-    this.scene = scene;
+    this.scene = scene
     this.menuGroup = scene.add.group()
     this.game = manager
     this.inventoryType = inventoryType
+    this.amountMenu = new AmountMenu(scene)
   }
 
   showMenu(x: number, y: number, item: InventoryItem) {
     this.menuGroup.clear(true, true)
 
     // Position the menu next to the right-clicked item
-    this.menuGroup.setX(x)
-    this.menuGroup.setY(y)
+    this.menuGroup.setXY(x, y)
 
     this.createMenuBackground(x, y)
   
     // Create buttons in the context menu
     this.createInfoButton(item, x, y)
-    this.inventoryType === 'Player' ? this.createDropButton(item, x) : this.createTakeButton(item, x)
+    this.inventoryType === 'Player' ? this.createDropButton(item, x, y) : this.createTakeButton(item, x, y)
     this.createCloseButton(item, x)
 
     // Show the menu
@@ -60,20 +62,26 @@ export default class ContextMenu {
     })
   }
 
-  createTakeButton(item: InventoryItem, x: number) {
+  createTakeButton(item: InventoryItem, x: number, y: number) {
     const takeButton = this.createButtonBasics('Take', x, this.buttonY)
     takeButton.on('pointerdown', () => {
-      console.log('take button clicked')
-      events.emit('transforItem', { inventoryItem: item, amount: 3 })
+      this.amountMenu.showMenu(x, y, item)
+      this.amountMenu.createTakeButton(x, y, (amount: number) => {
+        events.emit('transforItem', { inventoryItem: item, amount: amount })
+        this.amountMenu.setVisible(false)
+      })
       this.menuGroup.setVisible(false)
     })
   }
 
-  createDropButton(item: InventoryItem, x: number) {
+  createDropButton(item: InventoryItem, x: number, y:number) {
     const dropButton = this.createButtonBasics('Drop', x, this.buttonY)
     dropButton.on('pointerdown', () => {
-      console.log('Delete button clicked')
-      this.game.removeItemFromInventory({ inventoryItem: item, amount: 1 })
+      this.amountMenu.showMenu(x, y, item)
+      this.amountMenu.createTakeButton(x, y, (amount: number) => {
+        this.game.removeItemFromInventory({ inventoryItem: item, amount: amount })
+        this.amountMenu.setVisible(false)
+      })
       this.menuGroup.setVisible(false)
     })
   }

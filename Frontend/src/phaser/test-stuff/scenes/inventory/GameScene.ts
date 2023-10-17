@@ -34,12 +34,11 @@ export default class Game extends Scene {
     inventory.checkItemInInventory(this.itemManager.create1by1(), 2)
     inventory.checkItemInInventory(this.itemManager.create1by2(), 2)
     inventory.checkItemInInventory(this.itemManager.create2by2(), 8)
-    inventory.checkItemInInventory(this.itemManager.create4by2(), 2)
+    inventory.checkItemInInventory(this.itemManager.create4by2(), 1)
     inventory.checkItemInInventory(this.itemManager.create1by1(), 2)
   }
 
   transforItem(props: any) {
-    debugger
     // Add the item to the new inventory
     this.playerInventory.checkItemInInventory(this.itemManager.getItem(props.inventoryItem.item.name)!, props.amount)
     // first remove the item from its original inventory, 

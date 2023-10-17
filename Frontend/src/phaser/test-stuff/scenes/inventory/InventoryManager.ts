@@ -32,7 +32,9 @@ export default class InventoryManger {
   }
 
   create() {
+    // Disable the browsers right click menu
     this.scene.input.mouse.disableContextMenu()
+    
     this.graphics = this.scene.add.graphics()
     // Create the inventory container and its contents here
     this.inventoryContainer = this.scene.add.container(this.x, this.y)
@@ -280,9 +282,10 @@ export default class InventoryManger {
 
         if (inventoryItem.item.name === item.name && inventoryItem.amount < inventoryItem.item.maxStack && itemExists === false) {
           if ((inventoryItem.amount + amount) > item.maxStack) {
+            const remaining = (inventoryItem.amount + amount) - item.maxStack
             inventoryItem.amount = item.maxStack
             inventoryItem.item.text?.setText('x'+ inventoryItem.amount)
-            this.checkItemInInventory(this.itemsManager.getItem(item.name)!, item.maxStack - amount)
+            this.checkItemInInventory(this.itemsManager.getItem(item.name)!, remaining)
           } else {
             // If the item already exists in the inventory, increase its amount
             inventoryItem.amount += amount
