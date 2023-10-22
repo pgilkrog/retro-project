@@ -6,7 +6,7 @@ export default class AmountMenu {
   private menuGroup
   private height: number = 100
   private width: number = 100
-  private amount: number = 0
+  private amount: number = 1
   private amountText: any
   private readonly WHITE = '#FFFFFF'
 
@@ -18,7 +18,7 @@ export default class AmountMenu {
   showMenu(x: number, y: number, item: InventoryItem) {
     this.menuGroup.clear(true, true)
     this.menuGroup.setXY(x, y)
-    this.amount = 0
+    this.amount = 1
 
     this.createMenuBackground(x, y)
     this.createPlusButton(x, y, item)

@@ -2,33 +2,21 @@ import { Item } from './models/Item'
 import type Phaser from 'phaser'
 
 export class ItemsManager {
-  private items: Item[] = []
   private scene: Phaser.Scene
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene
   }
 
-  initItems() {
-    this.create1by1()
-    this.create1by2()
-    this.create2by2()
-    this.create4by2()
-  }
-
   create1by1() {
     const newItem = new Item(
       '1 by 1', 
-      this.scene.add.image(
-        1300,
-        100,
-        'ball'
-      ),
+      this.createImage('ball'),
       'a tiny box',
       1,
       1,
       20,
-      this.createText('2')
+      this.createText()
     )
 
     return newItem
@@ -37,16 +25,12 @@ export class ItemsManager {
   create1by2() {
     const newItem = new Item(
       '1 by 2', 
-      this.scene.add.image(
-        1300,
-        300,
-        'paddle'
-      ),
+      this.createImage('paddle'),
       'a box that is more longer than wide',
       1,
       2,
       10,
-      this.createText('1')
+      this.createText()
     )
 
     return newItem
@@ -55,16 +39,12 @@ export class ItemsManager {
   create2by2() {
     const newItem = new Item(
       '2 by 2', 
-      this.scene.add.image(
-        1300,
-        500,
-        'bigBox'
-      ),
+      this.createImage('bigBox'),
       'a tiny box',
       2,
       2,
       5,
-      this.createText('2')
+      this.createText()
     )
 
     return newItem
@@ -73,36 +53,36 @@ export class ItemsManager {
   create4by2() {
     const newItem = new Item(
       '4 by 2', 
-      this.scene.add.image(
-        1300,
-        700,
-        'largeBox'
-      ),
+      this.createImage('largeBox'),
       'a tiny box',
       4,
       2,
       1,
-      this.createText('1')
+      this.createText()
     )
 
     return newItem
   }
 
-  createText(amount: string) {
+  createImage(name: string) {
+    return  this.scene.add.image(
+      1300,
+      1000,
+      name
+    )
+  }
+
+  createText() {
     return this.scene.add.text(0, 0, '')      
       .setFont('24px Arial')
       .setStroke('#000000', 2)
       .setColor('#FFFFFF')
   }
 
-  getItems(): Item[] {
-    return this.items
-  }
-
   getItem(name: string) {
     switch(name) {
       case '1 by 1':  {
-        return this.create1by1()        
+        return this.create1by1()
       }
       case '1 by 2': {
         return this.create1by2()
