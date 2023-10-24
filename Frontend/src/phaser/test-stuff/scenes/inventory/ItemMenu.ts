@@ -14,7 +14,7 @@ export default class ContextMenu {
   private scene
   private menuGroup
   private game: InventoryManager
-  private height: number = 100
+  private height: number = 130
   private width: number = 75
   private buttonSpace: number = 30
   private inventoryType: inventoryTypes
@@ -46,7 +46,8 @@ export default class ContextMenu {
     // Create buttons in the context menu
     this.createInfoButton(item)
     this.inventoryType === 'Player' ? this.createDropButton(item) : this.createTakeButton(item)
-    this.createCloseButton(item)
+    this.createSplitButton(item)
+    this.createCloseButton()
 
     // Show the menu
     this.menuGroup.setDepth(1) // Adjust depth to appear on top
@@ -95,7 +96,19 @@ export default class ContextMenu {
     })
   }
 
-  createCloseButton(item: InventoryItem) {
+  createSplitButton(item: InventoryItem) {
+    const splitButton = this.createButtonBasics('Split', this.buttonY)
+    splitButton.on('pointerdown', () => {
+      this.amountMenu.showMenu(this.x, this.y, item)
+      this.amountMenu.createTakeButton(this.x, this.y, (amount: number) => {
+        this.game.splitInventoryItem({item: item, amountToSplit: amount})
+        this.amountMenu.setVisible(false)
+      })
+      this.menuGroup.setVisible(false)
+    })
+  }
+
+  createCloseButton() {
     const closeButton = this.createButtonBasics('Close', this.buttonY)
     closeButton.on('pointerdown', () => {
       console.log('Close button clicked')

@@ -25,15 +25,19 @@ export default class Game extends Scene {
     inventory.checkItemInInventory("1 by 1", 60)
     inventory.checkItemInInventory("1 by 1", 1)
     inventory.checkItemInInventory("1 by 2", 1)
-    inventory.checkItemInInventory("2 by 2", 1)
-    inventory.checkItemInInventory("4 by 2", 1)
+    inventory.checkItemInInventory("2 by 2", 4)
+    inventory.checkItemInInventory("4 by 2", 2)
     inventory.checkItemInInventory("1 by 1", 1)
   }
 
   transforItem(props: any) {
     // Add the item to the new inventory
-    this.playerInventory.checkItemInInventory(props.inventoryItem.item.name!, props.amount)
+    const check = this.playerInventory.checkItemInInventory(props.inventoryItem.item.name!, props.amount)
     // first remove the item from its original inventory, 
-    this.NPCInventory.removeItemFromInventory(props)
+    if (check?.itemCanBeMoved) {
+      debugger
+      props.amount = check.amount
+      this.NPCInventory.removeItemFromInventory(props)
+    }
   }
 }

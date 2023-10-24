@@ -8,7 +8,7 @@ import {ItemsManager} from './ItemManager'
 export default class InventoryManger {
   private inventoryType: inventoryTypes
   private scene: Phaser.Scene
-  private inventoryGrid: InventoryItem[][] = []
+  private inventoryGrid: InventoryItem[][]
   private rows: number
   private cols: number
   private squareSize = 100
@@ -151,7 +151,10 @@ export default class InventoryManger {
       amount: amount
     }
 
-    inventoryItem.item.text?.setPosition(itemX + offsetX - 50, itemY + offsetY - 30).setText('x'+amount.toString())
+    const xOff = amount > 9 ? 50 : 35
+
+    inventoryItem.item.text?.setPosition(itemX + offsetX - xOff, itemY + offsetY - 30).setText(amount > 1 ? 'x'+amount.toString() : '')
+
     inventoryItem.item.sprite?.setPosition(itemX, itemY)
   
     this.inventoryGrid[row][col] = inventoryItem
@@ -170,13 +173,14 @@ export default class InventoryManger {
         if (!this.isGridOccupied(row, col, item.width, item.height)) {
           // Add the item to the inventory grid at this position
           this.addItemToGrid(row, col, item, amount)
-          return // Exit the loop after placing the item
+          return true // Exit the loop after placing the item
         }
       }
     }
   
     // If no available spot was found, throw error
     console.error(`No available spot found for ${item.name}.`)
+    return false
   }
 
   removeItemFromInventory(props: any) {
@@ -228,13 +232,17 @@ export default class InventoryManger {
   }
 
   checkItemInInventory(itemName: string, amount: number) {
+    let itemCanBeMoved = false
+    let inventoryItem = undefined
+
     for (let row = 0; row < this.inventoryGrid.length; row++) {
       for (let col = 0; col < this.inventoryGrid[0].length; col++) {
-        const inventoryItem = this.inventoryGrid[row][col]
+        inventoryItem = this.inventoryGrid[row][col]
 
         if (inventoryItem.item.name === itemName && inventoryItem.amount < inventoryItem.item.maxStack) {
           // Calculate the remaining amount
           const remaining = inventoryItem.amount + amount - inventoryItem.item.maxStack
+    
           if (remaining > 0) {
             inventoryItem.amount = inventoryItem.item.maxStack
             inventoryItem.item.text?.setText('x' + inventoryItem.amount)
@@ -243,24 +251,44 @@ export default class InventoryManger {
             inventoryItem.amount += amount
             inventoryItem.item.text?.setText('x' + inventoryItem.amount.toString())
           }
-
-          return
+          
+          return { itemCanBeMoved: true, amount: amount - remaining }
         }
       }
     }
-
+    
     const newItem = this.itemsManager.getItem(itemName)
     if (amount <= 0 || newItem == undefined) return
-
-    if (newItem.maxStack > amount)
-      this.addItemToInventory(newItem, amount)
-    else {
-      this.addItemToInventory(newItem, newItem.maxStack)
+   
+    if (newItem.maxStack > amount) {
+      itemCanBeMoved = this.addItemToInventory(newItem, amount)
+    } else {
+      itemCanBeMoved = this.addItemToInventory(newItem, newItem.maxStack)
       if (amount - newItem.maxStack > 0)
         this.checkItemInInventory(newItem.name, amount - newItem.maxStack)
     }
+
+    if (itemCanBeMoved === false) {
+      newItem.sprite?.destroy()  
+      newItem.text?.destroy()
+    }
+
+    return { itemCanBeMoved: itemCanBeMoved, amount: amount }
   }
 
+  splitInventoryItem(props: any) {
+    if (!props.item && props.amountToSplit <= 0) return
+
+    const newItem = this.itemsManager.getItem(props.item.item.name)
+    const check = this.addItemToInventory(newItem!, props.amountToSplit)
+    if (check) {
+      props.item.amount -= props.amountToSplit      
+      props.item.item.text.setText('x'+props.item.amount.toString())      
+    } else {
+      newItem!.sprite?.destroy()  
+      newItem!.text?.destroy()
+    }
+  }
 
   isGridOccupied(startRow: number, startCol: number, width: number, height: number): boolean {
     for (let i = 0; i < height; i++) {
@@ -275,6 +303,36 @@ export default class InventoryManger {
     return false
   }
 
+  StackItems(startRow: number, startCol: number, width: number, height: number, item: InventoryItem) {
+    for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+        const newRow = startRow + i
+        const newCol = startCol + j
+        let invItem = this.inventoryGrid[newRow][newCol]
+        if (!this.isValidGridPosition(newRow, newCol) || this.inventoryGrid[newRow][newCol].item.name !== '') {
+          if (invItem.item.name === item.item.name) {
+            if (item.amount + invItem.amount <= invItem.item.maxStack) {
+              item.amount += this.inventoryGrid[newRow][newCol].amount
+              item.item.text?.setText('x'+item.amount)
+              this.removeItemFromInventory({inventoryItem: this.inventoryGrid[newRow][newCol], amount: this.inventoryGrid[newRow][newCol].amount})                
+            } else {
+              const remaining = invItem.amount + item.amount - invItem.item.maxStack
+              invItem.amount = invItem.item.maxStack
+              invItem.item.text?.setText('x'+invItem.amount)
+              debugger
+              item.amount = remaining
+              item.item.text?.setText('x'+item.amount)
+              this.moveItem(item, item.row, item.col)    
+            }
+            return true
+          }
+          else 
+            return false
+        }
+      }
+    }
+    return false
+  }
 
   isValidGridPosition(row: number, col: number): boolean {
     return row >= 0 && row < this.rows && col >= 0 && col < this.cols
@@ -359,8 +417,11 @@ export default class InventoryManger {
             // Move the item to the new grid position
             this.moveItem(inventoryItem, newRow, newCol)
           } else {
-            console.log("IS MOVING BACK TO OLD POSITION")
-            this.moveItem(inventoryItem, inventoryItem.row, inventoryItem.col)
+            let stackedItems = this.StackItems(newRow, newCol, width, height, inventoryItem)
+            if (stackedItems === false) {
+              console.log("IS MOVING BACK TO OLD POSITION")
+              this.moveItem(inventoryItem, inventoryItem.row, inventoryItem.col)              
+            }
           }
         }
       })
