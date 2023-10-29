@@ -73,7 +73,6 @@ export const userStore = defineStore("user", () => {
   }
 
   const updateUser = async (user: IUser) => {
-    debugger
     // tempUser.settings = (user.settings as IUserSettings).id
     const res = await axios.put(url + '/' + user._id, null, { params: user })
     console.log(res)

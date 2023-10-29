@@ -11,7 +11,7 @@ export default class InventoryManger {
   private inventoryGrid: InventoryItem[][]
   private rows: number
   private cols: number
-  private squareSize = 100
+  private readonly squareSize = 100
   private graphics: Phaser.GameObjects.Graphics | undefined
   private isDraggingItem: boolean  = false
   private contextMenu: any
@@ -19,13 +19,21 @@ export default class InventoryManger {
   private x: number
   private y: number
   private itemsManager
+  private itemBeingDragged: InventoryItem | undefined
 
   // Set Colors 
   private readonly TINT_COLOR: number = 0x00FF00
   private readonly WHITE_COLOR: string = '#FFFFFF'
   private readonly FONT_COLOR: string = '#000000'
 
-  constructor(invOwner: inventoryTypes, scene: Phaser.Scene, x: number, y: number, rows: number, cols: number) {
+  constructor(
+    invOwner: inventoryTypes, 
+    scene: Phaser.Scene, 
+    x: number, 
+    y: number, 
+    rows: number, 
+    cols: number
+  ) {
     this.inventoryType = invOwner
     this.scene = scene
     this.x = x
@@ -59,10 +67,8 @@ export default class InventoryManger {
     // Add a keyboard event listener for the 'r' key press
     this.scene.input.keyboard.on('keydown-R', () => {
       if (this.isDraggingItem) {
-        // Get the currently dragged item and rotate it
-        const draggedItem = this.inventoryGrid.flat().find((inventoryItem: InventoryItem) => inventoryItem.item.sprite && inventoryItem.isDragging)
-        if (draggedItem) {
-          this.rotateItem(draggedItem)
+        if (this.itemBeingDragged !== undefined) {
+          this.rotateItem(this.itemBeingDragged)
         }
       }
     })
@@ -187,13 +193,11 @@ export default class InventoryManger {
     if (props.inventoryItem.row >= 0 && props.inventoryItem.col >= 0) {
       if(props.inventoryItem.amount <= props.amount) {
         this.clearGridOccupied(props.inventoryItem.item.height, props.inventoryItem.item.width, props.inventoryItem.col, props.inventoryItem.row)  
-        
         // Check if sprite exists and destroy the sprite
         if (props.inventoryItem.item.sprite) 
           props.inventoryItem.item.sprite.destroy()
         if (props.inventoryItem.item.text) 
           props.inventoryItem.item.text?.destroy()
-              
       } else {
         props.inventoryItem.amount -= props.amount
         if (props.inventoryItem.amount > 1)
@@ -252,7 +256,7 @@ export default class InventoryManger {
             inventoryItem.item.text?.setText('x' + inventoryItem.amount.toString())
           }
           
-          return { itemCanBeMoved: true, amount: amount - remaining }
+          return { itemCanBeMoved: true, amount: amount }
         }
       }
     }
@@ -300,6 +304,7 @@ export default class InventoryManger {
         }
       }
     }
+
     return false
   }
 
@@ -308,26 +313,31 @@ export default class InventoryManger {
       for (let j = 0; j < width; j++) {
         const newRow = startRow + i
         const newCol = startCol + j
-        let invItem = this.inventoryGrid[newRow][newCol]
-        if (!this.isValidGridPosition(newRow, newCol) || this.inventoryGrid[newRow][newCol].item.name !== '') {
-          if (invItem.item.name === item.item.name) {
-            if (item.amount + invItem.amount <= invItem.item.maxStack) {
-              item.amount += this.inventoryGrid[newRow][newCol].amount
-              item.item.text?.setText('x'+item.amount)
-              this.removeItemFromInventory({inventoryItem: this.inventoryGrid[newRow][newCol], amount: this.inventoryGrid[newRow][newCol].amount})                
-            } else {
-              const remaining = invItem.amount + item.amount - invItem.item.maxStack
-              invItem.amount = invItem.item.maxStack
-              invItem.item.text?.setText('x'+invItem.amount)
-              debugger
-              item.amount = remaining
-              item.item.text?.setText('x'+item.amount)
-              this.moveItem(item, item.row, item.col)    
+        if (this.inventoryGrid[newRow] && this.inventoryGrid[newRow][newCol]) {
+          let invItem = this.inventoryGrid[newRow][newCol]
+          if (!this.isValidGridPosition(newRow, newCol) || this.inventoryGrid[newRow][newCol].item.name !== '') {
+            if (invItem.item.name === item.item.name) {
+              if (item.amount + invItem.amount <= invItem.item.maxStack) {
+                item.amount += this.inventoryGrid[newRow][newCol].amount
+                item.item.text?.setText('x'+item.amount)
+                this.removeItemFromInventory({inventoryItem: this.inventoryGrid[newRow][newCol], amount: this.inventoryGrid[newRow][newCol].amount})
+              } else {
+                const remaining = invItem.amount + item.amount - invItem.item.maxStack
+                invItem.amount = invItem.item.maxStack
+                invItem.item.text?.setText('x'+invItem.amount)
+                item.amount = remaining
+                item.item.text?.setText('x'+item.amount)
+                this.moveItem(item, item.row, item.col)
+              }
+              return true
             }
-            return true
-          }
-          else 
+            else 
+              return false
+          } else {
             return false
+          } 
+        } else {
+          return false
         }
       }
     }
@@ -361,6 +371,15 @@ export default class InventoryManger {
     } 
   }
 
+  setPosition(x: number, y: number) {
+    this.inventoryContainer?.setPosition(x, y)
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.cols; j++) {
+        this.inventoryGrid[i][j].item.sprite?.setPosition
+      }
+    }
+  }
+
   initActions(inventoryItem: InventoryItem) {
     const { sprite, text, height, width } = inventoryItem.item
 
@@ -375,6 +394,7 @@ export default class InventoryManger {
       })
 
       sprite.on('dragstart', (pointer: Phaser.Input.Pointer) => {
+        this.itemBeingDragged = inventoryItem
         sprite?.setDepth(99)
         sprite?.setTint(this.TINT_COLOR)
         inventoryItem.isDragging = true
@@ -393,7 +413,6 @@ export default class InventoryManger {
 
       sprite.on('dragend', (pointer: Phaser.Input.Pointer, dropped: boolean) => {
         if (dropped) {
-          sprite?.clearTint()
           this.isDraggingItem = false
           inventoryItem.isDragging = false
           sprite?.setDepth(0)
@@ -416,11 +435,14 @@ export default class InventoryManger {
             console.log("IS MOVING TO NEW POSITION")
             // Move the item to the new grid position
             this.moveItem(inventoryItem, newRow, newCol)
+            sprite?.clearTint()
+            this.itemBeingDragged = undefined
           } else {
-            let stackedItems = this.StackItems(newRow, newCol, width, height, inventoryItem)
-            if (stackedItems === false) {
+            if (!this.StackItems(newRow, newCol, width, height, inventoryItem)) {
               console.log("IS MOVING BACK TO OLD POSITION")
-              this.moveItem(inventoryItem, inventoryItem.row, inventoryItem.col)              
+              this.moveItem(inventoryItem, inventoryItem.row, inventoryItem.col)
+              sprite?.clearTint() 
+              this.itemBeingDragged = undefined
             }
           }
         }

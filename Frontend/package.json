@@ -15,15 +15,13 @@
     "bootstrap": "^5.2.2",
     "bootstrap-icons": "^1.10.1",
     "easystarjs": "^0.4.4",
-    "firebase": "^9.15.0",
     "jwt-decode": "^3.1.2",
     "phaser": "^3.55.2",
     "pinia": "^2.0.33",
     "socket.io-client": "^4.7.1",
     "vue": "^3.3.4",
     "vue-router": "^4.1.5",
-    "vue3-cookies": "^1.0.6",
-    "vuefire": "^3.0.0-beta.3"
+    "vue3-cookies": "^1.0.6"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.4",
