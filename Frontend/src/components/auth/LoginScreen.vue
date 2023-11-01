@@ -27,7 +27,7 @@ WindowFrame(
           BaseInput(v-model="password2" type="password")
     .col-12.mt-4.d-flex.justify-content-center
       Btn.me-2(@clicked="pressedOk()" text="OK") 
-      //- Btn(@clicked="changeShowHelp()" text="Help" :active="showHelp")
+      Btn(@clicked="changeShowHelp()" text="Help" :active="showHelp")
   .d-flex.flex-column.bg-shadow-inner.p-4.m-2(v-if="showHelp === true")
     p Some helping info and stuff
     .d-flex.justify-content-center.mt-4

@@ -48,7 +48,7 @@ export default class AmountMenu {
     const plusButton = this.createButtonBasics('+', x + 60, y + 10)
     plusButton.on('pointerdown', () => {
       console.log('Info button clicked')
-      if(this.amount < item.amount) {
+      if(this.amount + 1 < item.amount) {
         this.amount += 1
         this.reRenderText()        
       }

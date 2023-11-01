@@ -3,20 +3,23 @@
 // import { InventoryItem } from './models/InventoryItem'
 // import { Item } from './models/Item'
 // import type { inventoryTypes } from './models/Enums'
-// import { ItemsManager } from './ItemManager'
+// import {ItemsManager} from './ItemManager'
 
-// export default class InventoryManager {
-//   private inventoryType: inventoryTypes 
-//   private scene: Phaser.Scene 
+// export default class InventoryManger {
+//   private inventoryType: inventoryTypes
+//   private scene: Phaser.Scene
 //   private inventoryGrid: InventoryItem[][]
-//   private squareSize: number = 100
-//   private graphics: Phaser.GameObjects.Graphics | undefined = undefined
-//   private isDraggingItem: boolean = false
-//   private contextMenu: ContextMenu | undefined = undefined
-//   private inventoryContainer: Phaser.GameObjects.Container | undefined = undefined
+//   private rows: number
+//   private cols: number
+//   private readonly squareSize = 100
+//   private graphics: Phaser.GameObjects.Graphics | undefined
+//   private isDraggingItem: boolean  = false
+//   private contextMenu: any
+//   private inventoryContainer: Phaser.GameObjects.Container | undefined
 //   private x: number
 //   private y: number
-//   private itemsManager: ItemsManager
+//   private itemsManager
+//   private itemBeingDragged: InventoryItem | undefined
 
 //   // Set Colors 
 //   private readonly TINT_COLOR: number = 0x00FF00
@@ -24,23 +27,23 @@
 //   private readonly FONT_COLOR: string = '#000000'
 
 //   constructor(
-//     inventoryType: inventoryTypes,
-//     scene: Phaser.Scene,
-//     x: number,
-//     y: number,
-//     rows: number,
+//     invOwner: inventoryTypes, 
+//     scene: Phaser.Scene, 
+//     x: number, 
+//     y: number, 
+//     rows: number, 
 //     cols: number
 //   ) {
-//     this.inventoryType = inventoryType
+//     this.inventoryType = invOwner
 //     this.scene = scene
 //     this.x = x
 //     this.y = y
-    
-//     //  Create an array of rows filled with empty arrays
+//     this.rows = rows
+//     this.cols = cols
 //     this.inventoryGrid = new Array(rows).fill([]).map(() =>
 //       new Array(cols).fill(
 //         new InventoryItem(
-//           new Item('', null, '', 1, 1, 0, null),
+//           new Item(0, '', null, '', 1, 1, 0, null, false),
 //           -1,
 //           -1,
 //           false,
@@ -52,110 +55,116 @@
 //   }
 
 //   create() {
-//     // Disable browsers right click menu
+//     // Disable the browsers right click menu
 //     this.scene.input.mouse.disableContextMenu()
-
+    
 //     this.graphics = this.scene.add.graphics()
+//     // Create the inventory container and its contents here
 //     this.inventoryContainer = this.scene.add.container(this.x, this.y)
 //     this.contextMenu = new ContextMenu(this, this.scene, this.inventoryType)
 
 //     this.renderGrid()
-
-//     // Set up input listener for key R, for rotating items
+//     // Add a keyboard event listener for the 'r' key press
 //     this.scene.input.keyboard.on('keydown-R', () => {
 //       if (this.isDraggingItem) {
-//         const draggedItem = this.inventoryGrid
-//           .flat()
-//           .find((inventoryItem: InventoryItem) =>
-//             inventoryItem.item.sprite && inventoryItem.isDragging
-//           )
-//         if (draggedItem) {
-//           this.rotateItem(draggedItem)
+//         if (this.itemBeingDragged !== undefined) {
+//           this.rotateItem(this.itemBeingDragged)
 //         }
 //       }
 //     })
 //   }
 
 //   addItemToGrid(row: number, col: number, item: Item, amount: number) {
-//     if (
-//       this.isValidGridPosition(row, col) &&
-//       !this.isGridOccupied(row, col, item.width, item.height)
-//     ) {
+//     if (this.isValidGridPosition(row, col) && !this.isGridOccupied(row, col, item.width, item.height)) {
+//       // Check if the item is already present in the specified position
 //       if (!this.inventoryGrid[row][col].item.sprite) {
+//         // Create only one sprite for the entire item
 //         this.createInventoryItem(row, col, item, amount)
-//         this.markGridOccupied(row, col, item.width, item.height)
+  
+//         // Mark the occupied positions
+//         for (let i = 0; i < item.height; i++) {
+//           for (let j = 0; j < item.width; j++) {
+//             this.inventoryGrid[row + i][col + j] = this.inventoryGrid[row][col]
+//           }
+//         }
 //       }
 //     } else {
-//       console.error(
-//         `Invalid grid position or position is already occupied for ${item.name}.`
-//       )
+//       console.error(`Invalid grid position or position is already occupied for ${item.name}.`)
 //     }
 //   }
 
 //   moveItem(inventoryItem: InventoryItem, newRow: number, newCol: number) {
-//     // Save old row and col values, to set item back if grid position is not valid
-//     const oldRow = inventoryItem.row
-//     const oldCol = inventoryItem.col
+//     const { row, col } = inventoryItem
+//     const { sprite, text, height, width } = inventoryItem.item
 
-//     const {offsetX, offsetY } =  this.createOffsets(inventoryItem.item.height, inventoryItem.item.width)
+//     const { offsetX, offsetY } = this.createOffsets(height, width)
 
 //     const newX = newCol * this.squareSize + offsetX
 //     const newY = newRow * this.squareSize + offsetY
+    
+//     text?.setPosition(newX + offsetX - 30, newY + offsetY - 30)
+//     sprite?.setPosition(newX, newY)
 
-//     inventoryItem.item.text?.setPosition(newX + offsetX - 30, newY + offsetY - 30)
-//     inventoryItem.item.sprite?.setPosition(newX, newY)
+//     this.clearGridOccupied(height, width, col, row)
 
-//     this.clearGridOccupied(oldRow, oldCol, inventoryItem.item.width, inventoryItem.item.height)
-
+//     // save the new row and col for the item
 //     inventoryItem.row = newRow
 //     inventoryItem.col = newCol
 
-//     this.markGridOccupied(newRow, newCol, inventoryItem.item.width, inventoryItem.item.height)
+//     this.setGridOccupied(height, width, newCol, newRow, inventoryItem)
 //   }
 
 //   renderGrid() {
 //     this.graphics?.clear()
 
-//     // Add text to display on top of the inventory
-//     this.scene
-//       .add
-//       .text(this.x + 10, this.y - 50, this.inventoryType)
+//     // Add text to be displayed on top of inventory
+//     this.scene.add.text(this.x + 10, this.y - 50, this.inventoryType) 
 //       .setFont('32px Arial')
 //       .setStroke(this.WHITE_COLOR, 2)
 //       .setColor(this.FONT_COLOR)
 
-//     // Create a border for each place in the inventory grid
+//     // Create a border for each row and col in inventory grid
 //     this.inventoryGrid.forEach((row, rowIndex) => {
 //       row.forEach((_, colIndex) => {
 //         this.graphics?.lineStyle(1, 0xffffff, 1)
-//         this.graphics?.strokeRect(
-//           this.x + colIndex * this.squareSize,
-//           this.y + rowIndex * this.squareSize,
-//           this.squareSize,
-//           this.squareSize
-//         )
+//         this.graphics?.strokeRect(this.x + (colIndex * this.squareSize), this.y + (rowIndex * this.squareSize), this.squareSize, this.squareSize)
 //       })
 //     })
 //   }
 
 //   createInventoryItem(row: number, col: number, item: Item, amount: number) {
-//     const {offsetX, offsetY } =  this.createOffsets( item.height, item.width)
-    
+//     // Calculate the offsetX and offsetY based on item size
+//     const { offsetX, offsetY } = this.createOffsets(item.height, item.width)
+  
+//     // Calculate the actual position based on the container's position
 //     const itemX = col * this.squareSize + offsetX
 //     const itemY = row * this.squareSize + offsetY
-
-//     // Create an unspecific type as inventoryItem, using create new inventoryItem seems to break the game why?
+  
+//     // Create the actual item for the slot in the grid
 //     let inventoryItem = {
-//       item: { ...item },
+//       item: {
+//         id: item.id,
+//         name: item.name,
+//         sprite: item.sprite,
+//         width: item.width,
+//         height: item.height,
+//         maxStack: item.maxStack,
+//         description: item.description,
+//         text: item.text,
+//         isEquippable: item.isEquippable
+//       },
 //       col: col,
 //       row: row,
 //       isDragging: false,
-//       amount: amount,
+//       amount: amount
 //     }
 
-//     inventoryItem.item.text?.setPosition(itemX + offsetX - 50, itemY + offsetY - 30).setText('x' + amount.toString())
-//     inventoryItem.item.sprite?.setPosition(itemX, itemY)
+//     const xOff = amount > 9 ? 50 : 35
 
+//     inventoryItem.item.text?.setPosition(itemX + offsetX - xOff, itemY + offsetY - 30).setText(amount > 1 ? 'x'+amount.toString() : '')
+
+//     inventoryItem.item.sprite?.setPosition(itemX, itemY)
+  
 //     this.inventoryGrid[row][col] = inventoryItem
 //     this.initActions(inventoryItem)
 //     inventoryItem.item.sprite?.setInteractive({ draggable: true })
@@ -165,32 +174,37 @@
 //   }
 
 //   addItemToInventory(item: Item, amount: number) {
-//     for (let row = 0; row < this.inventoryGrid.length - item.height + 1; row++) {
-//       for (let col = 0; col < this.inventoryGrid[0].length - item.width + 1; col++) {
+//     // Iterate through the grid to find an available spot
+//     for (let row = 0; row < this.rows - item.height + 1; row++) {
+//       for (let col = 0; col < this.cols - item.width + 1; col++) {
+//         // Check if the spot is available
 //         if (!this.isGridOccupied(row, col, item.width, item.height)) {
+//           // Add the item to the inventory grid at this position
 //           this.addItemToGrid(row, col, item, amount)
-//           return
+//           return true // Exit the loop after placing the item
 //         }
 //       }
 //     }
-
+  
+//     // If no available spot was found, throw error
 //     console.error(`No available spot found for ${item.name}.`)
+//     return false
 //   }
 
 //   removeItemFromInventory(props: any) {
 //     if (props.inventoryItem.row >= 0 && props.inventoryItem.col >= 0) {
-//       if (props.inventoryItem.amount <= props.amount) {
-//         this.clearGridOccupied(props.inventoryItem.row, props.inventoryItem.col, props.inventoryItem.item.width, props.inventoryItem.item.height)
-
-//         if (props.inventoryItem.item.sprite) {
+//       if(props.inventoryItem.amount <= props.amount) {
+//         this.clearGridOccupied(props.inventoryItem.item.height, props.inventoryItem.item.width, props.inventoryItem.col, props.inventoryItem.row)  
+//         // Check if sprite exists and destroy the sprite
+//         if (props.inventoryItem.item.sprite) 
 //           props.inventoryItem.item.sprite.destroy()
+//         if (props.inventoryItem.item.text) 
 //           props.inventoryItem.item.text?.destroy()
-//         }
 //       } else {
 //         props.inventoryItem.amount -= props.amount
 //         if (props.inventoryItem.amount > 1)
-//           props.inventoryItem.item.text?.setText('x' + props.inventoryItem.amount)
-//         else {
+//         props.inventoryItem.item.text?.setText('x'+ props.inventoryItem.amount)
+//         else {   
 //           props.inventoryItem.item.text?.destroy()
 //         }
 //       }
@@ -198,15 +212,24 @@
 //   }
 
 //   rotateItem(inventoryItem: InventoryItem) {
+//     const { height, width } = inventoryItem.item
+
 //     const oldRow = inventoryItem.row
 //     const oldCol = inventoryItem.col
-//     const newWidth = inventoryItem.item.height
-//     const newHeight = inventoryItem.item.width
+  
+//     // Calculate the new width and height after rotation
+//     const newWidth = height
+//     const newHeight = width
+  
+//     // Update the item's width and height
 //     inventoryItem.item.width = newWidth
 //     inventoryItem.item.height = newHeight
+  
+//     // Rotate the item's sprite by 90 degrees
 //     inventoryItem.item.sprite?.setAngle(inventoryItem.item.sprite.angle + 90)
-//     const offsetX = (newWidth * this.squareSize) / 2
-//     const offsetY = (newHeight * this.squareSize) / 2
+  
+//     // Calculate the new position of the item's sprite to keep it centered while rotating
+//     const { offsetX, offsetY } = this.createOffsets(height, width)
 
 //     inventoryItem.item.sprite?.setPosition(
 //       oldCol * this.squareSize + offsetX,
@@ -214,8 +237,63 @@
 //     )
 //   }
 
-//   removeItemFromGrid(inventoryItem: InventoryItem) {
-//     this.clearGridOccupied(inventoryItem.row, inventoryItem.col, inventoryItem.item.width, inventoryItem.item.height)
+//   checkItemInInventory(itemId: number, amount: number) {
+//     let itemCanBeMoved = false
+//     let inventoryItem = undefined
+
+//     for (let row = 0; row < this.inventoryGrid.length; row++) {
+//       for (let col = 0; col < this.inventoryGrid[0].length; col++) {
+//         inventoryItem = this.inventoryGrid[row][col]
+
+//         if (inventoryItem.item.id === itemId && inventoryItem.amount < inventoryItem.item.maxStack) {
+//           // Calculate the remaining amount
+//           const remaining = inventoryItem.amount + amount - inventoryItem.item.maxStack
+    
+//           if (remaining > 0) {
+//             inventoryItem.amount = inventoryItem.item.maxStack
+//             inventoryItem.item.text?.setText('x' + inventoryItem.amount)
+//             this.checkItemInInventory(inventoryItem.item.id, remaining)
+//           } else {
+//             inventoryItem.amount += amount
+//             inventoryItem.item.text?.setText('x' + inventoryItem.amount.toString())
+//           }
+          
+//           return { itemCanBeMoved: true, amount: amount }
+//         }
+//       }
+//     }
+    
+//     const newItem = this.itemsManager.getItem(itemId)
+//     if (amount <= 0 || newItem == undefined) return
+   
+//     if (newItem.maxStack > amount) {
+//       itemCanBeMoved = this.addItemToInventory(newItem, amount)
+//     } else {
+//       itemCanBeMoved = this.addItemToInventory(newItem, newItem.maxStack)
+//       if (amount - newItem.maxStack > 0)
+//         this.checkItemInInventory(newItem.id, amount - newItem.maxStack)
+//     }
+
+//     if (itemCanBeMoved === false) {
+//       newItem.sprite?.destroy()  
+//       newItem.text?.destroy()
+//     }
+
+//     return { itemCanBeMoved: itemCanBeMoved, amount: amount }
+//   }
+
+//   splitInventoryItem(props: any) {
+//     if (!props.item && props.amountToSplit <= 0) return
+
+//     const newItem = this.itemsManager.getItem(props.item.item.id)
+//     const check = this.addItemToInventory(newItem!, props.amountToSplit)
+//     if (check) {
+//       props.item.amount -= props.amountToSplit      
+//       props.item.item.text.setText('x'+props.item.amount.toString())      
+//     } else {
+//       newItem!.sprite?.destroy()  
+//       newItem!.text?.destroy()
+//     }
 //   }
 
 //   isGridOccupied(startRow: number, startCol: number, width: number, height: number): boolean {
@@ -228,114 +306,62 @@
 //         }
 //       }
 //     }
+
 //     return false
 //   }
 
-//   async checkItemInInventory(itemName: string, amount: number) {
-//     for (let row = 0; row < this.inventoryGrid.length; row++) {
-//       for (let col = 0; col < this.inventoryGrid[0].length; col++) {
-//         const inventoryItem = this.inventoryGrid[row][col]
-
-//         if (inventoryItem.item.name === itemName && inventoryItem.amount < inventoryItem.item.maxStack) {
-//           const remaining = inventoryItem.amount + amount - inventoryItem.item.maxStack
-//           if (remaining > 0) {
-//             inventoryItem.amount = inventoryItem.item.maxStack
-//             inventoryItem.item.text?.setText('x' + inventoryItem.amount)
-//             this.checkItemInInventory(inventoryItem.item.name, remaining)
+//   StackItems(startRow: number, startCol: number, width: number, height: number, item: InventoryItem) {
+//     for (let i = 0; i < height; i++) {
+//       for (let j = 0; j < width; j++) {
+//         const newRow = startRow + i
+//         const newCol = startCol + j
+//         if (this.inventoryGrid[newRow] && this.inventoryGrid[newRow][newCol]) {
+//           let invItem = this.inventoryGrid[newRow][newCol]
+//           if (!this.isValidGridPosition(newRow, newCol) || this.inventoryGrid[newRow][newCol].item.name !== '') {
+//             if (invItem.item.name === item.item.name) {
+//               if (item.amount + invItem.amount <= invItem.item.maxStack) {
+//                 item.amount += this.inventoryGrid[newRow][newCol].amount
+//                 item.item.text?.setText('x'+item.amount)
+//                 this.removeItemFromInventory({inventoryItem: this.inventoryGrid[newRow][newCol], amount: this.inventoryGrid[newRow][newCol].amount})
+//               } else {
+//                 const remaining = invItem.amount + item.amount - invItem.item.maxStack
+//                 invItem.amount = invItem.item.maxStack
+//                 invItem.item.text?.setText('x'+invItem.amount)
+//                 item.amount = remaining
+//                 item.item.text?.setText('x'+item.amount)
+//                 this.moveItem(item, item.row, item.col)
+//               }
+//               return true
+//             }
+//             else 
+//               return false
 //           } else {
-//             inventoryItem.amount += amount
-//             inventoryItem.item.text?.setText('x' + inventoryItem.amount.toString())
-//           }
-
-//           return
+//             return false
+//           } 
+//         } else {
+//           return false
 //         }
 //       }
 //     }
-
-//     const newItem = this.itemsManager.getItem(itemName)
-//     if (amount <= 0 || newItem == undefined) return
-
-//     if (newItem.maxStack > amount)
-//       await this.addItemToInventory(newItem, amount)
-//     else {
-//       await this.addItemToInventory(newItem, newItem.maxStack)
-//       if (amount - newItem.maxStack > 0)
-//         this.checkItemInInventory(newItem.name, amount - newItem.maxStack)
-//     }
+//     return false
 //   }
 
 //   isValidGridPosition(row: number, col: number): boolean {
-//     return row >= 0 && row < this.inventoryGrid.length && col >= 0 && col < this.inventoryGrid[0].length
+//     return row >= 0 && row < this.rows && col >= 0 && col < this.cols
 //   }
 
-//   initActions(inventoryItem: InventoryItem) {
-//     if (inventoryItem.item.sprite) {
-//       inventoryItem.item.sprite.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-//         if (pointer.rightButtonDown()) {
-//           this.contextMenu?.showMenu({ x: pointer.x, y: pointer.y }, inventoryItem)
-//           pointer.event.preventDefault()
-//         }
-//       })
-
-//       inventoryItem.item.sprite.on('dragstart', (pointer: Phaser.Input.Pointer) => {
-//         inventoryItem.item.sprite?.setDepth(99)
-//         inventoryItem.item.sprite?.setTint(this.TINT_COLOR)
-//         inventoryItem.isDragging = true
-//         this.isDraggingItem = true
-//         this.clearGridOccupied(inventoryItem.row, inventoryItem.col, inventoryItem.item.width, inventoryItem.item.height)
-//       })
-
-//       inventoryItem.item.sprite.on('drag', (pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
-//         const offsetX = (inventoryItem.item.width * this.squareSize) / 2
-//         const offsetY = (inventoryItem.item.height * this.squareSize) / 2
-//         inventoryItem.item.text?.setPosition(dragX + offsetX - 30, dragY + offsetY - 30)
-//         inventoryItem.item.sprite?.setPosition(dragX, dragY)
-//       })
-
-//       inventoryItem.item.sprite.on('dragend', (pointer: Phaser.Input.Pointer, dropped: boolean) => {
-//         if (dropped) {
-//           inventoryItem.item.sprite?.clearTint()
-//           this.isDraggingItem = false
-//           inventoryItem.isDragging = false
-//           inventoryItem.item.sprite?.setDepth(0)
-//           const isSmallItem = inventoryItem.item.width === 1 && inventoryItem.item.height === 1
-//           let newCol = Math.floor(pointer.x / this.squareSize) - Math.floor(this.x / this.squareSize)
-//           let newRow = Math.floor(pointer.y / this.squareSize) - Math.floor(this.y / this.squareSize)
-//           if (!isSmallItem) {
-//             newCol -= Math.floor((inventoryItem.item.width - 1) / 2)
-//             newRow -= Math.floor((inventoryItem.item.height - 1) / 2)
-//           }
-//           const validGridPosition = this.isValidGridPosition(newRow, newCol)
-//           const isGridOccupied = this.isGridOccupied(newRow, newCol, inventoryItem.item.width, inventoryItem.item.height)
-//           if (validGridPosition && !isGridOccupied) {
-//             this.moveItem(inventoryItem, newRow, newCol)
-//           } else {
-//             this.moveItem(inventoryItem, inventoryItem.row, inventoryItem.col)
-//           }
-//         }
-//       })
-//     }
-//   }
-
-//   markGridOccupied(row: number, col: number, width: number, height: number) {
-//     const inventoryItem = this.inventoryGrid[row][col];
+//   clearGridOccupied(height: number, width: number, col: number, row: number) {
 //     for (let i = 0; i < height; i++) {
 //       for (let j = 0; j < width; j++) {
-//         this.inventoryGrid[row + i][col + j] = inventoryItem;
+//         this.inventoryGrid[row + i][col + j] = new InventoryItem(new Item(0, '', null, '', 1, 1, 0, null, false), row, col, false, 0)
 //       }
 //     }
 //   }
 
-//   clearGridOccupied(row: number, col: number, width: number, height: number) {
+//   setGridOccupied(height: number, width: number, col: number, row: number, inventoryItem: InventoryItem) {
 //     for (let i = 0; i < height; i++) {
 //       for (let j = 0; j < width; j++) {
-//         this.inventoryGrid[row + i][col + j] = new InventoryItem(
-//           new Item('', null, '', 1, 1, 0, null),
-//           row,
-//           col,
-//           false,
-//           0
-//         );
+//         this.inventoryGrid[row + i][col + j] = inventoryItem
 //       }
 //     }
 //   }
@@ -345,5 +371,81 @@
 //       offsetX: (width * this.squareSize) / 2,
 //       offsetY: (height * this.squareSize) / 2
 //     } 
+//   }
+
+//   setPosition(x: number, y: number) {
+//     this.inventoryContainer?.setPosition(x, y)
+//     for (let i = 0; i < this.rows; i++) {
+//       for (let j = 0; j < this.cols; j++) {
+//         this.inventoryGrid[i][j].item.sprite?.setPosition
+//       }
+//     }
+//   }
+
+//   initActions(inventoryItem: InventoryItem) {
+//     const { sprite, text, height, width } = inventoryItem.item
+
+//     if (sprite) {
+//       // Listen for the right mouse button down event
+//       sprite.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
+//         if (pointer.rightButtonDown()) {
+//           this.contextMenu.showMenu({x: pointer.x, y: pointer.y}, inventoryItem)
+//           // Prevent the default behavior to avoid the browser's context menu
+//           pointer.event.preventDefault()
+//         }
+//       })
+
+//       sprite.on('dragstart', (pointer: Phaser.Input.Pointer) => {
+//         this.itemBeingDragged = inventoryItem
+//         sprite?.setDepth(99)
+//         sprite?.setTint(this.TINT_COLOR)
+//         inventoryItem.isDragging = true
+//         this.isDraggingItem = true
+
+//         // Clears the item from the grid when its being dragged
+//         this.clearGridOccupied(height, width, inventoryItem.col, inventoryItem.row)
+//       })
+
+// sprite.on('drag', (pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
+//   const { offsetX, offsetY } = this.createOffsets(height, width);
+
+//   // Calculate the new position based on the grid
+//   const snapX = Math.floor((dragX - offsetX - this.x) / this.squareSize) * this.squareSize + this.x + offsetX;
+//   const snapY = Math.floor((dragY - offsetY - this.y) / this.squareSize) * this.squareSize + this.y + offsetY;
+
+//   text?.setPosition(snapX - 30, snapY - 30);
+//   sprite?.setPosition(snapX, snapY);
+// });
+
+// sprite.on('dragend', (pointer: Phaser.Input.Pointer, dropped: boolean) => {
+//   if (dropped) {
+//     this.isDraggingItem = false;
+//     inventoryItem.isDragging = false;
+//     sprite?.setDepth(0);
+
+//     const { offsetX, offsetY } = this.createOffsets(height, width);
+//     const newCol = Math.floor((pointer.x - offsetX - this.x) / this.squareSize);
+//     const newRow = Math.floor((pointer.y - offsetY - this.y) / this.squareSize);
+
+//     // Calculate the snapped new position for larger items
+//     const snappedX = newCol * this.squareSize + this.x;
+//     const snappedY = newRow * this.squareSize + this.y;
+
+//     const validGridPosition = this.isValidGridPosition(newRow, newCol);
+//     const isGridOccupied = this.isGridOccupied(newRow, newCol, width, height);
+
+//     if (validGridPosition && !isGridOccupied) {
+//       // Move the item to the snapped new grid position
+//       this.moveItem(inventoryItem, newRow, newCol);
+//     } else {
+//       if (!this.StackItems(newRow, newCol, width, height, inventoryItem)) {
+//         // Move the item back to its original position
+//         this.moveItem(inventoryItem, inventoryItem.row, inventoryItem.col);
+//       }
+//     }
+//     sprite?.clearTint() 
+//   }
+// });
+//     }
 //   }
 // }

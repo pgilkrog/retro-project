@@ -43,7 +43,7 @@ export default class InventoryManger {
     this.inventoryGrid = new Array(rows).fill([]).map(() =>
       new Array(cols).fill(
         new InventoryItem(
-          new Item('', null, '', 1, 1, 0, null),
+          new Item(0, '', null, '', 1, 1, 0, null, false),
           -1,
           -1,
           false,
@@ -143,13 +143,15 @@ export default class InventoryManger {
     // Create the actual item for the slot in the grid
     let inventoryItem = {
       item: {
+        id: item.id,
         name: item.name,
         sprite: item.sprite,
         width: item.width,
         height: item.height,
         maxStack: item.maxStack,
         description: item.description,
-        text: item.text
+        text: item.text,
+        isEquippable: item.isEquippable
       },
       col: col,
       row: row,
@@ -235,7 +237,7 @@ export default class InventoryManger {
     )
   }
 
-  checkItemInInventory(itemName: string, amount: number) {
+  checkItemInInventory(itemId: number, amount: number) {
     let itemCanBeMoved = false
     let inventoryItem = undefined
 
@@ -243,14 +245,14 @@ export default class InventoryManger {
       for (let col = 0; col < this.inventoryGrid[0].length; col++) {
         inventoryItem = this.inventoryGrid[row][col]
 
-        if (inventoryItem.item.name === itemName && inventoryItem.amount < inventoryItem.item.maxStack) {
+        if (inventoryItem.item.id === itemId && inventoryItem.amount < inventoryItem.item.maxStack) {
           // Calculate the remaining amount
           const remaining = inventoryItem.amount + amount - inventoryItem.item.maxStack
     
           if (remaining > 0) {
             inventoryItem.amount = inventoryItem.item.maxStack
             inventoryItem.item.text?.setText('x' + inventoryItem.amount)
-            this.checkItemInInventory(inventoryItem.item.name, remaining)
+            this.checkItemInInventory(inventoryItem.item.id, remaining)
           } else {
             inventoryItem.amount += amount
             inventoryItem.item.text?.setText('x' + inventoryItem.amount.toString())
@@ -261,7 +263,7 @@ export default class InventoryManger {
       }
     }
     
-    const newItem = this.itemsManager.getItem(itemName)
+    const newItem = this.itemsManager.getItem(itemId)
     if (amount <= 0 || newItem == undefined) return
    
     if (newItem.maxStack > amount) {
@@ -269,7 +271,7 @@ export default class InventoryManger {
     } else {
       itemCanBeMoved = this.addItemToInventory(newItem, newItem.maxStack)
       if (amount - newItem.maxStack > 0)
-        this.checkItemInInventory(newItem.name, amount - newItem.maxStack)
+        this.checkItemInInventory(newItem.id, amount - newItem.maxStack)
     }
 
     if (itemCanBeMoved === false) {
@@ -283,7 +285,7 @@ export default class InventoryManger {
   splitInventoryItem(props: any) {
     if (!props.item && props.amountToSplit <= 0) return
 
-    const newItem = this.itemsManager.getItem(props.item.item.name)
+    const newItem = this.itemsManager.getItem(props.item.item.id)
     const check = this.addItemToInventory(newItem!, props.amountToSplit)
     if (check) {
       props.item.amount -= props.amountToSplit      
@@ -351,7 +353,7 @@ export default class InventoryManger {
   clearGridOccupied(height: number, width: number, col: number, row: number) {
     for (let i = 0; i < height; i++) {
       for (let j = 0; j < width; j++) {
-        this.inventoryGrid[row + i][col + j] = new InventoryItem(new Item('', null, '', 1, 1, 0, null), row, col, false, 0)
+        this.inventoryGrid[row + i][col + j] = new InventoryItem(new Item(0, '', null, '', 1, 1, 0, null, false), row, col, false, 0)
       }
     }
   }

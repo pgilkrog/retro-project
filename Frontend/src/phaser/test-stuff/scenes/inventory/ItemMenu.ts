@@ -14,7 +14,7 @@ export default class ContextMenu {
   private scene
   private menuGroup
   private game: InventoryManager
-  private height: number = 130
+  private height: number = 34
   private width: number = 75
   private buttonSpace: number = 30
   private inventoryType: inventoryTypes
@@ -22,6 +22,7 @@ export default class ContextMenu {
   private amountMenu
   private x: number = 0
   private y: number = 0
+  private buttonsAmount: number = 0
 
   private readonly WHITE = '#FFFFFF'
 
@@ -34,93 +35,72 @@ export default class ContextMenu {
   }
 
   showMenu(cords: ICords,  item: InventoryItem) {
+    this.buttonsAmount = 0
     this.menuGroup.clear(true, true)
     this.x = cords.x
     this.y = cords.y
+    this.buttonY = cords.y - 17
 
     // Position the menu next to the right-clicked item
     this.menuGroup.setXY(this.x, this.y)
 
-    this.createMenuBackground()
+    this.createActionButton('Info', item, false, (amount: number) => {
+      console.log('Info button clicked', item)
+    })
+    
+    if (this.inventoryType === 'Player')
+      this.createActionButton('Drop', item, true, (amount: number) => {
+        this.game.removeItemFromInventory({ inventoryItem: item, amount })
+        this.amountMenu.setVisible(false)
+      })  
+    else 
+      this.createActionButton('Take', item, true, (amount: number) => {
+        events.emit('transforItem', { inventoryItem: item, amount })
+        this.amountMenu.setVisible(false)
+      })
+    
+    if (item.amount > 1)
+      this.createActionButton('Split', item, true, (amount: number) => {
+        this.game.splitInventoryItem({ item, amountToSplit: amount })
+        this.amountMenu.setVisible(false)
+      });
   
-    // Create buttons in the context menu
-    this.createInfoButton(item)
-    this.inventoryType === 'Player' ? this.createDropButton(item) : this.createTakeButton(item)
-    this.createSplitButton(item)
-    this.createCloseButton()
+    this.createActionButton('Close', item, false, (amount: number) => {})
 
     // Show the menu
     this.menuGroup.setDepth(1) // Adjust depth to appear on top
     this.menuGroup.setVisible(true)
+    this.createMenuBackground()
+  }
+
+  private createActionButton(name: string, item: InventoryItem, withAmount: boolean, callback: (amount: number) => void) {
+    this.buttonsAmount += 1
+    const button = this.createContextMenuButton(name)
+    button.on('pointerdown', () => {
+      if (withAmount) {
+        this.amountMenu.showMenu(this.x, this.y, item)
+        this.amountMenu.createTakeButton(this.x, this.y, callback)        
+      }
+      this.menuGroup.setVisible(false)
+    })
+  }
+
+  private createContextMenuButton(name: string) {
+    const button = this.scene.add.text(this.x + 5, this.buttonY + this.buttonSpace, name, { color: this.WHITE });
+    button.setInteractive();
+    this.menuGroup.add(button);
+    this.buttonY = button.y;
+    return button;
   }
 
   createMenuBackground() {
     // Create a background for the menu
     const menuBackground = this.scene.add.graphics();
     menuBackground.fillStyle(0x000000, 0.9) // Background color with transparency
-    menuBackground.fillRect(this.x, this.y, this.width, this.height) // Adjust width and height
+    menuBackground.fillRect(this.x, this.y, this.width, this.height * this.buttonsAmount) // Adjust width and height
     menuBackground.lineStyle(1, 0xffffff, 1) // Border
-    menuBackground.strokeRect(this.x, this.y, this.width, this.height) // Adjust width and height
+    menuBackground.strokeRect(this.x, this.y, this.width, this.height * this.buttonsAmount) // Adjust width and height
     // Add the menu graphics to the menuGroup
     this.menuGroup.add(menuBackground)
-  }
-
-  createInfoButton(item: InventoryItem) {
-    const infoButton = this.createButtonBasics('Info', this.y-20)  
-    infoButton.on('pointerdown', () => {
-      console.log('Info button clicked', item)
-    })
-  }
-
-  createTakeButton(item: InventoryItem) {
-    const takeButton = this.createButtonBasics('Take', this.buttonY)
-    takeButton.on('pointerdown', () => {
-      this.amountMenu.showMenu(this.x, this.y, item)
-      this.amountMenu.createTakeButton(this.x, this.y, (amount: number) => {
-        events.emit('transforItem', { inventoryItem: item, amount: amount })
-        this.amountMenu.setVisible(false)
-      })
-      this.menuGroup.setVisible(false)
-    })
-  }
-
-  createDropButton(item: InventoryItem) {
-    const dropButton = this.createButtonBasics('Drop', this.buttonY)
-    dropButton.on('pointerdown', () => {
-      this.amountMenu.showMenu(this.x, this.y, item)
-      this.amountMenu.createTakeButton(this.x, this.y, (amount: number) => {
-        this.game.removeItemFromInventory({ inventoryItem: item, amount: amount })
-        this.amountMenu.setVisible(false)
-      })
-      this.menuGroup.setVisible(false)
-    })
-  }
-
-  createSplitButton(item: InventoryItem) {
-    const splitButton = this.createButtonBasics('Split', this.buttonY)
-    splitButton.on('pointerdown', () => {
-      this.amountMenu.showMenu(this.x, this.y, item)
-      this.amountMenu.createTakeButton(this.x, this.y, (amount: number) => {
-        this.game.splitInventoryItem({item: item, amountToSplit: amount})
-        this.amountMenu.setVisible(false)
-      })
-      this.menuGroup.setVisible(false)
-    })
-  }
-
-  createCloseButton() {
-    const closeButton = this.createButtonBasics('Close', this.buttonY)
-    closeButton.on('pointerdown', () => {
-      console.log('Close button clicked')
-      this.menuGroup.setVisible(false)
-    })
-  }
-
-  createButtonBasics(name: string, y: number) {
-    const button = this.scene.add.text(this.x + 5, y + this.buttonSpace, name, { color: this.WHITE }) 
-    button.setInteractive()
-    this.menuGroup.add(button)
-    this.buttonY = button.y
-    return button
   }
 }
