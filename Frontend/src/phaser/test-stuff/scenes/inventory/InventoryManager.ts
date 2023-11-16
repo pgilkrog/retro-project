@@ -43,7 +43,7 @@ export default class InventoryManger {
     this.inventoryGrid = new Array(rows).fill([]).map(() =>
       new Array(cols).fill(
         new InventoryItem(
-          new Item(0, '', null, '', 1, 1, 0, null, false),
+          new Item(0, '', null, '', 1, 1, 0, null, false, false),
           -1,
           -1,
           false,
@@ -151,7 +151,8 @@ export default class InventoryManger {
         maxStack: item.maxStack,
         description: item.description,
         text: item.text,
-        isEquippable: item.isEquippable
+        isEquippable: item.isEquippable,
+        isUseable: item.isUseable
       },
       col: col,
       row: row,
@@ -296,6 +297,11 @@ export default class InventoryManger {
     }
   }
 
+  equibItem(item: InventoryItem) {
+    debugger
+    item.item.sprite?.setTint(this.TINT_COLOR)
+  }
+
   isGridOccupied(startRow: number, startCol: number, width: number, height: number): boolean {
     for (let i = 0; i < height; i++) {
       for (let j = 0; j < width; j++) {
@@ -353,7 +359,7 @@ export default class InventoryManger {
   clearGridOccupied(height: number, width: number, col: number, row: number) {
     for (let i = 0; i < height; i++) {
       for (let j = 0; j < width; j++) {
-        this.inventoryGrid[row + i][col + j] = new InventoryItem(new Item(0, '', null, '', 1, 1, 0, null, false), row, col, false, 0)
+        this.inventoryGrid[row + i][col + j] = new InventoryItem(new Item(0, '', null, '', 1, 1, 0, null, false, false), row, col, false, 0)
       }
     }
   }

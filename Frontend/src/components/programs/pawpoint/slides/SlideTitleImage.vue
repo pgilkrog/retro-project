@@ -2,9 +2,10 @@
 .title.d-flex.justify-content-center.align-items-center.my-4(v-if="slide.title !== undefined && slide.title !== ''")
   h1 {{ slide.title }}
 .text.d-flex.justify-content-center.align-items-center(v-if="slide.image !== undefined && slide.image !== ''")
-  img.reponsive-img.p-4(:src="slide.image")
+  ImageComponent(:source="slide.image" alt="image of things")
 </template>
 <script setup lang="ts">
+import ImageComponent from '@/components/utils/ImageComponent.vue'
 
 const { slide } = defineProps({
   slide: Object

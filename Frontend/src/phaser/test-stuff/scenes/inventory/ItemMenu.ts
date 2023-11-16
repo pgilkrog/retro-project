@@ -48,11 +48,21 @@ export default class ContextMenu {
       console.log('Info button clicked', item)
     })
     
-    if (this.inventoryType === 'Player')
-      this.createActionButton('Drop', item, true, (amount: number) => {
-        this.game.removeItemFromInventory({ inventoryItem: item, amount })
-        this.amountMenu.setVisible(false)
-      })  
+    if (this.inventoryType === 'Player')  {
+        this.createActionButton('Drop', item, true, (amount: number) => {
+          this.game.removeItemFromInventory({ inventoryItem: item, amount })
+          this.amountMenu.setVisible(false)
+        })
+
+        if (item.item.isEquippable)
+          this.createActionButton('Equip', item, false, (amount: number) => {
+            this.game.equibItem(item)
+          })
+        
+        if (item.item.isUseable) 
+          this.createActionButton('Use', item, true, (amount: number) => {
+          })
+    }
     else 
       this.createActionButton('Take', item, true, (amount: number) => {
         events.emit('transforItem', { inventoryItem: item, amount })

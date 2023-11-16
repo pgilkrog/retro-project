@@ -15,7 +15,7 @@ ComponentMachine
 Menu(v-if="showMenu")
 Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")
 //- Salvatore
-TestStuff
+//- TestStuff
 </template>
 
 <script setup lang="ts">
@@ -29,8 +29,8 @@ import Taskbar from '@/components/taskbar/Taskbar.vue'
 import DesktopItem from '@/components/DesktopItem.vue'
 import { authStore } from '@/stores/authStore'
 const Menu = defineAsyncComponent(() => import('@/components/menuComponents/Menu.vue'))
-import Salvatore from '@/phaser/salvatore/SalvatoreGame.vue'
-import TestStuff from '@/phaser/test-stuff/TestStuff.vue'
+// import Salvatore from '@/phaser/salvatore/SalvatoreGame.vue'
+// import TestStuff from '@/phaser/test-stuff/TestStuff.vue'
 
 const authstore = authStore()
 const programsstore = programsStore()
