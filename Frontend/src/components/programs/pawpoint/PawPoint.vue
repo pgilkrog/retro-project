@@ -16,7 +16,7 @@ WindowFrame(
       span(v-else) 
         .title.d-flex.justify-content-center.align-items-center.my-4
           .spinner-border
-      
+
     .group-slides.d-flex
       .group-slides-item.m-4.d-flex.pointer(
         v-for="slide in slides"

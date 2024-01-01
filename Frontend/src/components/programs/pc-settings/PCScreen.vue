@@ -1,9 +1,11 @@
 <template lang="pug">
 .bg-shadow.p-4.fit-content.rounded
   .bg-shadow-inner.img-box()
-    img.box(
+    ImageComponent.box(
       v-if="tempImg !== undefined && tempImg.name"
-      :src="getImageUrl(tempImg.name)"
+      :source="getImageUrl(tempImg.name)" 
+      alt="image for showing how wallpaper looks like"
+      class
     )
     .box(
       v-else

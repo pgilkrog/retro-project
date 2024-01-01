@@ -4,12 +4,12 @@
 .text.d-flex.justify-content-center.align-items-center(v-if="slide.image !== undefined && slide.image !== ''")
   ImageComponent(:source="slide.image" alt="image of things")
 </template>
-<script setup lang="ts">
-import ImageComponent from '@/components/utils/ImageComponent.vue'
+<script setup lang="ts"> 
 
 const { slide } = defineProps({
   slide: Object
 })
+
 </script>
 <style lang="sass">
 img 

@@ -1,13 +1,14 @@
 <template lang="pug">
-img(v-if="imageIsLoading === false" :src="src" :class="fadeInClass")
-p(v-else) LOADING!!
+img(v-if="imageIsLoading === false && src !== ''" :src="src" :alt="alt" :class="fadeInClass")
+div.rounded.d-flex.justify-content-center.align-items-center.border.border-dark(v-else role="img" :aria-label="alt" style="height: 200px; width: 200px; background: #eeeeee;") 
+  iconComponent(name="bi-image" variant="dark" size="34")
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 
 const { source = '', alt } = defineProps({
-  source: String, 
+  source: String,
   alt: String
 })
 
@@ -17,22 +18,35 @@ const fadeInClass = ref('fade-in-image')
 
 onMounted(async () => {
   const image = new Image()
-  if (source === undefined) return
+  
+  if (!source) {
+    // Handle case where source is not provided
+    imageIsLoading.value = false
+    return
+  }
+
   image.src = source + ''
-  await new Promise(resolve => (image.onload = resolve))
-  src.value = image.src
-  imageIsLoading.value = false
-  setTimeout(() => fadeInClass.value = 'fade-in-image visible', 10)
+  image.onload = () => {
+    src.value = image.src
+    imageIsLoading.value = false
+    setTimeout(() => fadeInClass.value = 'fade-in-image visible', 10)
+  }
+
+  image.onerror = () => {
+    // Handle case where the image fails to load (invalid source)
+    imageIsLoading.value = false
+    console.error('Error loading image:', source)
+  }
 })
 </script>
-<style scoped>
 
+<style scoped>
 .fade-in-image {
   opacity: 0;
   transition: opacity 0.5s ease; 
 }
 
 .fade-in-image.visible {
-  opacity: 1;
+  opacity: 1
 }
 </style>
