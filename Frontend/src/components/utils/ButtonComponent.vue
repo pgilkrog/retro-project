@@ -1,8 +1,8 @@
 <template lang="pug">
 button.btn.d-flex.align-content-center.align-items-center.bg-secondary.rounded.hover(
   @click="buttonClicked"
-  :type="type"
-  :disabled="disabled"
+  :type
+  :disabled
   :style="'background: ' + color"
   :class="`${buttonClasses} ${active ? ' bg-shadow-inner btn-active' : ' bg-shadow'}`"
 )

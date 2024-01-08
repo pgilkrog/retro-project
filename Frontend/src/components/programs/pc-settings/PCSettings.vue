@@ -112,7 +112,6 @@ const getImageUrl = (filename: string) => {
 <style lang="sass" scope>
 .main-wrap
   border-top-left-radius: 0px !important
-  z-index: 10
   position: relative
   margin-top: -1px
   margin-right: -5px

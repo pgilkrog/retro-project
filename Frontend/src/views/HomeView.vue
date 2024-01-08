@@ -7,7 +7,7 @@ template(v-if="userData !== undefined")
         v-for="program in allPrograms()"
         v-on:generateComponent="generateComponent(program)"
         :key="program._id"
-        :program="program"
+        :program
         :itemColor="program.color"
       )
 

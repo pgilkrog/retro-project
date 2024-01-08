@@ -4,10 +4,11 @@ Teleport(to="#app")
     .window-frame-wrapper.bg-shadow.bg-secondary.d-flex.flex-column.position-absolute.p-2.rounded(
       v-if="program?.isActive === true" 
       :style="[ isMoveable ? { top: top + 'px', left: left + 'px'} : {}]"
+      @mousedown="handleMouseDown"
     )
       header.top-bar.text-light.d-flex.justify-content-between.align-items-center.mb-1.p-2.px-4.rounded(
         :class="variant !== undefined ? 'bg-'+ variant : 'bg-primary'" 
-        @mousedown="startDrag" 
+        :id="program._id"
       )
         .d-flex.align-items-center.align-content.center
           IconComponent(:name="program.image" size="25" variant="light")
@@ -28,22 +29,12 @@ import type { PropType } from 'vue'
 import { ref } from 'vue'
 import WindowframeMenu from './windowframeMenu.vue'
 
-interface Props {
-  showMenu: Boolean,
-  program: Object,
-  variant: String,
-  isNotProgram: Boolean,
-  isMoveable: Boolean,
-  type: String
-}
-
-const { showMenu, program, variant, isNotProgram, isMoveable = true, type } = defineProps({
+const { showMenu = false, program, variant = 'info', isNotProgram, isMoveable = true } = defineProps({
   showMenu: Boolean,
   program: Object as PropType<IProgram>,
   variant: String,
   isNotProgram: Boolean,
-  isMoveable: Boolean,
-  type: String
+  isMoveable: Boolean
 })
 
 const emit = defineEmits([
@@ -70,6 +61,16 @@ const setInactive = () => {
   // Set if the window should be hidden on screen, but visible in the taskbar.
   if (program) programsstore.setProgramActiveState(program)
 }
+
+const handleMouseDown = (event: MouseEvent) => {
+  if (isMoveable === true) {
+    const target = event.target as HTMLElement;
+    
+    if (target.classList.contains('top-bar')) {
+      startDrag(event);
+    }
+  }
+};
 
 const startDrag = (event: MouseEvent) => {
   if (isMoveable === true) {

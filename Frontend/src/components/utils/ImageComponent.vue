@@ -1,5 +1,9 @@
 <template lang="pug">
-img(v-if="imageIsLoading === false && src !== ''" :src="src" :alt="alt" :class="fadeInClass")
+img(
+  v-if="imageIsLoading === false && src !== ''" 
+  :src 
+  :alt 
+)
 div.rounded.d-flex.justify-content-center.align-items-center.border.border-dark(v-else role="img" :aria-label="alt" style="height: 200px; width: 200px; background: #eeeeee;") 
   iconComponent(name="bi-image" variant="dark" size="34")
 </template>
