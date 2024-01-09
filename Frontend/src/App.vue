@@ -1,7 +1,7 @@
 <template lang="pug">
 .app-wrapper(id="app")
   router-view
-ErrorComponent
+ErrorComponent(v-if="errorstore.error !== undefined")
 </template>
 
 <script setup lang="ts">
@@ -10,9 +10,11 @@ import { onMounted, computed, watch } from 'vue'
 import router from './router'
 import ErrorComponent from './components/ErrorComponent.vue'
 import { useCookies } from 'vue3-cookies'
+import { errorStore } from '@/stores/errorStore'
 
 const authstore = authStore()
 const checkAuth = computed(() => authstore.checkedAuth)
+const errorstore = errorStore()
 const { cookies } = useCookies()
 
 onMounted(async () => {
@@ -20,6 +22,7 @@ onMounted(async () => {
   let my_cookies_value = cookies.get("myCookie")
   console.log("COOKIE", my_cookies_value)
   cookies.set('LAST_RESULT_ENTRY_KEY', 'your_cookie_value', '7d', undefined, undefined, true, 'None')
+  console.log("error", errorstore.error)
 })  
 
 watch(checkAuth, (newValue, oldValue) => {

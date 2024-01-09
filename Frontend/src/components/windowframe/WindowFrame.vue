@@ -5,10 +5,10 @@ Teleport(to="#app")
       v-if="program?.isActive === true" 
       :style="[ isMoveable ? { top: top + 'px', left: left + 'px'} : {}]"
       @mousedown="handleMouseDown"
+      :id="program._id"
     )
       header.top-bar.text-light.d-flex.justify-content-between.align-items-center.mb-1.p-2.px-4.rounded(
         :class="variant !== undefined ? 'bg-'+ variant : 'bg-primary'" 
-        :id="program._id"
       )
         .d-flex.align-items-center.align-content.center
           IconComponent(:name="program.image" size="25" variant="light")
