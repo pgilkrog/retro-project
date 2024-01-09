@@ -1,7 +1,8 @@
 <template lang="pug">
-.app-wrapper(id="app")
+.app-wrapper(id="app" class="bg-emerald-800 h-full w-full")
   router-view
 ErrorComponent(v-if="errorstore.error !== undefined")
+div(class='bg-slate-500 bg-red-500 bg-blue-500 bg-yellow-500')
 </template>
 
 <script setup lang="ts">

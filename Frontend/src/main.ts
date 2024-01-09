@@ -6,7 +6,6 @@ import App from './App.vue'
 import router from './router'
 
 import './styles/main.sass'
-import 'bootstrap'
 import "bootstrap-icons/font/bootstrap-icons.css"
 
 import IconComponent from '@/components/utils/IconComponent.vue'

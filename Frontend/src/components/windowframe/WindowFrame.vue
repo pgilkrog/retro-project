@@ -1,24 +1,24 @@
 <template lang="pug">
 Teleport(to="#app")
   Transition(name="window-animation" appear)
-    .window-frame-wrapper.bg-shadow.bg-secondary.d-flex.flex-column.position-absolute.p-2.rounded(
+    .wrapper.bg-shadow.bg-gray-300.flex.flex-col.absolute.p-2.rounded(
       v-if="program?.isActive === true" 
       :style="[ isMoveable ? { top: top + 'px', left: left + 'px'} : {}]"
       @mousedown="handleMouseDown"
       :id="program._id"
     )
-      header.top-bar.text-light.d-flex.justify-content-between.align-items-center.mb-1.p-2.px-4.rounded(
-        :class="variant !== undefined ? 'bg-'+ variant : 'bg-primary'" 
+      header.top-bar.flex.justify-between.items-center.mb-1.p-2.px-4.rounded(
+        :class="[variant !== undefined ? getBackgroundColor(variant) : 'bg-blue-500']" 
       )
-        .d-flex.align-items-center.align-content.center
+        div.flex.items-center.content-center
           IconComponent(:name="program.image" size="25" variant="light")
-          .font-title.font-weight-bold.pe-4.ps-4 {{ program.displayName }}
-        .d-flex
+          p.font-semibold.pe-4.ps-4.text-2xl {{ program.displayName }}
+        div(class="flex")
           Btn(icon="fa-window-minimize" @clicked="setInactive()" size="small")
           Btn(icon="fa-square" size="small")
           Btn(icon="fa-xmark" @clicked="closeWindow()" size="small")
       windowframeMenu(:showMenu="showMenu")
-      .container-fluid.gx-0.bg-secondary.mt-1.bg-shadow-inner.rounded
+      .bg-gray-300.bg-shadow-inner.rounded
         slot
 </template>
 
@@ -29,7 +29,7 @@ import type { PropType } from 'vue'
 import { ref } from 'vue'
 import WindowframeMenu from './windowframeMenu.vue'
 
-const { showMenu = false, program, variant = 'info', isNotProgram, isMoveable = true } = defineProps({
+const { showMenu = false, program, variant = 'blue', isNotProgram, isMoveable = true } = defineProps({
   showMenu: Boolean,
   program: Object as PropType<IProgram>,
   variant: String,
@@ -70,7 +70,12 @@ const handleMouseDown = (event: MouseEvent) => {
       startDrag(event);
     }
   }
-};
+}
+
+const getBackgroundColor = (color: string) => {
+  console.log("getBackgroundColor", color)
+  return 'bg-'+color+'-500'
+}
 
 const startDrag = (event: MouseEvent) => {
   if (isMoveable === true) {
@@ -101,9 +106,3 @@ const stopDrag = () => {
   document.removeEventListener('mouseup', stopDrag)      
 }
 </script>
-<style scoped lang="sass">
-.window-frame-wrapper
-  top: 0
-  .top-bar
-    user-select: none
-</style>

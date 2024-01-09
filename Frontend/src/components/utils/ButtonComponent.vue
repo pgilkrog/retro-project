@@ -1,10 +1,10 @@
 <template lang="pug">
-button.btn.d-flex.align-content-center.align-items-center.bg-secondary.rounded.hover(
-  @click="buttonClicked"
+button(
+  @click="buttonClicked()"
   :type
   :disabled
-  :style="'background: ' + color"
-  :class="`${buttonClasses} ${active ? ' bg-shadow-inner btn-active' : ' bg-shadow'}`"
+  :class="[active ? 'bg-shadow-inner btn-active' : ' bg-shadow', 'bg-gray-300 border rounded flex content-center items-center px-4 py-2', 'bg-'+color+'-300']"
+  v-bind="$attrs"
 )
   template(v-if="!isLoading")
     IconComponent(
@@ -46,26 +46,7 @@ const emit = defineEmits([
   'clicked'
 ])
 
-const buttonClasses = ` ` +
-  `${size === 'default' ? ' px-4 py-2' : ''}` +
-  `${size === 'wide' ? ' btn-wide' : ''}` +
-  `${size === 'full' ? ' w-100 justify-content-center' : ''}` +
-  `${variant === 'secondary' ? ' bg-secondary' : ' bg-'+variant} !important`
-
 const buttonClicked = () => {
   emit('clicked')
 }
 </script>
-
-<style lang="sass" scoped>
-button
-  line-height: 1.3
-  width: fit-content
-  height: fit-content
-  p
-    padding-top: 3px
-
-.btn-wide
-  min-width: 200px
-
-</style>

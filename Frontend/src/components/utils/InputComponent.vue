@@ -1,7 +1,7 @@
 <template lang="pug">
-.d-flex.align-items-center.m-1
+.input(class="flex align-center m-1")
   label.me-2(v-if="label") {{ label + ': ' }}
-  input.bg-shadow-inner.p-1.px-2.w-100(
+  input(class="bg-shadow-inner p-1 px-2 w-full rounded")(
     :type
     :value="modelValue" 
     @input="$emit('update:modelValue', type === 'checkbox' ? $event.target.checked : $event.target.value)"

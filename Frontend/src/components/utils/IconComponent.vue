@@ -1,29 +1,17 @@
 <template lang="pug">
 i.icon(
-  :class="iconClass(), 'text-' + variant" 
+  :class="[iconClass(), 'text-' + variant]" 
   :style="'color: ' + color + '!important; font-size: ' + size + 'px !important; transform: rotate(' + rotate + 'deg);'"
 )
 </template>
 
 <script setup lang="ts">
-const { name, variant, color, size, rotate } = defineProps({
+const { name, variant = 'black', color, size = '24', rotate = '0' } = defineProps({
   name: String,
-  variant: {
-    type: String,
-    default: 'dark'
-  },
-  color: {
-    type: String,
-    default: ''
-  },
-  size: {
-    type: String,
-    default: '24'
-  },
-  rotate: {
-    type: [String, Number],
-    default: '0'
-  },
+  variant: String,
+  color: String,
+  size: String,
+  rotate: String,
 })
 
 const iconClass = () => {

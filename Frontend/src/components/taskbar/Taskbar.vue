@@ -1,9 +1,9 @@
 <template lang="pug">
-.taskbar-container.fixed-bottom.bg-secondary
-  .line.bg-secondary
+div(class="bg-gray-300 w-full h-auto fixed bottom-0 z-50")
+  .line.bg-black
   .line.bg-white
-  .w-100.p-1.d-flex.justify-content-between
-    .d-flex.py-1.ms-1
+  div(class="w-full p-1 flex justify-between")
+    div(class="flex py-1 ms-1")
       Btn(
         text="Start" 
         icon="fa-paw" 
@@ -20,14 +20,14 @@
           @clicked="setActiveState(item)"
           :active="item.isActive"
         )
-    .d-flex.align-items-center
+    div(class="flex items-center")
       Btn(
         v-if="userstore.userData?.type === 'admin'" 
         text="admin" 
         v-on:clicked="goToAdmin()" 
         variant="danger"
       )
-      .px-3.ms-1.d-flex.align-items-center.p-2.bg-shadow-inner.rounded.h-100
+      div(class="px-3 ms-1 flex items-center p-2 rounded border-t-black border-s-black border  border-b-white border-e-white")
         IconComponent.me-4(name="fa-user" variant="success" size="14")
         Clock
 </template>
@@ -67,9 +67,6 @@ const goToAdmin = () => {
 </script>
 
 <style lang="sass">
-.taskbar-container
-  z-index: 999 !important
-
 .line 
   height: 2px
   width: 100%

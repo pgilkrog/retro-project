@@ -2,35 +2,35 @@
 WindowFrame(
   :program="program" 
   :showMenu="false" 
-  :variant="info"
+  :variant="red"
 )
-  .login-screen.row.p-2.px-4
-    .col-2.text-center
+  .login-screen.grid.py-2.px-4
+    .col-span-2.text-center
       IconComponent(name="fa-key" variant="warning" size="40" rotate="0")
-    .col-10.d-flex.align-items-center
+    .col-span-10.flex.items-center
       | {{ infoText }}
-    form.col-12
-      .row.mt-4
-        .col-12.col-lg-3.d-flex.align-items-center
+    form.col-span-12
+      .mt-4
+        .col-12.flex.items-center
           .login-text Email:
         .col-12.col-lg
           BaseInput(v-model="username")
-      .row.mt-2(v-if="state === 2 || state === 1")
-        .col-12.col-lg-3.d-flex.align-items-center
+      .mt-2(v-if="state === 2 || state === 1")
+        .col-span-12.flex.items-center
           .login-text Password:
-        .col-12.col-lg
+        .col-span-12
           BaseInput(v-model="password" type="password")
-      .row.mt-2(v-if="state === 2")
-        .col-12.col-lg-3.d-flex.align-items-center
+      .mt-2(v-if="state === 2")
+        .col-span-12.flex.items-center
           .login-text Password:
-        .col-12.col-lg
+        .col-span-12
           BaseInput(v-model="password2" type="password")
-    .col-12.mt-4.d-flex.justify-content-center
+    .buttons.mt-4.flex.justify-end.w-full
       Btn.me-2(@clicked="pressedOk()" text="OK") 
       Btn(@clicked="changeShowHelp()" text="Help" :active="showHelp")
-  .d-flex.flex-column.bg-shadow-inner.p-4.m-2(v-if="showHelp === true")
+  .buttons.flex.flex-col.bg-shadow-inner.p-4.m-2.rounded(v-if="showHelp === true")
     p Some helping info and stuff
-    .d-flex.justify-content-center.mt-4
+    div(class="flex justify-center mt-4")
       Btn.me-4(@clicked="changeState(2)" v-if="state === 1" text="Create User") 
       Btn.me-4(@clicked="changeState(1)" v-else text="Login")
       Btn(@clicked="changeState(3)" text="Forgot password") 
@@ -91,24 +91,19 @@ const changeShowHelp = () => {
 const changeState = (stateVal: number) => {
   if (stateVal === 1) {
     state.value = 1
-    info.value = 'info'
+    info.value = 'blue'
     program.value.name = 'Log in now'
     infoText.value = 'Type a email and password to log into Windows'
   } else if (stateVal === 2) {
     state.value = 2
-    info.value = 'warning'
+    info.value = 'yellow'
     program.value.name = 'Register user'
     infoText.value = 'Type a email and password to create a user'
   } else if (stateVal === 3) {
     state.value = 3
-    info.value = 'success'
+    info.value = 'green'
     program.value.name = 'Reset password'
     infoText.value = 'Type a email to send an reset email notification'
   }
 }
 </script>
-
-<style lang="sass" scoped>
-.login-screen
-  max-width: 600px
-</style>
