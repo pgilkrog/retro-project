@@ -15,7 +15,7 @@ WindowFrame(
         | Profile
       .tab-fill
     .content.p-4.main-wrap.rounded(v-if="state === 0")
-      .row.d-flex.flex-column.align-items-center
+      .row.flex.flex-col.items-center
         PCScreen(:tempImg="tempImg")
       .row.mt-4
         BackgroundImages(@setTempImg="setTempImg($event)" :tempImg="tempImg")

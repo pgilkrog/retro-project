@@ -4,38 +4,38 @@ WindowFrame(
   :isMoveable="true" 
   :showMenu="false"
   :isNotProgram="false"
-  variant="info"
+  :variant="program.color"
 )
-  .paint-wrapper.d-flex
-    .canvas-wrapper.d-flex.h-100.w-100.bg-dark
+  .paint-wrapper(class="flex justify-between")
+    .canvas-wrapper(class="flex bg-gray-950")
       canvas.bg-white(
         id="canvasWrapper"
-        ref="canvasRef" 
-        @mousedown="startDrawing" 
-        @mousemove="draw" 
+        ref="canvasRef"
+        @mousedown="startDrawing"
+        @mousemove="draw"
         @mouseup="stopDrawing"
       )
-    .tools.bg-shadow.p-4
+    .tools(class="bg-shadow flex flex-col p-4")
       .size.mb-4
-        input.tb(type="number" v-model="canvasX").w-100.mb-2
-        input.tb(type="number" v-model="canvasY").w-100
+        input.tb(type="number" v-model="canvasX")
+        input.tb(type="number" v-model="canvasY")
         Btn(@clicked="setSize(canvasX, canvasY)" text="New").mt-2
-      .icons.d-flex.justify-content-between
+      .icons(class="flex justify-center")
         Btn(icon="fa-file" size="small" @clicked="createNew()")
         Btn(icon="fa-floppy-disk" size="small" data-bs-toggle="modal" data-bs-target="#exampleModal")
         Btn(icon="fa-folder" size="small" @clicked="changeShowFiles(true)")
-      .brushes.mt-4.d-flex.justify-content-between
+      .brushes(class="mt-4 flex justify-center")
         Btn(icon="fa-circle" size="small" @clicked="setBrushType('circle')")
         Btn(icon="fa-square" size="small" @clicked="setBrushType('square')")
         Btn(icon="fa-spray-can" size="small" @clicked="setBrushType('spray')")
-
-        div(class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
-          div(class="modal-dialog")
-            div(class="modal-content")
-              div(class="modal-body")
-                input(v-model="inputSave")
-                Btn(type="button" variant="danger" data-bs-dismiss="modal" text="Close")
-                Btn(type="button" variant="info" @clicked="savePainting(inputSave)" text="Save changes") 
+      //- .stuff
+      //-   div(class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
+      //-     div(class="modal-dialog")
+      //-       div(class="modal-content")
+      //-         div(class="modal-body")
+      //-           input(v-model="inputSave")
+      //-           Btn(type="button" variant="danger" data-bs-dismiss="modal" text="Close")
+      //-           Btn(type="button" variant="info" @clicked="savePainting(inputSave)" text="Save changes") 
       ColorTool(v-on:changeColor="changeColor($event)")
       div.mt-4
         input(type="color" v-model="state.color")
@@ -224,4 +224,15 @@ onMounted(() => {
 <style scoped lang="sass">
 .tools
   width: 200px
+.paint-wrapper
+  width: 80vw
+  height: 80vh
+  .canvas-wrapper
+    max-width: 80vw
+    max-height: 80vh
+    overflow: scroll
+    scrollbar-width: thin
+    canvas
+      width: 63vw 
+      height: 80vh
 </style>

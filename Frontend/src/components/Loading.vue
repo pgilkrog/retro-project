@@ -40,7 +40,7 @@ const program = {
   _id: "345345",
   name: 'Loading',
   displayName: 'Loading',
-  color: 'info', 
+  color: 'blue', 
   isActive: true, 
   image: 'bi-archive',
 } as IProgram

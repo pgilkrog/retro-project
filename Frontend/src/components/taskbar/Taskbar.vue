@@ -11,7 +11,7 @@ div(class="bg-gray-300 w-full h-auto fixed bottom-0 z-50")
         :active="showMenu" 
         variant="primary"
       )
-      .programs-container.d-flex.ms-2
+      .programs-container(class="flex ms-2")
         Btn(
           v-for="item in activePrograms" 
           :key="item.id" 
@@ -28,7 +28,7 @@ div(class="bg-gray-300 w-full h-auto fixed bottom-0 z-50")
         variant="danger"
       )
       div(class="px-3 ms-1 flex items-center p-2 rounded border-t-black border-s-black border  border-b-white border-e-white")
-        IconComponent.me-4(name="fa-user" variant="success" size="14")
+        IconComponent.me-4(name="fa-user" variant="green" size="14")
         Clock
 </template>
 

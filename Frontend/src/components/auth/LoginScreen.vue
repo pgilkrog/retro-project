@@ -5,16 +5,15 @@ WindowFrame(
   :variant="red"
 )
   .login-screen.grid.py-2.px-4
-    .col-span-2.text-center
-      IconComponent(name="fa-key" variant="warning" size="40" rotate="0")
-    .col-span-10.flex.items-center
+    .col-span-4.text-center
+      IconComponent(name="fa-key" variant="yellow" size="30" rotate="0")
+    .col-span-8.flex.items-center.px-4
       | {{ infoText }}
-    form.col-span-12
-      .mt-4
-        .col-12.flex.items-center
-          .login-text Email:
-        .col-12.col-lg
-          BaseInput(v-model="username")
+    form.col-span-12.mt-4
+      .col-12.flex.items-center
+        .login-text Email:
+      .col-12.col-lg
+        BaseInput(v-model="username")
       .mt-2(v-if="state === 2 || state === 1")
         .col-span-12.flex.items-center
           .login-text Password:
@@ -25,7 +24,7 @@ WindowFrame(
           .login-text Password:
         .col-span-12
           BaseInput(v-model="password2" type="password")
-    .buttons.mt-4.flex.justify-end.w-full
+    .buttons.mt-4.flex.justify-end.w-full.col-span-12
       Btn.me-2(@clicked="pressedOk()" text="OK") 
       Btn(@clicked="changeShowHelp()" text="Help" :active="showHelp")
   .buttons.flex.flex-col.bg-shadow-inner.p-4.m-2.rounded(v-if="showHelp === true")

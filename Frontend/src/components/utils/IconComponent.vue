@@ -1,6 +1,6 @@
 <template lang="pug">
 i.icon(
-  :class="[iconClass(), 'text-' + variant]" 
+  :class="[iconClass(), 'text-' + variant + '-500']" 
   :style="'color: ' + color + '!important; font-size: ' + size + 'px !important; transform: rotate(' + rotate + 'deg);'"
 )
 </template>
