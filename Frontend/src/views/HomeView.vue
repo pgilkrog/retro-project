@@ -3,13 +3,14 @@ template(v-if="userData !== undefined")
   .home-wrapper.bg-fill.p-4.flex(
     :style="[userData.settings.useBackground === true ? {'background-image': 'url('+ getImageUrl(userData.settings?.backgroundImage) + ')'} : {'background-color': userData.settings?.backgroundColour}]")
     .desktop-container.flex.flex-col.justify-start
-      DesktopItem(
-        v-for="program in allPrograms()"
-        v-on:generateComponent="generateComponent(program)"
-        :key="program._id"
-        :program
-        :itemColor="program.color"
-      )
+      .grid.grid-cols-2
+        DesktopItem(
+          v-for="program in allPrograms()"
+          v-on:generateComponent="generateComponent(program)"
+          :key="program._id"
+          :program
+          :itemColor="program.color"
+        )
 
 ComponentMachine
 Menu(v-if="showMenu")

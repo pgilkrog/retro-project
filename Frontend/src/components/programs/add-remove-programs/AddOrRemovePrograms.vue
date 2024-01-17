@@ -1,57 +1,56 @@
 <template lang="pug">
-.add-or-remove-programs
-  WindowFrame(
-    :program="program" 
-    :isMoveable="true" 
-    :showMenu="false" 
-    :variant="program.color" 
-    :isNotProgram="false"
-  )
-    .d-flex.p-2
-      .d-flex.flex-column.pe-3
-        Btn(
-          @clicked="changeState('removePrograms')" 
-          text="Remove Program" 
-          icon="fa-computer" 
-          size="full"
-          :active="state === 'removePrograms'"
-        )
-        Btn(
-          @clicked="changeState('addPrograms')"
-          text="Add Program" 
-          icon="fa-folder-plus" 
-          size="full"
-          :active="state === 'addPrograms'"
-        ).mt-2
-      .program-list.bg-grey.p-4.bg-shadow-inner.d-flex.flex-column
-        ProgramList(
-          v-show="state === 'removePrograms'"
-          title="Installed programs"
-          :programList="installedPrograms"
-          :selectedProgramId="selectedProgramId"
-          v-on:changeSelectedProgram="changeSelectedProgram($event)"
-        )
-        ProgramList(
-          v-show="state === 'addPrograms'"
-          title="Not installed programs"
-          :programList="notInstalledPrograms"
-          :selectedProgramId="selectedProgramId"
-          v-on:changeSelectedProgram="changeSelectedProgram($event)"
-        )
-    .row.p-2
-      .d-flex.justify-content-end
-        Btn(
-          v-if="state === 'addPrograms'" 
-          @clicked="installProgram()"
-          :disabled="selectedProgramId === ''" 
-          text="Install"
-        )
-        Btn(
-          v-else 
-          @clicked="removeProgram()"
-          text="Remove"
-          :disabled="selectedProgramId === ''"
-        )
+WindowFrame(
+  :program="program" 
+  :isMoveable="true" 
+  :showMenu="false" 
+  :variant="program.color" 
+  :isNotProgram="false"
+)
+  div(class="flex p-2")
+    .flex.flex-col.pe-3
+      Btn(
+        @clicked="changeState('removePrograms')" 
+        text="Remove Program" 
+        icon="fa-computer" 
+        size="full"
+        :active="state === 'removePrograms'"
+      )
+      Btn(
+        @clicked="changeState('addPrograms')"
+        text="Add Program" 
+        icon="fa-folder-plus" 
+        size="full"
+        :active="state === 'addPrograms'"
+      ).mt-2
+    .program-list(class="bg-gray-400 p-4 bg-shadow-inner flex flex-col")
+      ProgramList(
+        v-show="state === 'removePrograms'"
+        title="Installed programs"
+        :programList="installedPrograms"
+        :selectedProgramId="selectedProgramId"
+        v-on:changeSelectedProgram="changeSelectedProgram($event)"
+      )
+      ProgramList(
+        v-show="state === 'addPrograms'"
+        title="Not installed programs"
+        :programList="notInstalledPrograms"
+        :selectedProgramId="selectedProgramId"
+        v-on:changeSelectedProgram="changeSelectedProgram($event)"
+      )
+  .row.p-2
+    .flex.justify-end
+      Btn(
+        v-if="state === 'addPrograms'" 
+        @clicked="installProgram()"
+        :disabled="selectedProgramId === ''" 
+        text="Install"
+      )
+      Btn(
+        v-else 
+        @clicked="removeProgram()"
+        text="Remove"
+        :disabled="selectedProgramId === ''"
+      )
 Loader(v-if="isInstalling === true" @closeLoading="closeLoading()")
 </template>
 
@@ -131,17 +130,3 @@ const closeLoading = () => {
   isInstalling.value = false
 }
 </script>
-
-<style lang="sass" scoped>
-.program-list
-  width: 700px
-  height: 400px
-  overflow: auto
-.active-program 
-  background-color: darkblue
-  color: white
-  .icon
-    color: white !important
-.program-item:hover
-  background: lightgray
-</style>

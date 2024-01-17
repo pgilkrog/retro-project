@@ -1,17 +1,18 @@
 <template lang="pug">
 .programs-list
   h2.mb-4 {{ title }}
-  .program-item.row.align-items-center.px-4.pointer.mx-0.py-2(
+  .program-item(
+    class="flex items-center px-4 py-2 cursor-pointer"
     v-for="program in programList" 
     :key="program._id" 
     @click="changeSelectedProgram(program)"
     :class="selectedProgramId !== '' && program.id === selectedProgramId ? 'active-program' : ''"
   )
-    .col-1
+    .cols-1
       IconComponent.me-3(:variant="program.color === 'light' ? 'dark' : program.color" :name="program.image") 
-    .col-7
+    .cols-7
       p {{ program.displayName }}
-    .col-4.text-end {{ size() }}
+    .cols-4.text-end {{ size() }}
 </template>
 
 <script setup lang="ts">

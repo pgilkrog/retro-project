@@ -1,16 +1,17 @@
 <template lang="pug">
 Teleport(to="#app")
   Transition(name="window-animation" appear)
-    .wrapper.bg-shadow.bg-gray-300.flex.flex-col.absolute.p-2.rounded(
+    .wrapper(
+      class="bg-shadow bg-gray-300 flex flex-col absolute p-2 rounded px-2"
       v-if="program?.isActive === true" 
       :style="[ isMoveable ? { top: top + 'px', left: left + 'px'} : {}]"
       @mousedown="handleMouseDown"
       :id="program._id"
     )
-      header.top-bar.flex.justify-between.items-center.mb-1.p-2.px-4.rounded(
-        :class="[variant !== undefined ? getBackgroundColor(variant) : 'bg-blue-500']" 
+      header(class="top-bar flex justify-between items-center mb-1 p-2 px-4 rounded" 
+        :class="getBackgroundColor(variant)" 
       )
-        div.flex.items-center.content-center
+        div(class="flex items-center content-center")
           IconComponent(:name="program.image" size="25" variant="light")
           p.font-semibold.pe-4.ps-4.text-2xl {{ program.displayName }}
         div(class="flex")
@@ -18,7 +19,7 @@ Teleport(to="#app")
           Btn(icon="fa-square" size="small")
           Btn(icon="fa-xmark" @clicked="closeWindow()" size="small")
       windowframeMenu(:showMenu="showMenu")
-      .bg-gray-300.bg-shadow-inner.rounded
+      div(class="bg-gray-300 bg-shadow-inner rounded")
         slot
 </template>
 
@@ -73,8 +74,16 @@ const handleMouseDown = (event: MouseEvent) => {
 }
 
 const getBackgroundColor = (color: string) => {
-  console.log("getBackgroundColor", color)
-  return 'bg-'+color+'-500'
+  switch(color) {
+    case 'yellow':
+      return 'bg-yellow-500'
+    case 'red':
+      return 'bg-red-500'
+    case 'green':
+      return 'bg-green-500'
+    default:
+      return 'bg-blue-500'
+  }
 }
 
 const startDrag = (event: MouseEvent) => {

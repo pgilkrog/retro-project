@@ -1,26 +1,13 @@
 <template lang="pug">
 WindowFrame(:program="program" :isMoveable="true" variant="success")
-  .d-flex.flex-column.b-down
-    .row.gx-0
-      DesktopItem(
-        :program="{displayName: '3½ Floppy (A:)', image: 'bi-joystick'}"
-      )
-      DesktopItem(
-        :program="{displayName: '(C:)', image: 'bi-joystick'}"
-      )
-      DesktopItem(
-        :program="{displayName: 'New (D:)', image: 'bi-joystick'}"
-      )
-    .row.gx-0
-      DesktopItem(
-        :program="{displayName: 'Control Panel', image: 'bi-joystick'}"
-      )
-      DesktopItem(
-        :program="{displayName: 'Printers', image: 'bi-joystick'}"
-      )
-      DesktopItem(
-        :program="{displayName: 'Dial-Up Networking', image: 'bi-joystick'}"
-      )
+  div(class="grid grid-cols-2 p-4 text-black")
+    DesktopItem(
+      v-for="(item, index) in array"
+      :program="item"
+      :key="index"
+      class="!text-black"
+    )
+
 </template>
 
 <script setup lang="ts">
@@ -30,7 +17,13 @@ const { program } = defineProps({
   program: Object
 })
 
-</script>
+const array = [
+  {displayName: '3½ Floppy (A:)', image: 'bi-joystick'},
+  {displayName: '(C:)', image: 'bi-joystick'},
+  {displayName: 'New (D:)', image: 'bi-joystick'},
+  {displayName: 'Control Panel', image: 'bi-joystick'},
+  {displayName: 'Printers', image: 'bi-joystick'},  
+  {displayName: 'Dial-Up Networking', image: 'bi-joystick'},
+]
 
-<style lang="sass" scoped>
-</style>
+</script>

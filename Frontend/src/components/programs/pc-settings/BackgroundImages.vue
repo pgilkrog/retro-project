@@ -1,19 +1,21 @@
 <template lang="pug">
-.background-images-wrapper.bg-light.bg-shadow-inner.d-flex.flex-column.rounded
-  .image-item.m-1.d-flex.align-items-center.p-1.hover-bg-primary.pointer(
+.background-images-wrapper(class="bg-gray-300 bg-shadow-inner bg- d-flex flex-col rounded h-40 overflow-auto")
+  .image-item(
+    class="m-1 flex items-center hover:bg-gray-500 p-1 cursor-pointer"
     @click="imageClicked(undefined)"
     :class="(tempImg === undefined) ? 'bg-primary color-white' : ''"
   )
     IconComponent.me-3(name="fa-file-excel")
     p.text-ellips-1(style="height: 14px") No background
-  .image-item.m-1.d-flex.align-items-center.p-1.pointer.hover-bg-info(
+  .image-item(
+    class="m-1 flex items-center p-1 cursor-pointer hover:bg-blue-500"
     v-for="item in images" 
     :key="item._id"
     @click="imageClicked(item)"
-    :class="(tempImg !== undefined && tempImg.name === item.name) ? 'bg-primary text-white' : ''"
+    :class="(tempImg !== undefined && tempImg.name === item.name) ? 'bg-blue-500 text-white' : ''"
   )
     IconComponent.me-3(name="fa-file-image")
-    p.text-ellips-1(style="height: 14px") {{ item.originalName || item.name }}
+    p(class="text-ellipsis") {{ item.originalName || item.name }}
 
 .settings 
   select(v-model="displayOption")
@@ -49,9 +51,3 @@ const imageClicked = (file: IFile) => {
   emit('setTempImg', file)
 }
 </script>
-
-<style lang="sass" scoped>
-.background-images-wrapper
-  height: 150px
-  overflow: auto
-</style>

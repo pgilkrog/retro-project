@@ -1,8 +1,8 @@
 <template lang="pug">
-.desktop-item.flex.flex-col.items-center.text-white.w-22(
+.desktop-item(
   @click="itemPressed()" 
-  :class="'text-' + itemColor"
-  class="fit-"
+  class="flex flex-col items-center text-white w-22"
+  v-bind="$attrs"
 )
   IconComponent(
     :variant="program.color" 
