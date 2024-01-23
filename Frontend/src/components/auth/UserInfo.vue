@@ -1,5 +1,5 @@
 <template lang="pug">
-.d-flex.flex-column
+div(class="flex flex-col")
   BaseInput(v-model="info.name" placeholder="Name")
   BaseInput(v-model="info.addressLine" placeholder="Addressline")
   BaseInput(v-model="info.streetNumber" placeholder="Street number")
@@ -8,7 +8,7 @@
   BaseInput(v-model="info.postcode" placeholder="Postcode" type="number")
   BaseInput(v-model="info.phoneNumber" placeholder="Phone")
   BaseInput(v-model="info.homeAddress" label="Home Address" type="checkbox")
-.d-flex.flex-column.my-4
+div(class="flex flex-col my-4")
   p name: {{ info.name }}
   p address: {{ info.addressLine }}
   p streetnumber: {{ info.streetNumber }}
@@ -22,10 +22,10 @@ Btn(text="Print" @clicked="printInfo()" size="full")
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
-import { userStore } from '@/stores/userStore'
+import { reactive } from "vue";
+import { userStore } from "@/stores/userStore";
 
-const userstore = userStore()
+const userstore = userStore();
 
 const info = reactive({
   name: "",
@@ -36,12 +36,11 @@ const info = reactive({
   postcode: "",
   phoneNumber: "",
   homeAddress: false,
-})
+});
 
 const printInfo = () => {
-  console.log(info)
-}
+  console.log(info);
+};
 </script>
 
-<style lang="sass" scoped>
-</style>
+<style lang="sass" scoped></style>

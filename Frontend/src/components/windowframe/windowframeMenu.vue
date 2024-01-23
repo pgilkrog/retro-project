@@ -1,5 +1,5 @@
 <template lang="pug">
-.menu-container.d-flex.mx-2.my-1(v-if="showMenu")
+.menu-container(class="flex mx-2 my-1" v-if="showMenu")
   .me-2 File
   .mx-2 Edit 
   .mx-2 View
@@ -8,9 +8,8 @@
 
 <script setup lang="ts">
 const { showMenu } = defineProps({
-  showMenu: Boolean
-})
+  showMenu: Boolean,
+});
 </script>
 
-<style lang="sass" scoped>
-</style>
+<style lang="sass" scoped></style>

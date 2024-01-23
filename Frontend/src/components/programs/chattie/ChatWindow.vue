@@ -19,48 +19,48 @@ WindowFrame(
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { userStore } from '@/stores/userStore'
-import { chatStore } from '@/stores/chatStore'
-import type { PropType } from 'vue'
-import type { IChatMessage, IChatRoom } from '@/models'
+import { ref } from "vue";
+import { userStore } from "@/stores/userStore";
+import { chatStore } from "@/stores/chatStore";
+import type { PropType } from "vue";
+import type { IChatMessage, IChatRoom } from "@/models";
 
-const emit = defineEmits([
-  'sendMessage'
-])
+const emit = defineEmits(["sendMessage"]);
 
 const { activeChat } = defineProps({
-  activeChat: Object as PropType<IChatRoom>
-})
+  activeChat: Object as PropType<IChatRoom>,
+});
 
 const program = {
-  name: 'ChatWindow', 
-  displayName: 'Chat window', 
-  color: 'success', 
-  image: 'bi-wechat', 
-  isActive: true
-}
+  name: "ChatWindow",
+  displayName: "Chat window",
+  color: "success",
+  image: "bi-wechat",
+  isActive: true,
+};
 
-const userstore = userStore()
-const chatstore = chatStore()
-const messageText = ref<string>("")
+const userstore = userStore();
+const chatstore = chatStore();
+const messageText = ref<string>("");
 
 const sendMessage = () => {
-  const idOfMessage = (activeChat !== undefined && activeChat.messages !== undefined) ? activeChat.messages.length : 0 
+  const idOfMessage =
+    activeChat !== undefined && activeChat.messages !== undefined
+      ? activeChat.messages.length
+      : 0;
   const message: IChatMessage = {
     id: idOfMessage + 1,
     text: messageText.value,
     sender: userstore.userData?.email ?? "",
-    room: activeChat!.participants.join('-')
-  }
-  chatstore.sendMessage(message, activeChat)
-  messageText.value = ""
-}
-
+    room: activeChat!.participants.join("-"),
+  };
+  chatstore.sendMessage(message, activeChat);
+  messageText.value = "";
+};
 </script>
 
 <style lang="sass" scoped>
-.message-wrapper 
+.message-wrapper
   height: 400px
   overflow-y: scroll
 </style>

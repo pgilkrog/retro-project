@@ -24,94 +24,98 @@ Teleport(to="#app")
 </template>
 
 <script setup lang="ts">
-import type { IProgram } from '@/models/index'
-import { programsStore } from '@/stores/programsStore'
-import type { PropType } from 'vue'
-import { ref } from 'vue'
-import WindowframeMenu from './windowframeMenu.vue'
+import type { IProgram } from "@/models/index";
+import { programsStore } from "@/stores/programsStore";
+import type { PropType } from "vue";
+import { ref } from "vue";
+import WindowframeMenu from "./windowframeMenu.vue";
 
-const { showMenu = false, program, variant = 'blue', isNotProgram, isMoveable = true } = defineProps({
+const {
+  showMenu = false,
+  program,
+  variant = "blue",
+  isNotProgram,
+  isMoveable = true,
+} = defineProps({
   showMenu: Boolean,
   program: Object as PropType<IProgram>,
   variant: String,
   isNotProgram: Boolean,
-  isMoveable: Boolean
-})
+  isMoveable: Boolean,
+});
 
-const emit = defineEmits([
-  'closeWindow'
-])
+const emit = defineEmits(["closeWindow"]);
 
-const programsstore = programsStore()
+const programsstore = programsStore();
 
-const isDragging = ref(false)
-const startX = ref(0)
-const startY = ref(0)
-const left = ref(40)
-const top = ref(40)
+const isDragging = ref(false);
+const startX = ref(0);
+const startY = ref(0);
+const left = ref(40);
+const top = ref(40);
 
 const closeWindow = () => {
   // Remove the program from the active program list
-  if (program) programsstore.removeProgramFromActive(program)
-  
+  if (program) programsstore.removeProgramFromActive(program);
+
   // If the window is not a program but a form of popup emit the close window
-  if (isNotProgram === true) emit('closeWindow')
-}
+  if (isNotProgram === true) emit("closeWindow");
+};
 
 const setInactive = () => {
   // Set if the window should be hidden on screen, but visible in the taskbar.
-  if (program) programsstore.setProgramActiveState(program)
-}
+  if (program) programsstore.setProgramActiveState(program);
+};
 
 const handleMouseDown = (event: MouseEvent) => {
   if (isMoveable === true) {
     const target = event.target as HTMLElement;
-    
-    if (target.classList.contains('top-bar')) {
+
+    if (target.classList.contains("top-bar")) {
       startDrag(event);
     }
   }
-}
+};
 
 const getBackgroundColor = (color: string) => {
-  switch(color) {
-    case 'yellow':
-      return 'bg-yellow-500'
-    case 'red':
-      return 'bg-red-500'
-    case 'green':
-      return 'bg-green-500'
+  switch (color) {
+    case "yellow":
+      return "bg-yellow-500";
+    case "red":
+      return "bg-red-500";
+    case "green":
+      return "bg-green-500";
     default:
-      return 'bg-blue-500'
+      return "bg-blue-500";
   }
-}
+};
 
 const startDrag = (event: MouseEvent) => {
   if (isMoveable === true) {
-    isDragging.value = true
-    startX.value = event.clientX
-    startY.value = event.clientY    
-    document.addEventListener('mousemove', onDrag)
-    document.addEventListener('mouseup', stopDrag)        
+    isDragging.value = true;
+    startX.value = event.clientX;
+    startY.value = event.clientY;
+    document.addEventListener("mousemove", onDrag);
+    document.addEventListener("mouseup", stopDrag);
   }
-}
+};
 
 const onDrag = (event: MouseEvent) => {
-  if (!isDragging.value) return
+  if (!isDragging.value) return;
 
-  const deltaX = event.clientX - startX.value
-  const deltaY = event.clientY - startY.value
+  const deltaX = event.clientX - startX.value;
+  const deltaY = event.clientY - startY.value;
 
-  left.value += deltaX
-  top.value += deltaY
+  left.value += deltaX;
+  top.value += deltaY;
 
-  startX.value = event.clientX
-  startY.value = event.clientY
-}
+  startX.value = event.clientX;
+  startY.value = event.clientY;
+};
 
 const stopDrag = () => {
-  isDragging.value = false
-  document.removeEventListener('mousemove', onDrag)
-  document.removeEventListener('mouseup', stopDrag)      
-}
+  isDragging.value = false;
+  document.removeEventListener("mousemove", onDrag);
+  document.removeEventListener("mouseup", stopDrag);
+};
 </script>
