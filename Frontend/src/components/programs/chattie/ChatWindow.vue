@@ -5,31 +5,31 @@ WindowFrame(
   :variant="program.color"
   :showMenu="false"
 )
-  .message-wrapper.d-flex.flex-column.bg-light.p-2
+  .message-wrapper(class="flex flex-col bg-gray-300 p-2")
     template(v-for="(item, index) in activeChat.messages") 
-      span(style="text-align: right;" v-if="item.sender !== userstore.userData.email") 
-        p.text-primary {{ item.sender }}
+      span(style="text-align: right" v-if="item.sender !== userstore.userData.email") 
+        p.text-blue-500 {{ item.sender }}
         p(v-html="item.text")
-      span(style="text-align: left;" v-else)
-        p.text-success {{ item.sender }}
+      span(style="text-align: left" v-else)
+        p(class="text-green-500") {{ item.sender }}
         p(v-html="item.text")
-  .d-flex.bg-shadow.p-2
+  div(class="flex bg-shadow p-2")
     BaseInput(v-model="messageText" @keydown.enter="sendMessage()")
     Btn(@clicked="sendMessage()" text="Send")
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { userStore } from "@/stores/userStore";
-import { chatStore } from "@/stores/chatStore";
-import type { PropType } from "vue";
-import type { IChatMessage, IChatRoom } from "@/models";
+import { ref } from "vue"
+import { userStore } from "@/stores/userStore"
+import { chatStore } from "@/stores/chatStore"
+import type { PropType } from "vue"
+import type { IChatMessage, IChatRoom } from "@/models"
 
-const emit = defineEmits(["sendMessage"]);
+const emit = defineEmits(["sendMessage"])
 
 const { activeChat } = defineProps({
   activeChat: Object as PropType<IChatRoom>,
-});
+})
 
 const program = {
   name: "ChatWindow",
@@ -37,30 +37,31 @@ const program = {
   color: "success",
   image: "bi-wechat",
   isActive: true,
-};
+}
 
-const userstore = userStore();
-const chatstore = chatStore();
-const messageText = ref<string>("");
+const userstore = userStore()
+const chatstore = chatStore()
+const messageText = ref<string>("")
 
 const sendMessage = () => {
   const idOfMessage =
     activeChat !== undefined && activeChat.messages !== undefined
       ? activeChat.messages.length
-      : 0;
+      : 0
   const message: IChatMessage = {
     id: idOfMessage + 1,
     text: messageText.value,
     sender: userstore.userData?.email ?? "",
     room: activeChat!.participants.join("-"),
-  };
-  chatstore.sendMessage(message, activeChat);
-  messageText.value = "";
-};
+  }
+  chatstore.sendMessage(message, activeChat)
+  messageText.value = ""
+}
 </script>
 
 <style lang="sass" scoped>
 .message-wrapper
   height: 400px
+  width: 500px
   overflow-y: scroll
 </style>

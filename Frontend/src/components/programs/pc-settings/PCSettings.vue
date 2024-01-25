@@ -7,14 +7,14 @@ WindowFrame(
 )
   .pc-settings-wrapper.p-4
     custom-menu(class="flex")
-      .nav-item.py-2.px-4.pointer(@click="state = 0" :class="state === 0 ? 'active' : ''")
+      .nav-item.py-2.px-4.pointer(@click="state = 0" :class="[state === 0 ? 'border border-black border-b-0 rounded-t' : 'border-b border-black', 'px-4 py-2 ']")
         | Display
-      .nav-item.py-2.px-4.pointer(@click="state = 1" :class="state === 1 ? 'active' : ''")
+      .nav-item.py-2.px-4.pointer(@click="state = 1" :class="state === 1 ? 'border border-black border-b-0 rounded-t' : 'border-b border-black', 'px-4 py-2 '")
         | Screen Saver
-      .nav-item.py-2.px-4.pointer(@click="state = 2" :class="state === 2 ? 'active' : ''")
+      .nav-item.py-2.px-4.pointer(@click="state = 2" :class="state === 2 ? 'border border-black border-b-0 rounded-t' : 'border-b border-black', 'px-4 py-2 '")
         | Profile
-      .tab-fill
-    .content(v-if="state === 0" class="p-4 rounded")
+      .tab-fill.flex.flex-grow.border-b.border-black
+    .content(v-if="state === 0" class="p-4 rounded-b border border-t-0 border-black")
       .row.flex.flex-col.items-center
         PCScreen(:tempImg="tempImg")
       .row.mt-4
@@ -31,9 +31,9 @@ WindowFrame(
             @change="onColorSelected" 
             v-model="color"
           )
-    .content.p-4.main-wrap.rounded(v-else-if="state === 1")
+    .content.p-4.main-wrap(v-else-if="state === 1" class="p-4 rounded-b border border-t-0 border-black")
       .row
-    .content.p-4.main-wrap.rounded(v-else-if="state === 2")
+    .content.p-4.main-wrap(v-else-if="state === 2" class="p-4 rounded-b border border-t-0 border-black")
       .row
         UserInfo
     .d-flex.justify-content-end.mt-4

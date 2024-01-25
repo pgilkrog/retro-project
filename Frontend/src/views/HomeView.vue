@@ -1,6 +1,6 @@
 <template lang="pug">
 template(v-if="userData !== undefined")
-  .home-wrapper.bg-fill.p-4.flex(
+  .home-wrapper.p-4.flex(class="h-full w-full absolute"
     :style="[userData.settings.useBackground === true ? {'background-image': 'url('+ getImageUrl(userData.settings?.backgroundImage) + ')'} : {'background-color': userData.settings?.backgroundColour}]")
     .desktop-container.flex.flex-col.justify-start
       .grid.grid-cols-2

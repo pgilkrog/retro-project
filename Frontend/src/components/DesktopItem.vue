@@ -1,7 +1,7 @@
 <template lang="pug">
 .desktop-item(
   @click="itemPressed()" 
-  class="flex flex-col items-center text-white w-22"
+  class="flex flex-col items-center text-white w-64 m-1 text-center"
   v-bind="$attrs"
 )
   IconComponent(
@@ -9,7 +9,7 @@
     :name="program.image" 
     size="34"
   )
-  .text-light() {{ program.displayName ?? program.name }}
+  .text-light {{ program.displayName ?? program.name }}
 </template>
 
 <script setup lang="ts">

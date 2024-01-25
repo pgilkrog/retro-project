@@ -2,7 +2,7 @@
 div(class="bg-gray-300 w-full h-auto fixed bottom-0 z-50")
   .line.bg-black
   .line.bg-white
-  div(class="w-full p-1 flex justify-between bg-white")
+  div(class="w-full p-1 flex justify-between ")
     div(class="flex py-1 ms-1")
       Btn(
         text="Start" 
@@ -33,39 +33,41 @@ div(class="bg-gray-300 w-full h-auto fixed bottom-0 z-50")
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { userStore } from "@/stores/userStore";
-import { programsStore } from "@/stores/programsStore";
-import type { IProgram } from "@/models/index";
-import router from "@/router";
-import Clock from "./Clock.vue";
+import { computed } from 'vue'
+import { userStore } from '@/stores/userStore'
+import { programsStore } from '@/stores/programsStore'
+import type { IProgram } from '@/models/index'
+import router from '@/router'
+import Clock from './Clock.vue'
 
-const emit = defineEmits(["changeShowMenu"]);
+const emit = defineEmits([
+  'changeShowMenu'
+])
 
 const { showMenu } = defineProps({
-  showMenu: Boolean,
-});
+  showMenu: Boolean 
+})
 
-const programsstore = programsStore();
-const userstore = userStore();
+const programsstore = programsStore()
+const userstore = userStore()
 
-const activePrograms = computed(() => programsstore.activePrograms);
+const activePrograms = computed(() => programsstore.activePrograms)
 
 const changeShowMenu = () => {
-  emit("changeShowMenu");
-};
+  emit('changeShowMenu')      
+}
 
 const setActiveState = (program: IProgram) => {
-  programsstore.setProgramActiveState(program);
-};
+  programsstore.setProgramActiveState(program)
+}
 
 const goToAdmin = () => {
-  router.push("/admin");
-};
+  router.push('/admin')
+}
 </script>
 
 <style lang="sass">
-.line
+.line 
   height: 2px
   width: 100%
 </style>

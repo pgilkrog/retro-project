@@ -1,5 +1,5 @@
 <template lang="pug">
-.app-wrapper(id="app" class="bg-emerald-800 h-full w-full")
+.app-wrapper(id="app")
   router-view
 ErrorComponent(v-if="errorstore.error !== undefined")
 
