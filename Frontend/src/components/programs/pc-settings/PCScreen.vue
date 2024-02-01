@@ -3,6 +3,7 @@
   .bg-shadow-inner.img-box()
     ImageComponent.box(
       v-if="tempImg !== undefined && tempImg.name"
+      id="pcscreen"
       :source="getImageUrl(tempImg.name)" 
       alt="image for showing how wallpaper looks like"
       class

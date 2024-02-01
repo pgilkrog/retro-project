@@ -1,7 +1,7 @@
 <template lang="pug">
 .desktop-item(
   @click="itemPressed()" 
-  class="flex flex-col items-center text-white w-64 m-1 text-center"
+  class="flex flex-col items-center text-white w-64 m-1 text-center cursor-pointer"
   v-bind="$attrs"
 )
   IconComponent(

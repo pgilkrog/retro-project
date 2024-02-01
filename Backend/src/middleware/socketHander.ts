@@ -3,14 +3,14 @@ import express from 'express'
 import http from 'http'
 
 interface ChatMessage {
-    roomName: string[];
-    text: string;
-    sender: string;
+    roomName: string[]
+    text: string
+    sender: string
 }
 
 interface UserInfo {
-    email: string;
-    socketId: string;
+    email: string
+    socketId: string
 }
 
 const onlineUsers: UserInfo[] = []

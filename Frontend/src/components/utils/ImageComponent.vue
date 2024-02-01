@@ -1,17 +1,19 @@
 <template lang="pug">
 img(
   v-if="imageIsLoading === false && src !== ''" 
+  :id
   :src 
   :alt 
 )
-div.rounded.d-flex.justify-content-center.align-items-center.border.border-dark(v-else role="img" :aria-label="alt" style="height: 200px; width: 200px; background: #eeeeee;") 
+div(v-else class=" rounded flex justify-center items-center border border-gray-900" role="img" :aria-label="alt" style="height: 200px; width: 200px; background: #eeeeee;") 
   iconComponent(name="bi-image" variant="dark" size="34")
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 
-const { source = '', alt } = defineProps({
+const { id, source = '', alt } = defineProps({
+  id: String,
   source: String,
   alt: String
 })

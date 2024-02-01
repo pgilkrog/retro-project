@@ -2,7 +2,7 @@
 .title.d-flex.justify-content-center.align-items-center.my-4(v-if="slide.title !== undefined && slide.title !== ''")
   h1 {{ slide.title }}
 .text.d-flex.justify-content-center.align-items-center(v-if="slide.image !== undefined && slide.image !== ''")
-  ImageComponent(:source="slide.image" alt="image of things")
+  ImageComponent(:id="slideTitleImage" :source="slide.image" alt="image of things")
 </template>
 <script setup lang="ts"> 
 

@@ -1,11 +1,11 @@
 <template lang="pug">
-.background-images-wrapper(class="bg-gray-300 bg-shadow-inner bg- d-flex flex-col rounded h-40 overflow-auto")
+.background-images-wrapper(class="bg-gray-300 bg-shadow-inner flex flex-col rounded h-40 overflow-auto")
   .image-item(
-    class="m-1 flex items-center hover:bg-gray-500 p-1 cursor-pointer"
+    class="m-1 flex items-center hover:bg-blue-500 p-1 cursor-pointer"
     @click="imageClicked(undefined)"
-    :class="(tempImg === undefined) ? 'bg-primary color-white' : ''"
+    :class="(tempImg === undefined) ? 'bg-blue-500 text-white' : ''"
   )
-    IconComponent.me-3(name="fa-file-excel")
+    IconComponent(name="fa-file-excel" class="me-3")
     p.text-ellips-1(style="height: 14px") No background
   .image-item(
     class="m-1 flex items-center p-1 cursor-pointer hover:bg-blue-500"
@@ -14,7 +14,7 @@
     @click="imageClicked(item)"
     :class="(tempImg !== undefined && tempImg.name === item.name) ? 'bg-blue-500 text-white' : ''"
   )
-    IconComponent.me-3(name="fa-file-image")
+    IconComponent(name="fa-file-image" class="me-3")
     p(class="text-ellipsis") {{ item.originalName || item.name }}
 
 .settings 
@@ -47,7 +47,8 @@ const displayOption = ref<string>('')
 const userData = storeToRefs(userstore).userData    
 const images = computed(() => filestore.allFiles)
 
-const imageClicked = (file: IFile) => {
-  emit('setTempImg', file)
+const imageClicked = async (file: IFile) => {
+  await emit('setTempImg', undefined)
+  await emit('setTempImg', file)
 }
 </script>
