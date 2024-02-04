@@ -22,7 +22,7 @@ WindowFrame(
         size="full"
         :active="state === 'addPrograms'"
       ).mt-2
-    .program-list(class="bg-gray-400 p-4 bg-shadow-inner flex flex-col")
+    .program-list(class="bg-gray-300 p-4 bg-shadow-inner flex flex-col")
       ProgramList(
         v-show="state === 'removePrograms'"
         title="Installed programs"

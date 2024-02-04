@@ -10,8 +10,11 @@ WindowFrame(
       Btn(icon="fa-rotate")
       BaseInput(v-model="inputText").mx-2
       Btn(icon="fa-rotate-right" text="GO" @click="go()")
-    .browser-content(class=" w-auto bg-gray-50 bg-shadow-inner m-2")
+    .browser-content(class="w-auto bg-gray-50 bg-shadow-inner m-2" v-if="isLoadingPage === false")
       Component(:is="defineAsyncComponent(() => import(`./pages/${currentPage}.vue`))")
+    .loading-content(class="w-auto bg-gray-50 bg-shadow-inner m-2 flex items-center justify-center text-5xl" v-else)
+      p is Loading..
+
 </template>
 <script setup lang="ts">
 import type { IProgram } from '@/models/index'
@@ -23,19 +26,25 @@ const { program } = defineProps({
 
 const url = ref<string>('http://www.googol.dk')
 const inputText = ref<string>('')
-const currentPage = ref<string>('googol')
+const currentPage = ref<string>('nasa')
+const isLoadingPage = ref(false)
 
 onMounted(() => {
   inputText.value = 'www.googol.dk'
 })
 
 const go = () => {
-  url.value = inputText.value
+  isLoadingPage.value = true
+  const pageToComponent = inputText.value.split('.')
+  currentPage.value = pageToComponent[1]
+  setTimeout(() => {
+    isLoadingPage.value = false
+  }, 500)
 }
 
 </script>
 <style lang="sass">
-.browser-content
+.browser-content, .loading-content
   height: 600px
   width: 700px
 </style>

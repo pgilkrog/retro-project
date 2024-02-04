@@ -2,33 +2,33 @@
 Teleport(to="#app")
   Transition(name="window-animation" appear)
     .wrapper(
-      class="bg-shadow bg-gray-300 flex flex-col absolute p-2 rounded px-2"
       v-if="program?.isActive === true" 
-      :style="[ isMoveable ? { top: top + 'px', left: left + 'px'} : {}]"
-      @mousedown="handleMouseDown"
       :id="program._id"
+      class="bg-shadow bg-gray-300 flex flex-col absolute p-2 rounded px-2"
+      :style="[ isMoveable ? { top: top + 'px', left: left + 'px'} : { top: '40%', left: '50%', transform: 'translate(-50%, -50%)' }]"
     )
       header(class="top-bar flex justify-between items-center mb-1 p-2 px-4 rounded" 
         :class="getBackgroundColor(variant)" 
+        @mousedown="handleMouseDown"
       )
-        div(class="flex items-center content-center")
+        div(class="flex items-center content-center pointer-events-none")
           IconComponent(:name="program.image" size="25" variant="light")
           p.font-semibold.pe-4.ps-4.text-2xl {{ program.displayName }}
         div(class="flex")
           Btn(icon="fa-window-minimize" @clicked="setInactive()" size="small")
           Btn(icon="fa-square" size="small")
           Btn(icon="fa-xmark" @clicked="closeWindow()" size="small")
-      windowframeMenu(:showMenu="showMenu")
+      windowframeMenu(:showMenu)
       div(class="bg-gray-300 bg-shadow-inner rounded")
         slot
 </template>
 
 <script setup lang="ts">
-import type { IProgram } from "@/models/index";
-import { programsStore } from "@/stores/programsStore";
-import type { PropType } from "vue";
-import { ref } from "vue";
-import WindowframeMenu from "./windowframeMenu.vue";
+import type { IProgram } from "@/models/index"
+import { programsStore } from "@/stores/programsStore"
+import type { PropType } from "vue"
+import { ref } from "vue"
+import WindowframeMenu from "./windowframeMenu.vue"
 
 const {
   showMenu = false,
@@ -42,17 +42,17 @@ const {
   variant: String,
   isNotProgram: Boolean,
   isMoveable: Boolean,
-});
+})
 
-const emit = defineEmits(["closeWindow"]);
+const emit = defineEmits(["closeWindow"])
 
-const programsstore = programsStore();
+const programsstore = programsStore()
 
-const isDragging = ref(false);
-const startX = ref(0);
-const startY = ref(0);
-const left = ref(40);
-const top = ref(40);
+const isDragging = ref(false)
+const startX = ref(0)
+const startY = ref(0)
+const left = ref(40)
+const top = ref(40)
 
 const closeWindow = () => {
   // Remove the program from the active program list
@@ -60,35 +60,35 @@ const closeWindow = () => {
 
   // If the window is not a program but a form of popup emit the close window
   if (isNotProgram === true) emit("closeWindow");
-};
+}
 
 const setInactive = () => {
   // Set if the window should be hidden on screen, but visible in the taskbar.
   if (program) programsstore.setProgramActiveState(program);
-};
+}
 
 const handleMouseDown = (event: MouseEvent) => {
   if (isMoveable === true) {
-    const target = event.target as HTMLElement;
+    const target = event.target as HTMLElement
 
     if (target.classList.contains("top-bar")) {
-      startDrag(event);
+      startDrag(event)
     }
   }
-};
+}
 
 const getBackgroundColor = (color: string) => {
   switch (color) {
     case "yellow":
-      return "bg-yellow-500";
+      return "bg-yellow-500"
     case "red":
-      return "bg-red-500";
+      return "bg-red-500"
     case "green":
-      return "bg-green-500";
+      return "bg-green-500"
     default:
-      return "bg-blue-500";
+      return "bg-blue-500"
   }
-};
+}
 
 const startDrag = (event: MouseEvent) => {
   if (isMoveable === true) {
@@ -98,7 +98,7 @@ const startDrag = (event: MouseEvent) => {
     document.addEventListener("mousemove", onDrag);
     document.addEventListener("mouseup", stopDrag);
   }
-};
+}
 
 const onDrag = (event: MouseEvent) => {
   if (!isDragging.value) return;
@@ -111,11 +111,11 @@ const onDrag = (event: MouseEvent) => {
 
   startX.value = event.clientX;
   startY.value = event.clientY;
-};
+}
 
 const stopDrag = () => {
   isDragging.value = false;
   document.removeEventListener("mousemove", onDrag);
   document.removeEventListener("mouseup", stopDrag);
-};
+}
 </script>

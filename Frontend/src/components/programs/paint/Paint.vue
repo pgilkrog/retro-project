@@ -7,9 +7,10 @@ WindowFrame(
   :variant="program.color"
 )
   .paint-wrapper(class="flex justify-between")
-    .canvas-wrapper(class="flex bg-gray-950")
-      canvas.bg-white(
+    .canvas-wrapper(class="flex w-full h-full")
+      canvas(
         id="canvasWrapper"
+        class="bg-white"
         ref="canvasRef"
         @mousedown="startDrawing"
         @mousemove="draw"
@@ -17,8 +18,8 @@ WindowFrame(
       )
     .tools(class="bg-shadow flex flex-col p-4")
       .size.mb-4
-        input.tb(type="number" v-model="canvasX")
-        input.tb(type="number" v-model="canvasY")
+        BaseInput(type="number" v-model="canvasX")
+        BaseInput(type="number" v-model="canvasY")
         Btn(@clicked="setSize(canvasX, canvasY)" text="New").mt-2
       .icons(class="flex justify-center")
         Btn(icon="fa-file" size="small" @clicked="createNew()")
@@ -234,5 +235,5 @@ onMounted(() => {
     scrollbar-width: thin
     canvas
       width: 63vw 
-      height: 80vh
+      height: 78vh
 </style>

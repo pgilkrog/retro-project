@@ -3,6 +3,7 @@ WindowFrame(
   :program="program" 
   :showMenu="false" 
   :variant="red"
+  :isMoveable="false"
 )
   .login-screen.grid.py-2.px-4
     .col-span-4.text-center

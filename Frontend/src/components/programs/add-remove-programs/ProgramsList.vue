@@ -2,11 +2,10 @@
 .programs-list
   h2.mb-4 {{ title }}
   .program-item(
-    class="flex items-center px-4 py-2 cursor-pointer"
+    :class="['flex items-center px-4 py-2 cursor-pointer hover:bg-blue-500 hover:text-white', (program.id === selectedProgramId) ? 'bg-blue-500 text-white' : '']"
     v-for="program in programList" 
     :key="program._id" 
     @click="changeSelectedProgram(program)"
-    :class="selectedProgramId !== '' && program.id === selectedProgramId ? 'active-program' : ''"
   )
     .cols-1
       IconComponent.me-3(:variant="program.color === 'light' ? 'dark' : program.color" :name="program.image") 
@@ -39,14 +38,7 @@ const size = () => {
 </script>
 
 <style lang="sass" scoped>
-.active-program 
-  background-color: #106BDA
-  color: white
-  .icon
-    color: white !important
-.program-item:hover
-  background: lightgray
 
 .program-item + .program-item
-  border-top: 1px solid lightgray
+  border-top: 1px solid gray
 </style>

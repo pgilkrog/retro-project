@@ -7,16 +7,16 @@
     @closeWindow="closeLoading()"
   )
     .p-4
-      .folder-animation 
-        IconComponent(name="bi-folder-fill" variant="warning" size="32")
+      .folder-animation(class="flex justify-between")
+        IconComponent(name="bi-folder-fill" variant="yellow" size="32")
         .box(:class="loadingCompleted === true ? '' : 'move-anim'")
-          IconComponent(name="bi-file-earmark-fill" variant="white" size="32")
-        IconComponent(name="bi-folder-fill" variant="warning" size="32")
-      .loading-bar.bg-shadow-inner.mt-4.d-flex
-        .loading-box.bg-primary(v-for="item in progressValues")
-      .d-flex.justify-content-end.mt-4
-        Btn(name="Close" v-if="loadingCompleted === true" @clicked="closeLoading()")
-    .bg-dark.text-light.p-4
+          IconComponent(name="bi-file-earmark-fill" class="text-white" size="32")
+        IconComponent(name="bi-folder-fill" variant="yellow" size="32")
+      .loading-bar(class="bg-shadow-inner mt-4 flex h-6")
+        .loading-box.bg-blue-500.h-5.w-5.mx-1(v-for="item in progressValues")
+      div(class="flex justify-end mt-4")
+        Btn(text="Close" v-if="loadingCompleted === true" @clicked="closeLoading()")
+    .text-black.p-4
       div Installing...
       div
         div(:style="{ width: progress + '%' }")
