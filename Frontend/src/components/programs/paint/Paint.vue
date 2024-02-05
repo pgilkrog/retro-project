@@ -10,7 +10,7 @@ WindowFrame(
     .canvas-wrapper(class="flex w-full h-full")
       canvas(
         id="canvasWrapper"
-        class="bg-white"
+        class="bg-white h-full w-full"
         ref="canvasRef"
         @mousedown="startDrawing"
         @mousemove="draw"
@@ -29,14 +29,6 @@ WindowFrame(
         Btn(icon="fa-circle" size="small" @clicked="setBrushType('circle')")
         Btn(icon="fa-square" size="small" @clicked="setBrushType('square')")
         Btn(icon="fa-spray-can" size="small" @clicked="setBrushType('spray')")
-      //- .stuff
-      //-   div(class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
-      //-     div(class="modal-dialog")
-      //-       div(class="modal-content")
-      //-         div(class="modal-body")
-      //-           input(v-model="inputSave")
-      //-           Btn(type="button" variant="danger" data-bs-dismiss="modal" text="Close")
-      //-           Btn(type="button" variant="info" @clicked="savePainting(inputSave)" text="Save changes") 
       ColorTool(v-on:changeColor="changeColor($event)")
       div.mt-4
         input(type="color" v-model="state.color")
@@ -44,15 +36,16 @@ WindowFrame(
         label Brush Size:
         input(type="range" min="1" max="50" v-model.number="state.brushSize")
   FileExplorer(
-    :files="paintstore.usersPaintings" 
     v-if="showFiles === true"
+    :isLoading="paintstore.loadingPaintings"
+    :files="paintstore.usersPaintings" 
     @itemClicked="itemClicked($event)"
     @closeWindow="changeShowFiles(false)"
   )
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import type { IPainting, IProgram } from '@/models/index'
 import { userStore } from '@/stores/userStore'
 import { paintStore } from '@/stores/paintStore'
@@ -74,8 +67,8 @@ const state = reactive({
   drawing: false,
 })
 
-const canvasX = ref<number>(0)
-const canvasY = ref<number>(0)
+const canvasX = ref<string>('0')
+const canvasY = ref<string>('0')
 const inputSave = ref('')
 const showFiles = ref(false)
 const myPaintings = ref([] as IPainting[])
@@ -93,6 +86,16 @@ const brushTypes = ref([
   'spray'
 ])
 const selectedBrush = ref(brushTypes.value[0])
+
+onMounted(() => {
+  const canvas = canvasRef.value
+  if (!canvas) return
+
+  let canvasElement = document.getElementById("canvasWrapper")
+
+  canvas.width = canvasElement ? canvasElement.clientWidth : 500
+  canvas.height = canvasElement ? canvasElement.clientHeight : 500
+})
 
 const startDrawing = (event: MouseEvent) => {
   state.drawing = true
@@ -206,34 +209,20 @@ const changeColor = (color: string) => {
 }
 const changeShowFiles = (bool: boolean) => {
   showFiles.value = bool
+  paintstore.getAllPaintingsByUserId(userstore.userData?._id !== undefined ? userstore.userData?._id : '')
 }
 const itemClicked = (painting: IPainting) => {
   loadPainting(painting.canvas)
 }
 
-onMounted(() => {
-  paintstore.getAllPaintingsByUserId(userstore.userData?._id !== undefined ? userstore.userData?._id : '')
-  const canvas = canvasRef.value
-  if (!canvas) return
-
-  let canvasElement = document.getElementById("canvasWrapper")
-
-  canvas.width = canvasElement ? canvasElement.clientWidth : 500
-  canvas.height = canvasElement ? canvasElement.clientHeight : 500
-})
 </script>
 <style scoped lang="sass">
 .tools
   width: 200px
 .paint-wrapper
-  width: 80vw
-  height: 80vh
+  width: 1200px
+  height: 800px
   .canvas-wrapper
-    max-width: 80vw
-    max-height: 80vh
     overflow: scroll
     scrollbar-width: thin
-    canvas
-      width: 63vw 
-      height: 78vh
 </style>

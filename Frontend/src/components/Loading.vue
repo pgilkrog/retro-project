@@ -12,7 +12,7 @@
         .box(:class="loadingCompleted === true ? '' : 'move-anim'")
           IconComponent(name="bi-file-earmark-fill" class="text-white" size="32")
         IconComponent(name="bi-folder-fill" variant="yellow" size="32")
-      .loading-bar(class="bg-shadow-inner mt-4 flex h-6")
+      .loading-bar(:class="['bg-shadow-inner mt-4 flex', progressValues.lenth > 0 ? 'h-auto' : 'h-5']")
         .loading-box.bg-blue-500.h-5.w-5.mx-1(v-for="item in progressValues")
       div(class="flex justify-end mt-4")
         Btn(text="Close" v-if="loadingCompleted === true" @clicked="closeLoading()")
@@ -51,14 +51,14 @@ const files = ref<string[]>([])
 const progress = ref<number>(0)
 
 const addToArray = () => {
-  if (progressValues.value.length < 10) {
+  if (progressValues.value.length < 13) {
     setTimeout(() => {
       progressValues.value.push(1)
       addToArray()
     }, Math.random() * 1000 + 100)
   }
 
-  if (progressValues.value.length === 10) {
+  if (progressValues.value.length === 12) {
     loadingCompleted.value = true
   }
 }
@@ -69,7 +69,7 @@ const closeLoading = () => {
 
 const startInstallation = () => {
   const fileTypes = ['exe', 'dll', 'cfg', 'log']
-  const installationTime = 5000 // 5 seconds
+  const installationTime = 8000 // 5 seconds
 
   const intervalId = setInterval(() => {
     if (progress.value >= 200) {

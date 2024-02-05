@@ -70,7 +70,7 @@ const changeShowMenu = () => {
   background-repeat: no-repeat
   background-size: cover
   image-rendering: pixelated
-canvas
-  z-index: 9999
-  position: absolute
+// canvas
+//   z-index: 9999
+//   position: absolute
 </style>

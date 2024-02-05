@@ -7,22 +7,30 @@ WindowFrame(
   :showMenu="false"
   @closeWindow="closeWindow()"
 )
-  .file-explorer.my-4.d-flex.justify-content-around
-    .d-flex.flex-column.align-items-center.pointer(
+  .file-explorer(class="my-4 flex justify-around" v-if="isLoading === false")
+    div(
+      class="flex flex-col items-center cursor-pointer"
       v-for="(item, index) in files" 
       :key="index"
       @click="itemClicked(item)"
     )
       IconComponent(name="bi-file-earmark" size="28")
       p {{ item.name }}
+  .is-loading(v-else class="h-24 flex justify-center items-center")
+    div
+      IconComponent(name="fa-circle-notch" size="28" class="animate-spin" variant="gray")
 </template>
 
 <script setup lang="ts">
 import type { IFile } from '@/models'
 import type { PropType } from 'vue'
 
-const { files } = defineProps({
-  files: Array as PropType<IFile[]>
+const { 
+  files = [], 
+  isLoading = false 
+} = defineProps({
+  files: Array as PropType<IFile[]>,
+  isLoading: Boolean
 })
 
 const emit = defineEmits([

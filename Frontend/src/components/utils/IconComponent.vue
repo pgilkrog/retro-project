@@ -2,7 +2,7 @@
 i.icon(
   :class="[iconClass(), 'text-' + variant + '-500']" 
   :style="'color: ' + color + '!important; font-size: ' + size + 'px !important; transform: rotate(' + rotate + 'deg);'"
-  v-bind="$attr"
+  v-bind="$attrs"
 )
 </template>
 
