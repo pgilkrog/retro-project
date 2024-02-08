@@ -31,8 +31,8 @@ export default class Game extends Scene {
     this.player = this.physics.add.sprite(400, 550, 'player')
     this.player.setCollideWorldBounds(true)
 
-    this.physics.add.collider(this.player, this.aliens, this.hitAlien, undefined, this)
-    this.physics.add.collider(this.bullets, this.aliens, this.hitAlien, undefined, this)
+    // this.physics.add.collider(this.player, this.aliens, this.hitAlien, undefined, this)
+    // this.physics.add.collider(this.bullets, this.aliens, this.hitAlien, undefined, this)
 
     this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
     this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)

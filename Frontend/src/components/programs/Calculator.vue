@@ -5,7 +5,7 @@ WindowFrame(:program="program" :isMoveable="true")
       .bg-light.w-100.rounded.bg-shadow-inner.d-flex.justify-content-end.p-2.pe-3
        p {{ display !== '' ? display : '0' }}
     .button-wrapper.p-3
-      Btn(
+      ButtonComponent(
         v-for="button in buttons" 
         :key="button.text"
         @clicked="handleClick(button)"

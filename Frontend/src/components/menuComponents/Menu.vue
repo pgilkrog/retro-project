@@ -32,17 +32,3 @@ onMounted(() => {
 })
 
 </script>
-
-<style lang="sass" scoped>
-.menu-item
-    &:hover
-    &:hover + .submenu, .submenu:hover
-      display: block
-    .submenu
-      display: none
-      left: 203px
-      color: black
-      margin-top: -65px
-      img 
-        height: 35px
-</style>

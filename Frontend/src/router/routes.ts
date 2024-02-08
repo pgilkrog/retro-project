@@ -6,7 +6,6 @@ const ShutDown = () => import('@/views/ShutDown.vue')
 const StartingUp = () => import('@/views/StartingUp.vue')
 const adminView = () => import('@/views/AdminView.vue')
 const SalvatoreGame = () => import('@/phaser/salvatore/SalvatoreGame.vue')
-const Maze = () => import('@/components/programs/pc-settings/3DMaze.vue')
 const LoginView = () => import('@/views/LoginView.vue')
 
 export default [
@@ -82,14 +81,5 @@ export default [
       requiresAuth : true,
       roles: ['admin']
     },
-  },
-  {
-    path: '/maze',
-    name: 'maze',
-    component: Maze, 
-    meta: {
-      requiresAuth : true,
-      roles: ['user', 'admin']
-    }
   }
 ]

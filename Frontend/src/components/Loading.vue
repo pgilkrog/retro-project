@@ -15,7 +15,7 @@
       .loading-bar(:class="['bg-shadow-inner mt-4 flex', progressValues.lenth > 0 ? 'h-auto' : 'h-5']")
         .loading-box.bg-blue-500.h-5.w-5.mx-1(v-for="item in progressValues")
       div(class="flex justify-end mt-4")
-        Btn(text="Close" v-if="loadingCompleted === true" @clicked="closeLoading()")
+        ButtonComponent(text="Close" v-if="loadingCompleted === true" @clicked="closeLoading()")
     .text-black.p-4
       div Installing...
       div

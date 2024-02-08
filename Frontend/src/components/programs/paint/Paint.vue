@@ -18,17 +18,17 @@ WindowFrame(
       )
     .tools(class="bg-shadow flex flex-col p-4")
       .size.mb-4
-        BaseInput(type="number" v-model="canvasX")
-        BaseInput(type="number" v-model="canvasY")
-        Btn(@clicked="setSize(canvasX, canvasY)" text="New").mt-2
+        InputComponent(type="number" v-model="canvasX")
+        InputComponent(type="number" v-model="canvasY")
+        ButtonComponent(@clicked="setSize(canvasX, canvasY)" text="New").mt-2
       .icons(class="flex justify-center")
-        Btn(icon="fa-file" size="small" @clicked="createNew()")
-        Btn(icon="fa-floppy-disk" size="small" data-bs-toggle="modal" data-bs-target="#exampleModal")
-        Btn(icon="fa-folder" size="small" @clicked="changeShowFiles(true)")
+        ButtonComponent(icon="fa-file" size="small" @clicked="createNew()")
+        ButtonComponent(icon="fa-floppy-disk" size="small" data-bs-toggle="modal" data-bs-target="#exampleModal")
+        ButtonComponent(icon="fa-folder" size="small" @clicked="changeShowFiles(true)")
       .brushes(class="mt-4 flex justify-center")
-        Btn(icon="fa-circle" size="small" @clicked="setBrushType('circle')")
-        Btn(icon="fa-square" size="small" @clicked="setBrushType('square')")
-        Btn(icon="fa-spray-can" size="small" @clicked="setBrushType('spray')")
+        ButtonComponent(icon="fa-circle" size="small" @clicked="setBrushType('circle')")
+        ButtonComponent(icon="fa-square" size="small" @clicked="setBrushType('square')")
+        ButtonComponent(icon="fa-spray-can" size="small" @clicked="setBrushType('spray')")
       ColorTool(v-on:changeColor="changeColor($event)")
       div.mt-4
         input(type="color" v-model="state.color")

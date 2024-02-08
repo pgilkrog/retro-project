@@ -37,7 +37,7 @@ WindowFrame(
       .row
         UserInfo
     .d-flex.justify-content-end.mt-4
-      Btn(
+      ButtonComponent(
         text="OK" 
         v-on:clicked="saveUserInfo()"
       )

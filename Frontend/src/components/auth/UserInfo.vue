@@ -1,13 +1,13 @@
 <template lang="pug">
 div(class="flex flex-col")
-  BaseInput(v-model="info.name" placeholder="Name")
-  BaseInput(v-model="info.addressLine" placeholder="Addressline")
-  BaseInput(v-model="info.streetNumber" placeholder="Street number")
-  BaseInput(v-model="info.town" placeholder="Town")
-  BaseInput(v-model="info.country" placeholder="Country")
-  BaseInput(v-model="info.postcode" placeholder="Postcode" type="number")
-  BaseInput(v-model="info.phoneNumber" placeholder="Phone")
-  BaseInput(v-model="info.homeAddress" label="Home Address" type="checkbox")
+  InputComponent(v-model="info.name" placeholder="Name")
+  InputComponent(v-model="info.addressLine" placeholder="Addressline")
+  InputComponent(v-model="info.streetNumber" placeholder="Street number")
+  InputComponent(v-model="info.town" placeholder="Town")
+  InputComponent(v-model="info.country" placeholder="Country")
+  InputComponent(v-model="info.postcode" placeholder="Postcode" type="number")
+  InputComponent(v-model="info.phoneNumber" placeholder="Phone")
+  InputComponent(v-model="info.homeAddress" label="Home Address" type="checkbox")
 div(class="flex flex-col my-4")
   p name: {{ info.name }}
   p address: {{ info.addressLine }}
@@ -18,7 +18,7 @@ div(class="flex flex-col my-4")
   p phone {{ info.phoneNumber }}
   p is Homeaddress {{ info.homeAddress }}
 
-Btn(text="Print" @clicked="printInfo()" size="full")
+ButtonComponent(text="Print" @clicked="printInfo()" size="full")
 </template>
 
 <script setup lang="ts">

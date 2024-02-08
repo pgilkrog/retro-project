@@ -15,4 +15,5 @@
       "path": "./tsconfig.config.json",
     },
   ],
+  "files": ["auto-imports.d.ts"]
 }

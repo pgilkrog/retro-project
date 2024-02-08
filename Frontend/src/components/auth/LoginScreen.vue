@@ -14,26 +14,26 @@ WindowFrame(
       .col-12.flex.items-center
         .login-text Email:
       .col-12.col-lg
-        BaseInput(v-model="username")
+        InputComponent(v-model="username")
       .mt-2(v-if="state === 2 || state === 1")
         .col-span-12.flex.items-center
           .login-text Password:
         .col-span-12
-          BaseInput(v-model="password" type="password")
+          InputComponent(v-model="password" type="password")
       .mt-2(v-if="state === 2")
         .col-span-12.flex.items-center
           .login-text Password:
         .col-span-12
-          BaseInput(v-model="password2" type="password")
+          InputComponent(v-model="password2" type="password")
     .buttons.mt-4.flex.justify-end.w-full.col-span-12
-      Btn.me-2(@clicked="pressedOk()" text="OK") 
-      Btn(@clicked="changeShowHelp()" text="Help" :active="showHelp")
+      ButtonComponent.me-2(@clicked="pressedOk()" text="OK") 
+      ButtonComponent(@clicked="changeShowHelp()" text="Help" :active="showHelp")
   .buttons.flex.flex-col.bg-shadow-inner.p-4.m-2.rounded(v-if="showHelp === true")
     p Some helping info and stuff
     div(class="flex justify-center mt-4")
-      Btn.me-4(@clicked="changeState(2)" v-if="state === 1" text="Create User") 
-      Btn.me-4(@clicked="changeState(1)" v-else text="Login")
-      Btn(@clicked="changeState(3)" text="Forgot password") 
+      ButtonComponent.me-4(@clicked="changeState(2)" v-if="state === 1" text="Create User") 
+      ButtonComponent.me-4(@clicked="changeState(1)" v-else text="Login")
+      ButtonComponent(@clicked="changeState(3)" text="Forgot password") 
 </template>
 
 <script setup lang="ts">

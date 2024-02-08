@@ -8,14 +8,14 @@ WindowFrame(
 )
   div(class="flex p-2")
     .flex.flex-col.pe-3
-      Btn(
+      ButtonComponent(
         @clicked="changeState('removePrograms')" 
         text="Remove Program" 
         icon="fa-computer" 
         size="full"
         :active="state === 'removePrograms'"
       )
-      Btn(
+      ButtonComponent(
         @clicked="changeState('addPrograms')"
         text="Add Program" 
         icon="fa-folder-plus" 
@@ -39,13 +39,13 @@ WindowFrame(
       )
   .row.p-2
     .flex.justify-end
-      Btn(
+      ButtonComponent(
         v-if="state === 'addPrograms'" 
         @clicked="installProgram()"
         :disabled="selectedProgramId === ''" 
         text="Install"
       )
-      Btn(
+      ButtonComponent(
         v-else 
         @clicked="removeProgram()"
         text="Remove"

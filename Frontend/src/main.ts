@@ -8,12 +8,6 @@ import router from './router'
 import './styles/main.sass'
 import "bootstrap-icons/font/bootstrap-icons.css"
 
-import IconComponent from '@/components/utils/IconComponent.vue'
-import WindowFrame from '@/components/windowframe/WindowFrame.vue'
-import ButtonComponent from '@/components/utils/ButtonComponent.vue'
-import InputComponent from '@/components/utils/InputComponent.vue'
-import ImageComponent from '@/components/utils/ImageComponent.vue'
-
 globalCookiesConfig({
   expireTimes: '30d',
   path: '',
@@ -28,12 +22,6 @@ const pinia = createPinia()
 app.config.errorHandler = (err, vm, info) => {
   console.error(err, vm, info)
 }
-
-app.component('IconComponent', IconComponent)
-app.component('WindowFrame', WindowFrame)
-app.component('Btn', ButtonComponent)
-app.component('BaseInput', InputComponent)
-app.component('ImageComponent', ImageComponent)
 
 app.use(pinia)
 app.use(router)

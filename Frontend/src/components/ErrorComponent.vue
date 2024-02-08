@@ -13,7 +13,7 @@ Teleport(to="body" v-if="error !== undefined")
           p {{ error.text }}
         .col-12.col-sm-2
           .d-flex.justify-content-center.mt-4
-            Btn(@clicked="closeErrorComponent()" text="OK").px-4
+            ButtonComponent(@clicked="closeErrorComponent()" text="OK").px-4
 </template>
 
 <script setup lang="ts">

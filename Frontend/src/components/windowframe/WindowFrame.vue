@@ -15,9 +15,9 @@ Teleport(to="#app")
           IconComponent(:name="program.image" size="25" variant="light")
           p.font-semibold.pe-4.ps-4.text-2xl {{ program.displayName }}
         div(class="flex")
-          Btn(icon="fa-window-minimize" @clicked="setInactive()" size="small")
-          Btn(icon="fa-square" size="small")
-          Btn(icon="fa-xmark" @clicked="closeWindow()" size="small")
+          ButtonComponent(icon="fa-window-minimize" @clicked="setInactive()" size="small")
+          ButtonComponent(icon="fa-square" size="small")
+          ButtonComponent(icon="fa-xmark" @clicked="closeWindow()" size="small")
       windowframeMenu(:showMenu)
       div(class="bg-gray-300 bg-shadow-inner rounded")
         slot

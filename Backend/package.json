@@ -2,10 +2,12 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "app.ts",
+  "main": "src/app.ts",
   "scripts": {
     "build": "tsc",
-    "start": "nodemon src/app.ts"
+    "start": "node build/app.js",
+    "dev": "nodemon src/app.ts",
+    "postinstall": "tsc"
   },
   "author": "",
   "license": "ISC",

@@ -13,28 +13,28 @@
     v-if="showManageUser"
   )
     .d-flex.flex-column.p-4
-      BaseInput(v-model="userInfo.firstName" label="First Name")
-      BaseInput(v-model="userInfo.lastName" label="Last Name")
-      BaseInput(v-model="userInfo.email" label="Email")
-      BaseInput(v-model="userInfo.type" label="Type")
-      //- BaseInput(v-model="userInfo.installedPrograms" label="Installed Programs")
-      Btn.mt-3(@clicked="changeShowManageUserSettings(true)" text="Settings" size="full")
+      InputComponent(v-model="userInfo.firstName" label="First Name")
+      InputComponent(v-model="userInfo.lastName" label="Last Name")
+      InputComponent(v-model="userInfo.email" label="Email")
+      InputComponent(v-model="userInfo.type" label="Type")
+      //- InputComponent(v-model="userInfo.installedPrograms" label="Installed Programs")
+      ButtonComponent.mt-3(@clicked="changeShowManageUserSettings(true)" text="Settings" size="full")
       .d-flex.mt-3.justify-content-between
-        Btn(@clicked="changeShowManageUser(false)" text="Cancel")
-        Btn(@clicked="updateUser()" text="Update")
+        ButtonComponent(@clicked="changeShowManageUser(false)" text="Cancel")
+        ButtonComponent(@clicked="updateUser()" text="Update")
   WindowFrame(
     :program="{name: 'ManageUserSettings', displayName: 'Manage User Settings', color: 'warning', image: 'fa-pencil', isActive: true}" 
     :isMoveable="true"
     v-if="showManageUserSettings"
   )
     .d-flex.flex-column.p-4
-      BaseInput(v-model="userSettingsInfo.backgroundColour" label="Background color")
-      BaseInput(v-model="userSettingsInfo.backgroundImage" label="Background Image")
-      BaseInput(v-model="userSettingsInfo.useBackground" label="Use Background" type="checkbox")
-      BaseInput(v-model="userSettingsInfo.theme" label="Theme")
+      InputComponent(v-model="userSettingsInfo.backgroundColour" label="Background color")
+      InputComponent(v-model="userSettingsInfo.backgroundImage" label="Background Image")
+      InputComponent(v-model="userSettingsInfo.useBackground" label="Use Background" type="checkbox")
+      InputComponent(v-model="userSettingsInfo.theme" label="Theme")
       .d-flex.mt-3.justify-content-between
-        Btn(@clicked="changeShowManageUserSettings(false)" text="Cancel")
-        Btn(@clicked="updateUserSettings()" text="Update")
+        ButtonComponent(@clicked="changeShowManageUserSettings(false)" text="Cancel")
+        ButtonComponent(@clicked="updateUserSettings()" text="Update")
 </template>
 
 <script setup lang="ts">

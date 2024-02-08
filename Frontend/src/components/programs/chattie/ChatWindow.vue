@@ -14,8 +14,8 @@ WindowFrame(
         p(class="text-green-500") {{ item.sender }}
         p(v-html="item.text")
   div(class="flex bg-shadow p-2")
-    BaseInput(v-model="messageText" @keydown.enter="sendMessage()")
-    Btn(@clicked="sendMessage()" text="Send")
+    InputComponent(v-model="messageText" @keydown.enter="sendMessage()")
+    ButtonComponent(@clicked="sendMessage()" text="Send")
 </template>
 
 <script setup lang="ts">

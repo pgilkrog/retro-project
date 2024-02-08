@@ -5,8 +5,8 @@ WindowFrame(:program="program" :isMoveable="true" variant="danger")
     strong {{ text }}
   
     .buttons.mt-4
-      Btn.me-2(@clicked="ok()" text="Ok" size="wide")
-      Btn(@clicked="cancel()" text="Cancel" size="wide") Cancel
+      ButtonComponent.me-2(@clicked="ok()" text="Ok" size="wide")
+      ButtonComponent(@clicked="cancel()" text="Cancel" size="wide") Cancel
 </template>
 
 <script setup lang="ts">

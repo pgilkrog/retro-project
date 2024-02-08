@@ -5,11 +5,11 @@ WindowFrame(
 )
   .paw-eplorer
     .top-bar(class="flex m-2")
-      Btn(icon="fa-caret-left")
-      Btn(icon="fa-caret-right").mx-2
-      Btn(icon="fa-rotate")
-      BaseInput(v-model="inputText").mx-2
-      Btn(icon="fa-rotate-right" text="GO" @click="go()")
+      ButtonComponent(icon="fa-caret-left")
+      ButtonComponent(icon="fa-caret-right").mx-2
+      ButtonComponent(icon="fa-rotate")
+      InputComponent(v-model="inputText").mx-2
+      ButtonComponent(icon="fa-rotate-right" text="GO" @click="go()")
     .browser-content(class="w-auto bg-gray-50 bg-shadow-inner m-2" v-if="isLoadingPage === false")
       Component(:is="defineAsyncComponent(() => import(`./pages/${currentPage}.vue`))")
     .loading-content(class="w-auto bg-gray-50 bg-shadow-inner m-2 flex items-center justify-center text-5xl" v-else)

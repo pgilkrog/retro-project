@@ -2,7 +2,7 @@
 .manage-programs
   WindowFrame(:program="program" :isMoveable="true")
     .d-flex.flex-column.m-2
-      Btn.mb-4(@clicked="changeShowManageProgram(true)" text="Add new program" size="full") 
+      ButtonComponent.mb-4(@clicked="changeShowManageProgram(true)" text="Add new program" size="full") 
       
       .hover.d-flex.bg-shadow.p-1.pe-4.justify-content-between.align-items-center.rounded.pointer.mt-1(v-for="program in allPrograms" :key="program._id") 
         .d-flex.align-items-center
@@ -16,18 +16,18 @@
      v-if="showManageProgram"
   )
     .add-program.d-flex.flex-column.p-4
-      BaseInput(v-model="programInfo.name" label="Name" placeholder="name")
-      BaseInput(v-model="programInfo.displayName" label="Display name" placeholder="displayName")
-      BaseInput(v-model="programInfo.image" label="image" placeholder="image")
-      BaseInput(v-model="programInfo.color" label="color" placeholder="color")
-      BaseInput(v-model="programInfo.sortOrder" label="sort order" type="number")
-      BaseInput(v-model="programInfo.type" label="type" placeholder="type")
+      InputComponent(v-model="programInfo.name" label="Name" placeholder="name")
+      InputComponent(v-model="programInfo.displayName" label="Display name" placeholder="displayName")
+      InputComponent(v-model="programInfo.image" label="image" placeholder="image")
+      InputComponent(v-model="programInfo.color" label="color" placeholder="color")
+      InputComponent(v-model="programInfo.sortOrder" label="sort order" type="number")
+      InputComponent(v-model="programInfo.type" label="type" placeholder="type")
       .d-flex.mt-3.justify-content-between
-        Btn(@clicked="changeShowManageProgram(false)" text="Cancel")
+        ButtonComponent(@clicked="changeShowManageProgram(false)" text="Cancel")
         template(v-if="updateState === true")
-          Btn(@clicked="updateProgram()" text="Update")
+          ButtonComponent(@clicked="updateProgram()" text="Update")
         template(v-else)
-          Btn(@clicked="addProgram()" text="Add Program")
+          ButtonComponent(@clicked="addProgram()" text="Add Program")
   Validating(
     v-if="showValidation === true" 
     :text="'Delete program: ' + programInfo.displayName"

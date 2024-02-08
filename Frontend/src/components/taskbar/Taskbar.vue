@@ -4,7 +4,7 @@ div(class="bg-gray-300 w-full h-auto fixed bottom-0 z-50")
   .line.bg-white
   div(class="w-full p-1 flex justify-between ")
     div(class="flex py-1 ms-1")
-      Btn(
+      ButtonComponent(
         text="Start" 
         icon="fa-paw" 
         v-on:clicked="changeShowMenu()" 
@@ -12,7 +12,7 @@ div(class="bg-gray-300 w-full h-auto fixed bottom-0 z-50")
         variant="primary"
       )
       .programs-container(class="flex ms-2")
-        Btn(
+        ButtonComponent(
           v-for="item in activePrograms" 
           :key="item.id" 
           :text="item.displayName" 
@@ -21,7 +21,7 @@ div(class="bg-gray-300 w-full h-auto fixed bottom-0 z-50")
           :active="item.isActive"
         )
     div(class="flex items-center")
-      Btn(
+      ButtonComponent(
         v-if="userstore.userData?.type === 'admin'" 
         text="admin" 
         v-on:clicked="goToAdmin()" 
