@@ -28,7 +28,7 @@ import { programsStore } from '@/stores/programsStore'
 import { authStore } from '@/stores/authStore'
 const Menu = defineAsyncComponent(() => import('@/components/menuComponents/Menu.vue'))
 // import Salvatore from '@/phaser/salvatore/SalvatoreGame.vue'
-// import TestStuff from '@/phaser/test-stuff/TestStuff.vue'
+//import TestStuff from '@/phaser/test-stuff/TestStuff.vue'
 
 const authstore = authStore()
 const programsstore = programsStore()

@@ -5,7 +5,7 @@ import { globalCookiesConfig } from 'vue3-cookies'
 import App from './App.vue'
 import router from './router'
 
-import './styles/main.sass'
+import './main.sass'
 import "bootstrap-icons/font/bootstrap-icons.css"
 
 globalCookiesConfig({

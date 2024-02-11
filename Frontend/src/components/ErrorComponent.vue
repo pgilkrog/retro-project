@@ -2,18 +2,17 @@
 Teleport(to="body" v-if="error !== undefined")
   WindowFrame(
     :program="{_id: 543245, name: 'Error', displayName: 'Error', isActive: true, image: ''}" 
-    variant="danger"
+    variant="red"
     :isMoveable="true"
   )
-    .error-component
-      .row.p-4
-        .col-12.col-sm-1.text-center
-          IconComponent(name="bi-exclamation-octagon-fill" variant="danger" size="40")
-        .col-12.col-sm-8.ms-4.d-flex.align-items-center
-          p {{ error.text }}
-        .col-12.col-sm-2
-          .d-flex.justify-content-center.mt-4
-            ButtonComponent(@clicked="closeErrorComponent()" text="OK").px-4
+    .error-component.m-4
+      .text-center
+        IconComponent(name="bi-exclamation-octagon-fill" variant="red" size="40")
+      .ms-4.flex.items-center
+        p {{ error.text }}
+      div
+        .flex.justify-center.mt-4
+          ButtonComponent(@clicked="closeErrorComponent()" text="OK").px-4
 </template>
 
 <script setup lang="ts">

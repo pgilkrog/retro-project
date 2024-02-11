@@ -60,6 +60,9 @@ import { programsStore } from '@/stores/programsStore'
 import { userStore } from '@/stores/userStore'
 import type { IProgram } from '@/models/index'
 
+import ProgramList from '@/components/programs/add-remove-programs/ProgramsList.vue'
+import Loader from '@/components/Loading.vue'
+
 const { program } = defineProps({
   program: Object
 })

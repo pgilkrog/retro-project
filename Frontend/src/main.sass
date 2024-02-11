@@ -1,0 +1,42 @@
+@tailwind base
+@tailwind components
+@tailwind utilities
+
+@font-face
+  font-family: "RetroFont"
+  src: url("./assets/PressStart2P-Regular.ttf") format("truetype")
+
+body, html
+  margin: 0
+  padding: 0
+  left: 0
+  right: 0
+  top: 0
+  bottom: 0
+  font-family: 'RetroFont'
+  font-size: 0.85rem
+  overflow: hidden
+  p, h1, h2, h4
+    margin: 0
+    padding: 0
+
+.bg-shadow
+  @apply border-2 border-t-gray-200 border-s-gray-200 border-e-black border-b-black
+
+.bg-shadow-inner
+  @apply border-2 border-b-gray-200 border-e-gray-200 border-t-black border-s-black
+
+.submenu
+  @apply bg-gray-300
+
+.game-container
+  canvas
+    margin: 0 !important
+    padding: 0 !important
+    display: block
+    z-index: 9999
+    position: absolute
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0

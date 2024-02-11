@@ -11,8 +11,6 @@ Component(
 import { defineAsyncComponent } from 'vue'
 import { programsStore } from '@/stores/programsStore'
 
-import MyComputer from './programs/MyComputer.vue'
-
 const programsstore = programsStore()
 
 // :is="defineAsyncComponent(() => import(`@/components/programs/${program.name}.vue`))"

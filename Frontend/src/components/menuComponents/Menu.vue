@@ -15,7 +15,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import type { IMenuItem }  from '@/models/index'
-import MenuItem from './MenuItem.vue'
 import jsondata from '@/assets/menuData.json'
 
 const { showMenu = false } = defineProps({
@@ -32,3 +31,18 @@ onMounted(() => {
 })
 
 </script>
+<style lang="sass">
+.menu-item
+  cursor: pointer
+  &:hover,
+  &:hover + .submenu, .submenu:hover
+    display: block
+  .submenu
+    position: absolute
+    display: none
+    left: 150px
+    color: black
+    margin-top: -65px
+    img 
+      height: 35px
+</style>

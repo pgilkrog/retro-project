@@ -9,7 +9,6 @@ ErrorComponent(v-if="errorstore.error !== undefined")
 import { authStore } from '@/stores/authStore'
 import { onMounted, computed, watch } from 'vue'
 import router from './router'
-import ErrorComponent from './components/ErrorComponent.vue'
 import { useCookies } from 'vue3-cookies'
 import { errorStore } from '@/stores/errorStore'
 
