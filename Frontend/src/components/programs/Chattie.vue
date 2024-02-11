@@ -24,9 +24,8 @@ WindowFrame(
 </template>
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue'
-import type { IProgram } from '../../../models/index'
+import type { IProgram } from '../../models/index'
 import { userStore } from '@/stores/userStore'
-import ChatWindow from './ChatWindow.vue'
 import { chatStore } from '@/stores/chatStore'
 import type { PropType } from 'vue'
 

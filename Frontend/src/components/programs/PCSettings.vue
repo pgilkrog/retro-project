@@ -45,14 +45,10 @@ WindowFrame(
 
 <script setup lang="ts">
 import { ref, onMounted, type Ref, type PropType } from 'vue'
-import type { IFile, IProgram, IUser, IUserSettings } from '../../../models/index'
-import { userStore } from '../../../stores/userStore'
-import { fileStore } from '../../../stores/fileStore'
+import type { IFile, IProgram, IUser, IUserSettings } from '../../models/index'
+import { userStore } from '../../stores/userStore'
+import { fileStore } from '../../stores/fileStore'
 import { storeToRefs } from 'pinia'
-import PCScreen from './PCScreen.vue'
-import FileUploader from '@/components/FileUploader.vue'
-import BackgroundImages from './BackgroundImages.vue'
-import UserInfo from '@/components/auth/UserInfo.vue'
 
 const { program } = defineProps({
   program: Object as PropType<IProgram>

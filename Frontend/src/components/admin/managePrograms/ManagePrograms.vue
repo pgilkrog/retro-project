@@ -1,28 +1,27 @@
 <template lang="pug">
 .manage-programs
   WindowFrame(:program="program" :isMoveable="true")
-    .d-flex.flex-column.m-2
+    .wrapper(class="flex flex-col m-2")
       ButtonComponent.mb-4(@clicked="changeShowManageProgram(true)" text="Add new program" size="full") 
-      
-      .hover.d-flex.bg-shadow.p-1.pe-4.justify-content-between.align-items-center.rounded.pointer.mt-1(v-for="program in allPrograms" :key="program._id") 
-        .d-flex.align-items-center
-          IconComponent.mx-2(name="fa-pencil" variant="warning" size="25" @click="setUpdateState(true, program); changeShowManageProgram(true)")
+      div(class="hover flex bg-shadow p-1 justify-start rounded cursor-pointer mt-1" v-for="program in allPrograms" :key="program._id") 
+        div(class="flex items-center")
+          IconComponent.mx-2(name="fa-pencil" variant="yellow" size="25" @click="setUpdateState(true, program); changeShowManageProgram(true)")
           p.mx-2 {{ `${program.sortOrder}: ${program.name }`}}
-        IconComponent(name="bi-trash-fill" variant="danger" size="25" @click="deleteProgram(program)")
+        IconComponent(name="bi-trash-fill" variant="red" size="25" @click="deleteProgram(program)")
   
   WindowFrame(
     :program="{name: 'ManageProgram', displayName: 'Manage Program', color: 'warning', image: 'fa-pencil', isActive: true}" 
     :isMoveable="true"
      v-if="showManageProgram"
   )
-    .add-program.d-flex.flex-column.p-4
+    .add-program(class="flex flex-col p-4")
       InputComponent(v-model="programInfo.name" label="Name" placeholder="name")
       InputComponent(v-model="programInfo.displayName" label="Display name" placeholder="displayName")
       InputComponent(v-model="programInfo.image" label="image" placeholder="image")
       InputComponent(v-model="programInfo.color" label="color" placeholder="color")
       InputComponent(v-model="programInfo.sortOrder" label="sort order" type="number")
       InputComponent(v-model="programInfo.type" label="type" placeholder="type")
-      .d-flex.mt-3.justify-content-between
+      div(class="flex mt-3 justify-center")
         ButtonComponent(@clicked="changeShowManageProgram(false)" text="Cancel")
         template(v-if="updateState === true")
           ButtonComponent(@clicked="updateProgram()" text="Update")
@@ -40,7 +39,6 @@
 import { ref, computed, reactive } from 'vue'
 import { programsStore } from '@/stores/programsStore'
 import type { IProgram } from '@/models/index'
-import Validating from '@/components/Validating.vue'
 
 const { program } = defineProps({
   program: Object

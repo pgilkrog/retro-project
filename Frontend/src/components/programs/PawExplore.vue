@@ -11,7 +11,7 @@ WindowFrame(
       InputComponent(v-model="inputText").mx-2
       ButtonComponent(icon="fa-rotate-right" text="GO" @click="go()")
     .browser-content(class="w-auto bg-gray-50 bg-shadow-inner m-2" v-if="isLoadingPage === false")
-      Component(:is="defineAsyncComponent(() => import(`./pages/${currentPage}.vue`))")
+      Component(:is="defineAsyncComponent(() => import(`./paw-explore/pages/${currentPage}.vue`))")
     .loading-content(class="w-auto bg-gray-50 bg-shadow-inner m-2 flex items-center justify-center text-5xl" v-else)
       p is Loading..
 
@@ -26,7 +26,7 @@ const { program } = defineProps({
 
 const url = ref<string>('http://www.googol.dk')
 const inputText = ref<string>('')
-const currentPage = ref<string>('nasa')
+const currentPage = ref<string>('googol')
 const isLoadingPage = ref(false)
 
 onMounted(() => {

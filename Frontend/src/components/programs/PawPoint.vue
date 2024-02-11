@@ -14,7 +14,7 @@ WindowFrame(
         :slide="activeSlide"
       )
       span(v-else) 
-        .title.d-flex.justify-content-center.align-items-center.my-4
+        .title(class="flex justify-center items-center my-4")
           .spinner-border
 
     .group-slides(class="flex")

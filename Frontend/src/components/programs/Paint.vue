@@ -49,7 +49,7 @@ import { ref, reactive, onMounted, computed } from 'vue'
 import type { IPainting, IProgram } from '@/models/index'
 import { userStore } from '@/stores/userStore'
 import { paintStore } from '@/stores/paintStore'
-import ColorTool from './ColorTool.vue'
+import ColorTool from './paint/ColorTool.vue'
 import FileExplorer from '@/components/FileExplorer.vue'
 import type { PropType } from 'vue'
 

@@ -19,7 +19,7 @@ export const userStore = defineStore("user", () => {
   const userBackgroundColour = ref<string>("")
   const errorstore = errorStore()
   const programstore = programsStore()
-  // const chatstore = chatStore()
+  const chatstore = chatStore()
 
   const getAllUsers = async () => {
     setAuthToken(sessionStorage.getItem('token') as string)
@@ -28,7 +28,7 @@ export const userStore = defineStore("user", () => {
       let tempArray: IUser[] = []
       for(const user in tempData) {
         tempArray.push(tempData[user] as IUser)
-        // tempData[user] = chatstore.onlineUsers.includes(tempData[user].email) ? true : false
+        tempData[user] = chatstore.onlineUsers.includes(tempData[user].email) ? true : false
       }
       allUsers.value = tempArray
       console.log("SET ALL USERS", res)

@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -23,12 +22,8 @@ export default defineConfig({
       dts: true
     }),
     AutoImport({
-      dts: true,
-      imports: [
-        {
-          vue: ['ref', 'computed']
-        }
-      ]
+      imports: ['vue'],
+      dts: './auto-imports.d.ts'
     })
   ],
   resolve: {
@@ -37,3 +32,32 @@ export default defineConfig({
     }
   }
 })
+
+// import { fileURLToPath, URL } from 'node:url'
+// import Components from 'unplugin-vue-components/vite'
+// import AutoImport from 'unplugin-auto-import/vite'
+
+// import { defineConfig } from 'vite'
+// import vue from '@vitejs/plugin-vue'
+
+// // https://vitejs.dev/config/
+// export default defineConfig({
+//   plugins: [
+//     vue(),
+//     Components({
+//       dts: true
+//     }),
+//     AutoImport({
+//       imports: ['vue'],
+//       dts: 'src/auto-imports.d.ts'
+//     })
+//   ],
+//   resolve: {
+//     alias: {
+//       '@': fileURLToPath(new URL('./src', import.meta.url))
+//     }
+//   },
+//   server: {
+//     host: 'as3.localhost.dk' // as3.localhost.dk new.as3portal.dk
+//   }
+// })

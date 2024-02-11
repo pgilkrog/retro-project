@@ -11,7 +11,6 @@ WindowFrame(:program="program" :isMoveable="true" variant="success")
 </template>
 
 <script setup lang="ts">
-import DesktopItem from '../DesktopItem.vue'
 
 const { program } = defineProps({
   program: Object

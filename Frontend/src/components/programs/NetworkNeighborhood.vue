@@ -9,7 +9,6 @@ WindowFrame(:program="program" :isMoveable="true")
 </template>
 
 <script setup lang="ts">
-import ErrorList from '@/components/admin/ErrorList.vue'
 import { ref } from 'vue'
 import type { PropType } from 'vue'
 import type { IProgram } from '@/models'

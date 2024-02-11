@@ -12,7 +12,7 @@ WindowFrame(:program="program" :isMoveable="true")
 </template>
 
 <script setup lang="ts">
-import MinesweeperBlock from './MinesweeperBlock.vue'
+import MinesweeperBlock from './minesweeper/MinesweeperBlock.vue'
 import { ref, onMounted } from 'vue'
 
 const { program } = defineProps({
