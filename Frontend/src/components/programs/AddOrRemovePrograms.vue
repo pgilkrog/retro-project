@@ -55,7 +55,6 @@ Loader(v-if="isInstalling === true" @closeLoading="closeLoading()")
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
 import { programsStore } from '@/stores/programsStore'
 import { userStore } from '@/stores/userStore'
 import type { IProgram } from '@/models/index'

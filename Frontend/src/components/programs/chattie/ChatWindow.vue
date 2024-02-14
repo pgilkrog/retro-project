@@ -19,7 +19,6 @@ WindowFrame(
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
 import { userStore } from "@/stores/userStore"
 import { chatStore } from "@/stores/chatStore"
 import type { PropType } from "vue"

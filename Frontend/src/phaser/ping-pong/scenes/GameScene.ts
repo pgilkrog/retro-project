@@ -1,9 +1,9 @@
 import Phaser, { Scene } from 'phaser'
 
 export default class Game extends Scene {
-  private ball!: Phaser.Physics.Arcade.Sprite
-  private paddle1!: Phaser.Physics.Arcade.Sprite
-  private paddle2!: Phaser.Physics.Arcade.Sprite
+  private ball: Phaser.Physics.Arcade.Sprite
+  private paddle1: Phaser.Physics.Arcade.Sprite
+  private paddle2: Phaser.Physics.Arcade.Sprite
   private keyW: any
   private keyS: any
   private keyO: any
@@ -25,7 +25,7 @@ export default class Game extends Scene {
   create(): void {
     this.ball = this.physics.add.sprite(50, 50, 'ball')
       .setCollideWorldBounds(true).setVelocity(200, 200)
-    this.ball.body.bounce.set(1)
+    this.ball.setBounce(1)
 
     this.paddle1 = this.physics.add.sprite(30, 300, 'paddle')
       .setCollideWorldBounds(true)
@@ -38,10 +38,12 @@ export default class Game extends Scene {
     this.physics.add.collider(this.ball, this.paddle1, this.hitBall)
     this.physics.add.collider(this.ball, this.paddle2, this.hitBall)
 
-    this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
-    this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
-    this.keyO = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.O)
-    this.keyL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L)  
+    if (this.input.keyboard) {
+      this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
+      this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
+      this.keyO = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.O)
+      this.keyL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L)       
+    }
 
     this.hitSound = this.sound.add('hit-sound')
     this.pointUp = this.sound.add('point-up')
@@ -50,19 +52,19 @@ export default class Game extends Scene {
   }
 
   update(time: number, delta: number): void {
-    this.paddle1.body.velocity.y = 0
-    this.paddle2.body.velocity.y = 0
+    this.paddle1.setVelocityY(0)
+    this.paddle2.setVelocityY(0)
 
     if (this.keyW.isDown) {
-      this.paddle1.body.velocity.y = -300
+      this.paddle1.setVelocityY(-300)
     } else if (this.keyS.isDown) {
-      this.paddle1.body.velocity.y = 300
+      this.paddle1.setVelocityY(300)
     }
 
     if (this.keyO.isDown) {
-      this.paddle2.body.velocity.y = -300
+      this.paddle2.setVelocityY(-300)
     } else if (this.keyL.isDown) {
-      this.paddle2.body.velocity.y = 300
+      this.paddle2.setVelocityY(300)
     }
 
     if (this.ball.y < this.paddle2.y) {
@@ -85,9 +87,11 @@ export default class Game extends Scene {
 
   hitBall = () => {
     // Increase the ball velocity by 50 units each time it hits a paddle
-    this.ball.setVelocityX(this.ball.body.velocity.x + 50)
-    this.ball.setVelocityY(this.ball.body.velocity.y + 50)
-    this.hitSound.play()
+    if (this.ball && this.ball.body && this.ball.body.velocity) {
+      this.ball.setVelocityX(this.ball.body.velocity.x + 50)
+      this.ball.setVelocityY(this.ball.body.velocity.y + 50)
+      this.hitSound.play()      
+    }
   }
 
   createScores() {

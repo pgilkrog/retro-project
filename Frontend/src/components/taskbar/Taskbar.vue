@@ -1,6 +1,7 @@
 <template lang="pug">
-div(class="bg-gray-300 w-full h-auto fixed bottom-0 z-50")
+div(class="bg-gray-300 w-full h-auto   fixed bottom-0 z-50")
   .line.bg-black
+  .line.bg-white
   .line.bg-white
   div(class="w-full p-1 flex justify-between ")
     div(class="flex py-1 ms-1")
@@ -10,8 +11,9 @@ div(class="bg-gray-300 w-full h-auto fixed bottom-0 z-50")
         v-on:clicked="changeShowMenu()" 
         :active="showMenu" 
         variant="primary"
+        class="!py-3"
       )
-      .programs-container(class="flex ms-2")
+      .programs-container(class="flex ml-2")
         ButtonComponent(
           v-for="item in activePrograms" 
           :key="item.id" 
@@ -38,7 +40,6 @@ import { userStore } from '@/stores/userStore'
 import { programsStore } from '@/stores/programsStore'
 import type { IProgram } from '@/models/index'
 import router from '@/router'
-import Clock from './Clock.vue'
 
 const emit = defineEmits([
   'changeShowMenu'

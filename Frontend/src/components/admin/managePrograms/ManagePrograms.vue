@@ -36,7 +36,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, reactive } from 'vue'
 import { programsStore } from '@/stores/programsStore'
 import type { IProgram } from '@/models/index'
 

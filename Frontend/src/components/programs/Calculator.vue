@@ -14,7 +14,6 @@ WindowFrame(:program="program" :isMoveable="true")
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 
 interface Button {
   text: string

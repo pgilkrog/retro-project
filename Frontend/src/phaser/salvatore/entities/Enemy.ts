@@ -12,8 +12,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
   init() {
     this.setCollideWorldBounds(true)
-    this.body.setSize(24, 36, true)
-    this.body.setOffset(5, 4)
+    this.body!.setSize(24, 36, true)
+    this.body!.setOffset(5, 4)
     this.setScale(1.2)
     this.setInteractive()
     this.setImmovable(true)

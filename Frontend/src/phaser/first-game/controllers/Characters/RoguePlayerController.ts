@@ -139,7 +139,7 @@ export default class RoguePlayerController {
       }
     })
 
-    this.ctrl = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.CTRL)
+    this.ctrl = this.scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.CTRL)
   }
 
   update(dt: number) {

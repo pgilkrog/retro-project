@@ -29,16 +29,16 @@ export default class Car extends Phaser.Physics.Arcade.Sprite {
 
   private init(): void {
     this.setCollideWorldBounds(true)
-    this.body.setSize(200, 50, true)
-    this.body.setOffset(0, 80)
+    this.body!.setSize(200, 50, true)
+    this.body!.setOffset(0, 80)
     this.setScale(0.8)
     this.setInteractive()
     this.setImmovable(true)
 
-    this.keyInputs['keyW'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
-    this.keyInputs['keyS'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
-    this.keyInputs['keyA'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
-    this.keyInputs['keyD'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
+    this.keyInputs['keyW'] = this.scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.W)
+    this.keyInputs['keyS'] = this.scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S)
+    this.keyInputs['keyA'] = this.scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A)
+    this.keyInputs['keyD'] = this.scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D)
   }
 
   initEvents() {

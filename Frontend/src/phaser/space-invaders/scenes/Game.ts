@@ -34,24 +34,24 @@ export default class Game extends Scene {
     // this.physics.add.collider(this.player, this.aliens, this.hitAlien, undefined, this)
     // this.physics.add.collider(this.bullets, this.aliens, this.hitAlien, undefined, this)
 
-    this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
-    this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
-    this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE) 
+    this.keyA = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A)
+    this.keyD = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D)
+    this.keySpace = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE) 
   }
 
   update(time: number, delta: number): void {
-    this.bullets.children.each((bullet: any) => {
-      if (bullet.y < 0) {
-        this.resetBullet(bullet)
-      }
-    })
+    // this.bullets.children.each((bullet: any) => {
+    //   if (bullet.y < 0) {
+    //     this.resetBullet(bullet)
+    //   }
+    // })
 
-    this.player.body.velocity.x = 0
+    this.player.body!.velocity.x = 0
 
     if (this.keyA.isDown) {
-      this.player.body.velocity.x = -300
+      this.player.body!.velocity.x = -300
     } else if (this.keyD.isDown) {
-      this.player.body.velocity.x = 300
+      this.player.body!.velocity.x = 300
     }
 
     if (this.keySpace.isDown) {
@@ -62,31 +62,31 @@ export default class Game extends Scene {
   }
 
   moveAliens() {
-    this.aliens.children.each((alien: any) => {
-      alien.setVelocityX(100 * this.direction);
-    });
+    // this.aliens.children.each((alien: any) => {
+    //   alien.setVelocityX(100 * this.direction);
+    // });
   
     let rightmostAlien = 0;
     let leftmostAlien = 1000;
-    this.aliens.children.each((alien: any) => {
-      if (alien.x > rightmostAlien) {
-        rightmostAlien = alien.x;
-      }
-      if (alien.x < leftmostAlien) {
-        leftmostAlien = alien.x;
-      }
-    });
+    // this.aliens.children.each((alien: any) => {
+    //   if (alien.x > rightmostAlien) {
+    //     rightmostAlien = alien.x;
+    //   }
+    //   if (alien.x < leftmostAlien) {
+    //     leftmostAlien = alien.x;
+    //   }
+    // });
   
     if (rightmostAlien > 800) {
       this.direction = -1;
-      this.aliens.children.each((alien: any) => {
-        alien.setVelocityY(40);
-      });
+      // this.aliens.children.each((alien: any) => {
+      //   alien.setVelocityY(40);
+      // });
     } else if (leftmostAlien < 0) {
       this.direction = 1;
-      this.aliens.children.each((alien: any) => {
-        alien.setVelocityY(40);
-      });
+      // this.aliens.children.each((alien: any) => {
+      //   alien.setVelocityY(40);
+      // });
     }
   }
 

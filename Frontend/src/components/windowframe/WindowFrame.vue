@@ -27,7 +27,6 @@ Teleport(to="#app")
 import type { IProgram } from "@/models/index"
 import { programsStore } from "@/stores/programsStore"
 import type { PropType } from "vue"
-import { ref } from "vue"
 import WindowframeMenu from "./windowframeMenu.vue"
 
 const {

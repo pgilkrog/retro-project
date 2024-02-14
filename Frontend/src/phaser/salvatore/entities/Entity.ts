@@ -51,8 +51,8 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
 
   init() {
     this.setCollideWorldBounds(true)
-    this.body.setSize(40, 20, true)
-    this.body.setOffset(0, 80)
+    this.body!.setSize(40, 20, true)
+    this.body!.setOffset(0, 80)
     this.setScale(0.6)
     this.setInteractive()
   }

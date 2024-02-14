@@ -1,17 +1,18 @@
 import { Scene } from 'phaser'
-import ball from '@/phaser/ping-pong/assets/ball.png'
-import paddle from '@/phaser/ping-pong/assets/paddle.png'
-import hitSound from '@/phaser/ping-pong/assets/blip.mp3'
-import pointUp from '@/phaser/ping-pong/assets/powerup.mp3'
+import hitSound from '../assets/blip.mp3'
+import pointUp from '../assets/powerup.mp3'
+
+const api = import.meta.env.VITE_BASE_URL
 
 export default class Loader extends Scene {
+
   constructor() {
     super({ key: 'Loader' })
   }
 
   preload() {
-    this.load.image('ball', ball)
-    this.load.image('paddle', paddle)
+    this.load.image('ball', api + '/assets/pingpong/ball.png')
+    this.load.image('paddle', api + '/assets/pingpong/paddle.png')
 
     // Sounds
     this.load.audio('hit-sound', hitSound)

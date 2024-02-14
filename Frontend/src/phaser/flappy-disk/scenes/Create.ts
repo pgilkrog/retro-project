@@ -54,8 +54,8 @@ export default class Create extends BaseScene {
 
     this.pipes.setVelocityX(-200)
 
-    this.space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
-    this.esc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC)
+    this.space = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+    this.esc = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.ESC)
 
     this.physics.add.collider(this.bird, this.pipes, this.gameOver, undefined, this)
     this.createScore()
@@ -180,6 +180,6 @@ export default class Create extends BaseScene {
   }
 
   flap() {
-    this.bird!.body.velocity.y = -this.VELOCITY
+    this.bird!.body!.velocity.y = -this.VELOCITY
   }
 }

@@ -1,9 +1,8 @@
 import { defineStore } from "pinia"
 import { chatStore } from "./chatStore"
-import { errorStore } from "./errorStore"
 import { programsStore } from "./programsStore"
-import type { IUser, IFile, IUserSettings } from "@/models/index"
-import { toRaw, ref } from 'vue'
+import type { IUser, IUserSettings } from "@/models/index"
+import { ref } from 'vue'
 import axios from "axios"
 import setAuthToken from "@/helpers/setAuthToken"
 
@@ -17,7 +16,6 @@ export const userStore = defineStore("user", () => {
   const userBackgroundImage = ref<string>("")
   const useBackgroundImage = ref<boolean>(false)
   const userBackgroundColour = ref<string>("")
-  const errorstore = errorStore()
   const programstore = programsStore()
   const chatstore = chatStore()
 
@@ -66,14 +64,11 @@ export const userStore = defineStore("user", () => {
   const getUserById = async () => {
     const res = await axios.get(url + '/' + sessionStorage.getItem('userId'))
     console.log("GET USER", res)
-    res.data.user.id = res.data.user._id
-    res.data.user.settings.id = res.data.user.settings._id
     setUserData(res.data.user)
     return userData.value
   }
 
   const updateUser = async (user: IUser) => {
-    // tempUser.settings = (user.settings as IUserSettings).id
     const res = await axios.put(url + '/' + user._id, null, { params: user })
     console.log(res)
     setUserData(res.data)

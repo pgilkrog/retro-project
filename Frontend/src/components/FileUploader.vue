@@ -10,7 +10,6 @@ form(@submit.prevent="uploadFile").file-uploader.d-flex.align-items-center
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { fileStore } from '@/stores/fileStore'
 
 const file = ref()

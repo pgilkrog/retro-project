@@ -134,7 +134,7 @@ export default class MagePlayerController {
       }
     })
 
-    this.ctrl = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.CTRL)
+    this.ctrl = this.scene.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.CTRL)
   }
 
   update(dt: number) {
@@ -274,10 +274,10 @@ export default class MagePlayerController {
 
   private shootMagic() {
     if(this.sprite.flipX === false) {
-      this.missiles?.setPosition(this.sprite.body.position.x + 20, this.sprite.body.position.y - 10)
+      this.missiles?.setPosition(this.sprite.body!.position.x + 20, this.sprite.body!.position.y - 10)
       this.missiles?.setVelocity(5, 0)
     } else {
-      this.missiles?.setPosition(this.sprite.body.position.x - 20, this.sprite.body.position.y - 10)
+      this.missiles?.setPosition(this.sprite.body!.position.x - 20, this.sprite.body!.position.y - 10)
       this.missiles?.setVelocity(-5, 0)
     }
   }

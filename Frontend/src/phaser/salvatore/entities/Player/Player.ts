@@ -94,13 +94,13 @@ export default class Player extends Entity {
   }
 
   private createKeyInputs() {
-    this.keyInputs['keyW'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
-    this.keyInputs['keyS'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
-    this.keyInputs['keyA'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
-    this.keyInputs['keyD'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
-    this.keyInputs['keyE'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
+    this.keyInputs['keyW'] = this.scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.W)
+    this.keyInputs['keyS'] = this.scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S)
+    this.keyInputs['keyA'] = this.scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A)
+    this.keyInputs['keyD'] = this.scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D)
+    this.keyInputs['keyE'] = this.scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.E)
 
-    this.keyInputs['tab'] = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB)
+    this.keyInputs['tab'] = this.scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.TAB)
   }
 
   private createStateMachine(): void {

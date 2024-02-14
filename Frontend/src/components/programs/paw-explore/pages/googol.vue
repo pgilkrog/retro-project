@@ -14,6 +14,5 @@
       ButtonComponent(text="Feeling lucky")
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
 const text = ref('')
 </script>

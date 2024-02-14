@@ -25,7 +25,7 @@ export default class Game extends Scene {
 
   init(data: any) {
     this.selectedCharacter = this.data.get("character") 
-    this.cursors = this.input.keyboard.createCursorKeys()
+    this.cursors = this.input.keyboard!.createCursorKeys()
     this.selectedCharacter = data.character
     this.obstaclesCtr = new ObstaclesController()
     
@@ -42,18 +42,18 @@ export default class Game extends Scene {
 
     const map = this.make.tilemap({ key: 'map1' })
     const tilesets = map.addTilesetImage('Tiles', 'tiles', 16, 16)
-    map.createLayer('Background', tilesets)
-    map.createLayer('Walls', tilesets)
-    map.createLayer('Wall-Decor', tilesets)
-    map.createLayer('Decorations', tilesets)
-    map.createLayer('Spikes', tilesets)
+    map.createLayer('Background', tilesets!)
+    map.createLayer('Walls', tilesets!)
+    map.createLayer('Wall-Decor', tilesets!)
+    map.createLayer('Decorations', tilesets!)
+    map.createLayer('Spikes', tilesets!)
 
-    const groundLayer = map.createLayer('Ground', tilesets)
-    groundLayer.setCollisionByProperty({ collides: true })
+    const groundLayer = map.createLayer('Ground', tilesets!)
+    groundLayer!.setCollisionByProperty({ collides: true })
 
     // debugDraw(groundLayer, this)
     const objectLayer = map.getObjectLayer('Objects')
-    objectLayer.objects.forEach(objData => {
+    objectLayer!.objects.forEach(objData => {
       const { x = 0, y = 0, name = "", width = 0, height = 0 } = objData
 
       switch (name) {
@@ -120,7 +120,7 @@ export default class Game extends Scene {
     this.cameras.main.scrollY = 9000
     this.cameras.main.zoom = 2.5
 
-    this.matter.world.convertTilemapLayer(groundLayer)
+    this.matter.world.convertTilemapLayer(groundLayer!)
   }
 
   update(t: number, dt: number) {

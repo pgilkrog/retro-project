@@ -2,18 +2,17 @@
 .menu-wrapper(class="bg-gray-300 bottom-0 fixed bg-shadow flex flex-col rounded left-5")
   .menu-item(v-for="(item, index) in menuList" :key="index")
     MenuItem(:title="item.title" :img="item.img" :hasChildren="item.subMenu.length > 0")
-    .submenu.hidden.bg-secondary.bg-shadow(v-if="item.subMenu.length > 0")
+    .submenu.hidden.bg-shadow(v-if="item.subMenu.length > 0")
       .flex-column
         .menu-item(v-for="(subitem, subindex) in item.subMenu" :key="subindex")
           MenuItem(:title="subitem.title" :img="subitem.img") 
-          .submenu.bg-secondary.bg-shadow(v-if="subitem.subMenu.length > 0")
+          .submenu.bg-shadow(v-if="subitem.subMenu.length > 0")
             .flex-column
               .menu-item(v-for="(subitem2, subindex) in subitem.subMenu" :key="subindex")
                 MenuItem(:title="subitem2.title" :img="subitem2.img") 
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
 import type { IMenuItem }  from '@/models/index'
 import jsondata from '@/assets/menuData.json'
 
@@ -36,11 +35,11 @@ onMounted(() => {
   cursor: pointer
   &:hover,
   &:hover + .submenu, .submenu:hover
-    display: block
+    display: flex
   .submenu
     position: absolute
     display: none
-    left: 150px
+    margin-left: 170px
     color: black
     margin-top: -65px
     img 

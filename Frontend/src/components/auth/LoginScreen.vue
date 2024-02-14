@@ -27,7 +27,7 @@ WindowFrame(
           InputComponent(v-model="password2" type="password")
     .buttons.mt-4.flex.justify-end.w-full.col-span-12
       ButtonComponent.me-2(@clicked="pressedOk()" text="OK") 
-      ButtonComponent(@clicked="changeShowHelp()" text="Help" :active="showHelp")
+      //- ButtonComponent(@clicked="changeShowHelp()" text="Help" :active="showHelp")
   .buttons.flex.flex-col.bg-shadow-inner.p-4.m-2.rounded(v-if="showHelp === true")
     p Some helping info and stuff
     div(class="flex justify-center mt-4")
@@ -39,7 +39,6 @@ WindowFrame(
 <script setup lang="ts">
 import { authStore } from '@/stores/authStore'
 import type { IProgram } from '@/models/index'
-import { ref } from 'vue'
 import router from '@/router'
 
 const state = ref(1)

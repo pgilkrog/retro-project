@@ -56,7 +56,7 @@ export default class InventoryManger {
 
   create() {
     // Disable the browsers right click menu
-    this.scene.input.mouse.disableContextMenu()
+    this.scene.input.mouse?.disableContextMenu()
     
     this.graphics = this.scene.add.graphics()
     // Create the inventory container and its contents here
@@ -65,7 +65,7 @@ export default class InventoryManger {
 
     this.renderGrid()
     // Add a keyboard event listener for the 'r' key press
-    this.scene.input.keyboard.on('keydown-R', () => {
+    this.scene.input.keyboard?.on('keydown-R', () => {
       if (this.isDraggingItem) {
         if (this.itemBeingDragged !== undefined) {
           this.rotateItem(this.itemBeingDragged)

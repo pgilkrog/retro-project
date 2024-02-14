@@ -35,7 +35,7 @@ export default class Map1 {
 
   private createLayers(map: Phaser.Tilemaps.Tilemap, tilesets: Phaser.Tilemaps.Tileset[]) {
     const collideLayer = map.createLayer('Colliders', tilesets[1])
-    collideLayer.setCollisionByProperty({ collides: true }) 
+    collideLayer!.setCollisionByProperty({ collides: true }) 
 
     const walkPath = map.createLayer('WalkPath', tilesets[1])
     const groundLayer = map.createLayer('Ground', tilesets[1])
@@ -55,7 +55,7 @@ export default class Map1 {
     var texture = nightOverlay(this.scene, map, 'map1-nightoverlay')
 
     //Draw the street lamps
-    objectLayer.objects.forEach((objData: any) => {
+    objectLayer!.objects.forEach((objData: any) => {
       const { x = 0, y = 0, name = "", width = 0, height = 0 } = objData
 
       switch (name) {
@@ -75,24 +75,24 @@ export default class Map1 {
       }
     })
 
-    wallBuildingLayer.setDepth(800)
+    wallBuildingLayer!.setDepth(800)
 
-    texture.refresh()
+    texture!.refresh()
     
     this.layers = {
-      objectLayer: objectLayer,
-      collideLayer: collideLayer, 
-      groundLayer: groundLayer, 
-      roadLayer: roadLayer, 
-      brickLayer: brickLayer, 
-      wallsLayer: wallsLayer, 
-      wallBuildingLayer: wallBuildingLayer,
-      buildingsLayer: buildingsLayer, 
-      doorsLayer: doorsLayer, 
-      windowsLayer: windowsLayer, 
-      buildingDecosLayer: buildingDecosLayer,
-      walkPath: walkPath,
-      drivePath: drivePath
+      objectLayer: objectLayer!,
+      collideLayer: collideLayer!, 
+      groundLayer: groundLayer!, 
+      roadLayer: roadLayer!, 
+      brickLayer: brickLayer!, 
+      wallsLayer: wallsLayer!, 
+      wallBuildingLayer: wallBuildingLayer!,
+      buildingsLayer: buildingsLayer!, 
+      doorsLayer: doorsLayer!, 
+      windowsLayer: windowsLayer!, 
+      buildingDecosLayer: buildingDecosLayer!,
+      walkPath: walkPath!,
+      drivePath: drivePath!
     }
   }
 

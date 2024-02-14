@@ -17,17 +17,17 @@ export default class Tilesets {
     const tilesets_vic_floors = map.addTilesetImage('floors', 'vicFloors', 32, 32)
 
     this.tilesets = [
-      tilesets_bricks,          // 0
-      tilesets_terrain,         // 1
-      tilesets_vic_access,      // 2
-      tilesets_vic_garden,      // 3
-      tilesets_vic_mansion,     // 4
-      tilesets_vic_market,      // 5
-      tilesets_vic_streets,     // 6
-      tilesets_vic_tenement,    // 7
-      tilesets_vic_win_doors,   // 8
-      tilesets_vic_walls,       // 9
-      tilesets_vic_floors       // 10
+      tilesets_bricks!,          // 0
+      tilesets_terrain!,         // 1
+      tilesets_vic_access!,      // 2
+      tilesets_vic_garden!,      // 3
+      tilesets_vic_mansion!,     // 4
+      tilesets_vic_market!,      // 5
+      tilesets_vic_streets!,     // 6
+      tilesets_vic_tenement!,    // 7
+      tilesets_vic_win_doors!,   // 8
+      tilesets_vic_walls!,       // 9
+      tilesets_vic_floors!       // 10
     ]
   }
 

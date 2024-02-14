@@ -18,11 +18,11 @@ export default class Apartment1 {
     const groundLayer = map.createLayer('Ground', tilesets[10])
     const objectLayer = map.getObjectLayer('Objects')
     const wallsLayer = map.createLayer('Walls', tilesets[9])
-    wallsLayer.setCollisionByProperty({ collides: true }) 
+    wallsLayer!.setCollisionByProperty({ collides: true }) 
 
     var texture = nightOverlay(this.scene, map, 'apartment-night-overlay')
 
-    texture.refresh()
+    texture!.refresh()
     
     this.layers = {
       objectLayer: objectLayer,

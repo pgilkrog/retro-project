@@ -13,7 +13,6 @@ WindowFrame(:program="program" :isMoveable="true")
 
 <script setup lang="ts">
 import MinesweeperBlock from './minesweeper/MinesweeperBlock.vue'
-import { ref, onMounted } from 'vue'
 
 const { program } = defineProps({
   program: Object

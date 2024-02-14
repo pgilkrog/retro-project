@@ -9,6 +9,7 @@
       "@/*": ["./src/*"],
     },
     "ignoreDeprecations": "5.0",
+    "strictPropertyInitialization": false,
   },
   "references": [
     {
