@@ -1,22 +1,21 @@
 import { Scene } from 'phaser'
-import ball from '@/phaser/test-stuff/assets/ball.png'
-import paddle from '@/phaser/test-stuff/assets/paddle.png'
 import hitSound from '@/phaser/test-stuff/assets/blip.mp3'
 import pointUp from '@/phaser/test-stuff/assets/powerup.mp3'
-import bigBox from '@/phaser/test-stuff/assets/bigBox.png'
-import largeBox from '@/phaser/test-stuff/assets/2x4Box.png'
-import bread from '@/phaser/test-stuff/assets/BreadSmall.png'
+
+const api = import.meta.env.VITE_BASE_URL
+
 export default class Loader extends Scene {
+  
   constructor() {
     super({ key: 'Loader' })
   }
 
   preload() {
-    this.load.image('bigBox', bigBox)
-    this.load.image('ball', ball)
-    this.load.image('paddle', paddle)
-    this.load.image('largeBox', largeBox)
-    this.load.image('bread', bread)
+    this.load.image('bigBox', api + '/assets/teststuff/bigBox.png')
+    this.load.image('ball', api + '/assets/teststuff/ball.png')
+    this.load.image('paddle', api + '/assets/teststuff/paddle.png')
+    this.load.image('largeBox', api + '/assets/teststuff/2x4Box.png')
+    this.load.image('bread', api + '/assets/teststuff/BreadSmall.png')
 
     // Sounds
     this.load.audio('hit-sound', hitSound)

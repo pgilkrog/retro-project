@@ -44,6 +44,7 @@ declare module 'vue' {
     PawPoint: typeof import('./src/components/programs/PawPoint.vue')['default']
     PCScreen: typeof import('./src/components/programs/pc-settings/PCScreen.vue')['default']
     PCSettings: typeof import('./src/components/programs/PCSettings.vue')['default']
+    ProgramListItem: typeof import('./src/components/programs/add-remove-programs/ProgramListItem.vue')['default']
     ProgramsList: typeof import('./src/components/programs/add-remove-programs/ProgramsList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

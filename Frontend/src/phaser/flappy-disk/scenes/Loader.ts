@@ -1,9 +1,6 @@
 import { Scene } from 'phaser'
-import sky from '@/phaser/flappy-disk/assets/sky.png'
-import bird from '@/phaser/flappy-disk/assets/bird.png'
-import pipe from '@/phaser/flappy-disk/assets/pipe.png'
-import pause from '@/phaser/flappy-disk/assets/pause.png'
-import back from '@/phaser/flappy-disk/assets/back.png'
+
+const api = import.meta.env.VITE_BASE_URL
 
 export default class Loader extends Scene {
   constructor() {
@@ -11,11 +8,11 @@ export default class Loader extends Scene {
   }
 
   preload() {
-    this.load.image('sky', sky)    
-    this.load.image('bird', bird)
-    this.load.image('pipe', pipe)
-    this.load.image('pause', pause)
-    this.load.image('backButton', back)
+    this.load.image('sky', api + '/assets/flappydisk/sky.png')    
+    this.load.image('bird', api + '/assets/flappydisk/bird.png')
+    this.load.image('pipe', api + '/assets/flappydisk/pipe.png')
+    this.load.image('pause', api + '/assets/flappydisk/pause.png')
+    this.load.image('backButton', api + '/assets/flappydisk/back.png')
   }
 
   create() {

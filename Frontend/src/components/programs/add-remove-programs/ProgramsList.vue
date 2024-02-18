@@ -1,25 +1,29 @@
 <template lang="pug">
-.programs-list
-  h2.mb-4 {{ title }}
+.programs-list(v-if="programList")
+  h2.mb-4 {{ title }} 
   .program-item(
-    :class="['flex items-center px-4 py-2 cursor-pointer hover:bg-blue-500 hover:text-white', (program.id === selectedProgramId) ? 'bg-blue-500 text-white' : '']"
-    v-for="program in programList" 
-    :key="program._id" 
+    :class="(program._id === selectedProgramId) ? 'bg-blue-600 text-white' : ''"
+    v-for="program in programList.filter((program: IProgram) => program.name !== 'AddOrRemovePrograms')"
+    :key="program._id"
     @click="changeSelectedProgram(program)"
   )
-    .cols-1
-      IconComponent.me-3(:variant="program.color === 'light' ? 'dark' : program.color" :name="program.image") 
-    .cols-7
-      p {{ program.displayName }}
-    .cols-4.text-end {{ size() }}
+    ProgramListItem(
+      :name="program.displayName"
+      :color="program.color"
+      :icon="program.image"
+    )
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import type { IProgram } from '@/models/index'
+import type { PropType } from 'vue'
 
-const { programList, title, selectedProgramId } = defineProps({
-  programList: Array,
+const {
+  programList,
+  title,
+  selectedProgramId
+ } = defineProps({
+  programList: Array as PropType<IProgram[]>,
   title: String,
   selectedProgramId: String
 })
@@ -27,13 +31,9 @@ const { programList, title, selectedProgramId } = defineProps({
 const emit = defineEmits([
   'changeSelectedProgram'
 ])
- 
+
 const changeSelectedProgram = (program: IProgram) => {
   emit('changeSelectedProgram', {...program})
-}
-
-const size = () => {
-  return `size: ${Math.round(Math.random() * 1000)}mb`
 }
 </script>
 

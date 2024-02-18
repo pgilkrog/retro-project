@@ -7,6 +7,7 @@ const StartingUp = () => import('@/views/StartingUp.vue')
 const adminView = () => import('@/views/AdminView.vue')
 const SalvatoreGame = () => import('@/phaser/salvatore/SalvatoreGame.vue')
 const LoginView = () => import('@/views/LoginView.vue')
+const TestStuff = () => import('@/phaser/test-stuff/TestStuff.vue')
 
 export default [
   {
@@ -42,7 +43,7 @@ export default [
     name: 'pingpong',
     component: PingPong, 
     meta: {
-      requiresAuth : true,
+      requiresAuth: true,
       roles: ['user', 'admin']
     }
   },
@@ -51,7 +52,7 @@ export default [
     name: 'flappydisk',
     component: FlappyDisc, 
     meta: {
-      requiresAuth : true,
+      requiresAuth: true,
       roles: ['user', 'admin']
     }
   },
@@ -60,7 +61,7 @@ export default [
     name: 'spaceinvaders',
     component: SpaceInvaders, 
     meta: {
-      requiresAuth : true,
+      requiresAuth: true,
       roles: ['user', 'admin']
     }
   },
@@ -69,7 +70,16 @@ export default [
     name: 'platformer',
     component: SalvatoreGame, 
     meta: {
-      requiresAuth : false,
+      requiresAuth: false,
+      roles: ['user', 'admin']
+    }
+  },
+  {
+    path: '/teststuff',
+    name: 'teststuff',
+    component: TestStuff,
+    meta: {
+      requireAuth: false,
       roles: ['user', 'admin']
     }
   },

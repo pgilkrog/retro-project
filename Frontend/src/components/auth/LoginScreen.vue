@@ -4,8 +4,9 @@ WindowFrame(
   :showMenu="false" 
   :variant="red"
   :isMoveable="false"
+  :disableButtons="true"
 )
-  .login-screen.grid.py-2.px-4
+  .login-screen(class="grid py-2 px-4")
     .col-span-4.text-center
       IconComponent(name="fa-key" variant="yellow" size="30" rotate="0")
     .col-span-8.flex.items-center.px-4

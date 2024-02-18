@@ -42,6 +42,9 @@ const openProgram = () => {
     case 'Salvatore':
       router.push('/salvatore')
       break
+    case 'TestStuff':
+      router.push('/teststuff')
+      break
     default:
       break
   }

@@ -3,7 +3,7 @@ button(
   @click="buttonClicked()"
   :type
   :disabled
-  :class="[active ? 'bg-shadow-inner btn-active' : ' bg-shadow', 'bg-gray-300 border rounded flex content-center items-center px-4 py-2', 'bg-'+color+'-300']"
+  :class="[active ? 'bg-shadow-inner btn-active' : ' bg-shadow', 'bg-gray-300 border rounded flex content-center items-center px-4 py-2', 'bg-'+color+'-300', disabled === true ? 'bg-gray-200 cursor-not-allowed text-gray-500' : '']"
   v-bind="$attrs"
 )
   template(v-if="!isLoading")

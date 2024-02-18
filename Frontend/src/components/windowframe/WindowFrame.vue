@@ -15,9 +15,23 @@ Teleport(to="#app")
           IconComponent(:name="program.image" size="25" variant="light")
           p.font-semibold.pe-4.ps-4.text-2xl {{ program.displayName }}
         div(class="flex")
-          ButtonComponent(icon="fa-window-minimize" @clicked="setInactive()" size="small")
-          ButtonComponent(icon="fa-square" size="small")
-          ButtonComponent(icon="fa-xmark" @clicked="closeWindow()" size="small")
+          ButtonComponent(
+            icon="fa-window-minimize" 
+            @clicked="setInactive()" 
+            size="small"  
+            :disabled="disableButtons"
+          )
+          ButtonComponent(
+            icon="fa-square" 
+            size="small" 
+            :disabled="disableButtons"
+          )
+          ButtonComponent(
+            icon="fa-xmark" 
+            @clicked="closeWindow()" 
+            size="small"  
+            :disabled="disableButtons"
+          )
       windowframeMenu(:showMenu)
       div(class="bg-gray-300 bg-shadow-inner rounded")
         slot
@@ -31,12 +45,14 @@ import WindowframeMenu from "./windowframeMenu.vue"
 
 const {
   showMenu = false,
+  disableButtons = false,
   program,
   variant = "blue",
   isNotProgram,
   isMoveable = true,
 } = defineProps({
   showMenu: Boolean,
+  disableButtons: Boolean,
   program: Object as PropType<IProgram>,
   variant: String,
   isNotProgram: Boolean,
