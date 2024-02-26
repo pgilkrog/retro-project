@@ -1,5 +1,5 @@
 <template lang="pug">
-div(class="bg-gray-300 w-full h-auto   fixed bottom-0 z-50")
+div(class="bg-gray-300 w-full h-auto fixed bottom-0 left-0 z-50")
   .line.bg-black
   .line.bg-white
   .line.bg-white

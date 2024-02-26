@@ -6,7 +6,7 @@ WindowFrame(
   :showMenu="false"
 )
   .pc-settings-wrapper.p-4
-    custom-menu(class="flex")
+    .custom-menu(class="flex")
       .nav-item.py-2.px-4.pointer(@click="state = 0" :class="[state === 0 ? 'border border-black border-b-0 rounded-t' : 'border-b border-black', 'px-4 py-2 ']")
         | Display
       .nav-item.py-2.px-4.pointer(@click="state = 1" :class="state === 1 ? 'border border-black border-b-0 rounded-t' : 'border-b border-black', 'px-4 py-2 '")

@@ -1,15 +1,15 @@
 <template lang="pug">
-.menu-wrapper(class="bg-gray-300 bottom-0 fixed bg-shadow flex flex-col rounded left-5")
+.menu-wrapper(class="bg-gray-300 bottom-20 -mb-2 fixed bg-shadow flex flex-col rounded left-5")
   .menu-item(v-for="(item, index) in menuList" :key="index")
     MenuItem(:title="item.title" :img="item.img" :hasChildren="item.subMenu.length > 0")
     .submenu.hidden.bg-shadow(v-if="item.subMenu.length > 0")
       .flex-column
         .menu-item(v-for="(subitem, subindex) in item.subMenu" :key="subindex")
-          MenuItem(:title="subitem.title" :img="subitem.img") 
+          MenuItem(:title="subitem.title" :img="subitem.img")
           .submenu.bg-shadow(v-if="subitem.subMenu.length > 0")
             .flex-column
               .menu-item(v-for="(subitem2, subindex) in subitem.subMenu" :key="subindex")
-                MenuItem(:title="subitem2.title" :img="subitem2.img") 
+                MenuItem(:title="subitem2.title" :img="subitem2.img")
 </template>
 
 <script setup lang="ts">
@@ -22,7 +22,7 @@ const { showMenu = false } = defineProps({
 
 const menuList = ref([] as IMenuItem[])
 const createMenu = () => {
-  menuList.value = JSON.parse(JSON.stringify(jsondata)) 
+  menuList.value = JSON.parse(JSON.stringify(jsondata))
 }
 
 onMounted(() => {
@@ -39,9 +39,8 @@ onMounted(() => {
   .submenu
     position: absolute
     display: none
-    margin-left: 170px
-    color: black
-    margin-top: -65px
-    img 
+    margin-left: 100%
+    margin-bottom: 100%
+    img
       height: 35px
 </style>

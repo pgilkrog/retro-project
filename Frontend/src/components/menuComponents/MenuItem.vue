@@ -1,14 +1,14 @@
 <template lang="pug">
-.menu-item(class="py-2 px-4 w-full flex items-center text-black" @click="openProgram()")
-  h3.text-bold.me-4
+.menu-item(class="py-2 px-4 w-full justify-between flex items-center text-black hover:bg-blue-500" @click="openProgram()")
+  h3(class="flex items-center me-6")
     IconComponent.me-3(:variant="color === 'light' ? 'dark' : color" :name="img") 
-  |  {{title}}
+    |  {{title}}
   span(v-if="hasChildren === true") 
     IconComponent.ms-2(name="fa-caret-right")
 </template>
 
 <script setup lang="ts">
-import { authStore } from '@/stores/authStore'
+import { useAuthStore } from '@/stores/authStore'
 import { useRouter } from 'vue-router'
 
 const { img, title = 'Title not given', hasChildren = false, componentName = 'Name not given', color } = defineProps({
@@ -19,7 +19,7 @@ const { img, title = 'Title not given', hasChildren = false, componentName = 'Na
   color: String
 })
 
-const authstore = authStore()
+const authstore = useAuthStore()
 const router = useRouter()
 
 const openProgram = () => {
@@ -45,6 +45,9 @@ const openProgram = () => {
     case 'TestStuff':
       router.push('/teststuff')
       break
+    case 'LaCosaNostra':
+      router.push('/lacosanostra')
+      break
     default:
       break
   }
@@ -52,6 +55,7 @@ const openProgram = () => {
 
 const signOut = async () => {
   await authstore.signOut()
+  authstore.$reset()
   router.push('/login')
 }
 

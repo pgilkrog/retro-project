@@ -38,7 +38,7 @@ WindowFrame(
 </template>
 
 <script setup lang="ts">
-import { authStore } from '@/stores/authStore'
+import { useAuthStore } from '@/stores/authStore'
 import type { IProgram } from '@/models/index'
 import router from '@/router'
 
@@ -49,7 +49,7 @@ const password2 = ref<string>("")
 const info = ref<string>('info')
 const infoText = ref<string>('Type a email and password to log in')
 const showHelp = ref<boolean>(false)
-const authstore = authStore()
+const authstore = useAuthStore()
 const program = ref({
   name: 'LogInNow', 
   isActive: true, 

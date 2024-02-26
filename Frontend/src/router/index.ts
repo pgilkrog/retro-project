@@ -1,4 +1,4 @@
-import { authStore } from '@/stores/authStore'
+import { useAuthStore } from '@/stores/authStore'
 import { userStore } from '@/stores/userStore'
 import { createRouter, createWebHistory } from 'vue-router'
 import routes from './routes'
@@ -24,12 +24,12 @@ router.beforeEach(async (to, from, next) => {
 })
 
 const checkAuthendication = () => {
-  const authstore = authStore()
+  const authstore = useAuthStore()
   return authstore.isLoggedIn
 }
 
 const checkedAuth = () => {
-  const authstore = authStore()
+  const authstore = useAuthStore()
   return authstore.checkedAuth
 }
 

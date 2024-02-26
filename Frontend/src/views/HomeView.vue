@@ -1,8 +1,8 @@
 <template lang="pug">
 template(v-if="userData !== undefined")
-  .home-wrapper.p-4.flex(class="h-full w-full absolute"
+  .home-wrapper(class="flex h-full w-full absolute"
     :style="[userData.settings.useBackground === true ? {'background-image': 'url('+ getImageUrl(userData.settings?.backgroundImage) + ')'} : {'background-color': userData.settings?.backgroundColour}]")
-    .desktop-container.flex.flex-col.justify-start
+    .desktop-container(class="flex flex-col justify-start")
       .grid.grid-cols-2.gap-y-8
         DesktopItem(
           v-for="program in allPrograms()"
@@ -12,11 +12,12 @@ template(v-if="userData !== undefined")
           :itemColor="program.color"
         )
 
-ComponentMachine
-Menu(v-if="showMenu")
-Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")
+    ComponentMachine
+    Menu(v-if="showMenu")
+    Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")
 //- Salvatore
 //- TestStuff
+//- LaCosaNostra
 </template>
 
 <script setup lang="ts">
@@ -24,11 +25,12 @@ import type { IProgram } from '@/models/index'
 import { userStore } from '@/stores/userStore'
 import { storeToRefs } from 'pinia'
 import { programsStore } from '@/stores/programsStore'
-import { authStore } from '@/stores/authStore'
+import { useAuthStore } from '@/stores/authStore'
 // import Salvatore from '@/phaser/salvatore/SalvatoreGame.vue'
 //import TestStuff from '@/phaser/test-stuff/TestStuff.vue'
+import LaCosaNostra from '@/phaser/la-cosa-nostra/LaCosaNostraGame.vue'
 
-const authstore = authStore()
+const authstore = useAuthStore()
 const programsstore = programsStore()
 const userstore = userStore()
 const userData = storeToRefs(userstore).userData

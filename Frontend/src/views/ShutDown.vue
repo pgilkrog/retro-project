@@ -1,5 +1,5 @@
 <template lang="pug">
-.shut-down.d-flex.justify-content-center.align-items-center.flex-column.text-white
+.shut-down(class="flex h-screen justify-center items-center flex-col text-white")
   IconComponent(name="fa-power-off" variant="light" size="200")
   h1.mt-4 Shutting down...
   h4 Don't close down your browser

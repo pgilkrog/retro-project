@@ -4,10 +4,11 @@ import type { IUser } from "@/models/index"
 import setAuthToken from "@/helpers/setAuthToken"
 import { ref } from 'vue'
 import { errorStore } from "./errorStore"
+import router from "@/router"
 
 const url = import.meta.env.VITE_BASE_URL + '/auth'
 
-export const authStore = defineStore("auth",() => {
+export const useAuthStore = defineStore("auth",() => {
   const errorstore = errorStore()
   const isLoggedIn = ref<Boolean>(false)
   const user = ref<IUser>()
@@ -66,6 +67,7 @@ export const authStore = defineStore("auth",() => {
     user.value = {} as IUser
     sessionStorage.removeItem('token')
     sessionStorage.removeItem('userId')
+    router.push({ name: 'login' })
   }
 
   const changePassword = (password: string) => {

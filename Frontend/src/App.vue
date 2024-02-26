@@ -6,13 +6,13 @@ ErrorComponent(v-if="errorstore.error !== undefined")
 </template>
 
 <script setup lang="ts">
-import { authStore } from '@/stores/authStore'
+import { useAuthStore } from '@/stores/authStore'
 import { onMounted, computed, watch } from 'vue'
 import router from './router'
 import { useCookies } from 'vue3-cookies'
 import { errorStore } from '@/stores/errorStore'
 
-const authstore = authStore()
+const authstore = useAuthStore()
 const checkAuth = computed(() => authstore.checkedAuth)
 const errorstore = errorStore()
 const { cookies } = useCookies()

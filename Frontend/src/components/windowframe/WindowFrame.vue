@@ -4,14 +4,14 @@ Teleport(to="#app")
     .wrapper(
       v-if="program?.isActive === true" 
       :id="program._id"
-      class="bg-shadow bg-gray-300 flex flex-col absolute p-2 rounded px-2"
+      class="bg-shadow bg-gray-300 flex flex-col absolute p-2 rounded px-2 w-96 sm:w-auto"
       :style="[ isMoveable ? { top: top + 'px', left: left + 'px'} : { top: '40%', left: '50%', transform: 'translate(-50%, -50%)' }]"
     )
-      header(class="top-bar flex justify-between items-center mb-1 p-2 px-4 rounded" 
+      header(class="top-bar flex flex-col-reverse sm:flex-row justify-between items-center mb-1 p-2 px-4 rounded" 
         :class="getBackgroundColor(variant)" 
         @mousedown="handleMouseDown"
       )
-        div(class="flex items-center content-center pointer-events-none")
+        div(class="flex items-center content-center pointer-events-none mt-6 sm:mt-0")
           IconComponent(:name="program.image" size="25" variant="light")
           p.font-semibold.pe-4.ps-4.text-2xl {{ program.displayName }}
         div(class="flex")

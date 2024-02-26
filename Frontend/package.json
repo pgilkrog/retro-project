@@ -18,7 +18,7 @@
     "easystarjs": "^0.4.4",
     "jwt-decode": "^3.1.2",
     "phaser": "^3.70.0",
-    "pinia": "^2.0.33",
+    "pinia": "^2.1.7",
     "postcss": "^8.4.33",
     "socket.io-client": "^4.7.1",
     "vue": "^3.4.3",

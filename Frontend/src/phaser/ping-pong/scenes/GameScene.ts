@@ -17,6 +17,11 @@ export default class Game extends Scene {
 
   private hitSound!: any
   private pointUp!: any
+
+  private targetVelocity = 1000;
+  private acceleration = 50
+  private speedChange = 10
+  private damping = 0.95
   
   constructor() {
     super({ key: 'GameScene' })
@@ -52,44 +57,54 @@ export default class Game extends Scene {
   }
 
   update(time: number, delta: number): void {
-    this.paddle1.setVelocityY(0)
-    this.paddle2.setVelocityY(0)
+    if (this.ball.body && this.paddle1.body && this.paddle2.body) {
+      // const fixedDelta = 1 / 60
+      // this.physics.world.update(time, fixedDelta)
+      this.paddle1.setVelocityY(0)
+      this.paddle2.setVelocityY(0)
 
-    if (this.keyW.isDown) {
-      this.paddle1.setVelocityY(-300)
+
+      // Adjust as needed
+      // this.ball.setVelocityX(this.ball.body.velocity.x * this.damping);
+      // this.ball.setVelocityY(this.ball.body.velocity.y * this.damping);
+
+      if (this.keyW.isDown) {
+        this.paddle1.setVelocityY(Math.min(this.paddle1.body.velocity.y - this.acceleration, this.targetVelocity))
     } else if (this.keyS.isDown) {
-      this.paddle1.setVelocityY(300)
+      this.paddle1.setVelocityY(Math.max(this.paddle1.body.velocity.y + this.acceleration, -this.targetVelocity))
     }
 
-    if (this.keyO.isDown) {
-      this.paddle2.setVelocityY(-300)
-    } else if (this.keyL.isDown) {
-      this.paddle2.setVelocityY(300)
+      if (this.keyO.isDown) {
+        this.paddle2.setVelocityY(-300)
+      } else if (this.keyL.isDown) {
+        this.paddle2.setVelocityY(300)
+      }
+
+      if (this.ball.y < this.paddle2.y) {
+        this.paddle2.setVelocityY(Math.min(this.paddle2.body.velocity?.y - this.acceleration, this.targetVelocity))
+      } else if (this.ball.y > this.paddle2.y) {
+        this.paddle2.setVelocityY(Math.max(this.paddle2.body.velocity.y + this.acceleration, -this.targetVelocity))
+      }
+
+      if (this.ball.x <= 10) { 
+        this.p2Points++
+        this.scoreText2.setText(`${this.p2Points}`)
+        this.pointUp.play()
+      }
+      if (this.ball.x >= 790) {
+        this.p1Points++
+        this.scoreText1.setText(`${this.p1Points}`)
+        this.pointUp.play()
+      }      
     }
 
-    if (this.ball.y < this.paddle2.y) {
-      this.paddle2.setVelocityY(-200)
-    } else if (this.ball.y > this.paddle2.y) {
-      this.paddle2.setVelocityY(200)
-    }
-
-    if (this.ball.x <= 10) { 
-      this.p2Points++
-      this.scoreText2.setText(`${this.p2Points}`)
-      this.pointUp.play()
-    }
-    if (this.ball.x >= 790) {
-      this.p1Points++
-      this.scoreText1.setText(`${this.p1Points}`)
-      this.pointUp.play()
-    }
   }
 
   hitBall = () => {
     // Increase the ball velocity by 50 units each time it hits a paddle
     if (this.ball && this.ball.body && this.ball.body.velocity) {
-      this.ball.setVelocityX(this.ball.body.velocity.x + 50)
-      this.ball.setVelocityY(this.ball.body.velocity.y + 50)
+      this.ball.setVelocityX(this.ball.body.velocity.x + this.speedChange)
+      this.ball.setVelocityY(this.ball.body.velocity.y + this.speedChange)
       this.hitSound.play()      
     }
   }

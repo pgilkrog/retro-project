@@ -8,6 +8,7 @@ const adminView = () => import('@/views/AdminView.vue')
 const SalvatoreGame = () => import('@/phaser/salvatore/SalvatoreGame.vue')
 const LoginView = () => import('@/views/LoginView.vue')
 const TestStuff = () => import('@/phaser/test-stuff/TestStuff.vue')
+const LaCosaNostra = () => import('@/phaser/la-cosa-nostra/LaCosaNostraGame.vue')
 
 export default [
   {
@@ -78,6 +79,15 @@ export default [
     path: '/teststuff',
     name: 'teststuff',
     component: TestStuff,
+    meta: {
+      requireAuth: false,
+      roles: ['user', 'admin']
+    }
+  },
+  {
+    path: '/lacosanostra',
+    name: 'LaCosaNostra',
+    component: LaCosaNostra,
     meta: {
       requireAuth: false,
       roles: ['user', 'admin']
