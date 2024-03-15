@@ -3,12 +3,15 @@ import { Scene } from 'phaser'
 import playerPNG from '@/phaser/la-cosa-nostra/assets/player/texture.png'
 import playerJSON from '@/phaser/la-cosa-nostra/assets/player/texture.json'
 
-import map from '@/phaser/la-cosa-nostra/assets/Apartment2.json'
-import tiles from '@/phaser/la-cosa-nostra/assets/walls.png'
+import walls from '@/phaser/la-cosa-nostra/assets/maps/tilesheets/walls.png'
+import floors from '@/phaser/la-cosa-nostra/assets/maps/tilesheets/floors.png'
+import collider from '@/phaser/la-cosa-nostra/assets/maps/tilesheets/colliderImg.png'
+import testMap from '@/phaser/la-cosa-nostra/assets/maps/TestMap.json'
+import doorImg from '@/phaser/la-cosa-nostra/assets/door.png'
 
 import char from '@/phaser/la-cosa-nostra/assets/Gangster1Small.png'
 
-import ball from '@/phaser/la-cosa-nostra/assets/ball.png'
+import ball from '@/phaser/la-cosa-nostra/assets/reticle.png'
 
 export default class Loader extends Scene {
   constructor() {
@@ -16,11 +19,14 @@ export default class Loader extends Scene {
   }
 
   preload() {
-    this.load.image('tiles', tiles)
-    this.load.tilemapTiledJSON('map', map)
-    this.load.atlas('player-walk', playerPNG, playerJSON)
+    this.load.image('floors', floors)
+    this.load.image('walls', walls)
+    this.load.image('collider', collider)
+    this.load.tilemapTiledJSON('testMap', testMap)
+    this.load.atlas('player', playerPNG, playerJSON)
     this.load.image('char', char)
     this.load.image('ball', ball)
+    this.load.image('doorImg', doorImg)
   }
 
   create() {

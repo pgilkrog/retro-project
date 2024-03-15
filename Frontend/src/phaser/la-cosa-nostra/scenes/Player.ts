@@ -1,8 +1,5 @@
 import StateMachine from '@/phaser/utils/StateMachine'
 
-type CursorKeys = Phaser.Types.Input.Keyboard.CursorKeys
-type MatterSprite = Phaser.Physics.Matter.Sprite
-
 enum states {
   idle = 'idle',
   walk = 'walk',
@@ -15,7 +12,7 @@ enum states {
 }
 
 enum animations {
-  idle = 'character-idle',
+  idle = 'player-idle',
   walk = 'player-walk',
   run= 'character-run',
   die = 'character-die',
@@ -33,18 +30,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   private speed: number = 300
   private keyInputs: { [key: string]: Phaser.Input.Keyboard.Key } = {}
 
-  constructor(scene: Phaser.Scene, x: number, y: number, sprite: string) {
-    super(scene, x, y, 'char')
+  constructor(scene: Phaser.Scene, x: number, y: number) {
+    super(scene, x, y, 'player')
     scene.add.existing(this)
     scene.physics.add.existing(this)
     
-    console.log("HEHCLJSD", x, y, sprite)
     this.createStateMachine()
     this.createKeyInputs()
     this.createAnimations()
     this.anims.play(animations.idle)
     this.body!.setSize(40, 25, true)
-    this.body!.setOffset(0, 15)
+    this.body!.setOffset(0, 15) 
+    // this.setCollideWorldBounds(true)
   }
 
   update(dt: number) {
@@ -124,16 +121,25 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   private createAnimations() {
     this.anims.create({
       key: animations.idle,
-      frames: this.anims.generateFrameNames('player-walk', { start: 1, end: 1, suffix: '.png'}),
+      frames: this.anims.generateFrameNames('player', { start: 1, end: 1, prefix: 'char_walk_', suffix: '.png'}),
       repeat: 1,
       frameRate: 10
     })
 
     this.anims.create({
       key: animations.walk,
-      frames: this.anims.generateFrameNames('player-walk', { start: 1, end: 5, suffix: '.png'}),
+      frames: this.anims.generateFrameNames('player', { start: 1, end: 6, prefix: 'char_walk_', suffix: '.png'}),
       repeat: -1,
       frameRate: 10
     })
+
+    this.anims.create({
+      key: animations.run,
+      frames: this.anims.generateFrameNames('player', { start: 1, end: 6, prefix: 'char_run_', suffix: '.png'}),
+      repeat: -1,
+      frameRate: 10
+    })
+
+    console.log(this.anims)
   }
 }
