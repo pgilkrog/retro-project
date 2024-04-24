@@ -10,7 +10,7 @@ div(v-else class=" rounded flex justify-center items-center border border-gray-9
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 
 const { id, source = '', alt } = defineProps({
   id: String,

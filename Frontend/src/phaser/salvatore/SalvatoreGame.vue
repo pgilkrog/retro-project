@@ -3,7 +3,7 @@ div(ref="gameContainer" class="game-container")
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue'
+import { defineComponent, ref } from 'vue'
 import Phaser from 'phaser'
 
 import Game from './scenes/Game'

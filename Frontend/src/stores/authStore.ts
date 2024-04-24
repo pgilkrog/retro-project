@@ -2,7 +2,6 @@ import { defineStore } from "pinia"
 import axios from "axios"
 import type { IUser } from "@/models/index"
 import setAuthToken from "@/helpers/setAuthToken"
-import { ref } from 'vue'
 import { errorStore } from "./errorStore"
 import router from "@/router"
 
@@ -10,12 +9,12 @@ const url = import.meta.env.VITE_BASE_URL + '/auth'
 
 export const useAuthStore = defineStore("auth",() => {
   const errorstore = errorStore()
+
   const isLoggedIn = ref<Boolean>(false)
   const user = ref<IUser>()
   const checkedAuth = ref<Boolean>(false)
- 
-  const token = ref<string | undefined>()
-  const userId = ref<string | undefined>()
+  const token = ref<string>()
+  const userId = ref<string>()
 
   const init = async () => {
     await checkIfUserIsLoggedIn()
@@ -62,9 +61,9 @@ export const useAuthStore = defineStore("auth",() => {
     }
   }
   
-  const signOut = async () => {
+  const signOut = () => {
     isLoggedIn.value = false
-    user.value = {} as IUser
+    user.value = undefined
     sessionStorage.removeItem('token')
     sessionStorage.removeItem('userId')
     router.push({ name: 'login' })

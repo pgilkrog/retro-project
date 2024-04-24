@@ -18,7 +18,7 @@ WindowFrame(
 </template>
 <script setup lang="ts">
 import type { IProgram } from '@/models/index'
-import { type PropType, ref, onMounted, defineAsyncComponent } from 'vue'
+import { type PropType, ref, defineAsyncComponent } from 'vue'
 
 const { program } = defineProps({
   program: Object as PropType<IProgram>

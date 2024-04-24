@@ -4,7 +4,7 @@ div(ref="gameContainer" class="game-container")
 
 <script lang="ts">
 import Phaser from 'phaser'
-import { defineComponent, ref, onMounted } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 import BootScene from '@/phaser/first-game/scenes/Loader'
 import PlayScene from '@/phaser/first-game/scenes/Game'

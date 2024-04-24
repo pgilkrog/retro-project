@@ -7,7 +7,7 @@ ErrorComponent(v-if="errorstore.error !== undefined")
 
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/authStore'
-import { onMounted, computed, watch } from 'vue'
+import { computed, watch } from 'vue'
 import router from './router'
 import { useCookies } from 'vue3-cookies'
 import { errorStore } from '@/stores/errorStore'

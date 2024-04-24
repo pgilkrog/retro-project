@@ -23,7 +23,6 @@ WindowFrame(
   )
 </template>
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue'
 import type { IProgram } from '../../models/index'
 import { userStore } from '@/stores/userStore'
 import { chatStore } from '@/stores/chatStore'

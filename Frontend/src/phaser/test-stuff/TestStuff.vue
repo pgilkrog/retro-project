@@ -6,7 +6,7 @@ div(ref="gameContainer" class="game-container")
 import Phaser from 'phaser'
 import Loader from './scenes/Loader'
 import GameScene from './scenes/inventory/GameScene'
-import { defineComponent, ref, onMounted } from 'vue'
+import { defineComponent, ref } from 'vue'
 export interface IConfig {
   mapOffset: number,
   width: number,

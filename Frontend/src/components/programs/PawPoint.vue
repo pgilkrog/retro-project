@@ -34,16 +34,16 @@ WindowFrame(
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, defineAsyncComponent } from "vue";
-import type { PropType } from "vue";
-import type { IProgram } from "@/models/index";
+import { defineAsyncComponent } from "vue"
+import type { PropType } from "vue"
+import type { IProgram } from "@/models/index"
 
 const { program } = defineProps({
   program: Object as PropType<IProgram>,
 });
 
-const loadingSlide = ref(false);
-const activeSlide = ref(Object as any);
+const loadingSlide = ref(false)
+const activeSlide = ref(Object as any)
 const slides = ref([
   {
     id: 1,

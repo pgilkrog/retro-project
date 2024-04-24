@@ -13,7 +13,6 @@
 </template>
 
 <script setup lang="ts"> 
-import { ref } from 'vue'
 const progressValue = ref<number>(0)
  
 const startLoading = () => {

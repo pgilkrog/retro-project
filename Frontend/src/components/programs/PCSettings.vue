@@ -44,7 +44,7 @@ WindowFrame(
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, type Ref, type PropType } from 'vue'
+import type { PropType } from 'vue'
 import type { IFile, IProgram, IUser, IUserSettings } from '../../models/index'
 import { userStore } from '../../stores/userStore'
 import { fileStore } from '../../stores/fileStore'
@@ -57,17 +57,17 @@ const { program } = defineProps({
 const userstore = userStore()
 const filestore = fileStore()
 
-const state = ref<number>(0)
-const color = ref<string>("")
-const tempImg = ref<IFile | undefined>(undefined)
+const state: Ref<number> = ref(0)
+const color: Ref<string> = ref("")
+const tempImg: Ref<IFile | undefined> = ref(undefined)
 const userData = storeToRefs(userstore).userData as Ref<IUser | undefined>
 
 onMounted(() => {
-  color.value = userstore.userBackgroundColour
+  color.value = userData.value?.settings?.backgroundColour ?? ''
   filestore.getAllFiles()
 })
 
-const onColorSelected = (event: any) => {
+const onColorSelected = (event: any): void => {
   event.preventDefault()
   let tempData = userstore.userData
   if (tempData === undefined) return
@@ -76,7 +76,7 @@ const onColorSelected = (event: any) => {
   userstore.setUserData(tempData)
 }
 
-const saveUserInfo = () => {
+const saveUserInfo = (): void => {
   let tempSettings = userData.value as IUser
   
   if (tempSettings === undefined) return
@@ -87,7 +87,7 @@ const saveUserInfo = () => {
   userstore.setUserData(tempSettings)
 }
 
-const setImage = (file: IFile | undefined) => {
+const setImage = (file: IFile | undefined): void => {
   let url = file === undefined ? '' : file.name
   let temp = userData.value as IUser
   temp.settings.backgroundImage = url
@@ -95,11 +95,11 @@ const setImage = (file: IFile | undefined) => {
   userstore.setUserData(temp)
 }
 
-const setTempImg = (img: IFile) => {
+const setTempImg = (img: IFile): void => {
   tempImg.value = img
 }
 
-const getImageUrl = (filename: string) => {
+const getImageUrl = (filename: string): string => {
   return `${import.meta.env.VITE_BASE_URL}/uploads/${filename}`;
 }
 

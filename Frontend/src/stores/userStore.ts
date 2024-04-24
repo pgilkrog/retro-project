@@ -7,62 +7,52 @@ import axios from "axios"
 import setAuthToken from "@/helpers/setAuthToken"
 
 const url = import.meta.env.VITE_BASE_URL + '/user'
+type UserWithOnlineStatus = IUser & { online: boolean }; // Add online status type
 
 export const userStore = defineStore("user", () => {
-
-  const allUsers = ref<IUser[]>([])
+  const allUsers = ref<IUser[]>()
   const userData = ref<IUser>()
-  const userSettings = ref<IUserSettings>()
-  const userBackgroundImage = ref<string>("")
-  const useBackgroundImage = ref<boolean>(false)
-  const userBackgroundColour = ref<string>("")
+
   const programstore = programsStore()
   const chatstore = chatStore()
 
+  const isUserOnline = computed(() => (email: string) =>
+    chatstore.onlineUsers.includes(email)
+  ); // Use computed for online status
+
   const getAllUsers = async () => {
     setAuthToken(sessionStorage.getItem('token') as string)
-    const res = axios.get(url).then(data => {
-      let tempData = data.data.users
-      let tempArray: IUser[] = []
-      for(const user in tempData) {
-        tempArray.push(tempData[user] as IUser)
-        tempData[user] = chatstore.onlineUsers.includes(tempData[user].email) ? true : false
-      }
-      allUsers.value = tempArray
-      console.log("SET ALL USERS", res)
-    })
-  }
+    try {
+      const response = await axios.get(url)
+      const { data, statusText } = response
 
-  const setUserData = async (user: any) => {
-    userData.value = user as IUser
+      if (statusText !== 'OK') return undefined
 
-    if (user.settings !== undefined) {
-      setUserSettings(user.settings)
+      const users = data.users.map((user: IUser): UserWithOnlineStatus => ({
+        ...user,
+        online: isUserOnline.value(user.email),
+      }))
+
+      setAllUsers(users)
+  
+    } catch (error) {
+      console.error("Error fetching users:", error)
     }
 
+  }
+
+  const setUserData = async (user: IUser) => {
+    userData.value = user
     programstore.setInstalledPrograms(user.installedPrograms)
   }
 
-  const setUserSettings = (settings: IUserSettings) => {
-    setUserBackgroundImage(settings.backgroundImage)
-    setBackgroundColour(settings.backgroundColour)
-    setUseBackgroundImage(settings.useBackground)
-  }
-
-  const setUserBackgroundImage = (image: string) => {
-    userBackgroundImage.value = image
-  }
-
-  const setUseBackgroundImage = (bool: boolean) => {
-    useBackgroundImage.value = bool
-  }
-
-  const setBackgroundColour = (colour: string) => {
-    userBackgroundColour.value = colour
-  }
-
   const getUserById = async () => {
-    const res = await axios.get(url + '/' + sessionStorage.getItem('userId'))
+    const userId = sessionStorage.getItem('userId')
+
+    if (userId == undefined) return undefined
+
+
+    const res = await axios.get(`${url}/${userId}`)
     console.log("GET USER", res)
     setUserData(res.data.user)
     return userData.value
@@ -77,23 +67,19 @@ export const userStore = defineStore("user", () => {
   const updateUserSettings = async (settings: IUserSettings) => {
     const res = await axios.put(`${url}/settings/${settings._id}`, null, { params: settings })
     console.log("update user settings", res)
-    setUserSettings(res.data)
+  }
+
+  const setAllUsers = (users: IUser[] | undefined) => {
+    allUsers.value = users
+    console.log("SET ALL USERS", users)
   }
 
   return {
     allUsers,
     userData,
-    userSettings,
-    userBackgroundImage,
-    useBackgroundImage,
-    userBackgroundColour,
     programstore,
     getAllUsers,
     setUserData,
-    setUserSettings,
-    setUserBackgroundImage,
-    setUseBackgroundImage,
-    setBackgroundColour,
     getUserById,
     updateUser,
     updateUserSettings
