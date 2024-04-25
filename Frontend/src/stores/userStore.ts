@@ -18,7 +18,7 @@ export const userStore = defineStore("user", () => {
 
   const isUserOnline = computed(() => (email: string) =>
     chatstore.onlineUsers.includes(email)
-  ); // Use computed for online status
+  ) 
 
   const getAllUsers = async () => {
     setAuthToken(sessionStorage.getItem('token') as string)
@@ -38,7 +38,6 @@ export const userStore = defineStore("user", () => {
     } catch (error) {
       console.error("Error fetching users:", error)
     }
-
   }
 
   const setUserData = async (user: IUser) => {
@@ -50,7 +49,6 @@ export const userStore = defineStore("user", () => {
     const userId = sessionStorage.getItem('userId')
 
     if (userId == undefined) return undefined
-
 
     const res = await axios.get(`${url}/${userId}`)
     console.log("GET USER", res)

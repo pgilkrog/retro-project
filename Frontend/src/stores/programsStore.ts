@@ -17,49 +17,32 @@ export const programsStore = defineStore("programs", () => {
     await getProgramsFromDB()
   }
 
-  const getProgramsFromDB = async () => {
+  const getProgramsFromDB = async (): Promise<void> => {
+    const token = sessionStorage.getItem('token')
+    if (!token) return
+
+    setAuthToken(token)
+
     try {
-      setAuthToken(sessionStorage.getItem('token') as string)
-      await axios.get(url).then((data: any) => {
-        let tempData = data.data.programs
-        let tempArray: IProgram[] = []
-        for(const program in tempData) {
-          tempArray.push(tempData[program] as IProgram)
-        }
-        allPrograms.value = tempArray.sort((a: IProgram, b: IProgram,) => a.sortOrder - b.sortOrder)
-      })
+      const response = await axios.get(url)
+      const { data, statusText } = response
+
+      if (statusText !== 'OK') return
+  
+      if (data.programs != undefined) {
+        allPrograms.value = data.programs.sort((a: IProgram, b: IProgram,) => a.sortOrder - b.sortOrder)
+      }
     } catch (error) {
-      console.log(error)
+      console.log("error getting programs from database: ", error)
     }
   }
 
-  const setInstalledPrograms = (programs: string[]) => {
-    if(programs === undefined)
-      return
+  const setInstalledPrograms = (programs: string[]): void => {
+    if (!programs) return
 
-    const newArray = programs.filter(obj1 => {
-      const obj2 = allPrograms.value.find(obj2 => obj1 === obj2._id)
-      return obj2 !== undefined
-    }).map(obj1 => {
-      const obj2 = allPrograms.value.find(obj2 => obj1 === obj2._id)
-      return obj2
-    })
-    
-    installedPrograms.value = newArray as IProgram[]
-
-    let notInstalled = [] as IProgram[]
-    allPrograms.value.forEach(obj2 => {
-      const obj1 = newArray.find(obj1 => obj1?._id === obj2._id)
-      if (!obj1) {
-        notInstalled.push(obj2)
-      }
-    })
-    notInstalledPrograms.value = notInstalled
-    console.log(programs)
-  }
-
-  const setActivePrograms = (programs: IProgram[]) => {
-    activePrograms.value = programs
+    const installedSet = new Set(programs)
+    installedPrograms.value = allPrograms.value.filter((program) => installedSet.has(program._id))
+    notInstalledPrograms.value = allPrograms.value.filter(program => !installedSet.has(program._id))
   }
 
   const addProgramToActive = (program: IProgram) => {
@@ -69,28 +52,31 @@ export const programsStore = defineStore("programs", () => {
     }
   }
 
-  const removeProgramFromActive = (program: IProgram) => {
-    setActivePrograms(activePrograms.value.filter(x => x._id !== program._id))
+  const removeProgramFromActive = (program: IProgram): void => {
+    const index = activePrograms.value.findIndex((p) => p._id === program._id)
+    if (index !== -1) {
+      activePrograms.value.splice(index, 1)
+    }
   }
 
-  const setProgramActiveState = (program: IProgram) => {
+  const setProgramActiveState = (program: IProgram): void => {
     activePrograms.value.find(x => {
       if(x._id === program._id)
         x.isActive = !x.isActive
     })
   }
 
-  const updateProgram = async(program: IProgram) => {
+  const updateProgram = async(program: IProgram): Promise<void> => {
     const response = await axios.put(url + '/' + program._id, null, { params: program })
     console.log(response)
   }
 
-  const deleteProgram = async(program: IProgram) => {
+  const deleteProgram = async(program: IProgram): Promise<void> => {
     const response = await axios.delete(url + '/' + program._id).then(() => getProgramsFromDB())
     console.log(response)
   }
 
-  const createProgram = async(program: IProgram) => {
+  const createProgram = async(program: IProgram): Promise<void> => {
     const response = axios.post(url, null, { params: program }).then(() => getProgramsFromDB())
     console.log('createReponse', response)
   }

@@ -28,7 +28,7 @@ import { programsStore } from '@/stores/programsStore'
 import { useAuthStore } from '@/stores/authStore'
 // import Salvatore from '@/phaser/salvatore/SalvatoreGame.vue'
 //import TestStuff from '@/phaser/test-stuff/TestStuff.vue'
-import LaCosaNostra from '@/phaser/la-cosa-nostra/LaCosaNostraGame.vue'
+// import LaCosaNostra from '@/phaser/la-cosa-nostra/LaCosaNostraGame.vue'
 
 const authstore = useAuthStore()
 const programsstore = programsStore()
