@@ -46,9 +46,9 @@ const buttons = [
  
 const handleClick = (button: Button) => {
   if (button.value === '=') {
-    display.value = eval(display.value);
+    display.value = eval(display.value)
   } else {
-    display.value += button.value;
+    display.value += button.value
   }
 }
 

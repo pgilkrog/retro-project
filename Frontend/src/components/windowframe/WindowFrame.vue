@@ -71,7 +71,7 @@ const top = ref(40)
 
 const closeWindow = () => {
   // Remove the program from the active program list
-  if (program) programsstore.removeProgramFromActive(program);
+  if (program) programsstore.removeProgramFromActive(program)
 
   // If the window is not a program but a form of popup emit the close window
   if (isNotProgram === true) emit("closeWindow");
@@ -79,7 +79,7 @@ const closeWindow = () => {
 
 const setInactive = () => {
   // Set if the window should be hidden on screen, but visible in the taskbar.
-  if (program) programsstore.setProgramActiveState(program);
+  if (program) programsstore.setProgramActiveState(program)
 }
 
 const handleMouseDown = (event: MouseEvent) => {
@@ -107,30 +107,30 @@ const getBackgroundColor = (color: string) => {
 
 const startDrag = (event: MouseEvent) => {
   if (isMoveable === true) {
-    isDragging.value = true;
-    startX.value = event.clientX;
-    startY.value = event.clientY;
-    document.addEventListener("mousemove", onDrag);
-    document.addEventListener("mouseup", stopDrag);
+    isDragging.value = true
+    startX.value = event.clientX
+    startY.value = event.clientY
+    document.addEventListener("mousemove", onDrag)
+    document.addEventListener("mouseup", stopDrag)
   }
 }
 
 const onDrag = (event: MouseEvent) => {
   if (!isDragging.value) return;
 
-  const deltaX = event.clientX - startX.value;
-  const deltaY = event.clientY - startY.value;
+  const deltaX = event.clientX - startX.value
+  const deltaY = event.clientY - startY.value
 
-  left.value += deltaX;
-  top.value += deltaY;
+  left.value += deltaX
+  top.value += deltaY
 
-  startX.value = event.clientX;
-  startY.value = event.clientY;
+  startX.value = event.clientX
+  startY.value = event.clientY
 }
 
 const stopDrag = () => {
-  isDragging.value = false;
-  document.removeEventListener("mousemove", onDrag);
-  document.removeEventListener("mouseup", stopDrag);
+  isDragging.value = false
+  document.removeEventListener("mousemove", onDrag)
+  document.removeEventListener("mouseup", stopDrag)
 }
 </script>

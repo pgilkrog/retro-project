@@ -34,13 +34,12 @@ WindowFrame(
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent } from "vue"
 import type { PropType } from "vue"
 import type { IProgram } from "@/models/index"
 
 const { program } = defineProps({
   program: Object as PropType<IProgram>,
-});
+})
 
 const loadingSlide = ref(false)
 const activeSlide = ref(Object as any)
@@ -90,17 +89,17 @@ const slides = ref([
       "</ul>",
     type: undefined,
   },
-]);
+])
 
 const setActiveSlide = (slide: any) => {
-  loadingSlide.value = true;
-  activeSlide.value = slide;
-  loadingSlide.value = false;
-};
+  loadingSlide.value = true
+  activeSlide.value = slide
+  loadingSlide.value = false
+}
 
 onMounted(() => {
-  activeSlide.value = slides.value[0];
-});
+  activeSlide.value = slides.value[0]
+})
 </script>
 
 <style lang="sass" scoped>

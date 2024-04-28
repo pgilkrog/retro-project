@@ -100,7 +100,7 @@ const setTempImg = (img: IFile): void => {
 }
 
 const getImageUrl = (filename: string): string => {
-  return `${import.meta.env.VITE_BASE_URL}/uploads/${filename}`;
+  return `${import.meta.env.VITE_BASE_URL}/uploads/${filename}`
 }
 
 </script>

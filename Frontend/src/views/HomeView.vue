@@ -1,11 +1,11 @@
 <template lang="pug">
-template(v-if="userData !== undefined")
+template(v-if="userData != undefined")
   .home-wrapper(class="flex h-full w-full absolute"
     :style="[userData.settings.useBackground === true ? {'background-image': 'url('+ getImageUrl(userData.settings?.backgroundImage) + ')'} : {'background-color': userData.settings?.backgroundColour}]")
     .desktop-container(class="flex flex-col justify-start")
-      .grid.grid-cols-2.gap-y-8
+      .grid.grid-cols-2.gap-y-8(v-if="allPrograms")
         DesktopItem(
-          v-for="program in allPrograms()"
+          v-for="program in allPrograms"
           v-on:generateComponent="generateComponent(program)"
           :key="program._id"
           :program
@@ -33,30 +33,27 @@ import { useAuthStore } from '@/stores/authStore'
 const authstore = useAuthStore()
 const programsstore = programsStore()
 const userstore = userStore()
+
 const userData = storeToRefs(userstore).userData
-const showMenu = ref(false)
+const showMenu = ref<boolean>(false)
+const allPrograms = computed<IProgram[]>(() => programsstore.installedPrograms)
 
 onMounted(async () => {
-  if (authstore.isLoggedIn) {
+  if (authstore.isLoggedIn === true) {
     await programsstore.init()
-    await userstore.getUserById().then((data) => {
-      if (data !== undefined) 
-        programsstore.setInstalledPrograms(data.installedPrograms)
-    })    
+    await userstore.getUserById()
   }
 })
 
-const allPrograms = (() => programsstore.installedPrograms)
-
-const generateComponent = (program: IProgram) => {
+const generateComponent = (program: IProgram): void => {
   programsstore.addProgramToActive({...program})
 }
 
-const getImageUrl = (filename: string) => {
+const getImageUrl = (filename: string): string => {
   return `${import.meta.env.VITE_BASE_URL}/uploads/${filename}`
 }
 
-const changeShowMenu = () => {
+const changeShowMenu = (): void => {
   showMenu.value = !showMenu.value
 }
 </script>

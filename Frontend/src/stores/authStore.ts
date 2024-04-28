@@ -16,11 +16,11 @@ export const useAuthStore = defineStore("auth",() => {
   const token = ref<string>()
   const userId = ref<string>()
 
-  const init = async () => {
+  const init = async (): Promise<void> => {
     await checkIfUserIsLoggedIn()
   }
   
-  const checkIfUserIsLoggedIn = async () => {
+  const checkIfUserIsLoggedIn = async (): Promise<void> => {
     token.value = sessionStorage.getItem('token') ?? undefined
     userId.value = sessionStorage.getItem('userId') ?? undefined
 
@@ -32,7 +32,7 @@ export const useAuthStore = defineStore("auth",() => {
     await refreshToken()
   }
 
-  const loginUser = async (email: string, password: string) => {
+  const loginUser = async (email: string, password: string): Promise<void> => {
     try {
       const response = await axios.post(url + '/login/', { email: email, password: password })
       const { token, user } = response.data
@@ -51,7 +51,7 @@ export const useAuthStore = defineStore("auth",() => {
     }
   }
 
-  const registerUser = async (userName: string, password: string) => {
+  const registerUser = async (userName: string, password: string): Promise<void> => {
     try {
       const user = {email: userName, password: password}
       const response = await axios.post(url, user)
@@ -61,7 +61,7 @@ export const useAuthStore = defineStore("auth",() => {
     }
   }
   
-  const signOut = () => {
+  const signOut = (): void => {
     isLoggedIn.value = false
     user.value = undefined
     sessionStorage.removeItem('token')
@@ -73,12 +73,12 @@ export const useAuthStore = defineStore("auth",() => {
     // updatePassword(this.getUser, password)
   }
   
-  const setToken = (newToken: string) => {
+  const setToken = (newToken: string): void => {
     token.value = newToken
     sessionStorage.setItem('token', newToken)
   }
   
-  const refreshToken = async () => {
+  const refreshToken = async (): Promise<void> => {
     token.value = sessionStorage.getItem('token') ?? undefined
     userId.value = sessionStorage.getItem('userId') ?? undefined
 

@@ -45,10 +45,6 @@ const goToRoute = () => {
 onMounted(async () => {
   await authstore.init()
   await programsstore.init()
-  await userstore.getUserById().then((data) => {
-    if (data !== undefined)
-      programsstore.setInstalledPrograms(data.installedPrograms)
-  })
   goToRoute()
 })  
 

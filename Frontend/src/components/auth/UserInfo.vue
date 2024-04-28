@@ -22,12 +22,11 @@ ButtonComponent(text="Print" @clicked="printInfo()" size="full")
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
-import { userStore } from "@/stores/userStore";
+import { userStore } from "@/stores/userStore"
 
-const userstore = userStore();
+const userstore = userStore()
 
-const info = reactive({
+const info = ref({
   name: "",
   addressLine: "",
   streetNumber: "",
@@ -36,11 +35,12 @@ const info = reactive({
   postcode: "",
   phoneNumber: "",
   homeAddress: false,
-});
+})
 
 const printInfo = () => {
-  console.log(info);
-};
+  console.log(info)
+}
+
 </script>
 
 <style lang="sass" scoped></style>

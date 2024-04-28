@@ -46,13 +46,12 @@ onMounted(async () => {
 })
 </script>
 
-<style scoped>
-.fade-in-image {
-  opacity: 0;
-  transition: opacity 0.5s ease; 
-}
+<style lang="sass" scoped>
+.fade-in-image 
+  transition: opacity 0.5s ease
+  opacity: 0
 
-.fade-in-image.visible {
+.fade-in-image.visible 
   opacity: 1
-}
+
 </style>
