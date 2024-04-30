@@ -16,7 +16,6 @@ WindowFrame(
       span(v-else) 
         .title(class="flex justify-center items-center my-4")
           .spinner-border
-
     .group-slides(class="flex")
       .group-slides-item(
         class="m-4 flex cursor-pointer"
@@ -36,6 +35,7 @@ WindowFrame(
 <script setup lang="ts">
 import type { PropType } from "vue"
 import type { IProgram } from "@/models/index"
+import { defineAsyncComponent } from 'vue'
 
 const { program } = defineProps({
   program: Object as PropType<IProgram>,

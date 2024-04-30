@@ -66,23 +66,23 @@ const state = reactive({
 
 const canvasX = ref<string>('0')
 const canvasY = ref<string>('0')
-const inputSave = ref('')
-const showFiles = ref(false)
-const myPaintings = ref([] as IPainting[])
-const brushSizes = ref([
+const inputSave = ref<string>('')
+const showFiles = ref<boolean>(false)
+const myPaintings = ref<IPainting[]>([])
+const brushSizes = ref<number[]>([
   1,
   3,
   5,
   7,
   9
 ])
-const brushTypes = ref([
+const brushTypes = ref<string[]>([
   'circle', 
   'square', 
   'line', 
   'spray'
 ])
-const selectedBrush = ref(brushTypes.value[0])
+const selectedBrush = ref<string>(brushTypes.value[0])
 
 onMounted(() => {
   const canvas = canvasRef.value
@@ -94,16 +94,16 @@ onMounted(() => {
   canvas.height = canvasElement ? canvasElement.clientHeight : 500
 })
 
-const startDrawing = (event: MouseEvent) => {
+const startDrawing = (event: MouseEvent): void => {
   state.drawing = true
   draw(event)
 }
 
-const stopDrawing = () => {
+const stopDrawing = (): void => {
   state.drawing = false
 }
 
-const draw = (event: MouseEvent) => {
+const draw = (event: MouseEvent): void => {
   if (!state.drawing) return
 
   const canvas = canvasRef.value
@@ -148,7 +148,7 @@ const draw = (event: MouseEvent) => {
   ctx.fill()
 }
 
-const savePainting = (text: string) => {
+const savePainting = (text: string): void => {
   const canvas = canvasRef.value
   if(canvas === null) return
 
@@ -162,7 +162,7 @@ const savePainting = (text: string) => {
     paintstore.postPainting(newPainting)
 }
 
-const loadPainting = (painting: string) => {
+const loadPainting = (painting: string): void => {
   const canvas = canvasRef.value
   if (!canvas) return
 
@@ -182,7 +182,7 @@ const loadPainting = (painting: string) => {
   }
 }
 
-const setSize = (x: number, y: number) => {
+const setSize = (x: number, y: number): void => {
   const canvas = canvasRef.value
   if (!canvas) return
 
@@ -197,18 +197,18 @@ const setSize = (x: number, y: number) => {
   console.log(canvas)
 }
 
-const setBrushType = (brushType: string) => {
+const setBrushType = (brushType: string): void => {
   selectedBrush.value = brushType
 } 
 
-const changeColor = (color: string) => {
+const changeColor = (color: string): void => {
   state.color = color
 }
-const changeShowFiles = (bool: boolean) => {
+const changeShowFiles = (bool: boolean): void => {
   showFiles.value = bool
   paintstore.getAllPaintingsByUserId(userstore.userData?._id !== undefined ? userstore.userData?._id : '')
 }
-const itemClicked = (painting: IPainting) => {
+const itemClicked = (painting: IPainting): void => {
   loadPainting(painting.canvas)
 }
 

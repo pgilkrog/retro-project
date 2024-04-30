@@ -1,20 +1,22 @@
 <template lang="pug">
-template(v-if="userData != undefined")
-  .home-wrapper(class="flex h-full w-full absolute"
-    :style="[userData.settings.useBackground === true ? {'background-image': 'url('+ getImageUrl(userData.settings?.backgroundImage) + ')'} : {'background-color': userData.settings?.backgroundColour}]")
-    .desktop-container(class="flex flex-col justify-start")
-      .grid.grid-cols-2.gap-y-8(v-if="allPrograms")
-        DesktopItem(
-          v-for="program in allPrograms"
-          v-on:generateComponent="generateComponent(program)"
-          :key="program._id"
-          :program
-          :itemColor="program.color"
-        )
+.home-wrapper(
+  class="flex h-full w-full absolute" 
+  v-if="userData != undefined"
+  :style="[userData.settings.useBackground === true ? {'background-image': 'url('+ getImageUrl(userData.settings?.backgroundImage) + ')'} : {'background-color': userData.settings?.backgroundColour}]"
+)
+  .desktop-container(class="flex flex-col justify-start py-4")
+    .grid.grid-cols-2.gap-y-8(v-if="allPrograms")
+      DesktopItem(
+        v-for="program in allPrograms"
+        v-on:generateComponent="generateComponent(program)"
+        :key="program._id"
+        :program
+        :itemColor="program.color"
+      )
 
-    ComponentMachine
-    Menu(v-if="showMenu")
-    Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")
+  ComponentMachine
+  Menu(v-if="showMenu")
+  Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")
 //- Salvatore
 //- TestStuff
 //- LaCosaNostra
