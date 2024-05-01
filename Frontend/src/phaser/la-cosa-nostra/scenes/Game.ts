@@ -53,7 +53,7 @@ export default class Game extends Scene {
           const door = this.add.sprite(x, y, 'doorImg')
           door.body?.gameObject.setImmovable(true)
           this.physics.add.existing(door)
-          door.body!.setImmovable(true)
+          // door.body!.setImmovable(true)
           door.body
           this.physics.add.collider(this.player, door, () => {
             door.destroy()
