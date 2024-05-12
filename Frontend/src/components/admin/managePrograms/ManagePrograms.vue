@@ -3,7 +3,11 @@
   WindowFrame(:program="program" :isMoveable="true")
     .wrapper(class="flex flex-col m-2")
       ButtonComponent.mb-4(@clicked="changeShowManageProgram(true)" text="Add new program" size="full") 
-      div(class="hover flex bg-shadow p-1 justify-start rounded cursor-pointer mt-1" v-for="program in allPrograms" :key="program._id") 
+      div(
+        class="hover hover:bg-gray-200 flex bg-shadow p-1 justify-between rounded cursor-pointer mt-1" 
+        v-for="program in allPrograms" 
+        :key="program._id"
+      ) 
         div(class="flex items-center")
           IconComponent.mx-2(name="fa-pencil" variant="yellow" size="25" @click="setUpdateState(true, program); changeShowManageProgram(true)")
           p.mx-2 {{ `${program.sortOrder}: ${program.name }`}}
@@ -47,72 +51,61 @@ const programsstore = programsStore()
 const allPrograms = computed(() => programsstore.allPrograms)
 const showManageProgram = ref(false)
 const updateState = ref(false)
-let selectedProgram = ref<IProgram | null>(null)
-const programInfo = reactive({
+let selectedProgram = ref<IProgram | undefined>(undefined)
+const programInfo = ref<IProgram>({
+  _id: '',
   name: '',
   displayName: '',
   image: '',
   color: '',
   sortOrder: 0,
-  type: ''
+  type: '',
+  isActive: false
 })
 let showValidation = ref(false)
 
 const addProgram = () => {
   if (
-    programInfo.name !== '' && 
-    programInfo.image !== '' && 
-    programInfo.displayName !== ''
+    programInfo.value.name !== '' && 
+    programInfo.value.image !== '' && 
+    programInfo.value.displayName !== ''
   ) {
-    const program = {
+    const newProgram: IProgram = {
+      ...programInfo.value, 
       _id: '',
-      name: programInfo.name,
-      displayName: programInfo.displayName,
-      color: programInfo.color,
-      image: programInfo.image,
-      sortOrder: programInfo.sortOrder,
-      type: programInfo.type
-    } as IProgram
+    };
 
-    programsstore.createProgram(program)
+    programsstore.createProgram(newProgram)
     resetInputs()
   }
 }
 
 const deleteProgram = (program: IProgram) => {
   selectedProgram.value = program
-  programInfo.name = program.name
-  programInfo.displayName = program.displayName
-  programInfo.color = program.color
-  programInfo.image = program.image
-  programInfo.sortOrder = program.sortOrder
-  programInfo.type = program.type
   showValidation.value = true
 }
 
 const updateProgram = () => {
-  let temp = selectedProgram.value as IProgram
-  temp.name = programInfo.name
-  temp.displayName = programInfo.displayName
-  temp.image = programInfo.image
-  temp.color = programInfo.color
-  temp.sortOrder = programInfo.sortOrder
-  temp.type = programInfo.type
-  programsstore.updateProgram(temp)
+  programsstore.updateProgram(programInfo.value as IProgram)
 }
 
 const resetInputs = () => {
-  programInfo.name = ''
-  programInfo.displayName = ''
-  programInfo.color = ''
-  programInfo.image = ''
-  programInfo.sortOrder = 0
-  programInfo.type = ''
-  selectedProgram.value = null
+  programInfo.value = {
+    _id: '',
+    name: '',
+    displayName: '',
+    color: '',
+    image: '',
+    sortOrder: 0,
+    type: '',
+    isActive: false
+  }
+  selectedProgram.value = undefined
 }
 
 const ok = () => {
-  console.log("ok", selectedProgram.value)
+  if (selectedProgram.value === undefined) return
+  else programsstore.deleteProgram(selectedProgram.value)
 }
 
 const cancel = () => {
@@ -125,12 +118,7 @@ const setUpdateState = (state: boolean, program: IProgram) => {
 
   if (state === true) {
     selectedProgram.value = program
-    programInfo.name = program.name
-    programInfo.displayName = program.displayName
-    programInfo.color = program.color
-    programInfo.image = program.image
-    programInfo.sortOrder = program.sortOrder
-    programInfo.type = program.type
+    programInfo.value = program
   } else {
     resetInputs()
   }

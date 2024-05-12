@@ -8,8 +8,9 @@ const url = import.meta.env.VITE_BASE_URL + '/error'
 export const errorStore = defineStore("errors", () => {
   const error = ref<IErrorItem>()
   const errorList = ref<IErrorItem[]>([])
-  const userstore = userStore()
   const errors = ref<IErrorItem[]>()
+  
+  const userstore = userStore()
 
   const getErrors = async () => {
     const response = await axios.get(url).then((data) => {

@@ -18,7 +18,7 @@ export const post = async <T> (url: string, data: any): Promise<T> => {
   checkAuthToken()
   console.log("POST", url, data)
   try {
-    return await axios.post(url, null, { params: data })
+    return await axios.post(url, null, data)
   } catch (error) {
     console.error('API request error:', error)
     throw error
@@ -27,9 +27,9 @@ export const post = async <T> (url: string, data: any): Promise<T> => {
 
 export const put = async <T> (url: string, data: any): Promise<T> => {
   checkAuthToken()
-
+  console.log("UPDATE", url, data)
   try {
-    return await axios.put(url, null, { params: data })
+    return await axios.put(url, null, data)
   } catch (error) {
     console.error('API request error:', error)
     throw error

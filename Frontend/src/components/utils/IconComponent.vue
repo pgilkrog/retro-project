@@ -1,6 +1,6 @@
 <template lang="pug">
 i.icon(
-  :class="[iconClass(), 'text-' + variant + '-500']" 
+  :class="[iconClass(), 'text-' + variant + '-500', 'flex']" 
   :style="'color: ' + color + '!important; font-size: ' + size + 'px !important; transform: rotate(' + rotate + 'deg);'"
   v-bind="$attrs"
 )

@@ -7,7 +7,6 @@ WindowFrame(:program="program" :isMoveable="true" variant="success")
       :key="index"
       class="!text-black"
     )
-
 </template>
 
 <script setup lang="ts">

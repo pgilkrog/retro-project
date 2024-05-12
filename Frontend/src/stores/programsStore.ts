@@ -10,15 +10,13 @@ export const programsStore = defineStore("programs", () => {
   const allPrograms = ref<IProgram[]>([])
   const installedPrograms = ref<IProgram[]>([])
   const notInstalledPrograms = ref<IProgram[]>([])
-  const collectionName = 'programs'
 
   const init = async() => {
     await getProgramsFromDB()
   }
 
   const getProgramsFromDB = async (): Promise<void> => {
-    const unsortedPrograms = await get<IProgram[]>(url)
-    allPrograms.value = unsortedPrograms.sort((a: IProgram, b: IProgram,) => a.sortOrder - b.sortOrder)
+    allPrograms.value = await get<IProgram[]>(url)
   }
 
   const setInstalledPrograms = (programs: string[]): void => {
@@ -51,7 +49,7 @@ export const programsStore = defineStore("programs", () => {
   }
 
   const updateProgram = async (program: IProgram): Promise<void> => {
-    await put(url + '/' + program._id, program)
+    await put(url + '/' + program._id, { params: program }).then(() => getProgramsFromDB())
   }
 
   const deleteProgram = async (program: IProgram): Promise<void> => {
@@ -67,7 +65,6 @@ export const programsStore = defineStore("programs", () => {
     allPrograms,
     installedPrograms,
     notInstalledPrograms,
-    collectionName,
     init,
     getProgramsFromDB,
     setInstalledPrograms,

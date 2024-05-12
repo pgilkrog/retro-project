@@ -1,10 +1,10 @@
 <template lang="pug">
 WindowFrame(:program="program" :isMoveable="true" variant="danger")
-  .d-flex.align-items-center.flex-column.p-4
+  .flex.items-center.flex-col.p-4
     p Are you sure you want to 
     strong {{ text }}
   
-    .buttons.mt-4
+    .buttons.mt-4.flex
       ButtonComponent.me-2(@clicked="ok()" text="Ok" size="wide")
       ButtonComponent(@clicked="cancel()" text="Cancel" size="wide") Cancel
 </template>

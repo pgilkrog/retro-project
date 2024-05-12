@@ -52,7 +52,7 @@ const { showMenu } = defineProps({
 const programsstore = programsStore()
 const userstore = userStore()
 
-const activePrograms = computed(() => programsstore.activePrograms)
+const activePrograms = ref<IProgram[]>(programsstore.activePrograms)
 
 const changeShowMenu = () => {
   emit('changeShowMenu')      

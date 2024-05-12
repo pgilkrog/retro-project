@@ -51,6 +51,7 @@ declare module 'vue' {
     SlideTitleImage: typeof import('./src/components/programs/pawpoint/slides/SlideTitleImage.vue')['default']
     SlideTitleText: typeof import('./src/components/programs/pawpoint/slides/SlideTitleText.vue')['default']
     Taskbar: typeof import('./src/components/taskbar/Taskbar.vue')['default']
+    Testthis: typeof import('./src/components/programs/testthis/testthis.vue')['default']
     UserInfo: typeof import('./src/components/auth/UserInfo.vue')['default']
     UsersList: typeof import('./src/components/admin/manageUsers/UsersList.vue')['default']
     Validating: typeof import('./src/components/Validating.vue')['default']

@@ -9,7 +9,7 @@
     :name="program.image" 
     size="34"
   )
-  .text-light {{ program.displayName ?? program.name }}
+  p(class="mt-2 line-clamp-2") {{ program.displayName ?? program.name }}
 </template>
 
 <script setup lang="ts">

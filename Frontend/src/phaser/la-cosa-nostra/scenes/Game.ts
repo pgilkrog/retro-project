@@ -72,7 +72,7 @@ export default class Game extends Scene {
           this.reticle.x += pointer.movementX;
           this.reticle.y += pointer.movementY;
       }
-    });
+    })
 
     this.input.on('pointerdown', () => {
       this.input.mouse?.requestPointerLock();
@@ -109,7 +109,7 @@ export default class Game extends Scene {
 
   doDis = (door: any) => {
     console.log("THIS RAN")
-    door.angle += Math.PI / 20;
+    door.angle += Math.PI / 20
   }
 
   constrainVelocity = (sprite: any, maxVelocity: any) => {

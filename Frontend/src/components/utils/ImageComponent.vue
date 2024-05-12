@@ -13,7 +13,13 @@ div(v-else class=" rounded flex justify-center items-center border border-gray-9
 import { ref } from 'vue'
 
 const { id, source = '', alt } = defineProps({
-  id: String,
+  id: {
+    type: String, 
+    validator: (propValue: String) => {
+      const isOng = propValue.endsWith('.png')
+      return isOng
+    }
+  },
   source: String,
   alt: String
 })
