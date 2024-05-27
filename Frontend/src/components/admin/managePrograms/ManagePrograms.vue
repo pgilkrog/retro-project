@@ -33,7 +33,7 @@
           ButtonComponent(@clicked="addProgram()" text="Add Program")
   Validating(
     v-if="showValidation === true" 
-    :text="'Delete program: ' + programInfo.displayName"
+    :text="'Delete program: ' + selectedProgram.displayName"
     @ok="ok()"
     @cancel="cancel()"
   )
@@ -71,9 +71,8 @@ const addProgram = () => {
     programInfo.value.displayName !== ''
   ) {
     const newProgram: IProgram = {
-      ...programInfo.value, 
-      _id: '',
-    };
+      ...programInfo.value,
+    }
 
     programsstore.createProgram(newProgram)
     resetInputs()

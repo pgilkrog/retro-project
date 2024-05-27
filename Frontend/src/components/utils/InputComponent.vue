@@ -1,6 +1,6 @@
 <template lang="pug">
 .input(class="flex align-center m-1 flex-grow")
-  label.me-2(v-if="label") {{ label + ': ' }}
+  label(v-if="label" class="me-2 w-44") {{ label + ': ' }}
   input(
     class="bg-shadow-inner p-1 px-2 w-full rounded"
     :type
