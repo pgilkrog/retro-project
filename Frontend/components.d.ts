@@ -12,6 +12,7 @@ declare module 'vue' {
     BackgroundImages: typeof import('./src/components/programs/pc-settings/BackgroundImages.vue')['default']
     ButtonComponent: typeof import('./src/components/utils/ButtonComponent.vue')['default']
     Calculator: typeof import('./src/components/programs/Calculator.vue')['default']
+    CarouselComponent: typeof import('./src/components/CarouselComponent.vue')['default']
     Chattie: typeof import('./src/components/programs/Chattie.vue')['default']
     ChatWindow: typeof import('./src/components/programs/chattie/ChatWindow.vue')['default']
     Clock: typeof import('./src/components/taskbar/Clock.vue')['default']

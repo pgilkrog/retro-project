@@ -32,7 +32,7 @@
         template(v-else)
           ButtonComponent(@clicked="addProgram()" text="Add Program")
   Validating(
-    v-if="showValidation === true" 
+    v-if="showValidation === true"
     :text="'Delete program: ' + selectedProgram.displayName"
     @ok="ok()"
     @cancel="cancel()"
