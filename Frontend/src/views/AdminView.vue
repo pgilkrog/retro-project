@@ -5,8 +5,9 @@
       v-for="program in allPrograms"
       v-on:generateComponent="generateComponent(program)"
       :key="program._id"
-      :program="program"
-      :itemColor="program.color"
+      :displayName="program.displayName"
+      :color="program.color"
+      :name="program.image"
     )
   AdminComponentMachine
 </template>
@@ -14,7 +15,6 @@
 <script setup lang="ts">
 import AdminComponentMachine from '@/components/admin/AdminComponentMachine.vue'
 import { programsStore } from '@/stores/programsStore'
-import DesktopItem from '@/components/DesktopItem.vue'
 
 const allPrograms = [
   {

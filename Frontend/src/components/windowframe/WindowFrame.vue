@@ -7,8 +7,8 @@ Teleport(to="#app")
       class="bg-shadow bg-gray-300 flex flex-col absolute p-2 rounded px-2 w-96 sm:w-auto"
       :style="[ isMoveable ? { top: top + 'px', left: left + 'px'} : { top: '40%', left: '50%', transform: 'translate(-50%, -50%)' }]"
     )
-      header(class="top-bar flex flex-col-reverse sm:flex-row justify-between items-center mb-1 p-2 px-4 rounded" 
-        :class="getBackgroundColor(variant)" 
+      header(
+        :class="['top-bar flex flex-col-reverse sm:flex-row justify-between items-center mb-1 p-2 px-4 rounded bg-gradient-to-r', getBackgroundColor(variant)]" 
         @mousedown="handleMouseDown"
       )
         div(class="flex items-center content-center pointer-events-none mt-6 sm:mt-0")
@@ -95,13 +95,13 @@ const handleMouseDown = (event: MouseEvent) => {
 const getBackgroundColor = (color: string) => {
   switch (color) {
     case "yellow":
-      return "bg-yellow-500"
+      return "from-yellow-500 to-yellow-300"
     case "red":
-      return "bg-red-500"
+      return "from-red-500 to-red-300"
     case "green":
-      return "bg-green-500"
+      return "from-green-500 to-green-300"
     default:
-      return "bg-blue-500"
+      return "from-blue-500 to-blue-300"
   }
 }
 

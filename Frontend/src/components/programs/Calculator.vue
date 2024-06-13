@@ -1,15 +1,16 @@
 <template lang="pug">
 WindowFrame(:program="program" :isMoveable="true")
   .calculator-wrapper
-    .d-flex.p-3
-      .bg-light.w-100.rounded.bg-shadow-inner.d-flex.justify-content-end.p-2.pe-3
-       p {{ display !== '' ? display : '0' }}
-    .button-wrapper.p-3
+    .display(class="flex p-3 bg-gray-200 w-100 rounded bg-shadow-inner my-2 mx-4 justify-end text")
+      p {{ display !== '' ? display : '0' }}
+    .button-wrapper(class="grid grid-cols-4 m-4 gap-4 w-100")
       ButtonComponent(
+        class=" px-8 py-6"
         v-for="button in buttons" 
-        :key="button.text"
+        :key="button.vlue"
         @clicked="handleClick(button)"
         :text="button.text"
+        size="text-2xl"
       )
 </template>
 
@@ -53,12 +54,3 @@ const handleClick = (button: Button) => {
 }
 
 </script>
-<style scoped lang="sass">
-.calculator-wrapper
-  .button-wrapper
-    display: grid
-    grid-template-columns: auto auto auto auto    
-    column-gap: 5px
-    row-gap: 5px
-
-</style>

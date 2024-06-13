@@ -1,19 +1,20 @@
 <template lang="pug">
 .home-wrapper(
-  class="flex h-full flex-col w-full absolute" 
+  class="flex h-full w-full absolute" 
   v-if="userData != undefined"
   :style="[userData.settings.useBackground === true ? {'background-image': 'url('+ getImageUrl(userData.settings?.backgroundImage) + ')'} : {'background-color': userData.settings?.backgroundColour}]"
 )
   .desktop-container(class="flex flex-col justify-start py-4")
-    .grid.grid-cols-2.gap-y-8(v-if="allPrograms")
+    .shortcuts-container(v-if="allPrograms" class="grid grid-cols-2 gap-y-8")
       DesktopItem(
         v-for="program in allPrograms"
         v-on:generateComponent="generateComponent(program)"
         :key="program._id"
-        :program
-        :itemColor="program.color"
+        :displayName="program.displayName"
+        :name="program.image"
+        :color="program.color"
       )
-  CarouselComponent
+  //- CarouselComponent
   ComponentMachine
   Menu(v-if="showMenu")
   Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")

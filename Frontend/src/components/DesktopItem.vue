@@ -1,32 +1,26 @@
 <template lang="pug">
 .desktop-item(
-  @click="itemPressed()" 
+  @click="emit('generateComponent')" 
   class="flex flex-col items-center text-white w-64 m-1 text-center cursor-pointer"
   v-bind="$attrs"
 )
   IconComponent(
-    :variant="program.color" 
-    :name="program.image" 
+    :color
+    :name
     size="34"
   )
-  p(class="mt-2 line-clamp-2") {{ program.displayName ?? program.name }}
+  p(class="mt-2 line-clamp-2") {{ displayName }}
 </template>
 
 <script setup lang="ts">
-import type { PropType } from 'vue'
-import type { IProgram } from '@/models/index'
 
-const { itemColor = 'success', program } = defineProps({
-  program: Object as PropType<IProgram>,
-  itemColor: String
+const { color, name = 'fa-house' } = defineProps({
+  color: String,
+  name: String,
+  displayName: String
 })
 
 const emit = defineEmits([
   'generateComponent'
 ])
-
-const itemPressed = () => {
-  emit('generateComponent')
-}
-
 </script>

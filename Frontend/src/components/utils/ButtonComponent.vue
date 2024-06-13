@@ -1,10 +1,10 @@
 <template lang="pug">
 button(
-  @click="buttonClicked()"
+  v-bind="$attrs"
+  @click="emit('clicked')"
   :type
   :disabled
-  :class="[active ? 'bg-shadow-inner btn-active' : ' bg-shadow', 'bg-gray-300 border rounded flex content-center items-center px-4 py-2', 'bg-'+color+'-300', disabled === true ? 'bg-gray-200 cursor-not-allowed text-gray-500' : '']"
-  v-bind="$attrs"
+  :class="['bg-gray-300 border rounded flex content-center justify-center items-center px-4 py-2', active ? 'bg-shadow-inner btn-active' : ' bg-shadow',  'bg-'+color+'-300', disabled === true ? 'bg-gray-200 cursor-not-allowed text-gray-500' : '']"
 )
   template(v-if="!isLoading")
     IconComponent(
@@ -13,7 +13,7 @@ button(
       size="16" 
       :class="text !== undefined ? 'me-2' : ''"
     )
-    p(v-if="text") {{ text }}
+    p(v-if="text" :class="[size]") {{ text }}
   template(v-else)
     div.spinner-border.spinner-border-sm.m-1(role="status")
       span(class="visually-hidden") Loading... 
@@ -23,30 +23,24 @@ button(
 const { 
   text, 
   icon, 
-  size = 'default', 
+  size = '', 
   active = false, 
-  type = 'button', 
   disabled = false, 
   color, 
-  variant, 
+  type = 'button',
   isLoading = false 
 } = defineProps({
   text: String,
   icon: String,
   size: String,
   active: Boolean,
-  type: String,
   disabled: Boolean,
   color: String,
-  variant: String,
-  isLoading: Boolean
+  isLoading: Boolean,
+  type: String
 })
 
 const emit = defineEmits([
   'clicked'
 ])
-
-const buttonClicked = () => {
-  emit('clicked')
-}
 </script>

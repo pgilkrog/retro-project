@@ -2,9 +2,10 @@
 WindowFrame(:program="program" :isMoveable="true" variant="success")
   div(class="grid grid-cols-2 p-4 text-black")
     DesktopItem(
-      v-for="(item, index) in array"
-      :program="item"
-      :key="index"
+      v-for="(item, key) in array"
+      :name="item.image"
+      :displayName="item.displayName"
+      :key
       class="!text-black"
     )
 </template>

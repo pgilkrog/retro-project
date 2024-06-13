@@ -1,15 +1,14 @@
 <template lang="pug">
 i.icon(
-  :class="[iconClass(), 'text-' + variant + '-500', 'flex']" 
-  :style="'color: ' + color + '!important; font-size: ' + size + 'px !important; transform: rotate(' + rotate + 'deg);'"
+  :class="[iconClass(), 'text-' + color + '-500', 'flex']" 
+  :style="'font-size: ' + size + 'px !important; transform: rotate(' + rotate + 'deg);'"
   v-bind="$attrs"
 )
 </template>
 
 <script setup lang="ts">
-const { name, variant = 'black', color, size = '24', rotate = '0' } = defineProps({
+const { name, color = 'black', size = '24', rotate = '0' } = defineProps({
   name: String,
-  variant: String,
   color: String,
   size: String,
   rotate: String,
@@ -17,7 +16,7 @@ const { name, variant = 'black', color, size = '24', rotate = '0' } = defineProp
 
 const iconClass = () => {
   if (name === undefined)
-    return
+    return 'fa fa-bug'
 
   if (name?.startsWith('bi-'))
     return 'bi ' + name

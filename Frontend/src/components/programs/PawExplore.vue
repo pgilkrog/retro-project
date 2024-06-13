@@ -27,7 +27,8 @@ const { program } = defineProps({
 const url = ref<string>('http://www.googol.dk')
 const inputText = ref<string>('')
 const currentPage = ref<string>('googol')
-const isLoadingPage = ref(false)
+const isLoadingPage = ref<boolean>(false)
+const pageHistory = ref<string[]>()
 
 onMounted(() => {
   inputText.value = 'www.googol.dk'
@@ -40,6 +41,7 @@ const go = () => {
   setTimeout(() => {
     isLoadingPage.value = false
   }, 500)
+  pageHistory.value?.push(pageToComponent[1])
 }
 
 </script>
