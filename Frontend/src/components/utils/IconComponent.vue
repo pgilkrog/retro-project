@@ -7,7 +7,12 @@ i.icon(
 </template>
 
 <script setup lang="ts">
-const { name, color = 'black', size = '24', rotate = '0' } = defineProps({
+const { 
+  name, 
+  color = 'black', 
+  size = '24', 
+  rotate = '0' 
+} = defineProps({
   name: String,
   color: String,
   size: String,

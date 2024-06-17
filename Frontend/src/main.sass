@@ -40,3 +40,23 @@ body, html
     bottom: 0
     left: 0
     right: 0
+
+  /* width */
+::-webkit-scrollbar
+  width: 15px
+
+/* Track */
+::-webkit-scrollbar-track
+  @apply bg-gray-100
+
+/* Handle */
+::-webkit-scrollbar-thumb
+  border-top: 1px solid white
+  border-left: 1px solid white
+  border-right: 1px solid black
+  border-bottom: 1px solid black
+  @apply bg-gray-300 cursor-pointer px-1
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover
+  @apply bg-gray-400

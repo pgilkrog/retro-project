@@ -1,7 +1,7 @@
 <template lang="pug">
 .menu-item(class="py-2 px-4 w-full justify-between flex items-center text-black hover:bg-blue-500" @click="openProgram()")
   h3(class="flex items-center me-6")
-    IconComponent.me-3(:variant="color === 'light' ? 'dark' : color" :name="img") 
+    IconComponent.me-3(:color="color === 'light' ? 'dark' : color" :name="img") 
     |  {{title}}
   span(v-if="hasChildren === true") 
     IconComponent.ms-2(name="fa-caret-right")

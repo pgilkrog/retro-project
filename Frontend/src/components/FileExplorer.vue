@@ -18,7 +18,7 @@ WindowFrame(
       p {{ item.name }}
   .is-loading(v-else class="h-24 flex justify-center items-center")
     div
-      IconComponent(name="fa-circle-notch" size="28" class="animate-spin" variant="gray")
+      IconComponent(name="fa-circle-notch" size="28" class="animate-spin" color="gray")
 </template>
 
 <script setup lang="ts">

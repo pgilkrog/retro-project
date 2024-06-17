@@ -29,7 +29,7 @@ WindowFrame(
           h1 {{ slide.id }}
       .group-slides-item(class="m-4 flex cursor-pointer") 
         div(class="flex bg-green-500 text-white w-full justify-center items-center")
-          IconComponent(name="fa-plus" variant="light")
+          IconComponent(name="fa-plus" color="light")
 </template>
 
 <script setup lang="ts">

@@ -2,7 +2,6 @@
 div(class="bg-gray-300 w-full h-auto fixed bottom-0 left-0 z-50")
   .line.bg-black
   .line.bg-white
-  .line.bg-white
   div(class="w-full p-1 flex justify-between ")
     div(class="flex py-1 ms-1")
       ButtonComponent(
@@ -30,7 +29,7 @@ div(class="bg-gray-300 w-full h-auto fixed bottom-0 left-0 z-50")
         variant="danger"
       )
       div(class="px-3 ms-1 flex items-center p-2 rounded border-t-black border-s-black border  border-b-white border-e-white")
-        IconComponent.me-4(name="fa-user" variant="green" size="14")
+        IconComponent.me-4(name="fa-user" color="green" size="14")
         Clock
 </template>
 

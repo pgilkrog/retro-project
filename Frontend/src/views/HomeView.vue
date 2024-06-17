@@ -3,6 +3,7 @@
   class="flex h-full w-full absolute" 
   v-if="userData != undefined"
   :style="[userData.settings.useBackground === true ? {'background-image': 'url('+ getImageUrl(userData.settings?.backgroundImage) + ')'} : {'background-color': userData.settings?.backgroundColour}]"
+  @mousemove="registerMouseMovement"
 )
   .desktop-container(class="flex flex-col justify-start py-4")
     .shortcuts-container(v-if="allPrograms" class="grid grid-cols-2 gap-y-8")
@@ -18,6 +19,7 @@
   ComponentMachine
   Menu(v-if="showMenu")
   Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")
+  TitleMove(v-show="appStore.showScreensaver === true")
 //- Salvatore
 //- TestStuff
 //- LaCosaNostra
@@ -26,14 +28,16 @@
 <script setup lang="ts">
 import type { IProgram } from '@/models/index'
 import { userStore } from '@/stores/userStore'
+import { useAppStore } from '@/stores/appStore'
 import { storeToRefs } from 'pinia'
 import { programsStore } from '@/stores/programsStore'
 import { useAuthStore } from '@/stores/authStore'
 // import Salvatore from '@/phaser/salvatore/SalvatoreGame.vue'
 //import TestStuff from '@/phaser/test-stuff/TestStuff.vue'
 // import LaCosaNostra from '@/phaser/la-cosa-nostra/LaCosaNostraGame.vue'
-import 'vue3-carousel/dist/carousel.css'
+import TitleMove from '@/views/screensavers/TitleMove.vue'
 
+const appStore = useAppStore()
 const authstore = useAuthStore()
 const programsstore = programsStore()
 const userstore = userStore()
@@ -59,6 +63,10 @@ const getImageUrl = (filename: string): string => {
 
 const changeShowMenu = (): void => {
   showMenu.value = !showMenu.value
+}
+
+const registerMouseMovement = (event: any) => {
+  appStore.initiateScreensaverTimer()
 }
 
 </script>

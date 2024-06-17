@@ -6,14 +6,14 @@ WindowFrame(
   :showMenu="false"
 )
   .top(class="flex justify-between bg-shadow p-2 mb-1")
-    IconComponent(name="fa-user-plus" variant="success" size="40" rotate="0")
-    IconComponent(name="fa-comment" variant="success" size="40" rotate="0")
-    IconComponent(name="fa-phone" variant="success" size="40" rotate="0")
+    IconComponent(name="fa-user-plus" color="success" size="40" rotate="0")
+    IconComponent(name="fa-comment" color="success" size="40" rotate="0")
+    IconComponent(name="fa-phone" color="success" size="40" rotate="0")
   .friends-list(class="flex flex-col bg-gray-300 bg-shadow-inner")
     span(v-for="user in userstore.allUsers" :key="user._id") 
       .item.p-2.m-1(v-if="user.email !== userstore.userData?.email" @click="activateRoom(user.email)") 
         .flex.items-center
-          IconComponent(name="fa-user" :variant="chatstore.onlineUsers.includes(user.email) ? 'green' : 'red'" size="20") 
+          IconComponent(name="fa-user" :color="chatstore.onlineUsers.includes(user.email) ? 'green' : 'red'" size="20") 
           .ms-4.text-green-500(v-if="chatstore.onlineUsers.includes(user.email)") {{ user.email }}
           .ms-4.text-red-500(v-else) {{ user.email }}
   ChatWindow(

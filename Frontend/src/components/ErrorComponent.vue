@@ -7,7 +7,7 @@ Teleport(to="body" v-if="error !== undefined")
   )
     .error-component.m-4
       .text-center
-        IconComponent(name="bi-exclamation-octagon-fill" variant="red" size="40")
+        IconComponent(name="bi-exclamation-octagon-fill" color="red" size="40")
       .ms-4.flex.items-center
         p {{ error.text }}
       div

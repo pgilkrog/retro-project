@@ -6,14 +6,7 @@ WindowFrame(
   :showMenu="false"
 )
   .pc-settings-wrapper.p-4
-    .custom-menu(class="flex")
-      .nav-item.py-2.px-4.pointer(@click="state = 0" :class="[state === 0 ? 'border border-black border-b-0 rounded-t' : 'border-b border-black', 'px-4 py-2 ']")
-        | Display
-      .nav-item.py-2.px-4.pointer(@click="state = 1" :class="state === 1 ? 'border border-black border-b-0 rounded-t' : 'border-b border-black', 'px-4 py-2 '")
-        | Screen Saver
-      .nav-item.py-2.px-4.pointer(@click="state = 2" :class="state === 2 ? 'border border-black border-b-0 rounded-t' : 'border-b border-black', 'px-4 py-2 '")
-        | Profile
-      .tab-fill.flex.flex-grow.border-b.border-black
+    TabsComponent(:list="tabsList" v-on:tabClick="state = $event" :activeTab="state")
     .content(v-if="state === 0" class="p-4 rounded-b border border-t-0 border-black")
       .row.flex.flex-col.items-center
         PCScreen(:tempImg="tempImg")
@@ -61,6 +54,7 @@ const state: Ref<number> = ref(0)
 const color: Ref<string> = ref("")
 const tempImg: Ref<IFile | undefined> = ref(undefined)
 const userData = storeToRefs(userstore).userData as Ref<IUser | undefined>
+const tabsList = ['Didsplay', 'Screen Saver', 'Profile']
 
 onMounted(() => {
   color.value = userData.value?.settings?.backgroundColour ?? ''

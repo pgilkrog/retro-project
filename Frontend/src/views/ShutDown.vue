@@ -1,6 +1,6 @@
 <template lang="pug">
 .shut-down(class="flex h-screen justify-center items-center flex-col text-white")
-  IconComponent(name="fa-power-off" variant="light" size="200")
+  IconComponent(name="fa-power-off" color="light" size="200")
   h1.mt-4 Shutting down...
   h4 Don't close down your browser
   //- div.progress
@@ -14,7 +14,7 @@
 
 <script setup lang="ts"> 
 const progressValue = ref<number>(0)
- 
+
 const startLoading = () => {
   let interval = setInterval(() => {
     if (progressValue.value < 100) {

@@ -8,7 +8,7 @@ WindowFrame(
 )
   .login-screen(class="grid py-2 px-4")
     .col-span-4.text-center
-      IconComponent(name="fa-key" variant="yellow" size="30" rotate="0")
+      IconComponent(name="fa-key" color="yellow" size="30" rotate="0")
     .col-span-8.flex.items-center.px-4
       | {{ infoText }}
     form.col-span-12.mt-4

@@ -12,7 +12,7 @@ Teleport(to="#app")
         @mousedown="handleMouseDown"
       )
         div(class="flex items-center content-center pointer-events-none mt-6 sm:mt-0")
-          IconComponent(:name="program.image" size="25" variant="light")
+          IconComponent(:name="program.image" size="25" color="light")
           p.font-semibold.pe-4.ps-4.text-2xl {{ program.displayName }}
         div(class="flex")
           ButtonComponent(

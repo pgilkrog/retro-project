@@ -17,11 +17,9 @@ const emit = defineEmits([
   'setSelectedUser'
 ])
 
-try {
+onMounted(async () => {
   await userstore.getAllUsers()
-} catch {
-  console.error("error getting all users")
-}
+})
 
 const setSelectedUser = (item: any) => {
   console.log(item)

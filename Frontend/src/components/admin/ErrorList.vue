@@ -11,11 +11,11 @@ import { computed } from 'vue'
 const errorstore = errorStore()
 const errorList = computed(() => errorstore.errors)
     
-try {
+onMounted(async () => {
   await errorstore.getErrors()
-} catch {
-  console.error("error getting errors")
-}
+
+})
+
 </script>
 
 <style lang="sass" scoped>

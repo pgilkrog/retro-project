@@ -9,9 +9,9 @@
         :key="program._id"
       ) 
         div(class="flex items-center")
-          IconComponent.mx-2(name="fa-pencil" variant="yellow" size="25" @click="setUpdateState(true, program); changeShowManageProgram(true)")
+          IconComponent.mx-2(name="fa-pencil" color="yellow" size="25" @click="setUpdateState(true, program); changeShowManageProgram(true)")
           p.mx-2 {{ `${program.sortOrder}: ${program.name }`}}
-        IconComponent(name="bi-trash-fill" variant="red" size="25" @click="deleteProgram(program)")
+        IconComponent(name="bi-trash-fill" color="red" size="25" @click="deleteProgram(program)")
   
   WindowFrame(
     :program="{name: 'ManageProgram', displayName: 'Manage Program', color: 'warning', image: 'fa-pencil', isActive: true}" 

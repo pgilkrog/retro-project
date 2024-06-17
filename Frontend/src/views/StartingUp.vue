@@ -1,6 +1,6 @@
 <template lang="pug">
 .starting-up(class="bg-blue-500 flex justify-center items-center flex-col text-white")
-  IconComponent(name="fa-computer" variant="light" size="200")
+  IconComponent(name="fa-computer" color="light" size="200")
   h1.light.mt-4 Starting up...
 </template>
 
@@ -43,6 +43,7 @@ const goToRoute = () => {
 }
 
 onMounted(async () => {
+  debugger
   await authstore.init()
   await programsstore.init()
   goToRoute()

@@ -26,7 +26,7 @@
 </template>
 <script setup lang="ts">
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
-import { ref } from 'vue'
+import 'vue3-carousel/dist/carousel.css'
 
 const listOfItems = [
   {name: 'hej', url: 'https://google.dk'},

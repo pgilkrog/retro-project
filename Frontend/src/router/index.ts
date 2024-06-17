@@ -12,12 +12,12 @@ router.beforeEach(async (to, from, next) => {
   const isAuthendicated = await checkAuthendication()
   const rolesToCheck = to.meta.roles as string[]
 
-  if (!isAuthendicated && to.meta.requiresAuth === true) {
+  if (isAuthendicated === false && to.meta.requiresAuth === true) {
     next({ name: 'login' })
     return
   }
 
-  if (to.name === 'admin' && rolesToCheck && !checkUserRole(rolesToCheck))
+  if (to.name === 'admin' && rolesToCheck && checkUserRole(rolesToCheck) === false)
     return
  
   next()

@@ -1,4 +1,4 @@
-const HomeView = () => import('../views/HomeView.vue')
+const HomeView = () => import('@/views/HomeView.vue')
 const PingPong = () => import('@/phaser/ping-pong/PingPong.vue')
 const FlappyDisc = () => import('@/phaser/flappy-disk/FlappyDisk.vue')
 const SpaceInvaders = () => import('@/phaser/space-invaders/SpaceInvaders.vue')

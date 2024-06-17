@@ -6,7 +6,7 @@ img(
   :alt 
 )
 div(v-else class=" rounded flex justify-center items-center border border-gray-900" role="img" :aria-label="alt" style="height: 200px; width: 200px; background: #eeeeee;") 
-  iconComponent(name="bi-image" variant="dark" size="34")
+  iconComponent(name="bi-image" color="dark" size="34")
 </template>
 
 <script setup lang="ts">

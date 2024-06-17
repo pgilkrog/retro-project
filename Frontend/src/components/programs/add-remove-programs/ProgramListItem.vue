@@ -3,7 +3,7 @@
   span(class="flex items-center mr-8")
     IconComponent(
     class="w-12" 
-    :variant="color" 
+    :color="color" 
     :name="icon"
   )
     p {{ name }}
