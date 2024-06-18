@@ -49,6 +49,7 @@ declare module 'vue' {
     ProgramsList: typeof import('./src/components/programs/add-remove-programs/ProgramsList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    ScreensaverMachine: typeof import('./src/components/programs/ScreensaverMachine.vue')['default']
     SlideTitleImage: typeof import('./src/components/programs/pawpoint/slides/SlideTitleImage.vue')['default']
     SlideTitleText: typeof import('./src/components/programs/pawpoint/slides/SlideTitleText.vue')['default']
     TabsComponent: typeof import('./src/components/utils/TabsComponent.vue')['default']

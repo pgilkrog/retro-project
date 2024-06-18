@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { defineStore } from "pinia"
 
 export const useAppStore = defineStore('appStore', () => {
   const showScreensaver = ref<boolean>(false)
@@ -11,7 +11,7 @@ export const useAppStore = defineStore('appStore', () => {
     }
     screensaverTimer.value = setTimeout(() => {
       setShowScreensaver(true)
-    }, 60000);
+    }, 60000)
   }
 
   const setShowScreensaver = (bool: boolean) => {

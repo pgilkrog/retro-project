@@ -19,7 +19,7 @@
   ComponentMachine
   Menu(v-if="showMenu")
   Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")
-  TitleMove(v-show="appStore.showScreensaver === true")
+  ScreensaverMachine(v-show="appStore.showScreensaver === true")
 //- Salvatore
 //- TestStuff
 //- LaCosaNostra
@@ -35,7 +35,7 @@ import { useAuthStore } from '@/stores/authStore'
 // import Salvatore from '@/phaser/salvatore/SalvatoreGame.vue'
 //import TestStuff from '@/phaser/test-stuff/TestStuff.vue'
 // import LaCosaNostra from '@/phaser/la-cosa-nostra/LaCosaNostraGame.vue'
-import TitleMove from '@/views/screensavers/TitleMove.vue'
+import ScreensaverMachine from '@/components/programs/ScreensaverMachine.vue'
 
 const appStore = useAppStore()
 const authstore = useAuthStore()

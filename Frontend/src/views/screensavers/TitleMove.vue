@@ -1,6 +1,6 @@
 <template lang="pug">
 .screen-saver(class="absolute z-50 w-full h-full bg-gray-900")
-  span(ref="textEl" :class="textColor") PawDOS
+  span(ref="textEl" :class="textColor") Text yo
 </template>
 
 <script setup lang="ts">
@@ -17,7 +17,7 @@ const colors = [
   "text-green-500",
   "text-blue-500",
   "text-orange-500",
-  "text-indigo-500",
+  "text-indigo-500"
 ]
 
 const screenWidth = window.innerWidth;
