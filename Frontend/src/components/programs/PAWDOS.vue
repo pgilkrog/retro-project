@@ -16,13 +16,13 @@ import type { IProgram } from '@/models'
 import router from '@/router'
 import type { PropType } from 'vue'
 
-const { program } = defineProps({
-  program: Object as PropType<IProgram>
-})
+const { program } = defineProps<{
+  program: IProgram
+}>()
 
-const emit = defineEmits([
-  'closeWindow',
-])
+const emit = defineEmits<{
+  (e: 'closeWindow', text: string): void
+}>()
 
 const inputText = ref<string>('')
 const textWritten = ref<string[]>([])

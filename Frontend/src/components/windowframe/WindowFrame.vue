@@ -50,16 +50,18 @@ const {
   variant = "blue",
   isNotProgram,
   isMoveable = true,
-} = defineProps({
-  showMenu: Boolean,
-  disableButtons: Boolean,
-  program: Object as PropType<IProgram>,
-  variant: String,
-  isNotProgram: Boolean,
-  isMoveable: Boolean,
-})
+} = defineProps<{
+  showMenu: boolean,
+  disableButtons: boolean,
+  program: IProgram,
+  variant: string,
+  isNotProgram: boolean,
+  isMoveable: boolean,
+}>()
 
-const emit = defineEmits(["closeWindow"])
+const emit = defineEmits<{
+  (e: "closeWindow"): void
+}>()
 
 const programsstore = programsStore()
 

@@ -18,9 +18,14 @@ export const useAppStore = defineStore('appStore', () => {
     showScreensaver.value = bool
   }
 
+  const thismaybe = (item: any) => {
+    console.log(item)
+  }
+
   return {
     showScreensaver, 
     setShowScreensaver,
-    initiateScreensaverTimer
+    initiateScreensaverTimer,
+    thismaybe
   }
 })

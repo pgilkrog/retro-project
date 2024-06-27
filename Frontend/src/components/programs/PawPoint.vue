@@ -37,9 +37,9 @@ import type { PropType } from "vue"
 import type { IProgram } from "@/models/index"
 import { defineAsyncComponent } from 'vue'
 
-const { program } = defineProps({
-  program: Object as PropType<IProgram>,
-})
+const { program } = defineProps<{
+  program: IProgram
+}>()
 
 const loadingSlide = ref(false)
 const activeSlide = ref(Object as any)

@@ -28,9 +28,9 @@ import { userStore } from '@/stores/userStore'
 import { chatStore } from '@/stores/chatStore'
 import type { PropType } from 'vue'
 
-const { program } = defineProps({
-  program: Object as PropType<IProgram>
-})
+const { program } = defineProps<{
+  program: IProgram
+}>()
 
 const chatstore = chatStore()
 const userstore = userStore()

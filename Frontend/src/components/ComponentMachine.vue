@@ -1,10 +1,11 @@
 <template lang="pug">
-Component(
-  v-for="program in programsstore.activePrograms"
-  :key="program._id"
-  :is="defineAsyncComponent(() => import(`@/components/programs/${program.name}.vue`))"
-  :program="program"
-)
+KeepAlive(:max="10")
+  Component(
+    v-for="program in programsstore.activePrograms"
+    :key="program._id"
+    :is="defineAsyncComponent(() => import(`@/components/programs/${program.name}.vue`))"
+    :program="program"
+  )
 </template>
 
 <script setup lang="ts">

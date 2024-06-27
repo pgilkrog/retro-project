@@ -12,9 +12,9 @@ WindowFrame(:program="program" :isMoveable="true")
 import type { PropType } from 'vue'
 import type { IProgram } from '@/models'
 
-const { program } = defineProps({
-  program: Object as PropType<IProgram>
-})
+const { program } = defineProps<{
+  program: IProgram
+}>()
 
 const items = ref([] as any)
 

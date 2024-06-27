@@ -43,9 +43,9 @@
 import { programsStore } from '@/stores/programsStore'
 import type { IProgram } from '@/models/index'
 
-const { program } = defineProps({
+const { program } = defineProps<{
   program: Object
-})
+}>()
 
 const programsstore = programsStore()
 const allPrograms = computed(() => programsstore.allPrograms)

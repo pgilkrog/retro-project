@@ -11,13 +11,13 @@
 import { useAuthStore } from '@/stores/authStore'
 import { useRouter } from 'vue-router'
 
-const { img, title = 'Title not given', hasChildren = false, componentName = 'Name not given', color } = defineProps({
-  img: String,
-  title: String,
-  hasChildren: Boolean,
-  componentName: String,
-  color: String
-})
+const { img, title = 'Title not given', hasChildren = false, componentName = 'Name not given', color } = defineProps<{
+  img: string,
+  title: string,
+  hasChildren: boolean,
+  componentName: string,
+  color: string
+}>()
 
 const authstore = useAuthStore()
 const router = useRouter()

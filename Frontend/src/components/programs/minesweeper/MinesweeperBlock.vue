@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-const { Block } = defineProps({
-  Block: Object || undefined
-})
+const { Block } = defineProps<{
+  Block: Object | undefined
+}>()
 </script>

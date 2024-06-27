@@ -33,6 +33,8 @@ declare module 'vue' {
     ManageUsers: typeof import('./src/components/admin/manageUsers/ManageUsers.vue')['default']
     Menu: typeof import('./src/components/menuComponents/Menu.vue')['default']
     MenuItem: typeof import('./src/components/menuComponents/MenuItem.vue')['default']
+    MenuPopup: typeof import('./src/components/menuPopup/MenuPopup.vue')['default']
+    MenuPopupItem: typeof import('./src/components/menuPopup/MenuPopupItem.vue')['default']
     MinesweeperBlock: typeof import('./src/components/programs/minesweeper/MinesweeperBlock.vue')['default']
     MinesweeperGame: typeof import('./src/components/programs/MinesweeperGame.vue')['default']
     MyComputer: typeof import('./src/components/programs/MyComputer.vue')['default']

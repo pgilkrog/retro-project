@@ -5,7 +5,7 @@
   h3(v-html="slide.text")
 </template>
 <script setup lang="ts">
-const { slide } = defineProps({
+const { slide } = defineProps<{
   slide: Object
-})
+}>()
 </script>

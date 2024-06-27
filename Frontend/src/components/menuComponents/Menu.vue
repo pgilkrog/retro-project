@@ -16,9 +16,9 @@
 import type { IMenuItem }  from '@/models/index'
 import jsondata from '@/assets/menuData.json'
 
-const { showMenu = false } = defineProps({
-  showMenu: Boolean
-})
+const { showMenu = false } = defineProps<{
+  showMenu: boolean
+}>()
 
 const menuList = ref([] as IMenuItem[])
 const createMenu = () => {

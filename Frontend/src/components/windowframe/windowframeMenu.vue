@@ -7,9 +7,9 @@
 </template>
 
 <script setup lang="ts">
-const { showMenu } = defineProps({
-  showMenu: Boolean,
-});
+const { showMenu } = defineProps<{
+  showMenu: boolean,
+}>()
 </script>
 
 <style lang="sass" scoped></style>

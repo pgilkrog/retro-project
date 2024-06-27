@@ -23,24 +23,24 @@ button(
 const { 
   text, 
   icon, 
-  size = '', 
+  size = '16', 
   active = false, 
   disabled = false, 
-  color, 
+  color="black", 
   type = 'button',
   isLoading = false 
-} = defineProps({
-  text: String,
-  icon: String,
-  size: String,
-  active: Boolean,
-  disabled: Boolean,
-  color: String,
-  isLoading: Boolean,
-  type: String
-})
+} = defineProps<{
+  text: string,
+  icon?: string,
+  size?: string,
+  active?: boolean,
+  disabled?: boolean,
+  color?: string,
+  isLoading?: boolean,
+  type?: string
+}>()
 
-const emit = defineEmits([
-  'clicked'
-])
+const emit = defineEmits<{
+  (e: 'clicked'): void
+}>()
 </script>

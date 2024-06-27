@@ -12,17 +12,11 @@ div(v-else class=" rounded flex justify-center items-center border border-gray-9
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const { id, source = '', alt } = defineProps({
-  id: {
-    type: String, 
-    validator: (propValue: String) => {
-      const isOng = propValue.endsWith('.png')
-      return isOng
-    }
-  },
-  source: String,
-  alt: String
-})
+const { id, source = '', alt } = defineProps<{
+  id: string,
+  source: string,
+  alt: string
+}>()
 
 const imageIsLoading = ref(true)
 const src = ref('')

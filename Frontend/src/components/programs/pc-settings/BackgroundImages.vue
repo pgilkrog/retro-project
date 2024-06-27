@@ -32,13 +32,13 @@ import { storeToRefs } from 'pinia'
 import { fileStore } from '../../../stores/fileStore'
 import type { IFile } from '@/models'
 
-const { tempImg } = defineProps({
-  tempImg: Object as PropType<IFile>
-})
+const { tempImg } = defineProps<{
+  tempImg: IFile
+}>()
 
-const emit = defineEmits([
-  'setTempImg'
-])
+const emit = defineEmits<{
+  (e: 'setTempImg', item: any): void
+}>()
 
 const userstore = userStore()
 const filestore = fileStore()

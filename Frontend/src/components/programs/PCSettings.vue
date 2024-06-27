@@ -43,9 +43,9 @@ import { userStore } from '../../stores/userStore'
 import { fileStore } from '../../stores/fileStore'
 import { storeToRefs } from 'pinia'
 
-const { program } = defineProps({
-  program: Object as PropType<IProgram>
-})
+const { program } = defineProps<{
+  program: IProgram
+}>()
 
 const userstore = userStore()
 const filestore = fileStore()

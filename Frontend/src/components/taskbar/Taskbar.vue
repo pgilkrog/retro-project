@@ -7,7 +7,7 @@ div(class="bg-gray-300 w-full h-auto fixed bottom-0 left-0 z-50")
       ButtonComponent(
         text="Start" 
         icon="fa-paw" 
-        v-on:clicked="changeShowMenu()" 
+        v-on:clicked="emit('changeShowMenu')" 
         :active="showMenu" 
         variant="primary"
         class="!py-3"
@@ -40,22 +40,18 @@ import { programsStore } from '@/stores/programsStore'
 import type { IProgram } from '@/models/index'
 import router from '@/router'
 
-const emit = defineEmits([
-  'changeShowMenu'
-])
+const emit = defineEmits<{
+  (e: 'changeShowMenu'): void
+}>()
 
-const { showMenu } = defineProps({
-  showMenu: Boolean 
-})
+const { showMenu } = defineProps<{
+  showMenu: boolean 
+}>()
 
 const programsstore = programsStore()
 const userstore = userStore()
 
 const activePrograms = ref<IProgram[]>(programsstore.activePrograms)
-
-const changeShowMenu = () => {
-  emit('changeShowMenu')      
-}
 
 const setActiveState = (program: IProgram) => {
   programsstore.setProgramActiveState(program)

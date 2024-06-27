@@ -21,9 +21,9 @@ interface Button {
   value: string
 }
 
-const { program } = defineProps({
+const { program } = defineProps<{
   program: Object
-})
+}>()
 
 const display = ref('')
 const buttons = [

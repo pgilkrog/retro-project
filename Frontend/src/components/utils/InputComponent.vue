@@ -17,11 +17,11 @@ const {
   modelValue,
   type = 'text',
   placeholder
-} = defineProps({
-  'label': String,
-  'modelValue': String,
-  'type': String,
-  'placeholder': String
-})
+} = defineProps<{
+  label: string,
+  modelValue: string,
+  type: string,
+  placeholder: string
+}>()
 
 </script>

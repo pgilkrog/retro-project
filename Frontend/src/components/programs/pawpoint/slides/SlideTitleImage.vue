@@ -6,9 +6,9 @@
 </template>
 <script setup lang="ts"> 
 
-const { slide } = defineProps({
+const { slide } = defineProps<{
   slide: Object
-})
+}>()
 
 </script>
 <style lang="sass">

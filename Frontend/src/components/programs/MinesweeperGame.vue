@@ -14,9 +14,9 @@ WindowFrame(:program="program" :isMoveable="true")
 <script setup lang="ts">
 import MinesweeperBlock from './minesweeper/MinesweeperBlock.vue'
 
-const { program } = defineProps({
+const { program } = defineProps<{
   program: Object
-})
+}>()
 
 const grid = ref([] as Object[])
 const rows = ref(10)

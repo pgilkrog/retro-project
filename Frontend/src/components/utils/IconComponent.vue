@@ -12,12 +12,12 @@ const {
   color = 'black', 
   size = '24', 
   rotate = '0' 
-} = defineProps({
-  name: String,
-  color: String,
-  size: String,
-  rotate: String,
-})
+} = defineProps<{
+  name: string,
+  color?: string,
+  size?: string,
+  rotate?: string,
+}>()
 
 const iconClass = () => {
   if (name === undefined)

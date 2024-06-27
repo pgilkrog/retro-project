@@ -5,19 +5,19 @@ WindowFrame(:program="program" :isMoveable="true" variant="danger")
     strong {{ text }}
   
     .buttons.mt-4.flex
-      ButtonComponent.me-2(@clicked="ok()" text="Ok" size="wide")
-      ButtonComponent(@clicked="cancel()" text="Cancel" size="wide") Cancel
+      ButtonComponent.me-2(@clicked="emit('ok')" text="Ok" size="wide")
+      ButtonComponent(@clicked="emit('cancel')" text="Cancel" size="wide") Cancel
 </template>
 
 <script setup lang="ts">
-const { text } = defineProps({
-  text: String
-})
+const { text } = defineProps<{
+  text: string
+}>()
 
-const emit = defineEmits([
-  'ok',
-  'cancel'
-]) 
+const emit = defineEmits<{
+  (e: 'ok'): void
+  (e: 'cancel'): void
+}>()
 
 const program = {
   _id: 245,
@@ -27,15 +27,4 @@ const program = {
   isActive: true,
   color: "warning"
 }
-
-const ok = () => {
-  emit('ok')
-}
-
-const cancel = () => {
-  emit('cancel')
-}
 </script>
-
-<style lang="sass" scoped>
-</style>

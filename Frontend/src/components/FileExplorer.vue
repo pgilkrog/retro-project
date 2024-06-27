@@ -28,15 +28,15 @@ import type { PropType } from 'vue'
 const { 
   files = [], 
   isLoading = false 
-} = defineProps({
-  files: Array as PropType<IFile[]>,
+} = defineProps<{
+  files: IFile[],
   isLoading: Boolean
-})
+}>()
 
-const emit = defineEmits([
-  'itemClicked',
-  'closeWindow'
-])
+const emit = defineEmits<{
+  (e: 'itemClicked', item: any): void
+  (e: 'closeWindow'): void
+}>()
 
 const program = {
   _id: 245,

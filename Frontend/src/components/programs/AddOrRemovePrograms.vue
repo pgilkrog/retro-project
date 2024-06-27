@@ -62,9 +62,9 @@ import type { IProgram } from '@/models/index'
 import ProgramList from '@/components/programs/add-remove-programs/ProgramsList.vue'
 import Loader from '@/components/Loading.vue'
 
-const { program } = defineProps({
+const { program } = defineProps<{
   program: Object
-})
+}>()
 
 const programsstore = programsStore()
 const userstore = userStore()

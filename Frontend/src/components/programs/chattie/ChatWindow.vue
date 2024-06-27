@@ -24,11 +24,13 @@ import { chatStore } from "@/stores/chatStore"
 import type { PropType } from "vue"
 import type { IChatMessage, IChatRoom } from "@/models"
 
-const emit = defineEmits(["sendMessage"])
+const emit = defineEmits<{
+  (e: "sendMessage"): void
+}>()
 
-const { activeChat } = defineProps({
-  activeChat: Object as PropType<IChatRoom>,
-})
+const { activeChat } = defineProps<{
+  activeChat: IChatRoom,
+}>()
 
 const program = {
   name: "ChatWindow",

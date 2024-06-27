@@ -43,9 +43,9 @@ import { userStore } from '@/stores/userStore'
 import type { IProgram, IUser, IUserSettings } from '@/models/index'
 import type { PropType } from 'vue'
 
-const { program } = defineProps({
-  program: Object as PropType<IProgram>
-})
+const { program } = defineProps<{
+  program: IProgram
+}>()
 
 const showManageUser = ref(false)
 const showManageUserSettings = ref(false)

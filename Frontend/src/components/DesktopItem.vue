@@ -14,13 +14,13 @@
 
 <script setup lang="ts">
 
-const { color, name = 'fa-house' } = defineProps({
-  color: String,
-  name: String,
-  displayName: String
-})
+const { color, name = 'fa-house' } = defineProps<{
+  color: string,
+  name: string,
+  displayName: string
+}>()
 
-const emit = defineEmits([
-  'generateComponent'
-])
+const emit = defineEmits<{
+  (e:'generate-component'): void
+}>()
 </script>

@@ -20,9 +20,9 @@ WindowFrame(
 import type { IProgram } from '@/models/index'
 import { type PropType, ref, defineAsyncComponent } from 'vue'
 
-const { program } = defineProps({
-  program: Object as PropType<IProgram>
-})
+const { program } = defineProps<{
+  program: IProgram
+}>()
 
 const url = ref<string>('http://www.googol.dk')
 const inputText = ref<string>('')

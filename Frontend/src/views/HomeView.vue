@@ -15,6 +15,7 @@
         :name="program.image"
         :color="program.color"
       )
+  MenuPopup(title="check" :list="dis")
   //- CarouselComponent
   ComponentMachine
   Menu(v-if="showMenu")
@@ -46,6 +47,18 @@ const userData = storeToRefs(userstore).userData
 const showMenu = ref<boolean>(false)
 const allPrograms = computed<IProgram[]>(() => programsstore.installedPrograms)
 
+const dis = [
+  {
+    name: 'hej', method: () => thismehtod2(), icon: 'fa-house'
+  },
+  {
+    name: 'dav', method: () => thismehtod(), icon: 'fa-house'
+  },
+  {
+    name: 'check', method: (item: any) => testthistho(item), icon: 'fa-house'
+  }
+]
+
 onMounted(async () => {
   if (authstore.isLoggedIn === true) {
     await programsstore.init()
@@ -69,6 +82,15 @@ const registerMouseMovement = (event: any) => {
   appStore.initiateScreensaverTimer()
 }
 
+const thismehtod = () => {
+  console.log("run this")
+}
+const thismehtod2 = () => {
+  console.log("run this 2")
+}
+const testthistho = (item: any) => {
+  appStore.thismaybe(item)
+}
 </script>
 
 <style lang="sass">

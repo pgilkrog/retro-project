@@ -22,15 +22,15 @@ const {
   programList,
   title,
   selectedProgramId
- } = defineProps({
-  programList: Array as PropType<IProgram[]>,
-  title: String,
-  selectedProgramId: String
-})
+ } = defineProps<{
+  programList: IProgram[],
+  title: string,
+  selectedProgramId: string
+ }>()
 
-const emit = defineEmits([
-  'changeSelectedProgram'
-])
+const emit = defineEmits<{
+ (e: 'changeSelectedProgram', program: IProgram): void
+}>()
 
 const changeSelectedProgram = (program: IProgram) => {
   emit('changeSelectedProgram', {...program})

@@ -4,7 +4,7 @@
     :program="program" 
     :showMenu="false" 
     :isMoveable="true"
-    @closeWindow="closeLoading()"
+    @closeWindow="emit('close-loading')"
   )
     .p-4
       .folder-animation(class="flex justify-between")
@@ -15,7 +15,7 @@
       .loading-bar(:class="['bg-shadow-inner mt-4 flex', progressValues.lenth > 0 ? 'h-auto' : 'h-5']")
         .loading-box.bg-blue-500.h-5.w-5.mx-1(v-for="item in progressValues")
       div(class="flex justify-end mt-4")
-        ButtonComponent(text="Close" v-if="loadingCompleted === true" @clicked="closeLoading()")
+        ButtonComponent(text="Close" v-if="loadingCompleted === true" @clicked="emit('close-loading')")
     .text-black.p-4
       div Installing...
       div
@@ -27,13 +27,13 @@
 <script setup lang="ts">
 import type { IProgram } from '@/models/index'
 
-const { loadingTime = 10 } = defineProps({
-  loadingTime: Number
-})
+const { loadingTime = 10 } = defineProps<{
+  loadingTime: number
+}>()
 
-const emit = defineEmits([
-  'closeLoading'
-])
+const emit = defineEmits<{
+  (e: 'close-loading'): void 
+}>()
 
 const program = {
   _id: "345345",
@@ -60,10 +60,6 @@ const addToArray = () => {
   if (progressValues.value.length === 12) {
     loadingCompleted.value = true
   }
-}
-
-const closeLoading = () => {
-  emit('closeLoading')
 }
 
 const startInstallation = () => {

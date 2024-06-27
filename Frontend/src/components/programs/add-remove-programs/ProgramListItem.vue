@@ -14,11 +14,11 @@ const {
   color,
   name,
   icon
- } = defineProps({
-  name: String,
-  icon: String,
-  color: String
-})
+ } = defineProps<{
+  name: string,
+  icon: string,
+  color: string
+ }>()
 const getSize = computed(() => {
  return `size: ${Math.round(Math.random() * 1000)}kb`
 })

@@ -12,9 +12,9 @@ WindowFrame(:program="program" :isMoveable="true" variant="success")
 
 <script setup lang="ts">
 
-const { program } = defineProps({
+const { program } = defineProps<{
   program: Object
-})
+}>()
 
 const array = [
   {displayName: '3½ Floppy (A:)', image: 'bi-joystick'},

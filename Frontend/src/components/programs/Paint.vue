@@ -50,9 +50,9 @@ import { userStore } from '@/stores/userStore'
 import { paintStore } from '@/stores/paintStore'
 import type { PropType } from 'vue'
 
-const { program } = defineProps({
-  program: Object as PropType<IProgram>
-})
+const { program } = defineProps<{
+  program: IProgram
+}>()
 
 const userstore = userStore()
 const paintstore = paintStore()

@@ -11,9 +11,9 @@
 
 <script setup lang="ts">
 
-const emit = defineEmits([
-  'changeColor'
-])
+const emit = defineEmits<{
+  (e: 'changeColor', color: string): void
+}>()
 
 const colors = ref([
   '#0000ff',

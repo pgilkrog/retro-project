@@ -17,9 +17,9 @@
 import type { PropType } from 'vue'
 import type { IProgram } from '@/models/index'
 
-const { program } = defineProps({
-  program: Object as PropType<IProgram>
-})
+const { program } = defineProps<{
+  program: IProgram
+}>()
 
 const videoUrl = "https://www.youtube.com/embed/Hmyn67dWBe4"
 

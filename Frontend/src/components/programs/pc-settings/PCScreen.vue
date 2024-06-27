@@ -23,9 +23,9 @@ import { storeToRefs } from 'pinia'
 import { userStore } from '../../../stores/userStore'
 import type { IFile, IUser } from '../../../models/index'
 
-const { tempImg } = defineProps({
-  tempImg: Object as PropType<IFile>
-})
+const { tempImg } = defineProps<{
+  tempImg: IFile
+}>()
 
 const userstore = userStore()
 const userData = storeToRefs(userstore).userData as Ref<IUser | undefined>
