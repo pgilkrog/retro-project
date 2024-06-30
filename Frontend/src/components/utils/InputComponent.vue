@@ -1,8 +1,8 @@
 <template lang="pug">
-.input(class="flex align-center m-1 flex-grow")
-  label(v-if="label" class="me-2 w-44") {{ label + ': ' }}
+.input(:class="['flex m-1', useTwoLines === true ? 'flex-col text-start' : 'align-center items-center']")
+  label(v-if="label" class="me-4 w-44") {{ label + ': ' }}
   input(
-    class="bg-shadow-inner p-1 px-2 w-full rounded"
+    class="bg-shadow-inner p-1 px-2 w-full rounded flex-grow"
     :type
     :value="modelValue" 
     @input="$emit('update:modelValue', type === 'checkbox' ? $event.target.checked : $event.target.value)"
@@ -16,12 +16,14 @@ const {
   label,
   modelValue,
   type = 'text',
-  placeholder
+  placeholder = '',
+  useTwoLines = false
 } = defineProps<{
-  label: string,
+  label?: string,
   modelValue: string,
-  type: string,
-  placeholder: string
+  type?: string,
+  placeholder?: string,
+  useTwoLines?: boolean
 }>()
 
 </script>

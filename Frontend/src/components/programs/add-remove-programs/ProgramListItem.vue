@@ -4,21 +4,22 @@
     IconComponent(
     class="w-12" 
     :color="color" 
-    :name="icon"
+    :name="image"
   )
-    p {{ name }}
+    p {{ displayName }}
   p(class="just") {{ getSize }}
 </template>
 <script setup lang="ts">
 const {
   color,
-  name,
-  icon
+  displayName,
+  image
  } = defineProps<{
-  name: string,
-  icon: string,
+  displayName: string,
+  image: string,
   color: string
  }>()
+ 
 const getSize = computed(() => {
  return `size: ${Math.round(Math.random() * 1000)}kb`
 })

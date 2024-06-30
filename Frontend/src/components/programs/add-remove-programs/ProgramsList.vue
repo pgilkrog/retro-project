@@ -1,22 +1,17 @@
-<template lang="pug">
-.programs-list(v-if="programList")
-  h2.mb-4 {{ title }} 
-  .program-item(
-    :class="(program._id === selectedProgramId) ? 'bg-blue-600 text-white' : ''"
+<template lang="pug">  
+h2.mb-4 {{ title }} 
+.programs-list(v-if="programList" class="divide-y-2 divide-gray-400")
+  ProgramListItem(
     v-for="program in programList.filter((program: IProgram) => program.name !== 'AddOrRemovePrograms')"
     :key="program._id"
+    v-bind="program"
+    :class="(program._id === selectedProgramId) ? 'bg-blue-600 text-white' : ''"
     @click="changeSelectedProgram(program)"
   )
-    ProgramListItem(
-      :name="program.displayName"
-      :color="program.color"
-      :icon="program.image"
-    )
 </template>
 
 <script setup lang="ts">
 import type { IProgram } from '@/models/index'
-import type { PropType } from 'vue'
 
 const {
   programList,

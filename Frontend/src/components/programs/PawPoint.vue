@@ -33,7 +33,6 @@ WindowFrame(
 </template>
 
 <script setup lang="ts">
-import type { PropType } from "vue"
 import type { IProgram } from "@/models/index"
 import { defineAsyncComponent } from 'vue'
 

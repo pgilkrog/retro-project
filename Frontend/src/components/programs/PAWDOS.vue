@@ -14,7 +14,6 @@ WindowFrame(:program="program" variant="primary" :isMoveable="true" :showMenu="t
 <script setup lang="ts">
 import type { IProgram } from '@/models'
 import router from '@/router'
-import type { PropType } from 'vue'
 
 const { program } = defineProps<{
   program: IProgram

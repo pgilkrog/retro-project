@@ -41,7 +41,6 @@
 import { reactive, ref } from 'vue'
 import { userStore } from '@/stores/userStore'
 import type { IProgram, IUser, IUserSettings } from '@/models/index'
-import type { PropType } from 'vue'
 
 const { program } = defineProps<{
   program: IProgram

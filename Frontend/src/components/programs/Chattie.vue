@@ -26,7 +26,6 @@ WindowFrame(
 import type { IProgram } from '../../models/index'
 import { userStore } from '@/stores/userStore'
 import { chatStore } from '@/stores/chatStore'
-import type { PropType } from 'vue'
 
 const { program } = defineProps<{
   program: IProgram

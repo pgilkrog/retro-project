@@ -11,7 +11,7 @@ export const useAppStore = defineStore('appStore', () => {
     }
     screensaverTimer.value = setTimeout(() => {
       setShowScreensaver(true)
-    }, 60000)
+    }, 80000)
   }
 
   const setShowScreensaver = (bool: boolean) => {

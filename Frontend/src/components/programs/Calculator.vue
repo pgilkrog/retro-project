@@ -15,7 +15,6 @@ WindowFrame(:program="program" :isMoveable="true")
 </template>
 
 <script setup lang="ts">
-
 interface Button {
   text: string
   value: string

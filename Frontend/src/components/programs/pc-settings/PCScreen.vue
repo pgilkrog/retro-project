@@ -18,7 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType } from 'vue'
 import { storeToRefs } from 'pinia'
 import { userStore } from '../../../stores/userStore'
 import type { IFile, IUser } from '../../../models/index'

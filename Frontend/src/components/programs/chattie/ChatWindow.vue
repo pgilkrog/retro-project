@@ -21,7 +21,6 @@ WindowFrame(
 <script setup lang="ts">
 import { userStore } from "@/stores/userStore"
 import { chatStore } from "@/stores/chatStore"
-import type { PropType } from "vue"
 import type { IChatMessage, IChatRoom } from "@/models"
 
 const emit = defineEmits<{

@@ -7,31 +7,25 @@ WindowFrame(
   :isNotProgram="false"
 )
   div(class="flex p-2")
-    .flex.flex-col.pe-3
+    div(class="flex flex-col pe-3 gap-y-2")
       ButtonComponent(
-        @clicked="changeState('removePrograms')" 
-        text="Remove Program" 
-        icon="fa-computer" 
-        size="full"
-        :active="state === 'removePrograms'"
+        v-for="(button, key) in menuButtons"
+        :key
+        v-on:clicked="button.clicked" 
+        :text="button.text" 
+        :icon="button.icon" 
+        :active="state === button.active"
       )
-      ButtonComponent(
-        @clicked="changeState('addPrograms')"
-        text="Add Program" 
-        icon="fa-folder-plus" 
-        size="full"
-        :active="state === 'addPrograms'"
-      ).mt-2
-    .program-list(class="bg-gray-300 p-4 bg-shadow-inner flex flex-col")
+    .program-list(class="bg-gray-300 p-4 bg-shadow-inner")
       ProgramList(
-        v-show="state === 'removePrograms'"
+        v-if="state === 'removePrograms'"
         title="Installed programs"
         :programList="installedPrograms"
         :selectedProgramId="selectedProgramId"
         v-on:changeSelectedProgram="changeSelectedProgram($event)"
       )
       ProgramList(
-        v-show="state === 'addPrograms'"
+        v-if="state === 'addPrograms'"
         title="Not installed programs"
         :programList="notInstalledPrograms"
         :selectedProgramId="selectedProgramId"
@@ -77,6 +71,21 @@ let selectedProgramId = ref("")
 const allPrograms = computed(() => programsstore.allPrograms)
 const notInstalledPrograms = computed(() => programsstore.notInstalledPrograms)
 const installedPrograms = computed(() => programsstore.installedPrograms)
+
+const menuButtons = [
+  {
+    clicked: () => changeState('removePrograms'), 
+    text: "Remove Program",
+    icon: "fa-computer", 
+    active: "removePrograms"
+  },
+  {
+    clicked: () => changeState('addPrograms'),
+    text: "Add Program",
+    icon: "fa-folder-plus", 
+    active: "addPrograms",
+  }
+]
 
 onMounted(() => {
   console.log("GOT MOUNTED")

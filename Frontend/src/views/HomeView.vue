@@ -1,21 +1,23 @@
 <template lang="pug">
 .home-wrapper(
-  class="flex h-full w-full absolute" 
   v-if="userData != undefined"
+  class="flex h-full w-full absolute bg-center bg-no-repeat bg-cover" 
   :style="[userData.settings.useBackground === true ? {'background-image': 'url('+ getImageUrl(userData.settings?.backgroundImage) + ')'} : {'background-color': userData.settings?.backgroundColour}]"
   @mousemove="registerMouseMovement"
+  @click="console.log('DODIA')"
+  @contextmenu="showContextMenu = true"
 )
   .desktop-container(class="flex flex-col justify-start py-4")
     .shortcuts-container(v-if="allPrograms" class="grid grid-cols-2 gap-y-8")
       DesktopItem(
         v-for="program in allPrograms"
-        v-on:generateComponent="generateComponent(program)"
+        v-on:generate-component="generateComponent(program)"
         :key="program._id"
-        :displayName="program.displayName"
-        :name="program.image"
-        :color="program.color"
+        v-bind="program"
       )
-  MenuPopup(title="check" :list="dis")
+  .context-menu(v-show="showContextMenu" )
+    .menu(class="bg-gray-200 p-2 rounded bg-shadow absolute")
+      p hejsa
   //- CarouselComponent
   ComponentMachine
   Menu(v-if="showMenu")
@@ -30,7 +32,6 @@
 import type { IProgram } from '@/models/index'
 import { userStore } from '@/stores/userStore'
 import { useAppStore } from '@/stores/appStore'
-import { storeToRefs } from 'pinia'
 import { programsStore } from '@/stores/programsStore'
 import { useAuthStore } from '@/stores/authStore'
 // import Salvatore from '@/phaser/salvatore/SalvatoreGame.vue'
@@ -43,21 +44,10 @@ const authstore = useAuthStore()
 const programsstore = programsStore()
 const userstore = userStore()
 
-const userData = storeToRefs(userstore).userData
+const userData = computed(() => userstore.userData)
 const showMenu = ref<boolean>(false)
 const allPrograms = computed<IProgram[]>(() => programsstore.installedPrograms)
-
-const dis = [
-  {
-    name: 'hej', method: () => thismehtod2(), icon: 'fa-house'
-  },
-  {
-    name: 'dav', method: () => thismehtod(), icon: 'fa-house'
-  },
-  {
-    name: 'check', method: (item: any) => testthistho(item), icon: 'fa-house'
-  }
-]
+const showContextMenu = ref(false)
 
 onMounted(async () => {
   if (authstore.isLoggedIn === true) {
@@ -78,27 +68,12 @@ const changeShowMenu = (): void => {
   showMenu.value = !showMenu.value
 }
 
-const registerMouseMovement = (event: any) => {
+const registerMouseMovement = (event: any): void => {
   appStore.initiateScreensaverTimer()
-}
-
-const thismehtod = () => {
-  console.log("run this")
-}
-const thismehtod2 = () => {
-  console.log("run this 2")
-}
-const testthistho = (item: any) => {
-  appStore.thismaybe(item)
 }
 </script>
 
 <style lang="sass">
-.home-wrapper
-  background-position: center
-  background-repeat: no-repeat
-  background-size: cover
-  image-rendering: pixelated
 // canvas
 //   z-index: 9999
 //   position: absolute

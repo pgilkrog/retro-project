@@ -48,7 +48,6 @@ WindowFrame(
 import type { IPainting, IProgram } from '@/models/index'
 import { userStore } from '@/stores/userStore'
 import { paintStore } from '@/stores/paintStore'
-import type { PropType } from 'vue'
 
 const { program } = defineProps<{
   program: IProgram

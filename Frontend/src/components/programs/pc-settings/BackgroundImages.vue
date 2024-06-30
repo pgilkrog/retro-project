@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, type PropType } from 'vue'
+import { computed } from 'vue'
 import { userStore } from '@/stores/userStore'
 import { storeToRefs } from 'pinia'
 import { fileStore } from '../../../stores/fileStore'

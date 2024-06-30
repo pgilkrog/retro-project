@@ -2,7 +2,7 @@
 WindowFrame(
   :program="program" 
   :showMenu="false" 
-  :variant="red"
+  variant="blue"
   :isMoveable="false"
   :disableButtons="true"
 )
@@ -12,22 +12,18 @@ WindowFrame(
     .col-span-8.flex.items-center.px-4
       | {{ infoText }}
     form.col-span-12.mt-4
-      .col-12.flex.items-center
-        .login-text Email:
       .col-12.col-lg
-        InputComponent(v-model="username")
+        InputComponent(v-model="username" label="Username" :useTwoLines="true")
       .mt-2(v-if="state === 2 || state === 1")
-        .col-span-12.flex.items-center
-          .login-text Password:
         .col-span-12
-          InputComponent(v-model="password" type="password")
+          InputComponent(v-model="password" type="password" label="Password" :useTwoLines="true")
       .mt-2(v-if="state === 2")
         .col-span-12.flex.items-center
           .login-text Password:
         .col-span-12
           InputComponent(v-model="password2" type="password")
     .buttons.mt-4.flex.justify-end.w-full.col-span-12
-      ButtonComponent.me-2(@clicked="pressedOk()" text="OK") 
+      ButtonComponent(@clicked="pressedOk()" text="OK") 
       //- ButtonComponent(@clicked="changeShowHelp()" text="Help" :active="showHelp")
   .buttons.flex.flex-col.bg-shadow-inner.p-4.m-2.rounded(v-if="showHelp === true")
     p Some helping info and stuff

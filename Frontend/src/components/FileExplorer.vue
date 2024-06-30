@@ -23,7 +23,6 @@ WindowFrame(
 
 <script setup lang="ts">
 import type { IFile } from '@/models'
-import type { PropType } from 'vue'
 
 const { 
   files = [], 

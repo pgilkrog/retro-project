@@ -11,7 +11,7 @@ button(
       v-if="icon" 
       :name="icon" 
       size="16" 
-      :class="text !== undefined ? 'me-2' : ''"
+      :class="text !== '' ? 'me-2' : ''"
     )
     p(v-if="text" :class="[size]") {{ text }}
   template(v-else)
@@ -21,7 +21,7 @@ button(
 
 <script setup lang="ts">
 const { 
-  text, 
+  text = '', 
   icon, 
   size = '16', 
   active = false, 
@@ -30,7 +30,7 @@ const {
   type = 'button',
   isLoading = false 
 } = defineProps<{
-  text: string,
+  text?: string,
   icon?: string,
   size?: string,
   active?: boolean,

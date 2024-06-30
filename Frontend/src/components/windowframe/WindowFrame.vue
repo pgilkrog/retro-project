@@ -16,20 +16,11 @@ Teleport(to="#app")
           p.font-semibold.pe-4.ps-4.text-2xl {{ program.displayName }}
         div(class="flex")
           ButtonComponent(
-            icon="fa-window-minimize" 
-            @clicked="setInactive()" 
-            size="small"  
-            :disabled="disableButtons"
-          )
-          ButtonComponent(
-            icon="fa-square" 
-            size="small" 
-            :disabled="disableButtons"
-          )
-          ButtonComponent(
-            icon="fa-xmark" 
-            @clicked="closeWindow()" 
-            size="small"  
+            v-for="(button, key) in menuButtons"
+            :key
+            :icon="button.icon"
+            @clicked="button.clicked()"
+            :size="'small'"
             :disabled="disableButtons"
           )
       windowframeMenu(:showMenu)
@@ -40,7 +31,6 @@ Teleport(to="#app")
 <script setup lang="ts">
 import type { IProgram } from "@/models/index"
 import { programsStore } from "@/stores/programsStore"
-import type { PropType } from "vue"
 import WindowframeMenu from "./windowframeMenu.vue"
 
 const {
@@ -48,15 +38,15 @@ const {
   disableButtons = false,
   program,
   variant = "blue",
-  isNotProgram,
+  isNotProgram = false,
   isMoveable = true,
 } = defineProps<{
-  showMenu: boolean,
-  disableButtons: boolean,
+  showMenu?: boolean,
+  disableButtons?: boolean,
   program: IProgram,
-  variant: string,
-  isNotProgram: boolean,
-  isMoveable: boolean,
+  variant?: string,
+  isNotProgram?: boolean,
+  isMoveable?: boolean,
 }>()
 
 const emit = defineEmits<{
@@ -70,6 +60,21 @@ const startX = ref(0)
 const startY = ref(0)
 const left = ref(40)
 const top = ref(40)
+
+const menuButtons = [
+  {
+    icon: "fa-window-minimize",
+    clicked: () => setInactive()
+  },
+  {
+    icon: "fa-square",
+    clicked: () => {}
+  },
+  {            
+    icon: "fa-xmark" ,
+    clicked: () => closeWindow()
+  }
+]
 
 const closeWindow = () => {
   // Remove the program from the active program list
