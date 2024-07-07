@@ -5,7 +5,7 @@ Teleport(to="#app")
       v-if="program?.isActive === true" 
       :id="program._id"
       class="bg-shadow bg-gray-300 flex flex-col absolute p-2 rounded px-2 w-96 sm:w-auto"
-      :style="[ isMoveable ? { top: top + 'px', left: left + 'px'} : { top: '40%', left: '50%', transform: 'translate(-50%, -50%)' }]"
+      :style="[ isMoveable ? { top: program.top + 'px', left: program.left + 'px'} : { top: '40%', left: '50%', transform: 'translate(-50%, -50%)' }]"
     )
       header(
         :class="['top-bar flex flex-col-reverse sm:flex-row justify-between items-center mb-1 p-2 px-4 rounded bg-gradient-to-r', getBackgroundColor(variant)]" 
@@ -58,8 +58,6 @@ const programsstore = programsStore()
 const isDragging = ref(false)
 const startX = ref(0)
 const startY = ref(0)
-const left = ref(40)
-const top = ref(40)
 
 const menuButtons = [
   {
@@ -75,6 +73,10 @@ const menuButtons = [
     clicked: () => closeWindow()
   }
 ]
+
+onMounted(() => {
+  console.log("CHECK THIS DO STUFF", program.name)
+})
 
 const closeWindow = () => {
   // Remove the program from the active program list
@@ -128,8 +130,8 @@ const onDrag = (event: MouseEvent) => {
   const deltaX = event.clientX - startX.value
   const deltaY = event.clientY - startY.value
 
-  left.value += deltaX
-  top.value += deltaY
+  program.left += deltaX
+  program.top += deltaY
 
   startX.value = event.clientX
   startY.value = event.clientY

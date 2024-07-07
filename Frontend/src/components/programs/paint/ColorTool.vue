@@ -1,12 +1,12 @@
 <template lang="pug">
-.color-wrapper.mt-4
-  .grid.grid-cols-4
-    div.btn.btn-color.bg-shadow-inner.h-12.w-12(
-      v-for="color in colors"
-      :key="color"
-      @click="changeColor(color)"
-      :style="'background: '+ color"
-    ) 
+.color-wrapper(class="grid grid-cols-4")
+  .color-item(
+    v-for="color in colors"
+    :key="color"
+    class="bg-shadow-inner h-12 w-12"
+    @click="changeColor(color)"
+    :style="'background: '+ color"
+  ) 
 </template>
 
 <script setup lang="ts">

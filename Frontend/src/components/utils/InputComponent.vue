@@ -20,7 +20,7 @@ const {
   useTwoLines = false
 } = defineProps<{
   label?: string,
-  modelValue: string,
+  modelValue: string | number,
   type?: string,
   placeholder?: string,
   useTwoLines?: boolean

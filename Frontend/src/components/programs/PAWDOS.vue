@@ -2,7 +2,7 @@
 WindowFrame(:program="program" variant="primary" :isMoveable="true" :showMenu="true")
   .bg-black.text-white.p-4
     p Retro-Project Desktop 97
-    P.ms-4 (C)Copyright Someting, Something Complete
+    p.ms-4 (C)Copyright Someting, Something Complete
     .my-4
     p(v-for="s in textWritten" v-html="s")
     .d-flex.mt-4

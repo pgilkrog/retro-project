@@ -42,6 +42,10 @@ const program = {
   color: 'blue', 
   isActive: true, 
   image: 'bi-archive',
+  left: 40,
+  top: 40,
+  sortOrder: 0,
+  type: 'Program'
 } as IProgram
 
 const loadingCompleted = ref(false)

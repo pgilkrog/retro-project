@@ -7,6 +7,8 @@ export interface IProgram {
   displayName: string
   sortOrder: number
   type: string
+  top: number
+  left: number
 }
 
 export interface IProgramWindow {

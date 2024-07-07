@@ -6,31 +6,33 @@ WindowFrame(
   :isNotProgram="false"
   :variant="program.color"
 )
-  .paint-wrapper(class="flex justify-between")
-    .canvas-wrapper(class="flex w-full h-full")
+  .paint-wrapper(class="flex justify-between w-[1200px] h-[800px]")
+    .canvas-wrapper(class="flex w-full h-full overflow-scroll" v-if="canvasHeight > 0 && canvasWidth > 0")
       canvas(
         id="canvasWrapper"
-        class="bg-white h-full w-full"
+        :class="`bg-white`"
         ref="canvasRef"
         @mousedown="startDrawing"
         @mousemove="draw"
         @mouseup="stopDrawing"
+        :height="canvasHeight"
+        :width="canvasWidth"
       )
-    .tools(class="bg-shadow flex flex-col p-4")
-      .size.mb-4
-        InputComponent(type="number" v-model="canvasX")
-        InputComponent(type="number" v-model="canvasY")
-        ButtonComponent(@clicked="setSize(canvasX, canvasY)" text="New").mt-2
+    .tools(class="bg-shadow flex flex-col p-4 gap-y-4 w-[200px]")
+      .size
+        InputComponent(type="number" v-model="canvasWidth" label="Width")
+        InputComponent(type="number" v-model="canvasHeight" label="Height")
+        ButtonComponent(@clicked="setSize(canvasWidth, canvasHeight)" text="New")
       .icons(class="flex justify-center")
         ButtonComponent(icon="fa-file" size="small" @clicked="createNew()")
         ButtonComponent(icon="fa-floppy-disk" size="small" data-bs-toggle="modal" data-bs-target="#exampleModal")
         ButtonComponent(icon="fa-folder" size="small" @clicked="changeShowFiles(true)")
-      .brushes(class="mt-4 flex justify-center")
+      .brushes(class="flex justify-center")
         ButtonComponent(icon="fa-circle" size="small" @clicked="setBrushType('circle')")
         ButtonComponent(icon="fa-square" size="small" @clicked="setBrushType('square')")
         ButtonComponent(icon="fa-spray-can" size="small" @clicked="setBrushType('spray')")
       ColorTool(v-on:changeColor="changeColor($event)")
-      div.mt-4
+      div
         input(type="color" v-model="state.color")
       div
         label Brush Size:
@@ -56,15 +58,16 @@ const { program } = defineProps<{
 const userstore = userStore()
 const paintstore = paintStore()
 
-const canvasRef = ref<HTMLCanvasElement | null>(null)
+const canvasRef = ref<HTMLCanvasElement | undefined>()
 const state = reactive({
   color: '#000000',
   brushSize: 5,
   drawing: false,
 })
 
-const canvasX = ref<string>('0')
-const canvasY = ref<string>('0')
+const canvasWidth = ref<number>(800)
+const canvasHeight = ref<number>(500)
+
 const inputSave = ref<string>('')
 const showFiles = ref<boolean>(false)
 const myPaintings = ref<IPainting[]>([])
@@ -149,7 +152,7 @@ const draw = (event: MouseEvent): void => {
 
 const savePainting = (text: string): void => {
   const canvas = canvasRef.value
-  if(canvas === null) return
+  if(canvas === undefined) return
 
   const newPainting = {
     _id: '',
@@ -186,13 +189,14 @@ const setSize = (x: number, y: number): void => {
   if (!canvas) return
 
   if (x != 0)
-    canvas.width = x
+    canvas.width = +x
   if (y != 0)
-    canvas.height = y
-
+    canvas.height = +y
+  
+  canvas.height = +y
+  canvas.width = +x
   const ctx = canvas.getContext('2d')
   if (!ctx) return
-
   console.log(canvas)
 }
 
@@ -207,18 +211,8 @@ const changeShowFiles = (bool: boolean): void => {
   showFiles.value = bool
   paintstore.getAllPaintingsByUserId(userstore.userData?._id !== undefined ? userstore.userData?._id : '')
 }
+
 const itemClicked = (painting: IPainting): void => {
   loadPainting(painting.canvas)
 }
-
 </script>
-<style scoped lang="sass">
-.tools
-  width: 200px
-.paint-wrapper
-  width: 1200px
-  height: 800px
-  .canvas-wrapper
-    overflow: scroll
-    scrollbar-width: thin
-</style>
