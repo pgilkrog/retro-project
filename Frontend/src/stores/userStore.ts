@@ -46,6 +46,7 @@ export const userStore = defineStore("user", () => {
       const response = await axios.get(`${url}/${userId}`)
       setUserData(response.data.user)
       userData.value
+      programstore.getInstalledPrograms()
     } catch (error) {
       console.log(error)
     }

@@ -2,6 +2,7 @@ import { defineStore } from "pinia"
 import type { IProgram } from '@/models/index'
 import { ref } from "vue"
 import { get, put, post, del } from '@/helpers/httpHelper'
+import { userStore } from "./userStore"
 
 const url = import.meta.env.VITE_BASE_URL + '/program'
 
@@ -10,6 +11,7 @@ export const programsStore = defineStore("programs", () => {
   const allPrograms = ref<IProgram[]>([])
   const installedPrograms = ref<IProgram[]>([])
   const notInstalledPrograms = ref<IProgram[]>([])
+  const userstore = userStore()
 
   const init = async() => {
     await getProgramsFromDB()
@@ -60,6 +62,20 @@ export const programsStore = defineStore("programs", () => {
     await post(url, { params: program }).then(() => getProgramsFromDB())
   }
 
+
+
+  const getInstalledPrograms = async () => {
+    const trydis = await get(url + '/installedProgram/' + userstore.userData?._id)
+  }
+
+  const createInstalledProgram = async (programId: any, gridPosition: number) => {
+    const newObject = {
+      programId: programId, userId: userstore.userData?._id, gridPosition: gridPosition
+    }
+
+    await post(url + '/installedProgram', { params: { programId: programId, userId: userstore.userData?._id, gridPosition: gridPosition }}).then(() => {})
+  }
+
   return {
     activePrograms,
     allPrograms,
@@ -73,6 +89,8 @@ export const programsStore = defineStore("programs", () => {
     setProgramActiveState,
     updateProgram,
     deleteProgram,
-    createProgram
+    createProgram,
+    createInstalledProgram,
+    getInstalledPrograms
   }
 })

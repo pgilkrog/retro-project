@@ -18,3 +18,9 @@ export interface IProgramWindow {
   isNotProgram: boolean
   isMoveable: boolean
 }
+
+export interface IInstalledProgram {
+  program: IProgram
+  userId: string
+  gridPosition: number
+}

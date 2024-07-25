@@ -31,6 +31,7 @@
           ButtonComponent(@clicked="updateProgram()" text="Update")
         template(v-else)
           ButtonComponent(@clicked="addProgram()" text="Add Program")
+      ButtonComponent(text="installed" @clicked="programsstore.createInstalledProgram(selectedProgram._id, 0)")
   Validating(
     v-if="showValidation === true"
     :text="'Delete program: ' + selectedProgram.displayName"
@@ -60,7 +61,9 @@ const programInfo = ref<IProgram>({
   color: '',
   sortOrder: 0,
   type: '',
-  isActive: false
+  isActive: false, 
+  left: 0,
+  top: 0
 })
 let showValidation = ref(false)
 
@@ -97,7 +100,9 @@ const resetInputs = () => {
     image: '',
     sortOrder: 0,
     type: '',
-    isActive: false
+    isActive: false,
+    left: 0,
+    top: 0
   }
   selectedProgram.value = undefined
 }

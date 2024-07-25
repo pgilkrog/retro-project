@@ -23,6 +23,7 @@ WindowFrame(
         .col-span-12
           InputComponent(v-model="password2" type="password")
     .buttons.mt-4.flex.justify-end.w-full.col-span-12
+      ButtonComponent(v-if="appStore.isDev" @clicked="devLogin()" text="Dev login")
       ButtonComponent(@clicked="pressedOk()" text="OK") 
       //- ButtonComponent(@clicked="changeShowHelp()" text="Help" :active="showHelp")
   .buttons.flex.flex-col.bg-shadow-inner.p-4.m-2.rounded(v-if="showHelp === true")
@@ -37,6 +38,9 @@ WindowFrame(
 import { useAuthStore } from '@/stores/authStore'
 import type { IProgram } from '@/models/index'
 import router from '@/router'
+import { useAppStore } from '../../stores/appStore'
+
+const appStore = useAppStore()
 
 const state = ref(1)
 const username = ref<string>("")
@@ -82,6 +86,14 @@ const changePassword = (): void => {
 
 const changeShowHelp = () => {
   showHelp.value = !showHelp.value
+}
+
+const devLogin = () => {
+  authstore.loginUser('hej@hej.com', 'hejsa1234').then(() => {
+    setTimeout(() => {
+      router.push('/')
+    }, 100) 
+  })
 }
 
 const changeState = (stateVal: number) => {

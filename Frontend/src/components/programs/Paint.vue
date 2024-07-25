@@ -7,24 +7,23 @@ WindowFrame(
   :variant="program.color"
 )
   .paint-wrapper(class="flex justify-between w-[1200px] h-[800px]")
-    .canvas-wrapper(class="flex w-full h-full overflow-scroll" v-if="canvasHeight > 0 && canvasWidth > 0")
-      canvas(
-        id="canvasWrapper"
-        :class="`bg-white`"
-        ref="canvasRef"
-        @mousedown="startDrawing"
-        @mousemove="draw"
-        @mouseup="stopDrawing"
-        :height="canvasHeight"
-        :width="canvasWidth"
-      )
+    .canvas-wrapper(v-if="canvasHeight > 0 && canvasWidth > 0" class="flex w-full h-full overflow-scroll")
+      div(:width="canvasWidth" :height="canvasHeight") 
+        canvas(
+          id="canvasWrapper"
+          :class="`bg-white w-full h-full`"
+          ref="canvasRef"
+          @mousedown="startDrawing"
+          @mousemove="draw"
+          @mouseup="stopDrawing"
+        )
     .tools(class="bg-shadow flex flex-col p-4 gap-y-4 w-[200px]")
       .size
         InputComponent(type="number" v-model="canvasWidth" label="Width")
         InputComponent(type="number" v-model="canvasHeight" label="Height")
-        ButtonComponent(@clicked="setSize(canvasWidth, canvasHeight)" text="New")
+        ButtonComponent(text="new" @clicked="newPainting()")
       .icons(class="flex justify-center")
-        ButtonComponent(icon="fa-file" size="small" @clicked="createNew()")
+        ButtonComponent(icon="fa-file" size="small" @clicked="setSize()")
         ButtonComponent(icon="fa-floppy-disk" size="small" data-bs-toggle="modal" data-bs-target="#exampleModal")
         ButtonComponent(icon="fa-folder" size="small" @clicked="changeShowFiles(true)")
       .brushes(class="flex justify-center")
@@ -71,13 +70,7 @@ const canvasHeight = ref<number>(500)
 const inputSave = ref<string>('')
 const showFiles = ref<boolean>(false)
 const myPaintings = ref<IPainting[]>([])
-const brushSizes = ref<number[]>([
-  1,
-  3,
-  5,
-  7,
-  9
-])
+
 const brushTypes = ref<string[]>([
   'circle', 
   'square', 
@@ -150,6 +143,18 @@ const draw = (event: MouseEvent): void => {
   ctx.fill()
 }
 
+const setSize = (): void => {
+  const canvas = canvasRef.value
+  if (!canvas) return
+
+  if (canvasWidth.value != 0)
+    canvas.width = +canvasWidth.value
+  if (canvasHeight.value != 0)
+    canvas.height = +canvasHeight.value
+  
+  console.log(canvas)
+}
+
 const savePainting = (text: string): void => {
   const canvas = canvasRef.value
   if(canvas === undefined) return
@@ -159,6 +164,8 @@ const savePainting = (text: string): void => {
     name: text,
     canvas: canvas.toDataURL(),
     uId: userstore.userData?._id,
+    height: canvasHeight.value,
+    width: canvasWidth.value
   }  as IPainting
 
     paintstore.postPainting(newPainting)
@@ -182,22 +189,6 @@ const loadPainting = (painting: string): void => {
 
     ctx.drawImage(image, 0, 0)
   }
-}
-
-const setSize = (x: number, y: number): void => {
-  const canvas = canvasRef.value
-  if (!canvas) return
-
-  if (x != 0)
-    canvas.width = +x
-  if (y != 0)
-    canvas.height = +y
-  
-  canvas.height = +y
-  canvas.width = +x
-  const ctx = canvas.getContext('2d')
-  if (!ctx) return
-  console.log(canvas)
 }
 
 const setBrushType = (brushType: string): void => {

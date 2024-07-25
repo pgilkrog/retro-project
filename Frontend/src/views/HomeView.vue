@@ -7,13 +7,13 @@
   @click="console.log('DODIA')"
   @contextmenu="showContextMenu = true"
 )
-  .desktop-container(class="flex flex-col justify-start py-4")
-    .shortcuts-container(v-if="allPrograms" class="grid grid-cols-2 gap-y-8")
+  DesktopGrid(:list="checkThis" :allPrograms="allPrograms")
+    template(v-slot:listItem="program") 
       DesktopItem(
-        v-for="program in allPrograms"
-        v-on:generate-component="generateComponent(program)"
-        :key="program._id"
-        v-bind="program"
+        v-if="program.listItem !== undefined"
+        v-on:generate-component="generateComponent(program.listItem)"
+        :key="program.listItem._id"
+        v-bind="program.listItem"
       )
   .context-menu(v-show="showContextMenu" )
     .menu(class="bg-gray-200 p-2 rounded bg-shadow absolute")
@@ -35,7 +35,7 @@ import { useAppStore } from '@/stores/appStore'
 import { programsStore } from '@/stores/programsStore'
 import { useAuthStore } from '@/stores/authStore'
 // import Salvatore from '@/phaser/salvatore/SalvatoreGame.vue'
-//import TestStuff from '@/phaser/test-stuff/TestStuff.vue'
+// import TestStuff from '@/phaser/test-stuff/TestStuff.vue'
 // import LaCosaNostra from '@/phaser/la-cosa-nostra/LaCosaNostraGame.vue'
 import ScreensaverMachine from '@/components/programs/ScreensaverMachine.vue'
 
@@ -49,10 +49,18 @@ const showMenu = ref<boolean>(false)
 const allPrograms = computed<IProgram[]>(() => programsstore.installedPrograms)
 const showContextMenu = ref(false)
 
+const checkThis = ref<any[]>([])
+
 onMounted(async () => {
   if (authstore.isLoggedIn === true) {
     await programsstore.init()
     await userstore.getUserById()
+  }
+
+  checkThis.value = [...allPrograms.value]
+  const disLength = checkThis.value.length
+  for(let i = 0; (i+disLength) < 99; i++) {
+    checkThis.value.push(undefined)
   }
 })
 
@@ -71,6 +79,7 @@ const changeShowMenu = (): void => {
 const registerMouseMovement = (event: any): void => {
   appStore.initiateScreensaverTimer()
 }
+
 </script>
 
 <style lang="sass">

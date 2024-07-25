@@ -3,4 +3,6 @@ export interface IPainting {
   name: string
   canvas: string
   uId: string
+  width: number
+  height: number
 }

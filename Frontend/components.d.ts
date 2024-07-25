@@ -18,6 +18,7 @@ declare module 'vue' {
     Clock: typeof import('./src/components/taskbar/Clock.vue')['default']
     ColorTool: typeof import('./src/components/programs/paint/ColorTool.vue')['default']
     ComponentMachine: typeof import('./src/components/ComponentMachine.vue')['default']
+    DesktopGrid: typeof import('./src/components/DesktopGrid.vue')['default']
     DesktopItem: typeof import('./src/components/DesktopItem.vue')['default']
     ErrorComponent: typeof import('./src/components/ErrorComponent.vue')['default']
     ErrorList: typeof import('./src/components/admin/ErrorList.vue')['default']
