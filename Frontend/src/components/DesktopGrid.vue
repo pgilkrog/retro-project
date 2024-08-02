@@ -1,37 +1,49 @@
 <template lang="pug">
-.desktop-container(class="flex h-full justify-start py-4")
-  .shortcuts-container(v-if="allPrograms" class="grid grid-cols-9 grid-rows-12 ")
+.desktop-container(class="flex h-full w-full justify-start py-4")
+  .shortcuts-container(v-if="allPrograms" class="grid grid-cols-9 grid-rows-12 w-full")
     div(v-for="(program, index) in list"
         draggable="true"
         @dragstart="startDrag(index)"
         @dragend="endDrag($event)"
-        class="flex items-center justify-center")
-      slot(
-        v-bind:listItem="program"
-        name="listItem" 
-        v-if="program !== undefined" 
-        :id="index"
+        class="flex items-center justify-center"
       )
-      div(v-else :id="index" class="desktop-item w-full h-full bg-gray-50/10"
-        draggable="true")
+      slot(
+        v-if="program !== undefined && program.program !== undefined" 
+        v-bind:listItem="program.program"
+        name="listItem" 
+        :id="index"
+        class="flex-grow"
+      )
+      .desktop-item(
+        v-else 
+        :id="index" 
+        class="flex-grow desktop-item w-full h-full"
+        draggable="true"
+      )
 </template>
 <script setup lang="ts">
+import {programsStore} from '@/stores/programsStore'
+const programsstore = programsStore()
+
 const { list, allPrograms } = defineProps<{ list: [], allPrograms: any }>()
 
 let dragStartIndex: number | null = null;
 
+const emit  = defineEmits<{
+  (e: 'gridPositionChanged', object: any): void
+}>()
+
 const startDrag = (index: number) => {
   dragStartIndex = index;
-};
+}
 
 const endDrag = (event: any) => {
   if (dragStartIndex === null) return
 
-  const target = event.target as HTMLElement; // Get the dragged element
-  const parent = target.parentNode as HTMLElement; // Get the parent container
+  const target = event.target as HTMLElement // Get the dragged element
 
   // Find the element under the cursor (potential drop target)
-  let dropTarget = document.elementFromPoint(event.clientX, event.clientY);
+  let dropTarget = document.elementFromPoint(event.clientX, event.clientY)
   let hasClass = dropTarget?.classList.contains('desktop-item')
 
   if (!hasClass) {
@@ -40,15 +52,28 @@ const endDrag = (event: any) => {
   }
 
   if (dropTarget && hasClass && dropTarget !== target) {
-    const dropIndex = +dropTarget.id
+    const dropIndex = +dropTarget.id 
 
-    const test = list[dragStartIndex]
-    const test2 = list[dropIndex]
+    const item1 = list[dragStartIndex]
+    const item2 = list[dropIndex]
 
-    list[dragStartIndex] = test2
-    list[dropIndex] = test
+    list[dragStartIndex] = item2
+    list[dropIndex] = item1
 
-    dragStartIndex = null; // Reset drag state
+    emit('gridPositionChanged', {
+      item: item1,
+      gridPosition: dropIndex
+    })
+
+    if (item2 !== undefined) {
+      emit('gridPositionChanged', {
+        item: item2,
+        gridPosition: dragStartIndex
+      })
+    }
+
+    programsstore.updateInstalledProgram
+    dragStartIndex = null // Reset drag state
   }
 };
 </script>

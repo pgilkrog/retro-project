@@ -44,9 +44,8 @@ export const userStore = defineStore("user", () => {
 
     try {
       const response = await axios.get(`${url}/${userId}`)
-      setUserData(response.data.user)
+      await setUserData(response.data.user)
       userData.value
-      programstore.getInstalledPrograms()
     } catch (error) {
       console.log(error)
     }
@@ -65,9 +64,9 @@ export const userStore = defineStore("user", () => {
     }
   }
 
-  const setUserData = (user: IUser): void => {
+  const setUserData = async (user: IUser): Promise<void> => {
     userData.value = user
-    programstore.setInstalledPrograms(user.installedPrograms)
+    await programstore.setInstalledPrograms()
   }
 
   const setAllUsers = (users: IUser[] | undefined): void => {

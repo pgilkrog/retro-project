@@ -19,8 +19,16 @@ export interface IProgramWindow {
   isMoveable: boolean
 }
 
+export interface IInstalledProgramDB {
+  _id: string
+  programId: string
+  userId: string
+  gridPosition: number
+}
+
 export interface IInstalledProgram {
-  program: IProgram
+  _id: string
+  program: IProgram | undefined
   userId: string
   gridPosition: number
 }

@@ -7,13 +7,14 @@
   @click="console.log('DODIA')"
   @contextmenu="showContextMenu = true"
 )
-  DesktopGrid(:list="checkThis" :allPrograms="allPrograms")
+  DesktopGrid(:list="positionedList" :allPrograms="allPrograms" v-on:gridPositionChanged="gridPositionChanged($event)")
     template(v-slot:listItem="program") 
       DesktopItem(
         v-if="program.listItem !== undefined"
         v-on:generate-component="generateComponent(program.listItem)"
         :key="program.listItem._id"
         v-bind="program.listItem"
+        :id="program.id"
       )
   .context-menu(v-show="showContextMenu" )
     .menu(class="bg-gray-200 p-2 rounded bg-shadow absolute")
@@ -29,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IProgram } from '@/models/index'
+import type { IProgram, IInstalledProgram, IInstalledProgramDB } from '@/models/index'
 import { userStore } from '@/stores/userStore'
 import { useAppStore } from '@/stores/appStore'
 import { programsStore } from '@/stores/programsStore'
@@ -46,21 +47,15 @@ const userstore = userStore()
 
 const userData = computed(() => userstore.userData)
 const showMenu = ref<boolean>(false)
-const allPrograms = computed<IProgram[]>(() => programsstore.installedPrograms)
+const allPrograms = computed<IInstalledProgram[]>(() => programsstore.installedPrograms) 
+const positionedList = computed<IInstalledProgram[]>(() => programsstore.positionedList)
 const showContextMenu = ref(false)
-
-const checkThis = ref<any[]>([])
 
 onMounted(async () => {
   if (authstore.isLoggedIn === true) {
     await programsstore.init()
     await userstore.getUserById()
-  }
-
-  checkThis.value = [...allPrograms.value]
-  const disLength = checkThis.value.length
-  for(let i = 0; (i+disLength) < 99; i++) {
-    checkThis.value.push(undefined)
+    await programsstore.generateGridPositions()
   }
 })
 
@@ -78,6 +73,18 @@ const changeShowMenu = (): void => {
 
 const registerMouseMovement = (event: any): void => {
   appStore.initiateScreensaverTimer()
+}
+
+const gridPositionChanged = async (object: any) => {
+  const iProgram = object.item
+  object.item.gridPosition = object.gridPosition
+  const installedProgramToUpdate: IInstalledProgramDB = {
+    _id: iProgram._id,
+    programId: iProgram.program._id,
+    gridPosition: object.gridPosition,
+    userId: userstore.userData?._id ?? ''
+  }
+  await programsstore.updateInstalledProgram(installedProgramToUpdate)
 }
 
 </script>

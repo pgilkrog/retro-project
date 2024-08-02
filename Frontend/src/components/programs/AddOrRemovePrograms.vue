@@ -70,7 +70,7 @@ let selectedProgramId = ref("")
 
 const allPrograms = computed(() => programsstore.allPrograms)
 const notInstalledPrograms = computed(() => programsstore.notInstalledPrograms)
-const installedPrograms = computed(() => programsstore.installedPrograms)
+const installedPrograms = computed(() => programsstore.installedPrograms.map(IPro => IPro.program))
 
 const menuButtons = [
   {
@@ -100,9 +100,9 @@ const installProgram = () => {
 
   if (user === undefined) return
 
-  user.installedPrograms.push(selectedProgram._id)
-
-  userstore.updateUser(user)
+  // user.installedPrograms.push(selectedProgram._id)
+  // userstore.updateUser(user)
+  programsstore.createInstalledProgram(selectedProgram._id)
 }
 
 const removeProgram = () => {
@@ -110,10 +110,12 @@ const removeProgram = () => {
     return
 
   isInstalling.value = true
-  let user = userstore.userData
-  if (user === undefined) return
-  user.installedPrograms = user.installedPrograms.filter(p => p !== selectedProgram?._id)
-  userstore.updateUser(user)
+  // let user = userstore.userData
+  // if (user === undefined) return
+  // user.installedPrograms = user.installedPrograms.filter(p => p !== selectedProgram?._id)
+  // userstore.updateUser(user)
+  
+  programsstore.deleteInstalledProgram(programsstore.installedPrograms.find(program => program?.program?._id === selectedProgram?._id)?._id ?? '')
 }
 
 const updateUser = () => {

@@ -298,7 +298,6 @@ export default class InventoryManger {
   }
 
   equibItem(item: InventoryItem) {
-    debugger
     item.item.sprite?.setTint(this.TINT_COLOR)
   }
 

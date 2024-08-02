@@ -43,7 +43,6 @@ const goToRoute = () => {
 }
 
 onMounted(async () => {
-  debugger
   await authstore.init()
   await programsstore.init()
   goToRoute()

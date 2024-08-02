@@ -31,7 +31,6 @@
           ButtonComponent(@clicked="updateProgram()" text="Update")
         template(v-else)
           ButtonComponent(@clicked="addProgram()" text="Add Program")
-      ButtonComponent(text="installed" @clicked="programsstore.createInstalledProgram(selectedProgram._id, 0)")
   Validating(
     v-if="showValidation === true"
     :text="'Delete program: ' + selectedProgram.displayName"

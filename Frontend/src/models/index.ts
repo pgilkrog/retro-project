@@ -1,4 +1,4 @@
-export type { IProgram } from '@/models/IProgram'
+export type * from '@/models/IProgram'
 export type { IMenuItem } from '@/models/IMenuItem'
 export type { IErrorItem } from '@/models/IErrorItem'
 export type { IPainting } from '@/models/IPainting'
