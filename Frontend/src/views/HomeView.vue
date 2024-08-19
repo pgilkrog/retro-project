@@ -27,6 +27,7 @@
 //- Salvatore
 //- TestStuff
 //- LaCosaNostra
+Game
 </template>
 
 <script setup lang="ts">
@@ -38,6 +39,7 @@ import { useAuthStore } from '@/stores/authStore'
 // import Salvatore from '@/phaser/salvatore/SalvatoreGame.vue'
 // import TestStuff from '@/phaser/test-stuff/TestStuff.vue'
 // import LaCosaNostra from '@/phaser/la-cosa-nostra/LaCosaNostraGame.vue'
+import Game from '@/phaser/space-invaders/SpaceInvaders.vue'
 import ScreensaverMachine from '@/components/programs/ScreensaverMachine.vue'
 
 const appStore = useAppStore()
@@ -78,6 +80,7 @@ const registerMouseMovement = (event: any): void => {
 const gridPositionChanged = async (object: any) => {
   const iProgram = object.item
   object.item.gridPosition = object.gridPosition
+  if (iProgram === undefined) return
   const installedProgramToUpdate: IInstalledProgramDB = {
     _id: iProgram._id,
     programId: iProgram.program._id,

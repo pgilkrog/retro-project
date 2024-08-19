@@ -63,7 +63,6 @@ export default class Game extends Scene {
       this.paddle1.setVelocityY(0)
       this.paddle2.setVelocityY(0)
 
-
       // Adjust as needed
       // this.ball.setVelocityX(this.ball.body.velocity.x * this.damping);
       // this.ball.setVelocityY(this.ball.body.velocity.y * this.damping);
