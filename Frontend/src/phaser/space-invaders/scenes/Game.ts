@@ -4,9 +4,11 @@ import Alien from '../entities/Alien'
 type PhaserGroup = Phaser.Physics.Arcade.Group
 
 export default class Game extends Scene {
-  private player!: Phaser.Physics.Arcade.Sprite
-  private aliens!: PhaserGroup
-  private bullets!: PhaserGroup
+  private player: Phaser.Physics.Arcade.Sprite
+  private aliens: PhaserGroup
+  private bullets: PhaserGroup
+  private bullets2: PhaserGroup
+  private barriers: Phaser.Physics.Arcade.StaticGroup
   
   private keyA!: any
   private keyD!: any
@@ -53,15 +55,33 @@ export default class Game extends Scene {
 
     this.bullets = this.physics.add.group({
       classType: Phaser.Physics.Arcade.Sprite,
-      maxSize: 10,
+      maxSize: 30,
       runChildUpdate: true,
     })
+    this.bullets2 = this.physics.add.group({
+      classType: Phaser.Physics.Arcade.Sprite,
+      maxSize: 30,
+      runChildUpdate: true,
+    })
+
+
+    // Create the barriers group with physics enabled
+    this.barriers = this.physics.add.staticGroup({})
+
+    // Add barrier sprites to the group with positions and textures
+    this.createBarriers()
     
     this.player = this.physics.add.sprite(this.worldBounds.width / 2, this.physics.world.bounds.height- 100, 'player').setCollideWorldBounds(true)
 
-    this.physics.add.collider(this.player, this.aliens, this.collidePlayerAlien)
     this.physics.add.collider(this.bullets, this.aliens, this.collideBulletAlien)
+    this.physics.add.collider(this.bullets2, this.aliens, this.collideBulletAlien)
+    this.physics.add.collider(this.bullets, this.barriers, this.collideBulletBarrier)
+    this.physics.add.collider(this.bullets2, this.barriers, this.collideBulletBarrier)
+
+    this.physics.add.collider(this.player, this.aliens, this.collidePlayerAlien)
     this.physics.add.collider(this.player, this.alienCtr.getAlienBullets(), this.collidePlayerBullet)
+    this.physics.add.collider(this.alienCtr.getAlienBullets(), this.barriers, this.collideBulletBarrier)
+    this.physics.add.collider(this.aliens, this.barriers, this.collideAlienBarrier)
 
     this.keyA = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A)
     this.keyD = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D)
@@ -72,7 +92,16 @@ export default class Game extends Scene {
 
   update = (time: number, delta: number): void => {
     this.bullets.children.each((bullet: any) => {
-      if (bullet.y < 0) this.resetBullet(bullet)
+      if (bullet.y < 0) {
+        this.resetBullet(bullet)
+      }
+      return bullet
+    })
+
+    this.bullets2.children.each((bullet: any) => {
+      if (bullet.y < 0) {
+        this.resetBullet(bullet)
+      }
       return bullet
     })
 
@@ -95,7 +124,8 @@ export default class Game extends Scene {
   shoot = () => {
     if (this.canShoot === false) return
 
-    const bullet = this.bullets.get(this.player.x, this.player.y - 40)
+    const bullet = this.bullets.get(this.player.x-20, this.player.y - 40)
+    const bullet2 = this.bullets2.get(this.player.x + 20, this.player.y - 40)
 
     if (bullet) {
       bullet.setActive(true)
@@ -104,6 +134,14 @@ export default class Game extends Scene {
         .setVelocityX(0)
         .setTexture('bullet')
         .setSize(8, 20)
+      if (bullet2) 
+        bullet2.setActive(true)
+          .setVisible(true)
+          .setVelocityY(-this.bullet_speed)
+          .setVelocityX(0)
+          .setTexture('bullet')
+          .setSize(8, 20)
+        
       this.canShoot = false
       this.lazerSound.play()
 
@@ -135,8 +173,18 @@ export default class Game extends Scene {
   }
 
   collidePlayerBullet = (player: any, alienBullet: any) => {
-    this.scene.stop()
+    this.stopGameScene()
     this.resetBullet(alienBullet)
+  }
+
+  collideBulletBarrier = (bullet: any, barrier: any) => {
+    this.resetBullet(bullet)
+    barrier.destroy()
+  }
+
+  collideAlienBarrier = (alien: any, barrier: any) => {
+    alien.destroy()
+    barrier.destroy()
   }
 
   resetBullet = (bullet: Physics.Arcade.Image) => {
@@ -144,6 +192,9 @@ export default class Game extends Scene {
       .setVisible(false)
       .setPosition(-20, -20)
       .setVelocityY(0)
+      .setVelocityX(0)
+      .setTexture('')
+      .setSize(0, 0)
   }
 
   stopGameScene = () => {
@@ -152,5 +203,30 @@ export default class Game extends Scene {
 
   updateHighscoreText = () => {
     this.highScoreText.setText(`SCORE: ${this.highScore}`)
+  }
+
+  createBarriers = () => {
+    const barrierWidth = 32
+    const barrierHeight = 32
+    const barrierSpacing = 0
+
+    this.createBarrierArray(barrierWidth, barrierHeight, barrierSpacing, 200)
+    this.createBarrierArray(barrierWidth, barrierHeight, barrierSpacing, 600)
+    this.createBarrierArray(barrierWidth, barrierHeight, barrierSpacing, 1000)
+    this.createBarrierArray(barrierWidth, barrierHeight, barrierSpacing, 1400)
+  }
+
+  createBarrierArray = (
+    barrierWidth: number, 
+    barrierHeight: number, 
+    barrierSpacing: number, 
+    xCords: number
+  ) => {
+    for (let i = 0; i < 4; i++) {
+      for (let j = 0; j < 3; j++) {
+        this.barriers.create(xCords + i * (barrierWidth + barrierSpacing), 
+        (this.worldBounds.height - 300) + j * (barrierHeight + barrierSpacing), 'barrier').body.setSize(barrierWidth, barrierHeight)
+      }
+    }
   }
 }

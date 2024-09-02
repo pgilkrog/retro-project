@@ -4,34 +4,45 @@ img(
   :id
   :src 
   :alt 
+  :class="fadeInClass"
 )
-div(v-else class=" rounded flex justify-center items-center border border-gray-900" role="img" :aria-label="alt" style="height: 200px; width: 200px; background: #eeeeee;") 
-  iconComponent(name="bi-image" color="dark" size="34")
+div(
+  v-else 
+  class="bg-gray-200 rounded flex justify-center items-center border border-gray-900 h-[200px] w-[200px]" 
+  role="img" 
+  :aria-label="alt" 
+) 
+  iconComponent(
+    :name="imageIsLoading === true ? 'fa-spinner' : 'bi-image'" 
+    :class="imageIsLoading === true ? 'animate-spin' : ''"
+    color="dark" 
+    size="34"
+  )
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const { id, source = '', alt } = defineProps<{
-  id: string,
-  source: string,
-  alt: string
-}>()
-
 const imageIsLoading = ref(true)
 const src = ref('')
 const fadeInClass = ref('fade-in-image')
 
+const { id, source, alt = '' } = defineProps<{
+  id: string,
+  source: string,
+  alt?: string
+}>()
+
 onMounted(async () => {
-  const image = new Image()
-  
   if (!source) {
     // Handle case where source is not provided
     imageIsLoading.value = false
     return
   }
 
-  image.src = source + ''
+  const image = new Image()
+  image.src = source
+  
   image.onload = () => {
     src.value = image.src
     imageIsLoading.value = false

@@ -31,9 +31,3 @@ const changeSelectedProgram = (program: IProgram) => {
   emit('changeSelectedProgram', {...program})
 }
 </script>
-
-<style lang="sass" scoped>
-
-.program-item + .program-item
-  border-top: 1px solid gray
-</style>

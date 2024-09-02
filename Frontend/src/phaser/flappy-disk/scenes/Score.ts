@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 
 export default class Score extends Phaser.Scene {
-  private  screenCenter = [800 / 2, 600 / 2]
+  private screenCenter = [800 / 2, 600 / 2]
   private bestScore: String = ''
   private fontOptions = {fontSize: `${34}px`, fill: '#fff'}
   private backButton: any
@@ -23,5 +23,5 @@ export default class Score extends Phaser.Scene {
     this.backButton.on('pointerup', () => {
       this.scene.start('Menu');
     })
-    }
+  }
 }

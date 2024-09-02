@@ -7,7 +7,11 @@
   @click="console.log('DODIA')"
   @contextmenu="showContextMenu = true"
 )
-  DesktopGrid(:list="positionedList" :allPrograms="allPrograms" v-on:gridPositionChanged="gridPositionChanged($event)")
+  DesktopGrid(
+    :list="positionedList" 
+    :allPrograms="allPrograms" 
+    v-on:gridPositionChanged="gridPositionChanged($event)"
+  )
     template(v-slot:listItem="program") 
       DesktopItem(
         v-if="program.listItem !== undefined"
@@ -27,7 +31,7 @@
 //- Salvatore
 //- TestStuff
 //- LaCosaNostra
-Game
+//- Game
 </template>
 
 <script setup lang="ts">

@@ -18,6 +18,7 @@ export default class Loader extends Scene {
     this.load.image('player', api + 'player.png')
     this.load.image('bullet', api + 'projectile.png')
     this.load.image('space-art', api + 'stars-bg.jpg')
+    this.load.image('barrier', api + 'barrier.png')
 
     this.load.audio('lazershot', lazer)
     this.load.audio('lazershot2', lazer2)

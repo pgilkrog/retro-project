@@ -73,16 +73,18 @@ export default class Alien {
   }
 
   alienShoot = (alien: any) => {
-    const bullet = this.alienBullets.get(alien.x, alien.y)
-    if (bullet) {
-      this.lazerSound2.play()
-      bullet.setActive(true)
-        .setVisible(true)
-        .setVelocityY(600)
-        .setVelocityX(0)
-        .setTexture('bullet', 0xff00ff)
-        .setSize(8, 20)
-        .setTint(0x00ff00)
+    if (alien.active === true) {
+      const bullet = this.alienBullets.get(alien.x, alien.y)
+      if (bullet) {
+        this.lazerSound2.play()
+        bullet.setActive(true)
+          .setVisible(true)
+          .setVelocityY(600)
+          .setVelocityX(0)
+          .setTexture('bullet', 0xff00ff)
+          .setSize(8, 20)
+          .setTint(0x00ff00)
+      }      
     }
   }
 

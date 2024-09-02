@@ -7,11 +7,12 @@ import type { IInstalledProgram, IInstalledProgramDB, IProgram } from "../models
 const url = import.meta.env.VITE_BASE_URL + '/program'
 
 export const programsStore = defineStore("programs", () => {
+  const userstore = userStore()
+  
   const activePrograms = ref<IProgram[]>([])
   const allPrograms = ref<IProgram[]>([])
   const installedPrograms = ref<IInstalledProgram[]>([])
   const notInstalledPrograms = ref<IProgram[]>([])
-  const userstore = userStore()
   const positionedList = ref<IInstalledProgram[]>([])
 
   const init = async() => {
@@ -23,7 +24,6 @@ export const programsStore = defineStore("programs", () => {
   }
 
   const addProgramToActive = (program: IProgram) => {
-    debugger
     const newProgram = { ...program, isActive: true, left: 40, top: 40 }; // Create a copy
     if (!activePrograms.value.find(x => x._id === newProgram._id)) {
       activePrograms.value.push(newProgram);
@@ -55,7 +55,6 @@ export const programsStore = defineStore("programs", () => {
   const createProgram = async (program: IProgram): Promise<void> => {
     await post(url, { params: program }).then(() => getProgramsFromDB())
   }
-
 
   //** Installed Program */
   const setInstalledPrograms = async () => {

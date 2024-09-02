@@ -16,5 +16,7 @@ const {
   list: any[],
   activeTab: number
 }>()
-const emit = defineEmits<{(e: 'tabClick', value: number): void}>()
+const emit = defineEmits<{
+  (e: 'tabClick', value: number): void
+}>()
 </script>
