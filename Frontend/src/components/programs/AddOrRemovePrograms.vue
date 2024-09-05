@@ -12,8 +12,7 @@ WindowFrame(
         v-for="(button, key) in menuButtons"
         :key
         v-on:clicked="button.clicked" 
-        :text="button.text" 
-        :icon="button.icon" 
+        v-bind="button"
         :active="state === button.active"
       )
     .program-list(class="bg-gray-300 p-4 bg-shadow-inner")

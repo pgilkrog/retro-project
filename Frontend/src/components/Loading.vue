@@ -8,10 +8,10 @@
   )
     .p-4
       .folder-animation(class="flex justify-between")
-        IconComponent(name="bi-folder-fill" color="yellow" size="32")
+        IconComponent(name="bi-folder-fill" color="yellow" size="32" class="z-20")
         .box(:class="loadingCompleted === true ? '' : 'move-anim'")
-          IconComponent(name="bi-file-earmark-fill" class="text-white" size="32")
-        IconComponent(name="bi-folder-fill" color="yellow" size="32")
+          IconComponent(name="bi-file-earmark-fill" class="text-white" size="32" class="z-10")
+        IconComponent(name="bi-folder-fill" color="yellow" size="32" class="z-20")
       .loading-bar(:class="['bg-shadow-inner mt-4 flex', progressValues.lenth > 0 ? 'h-auto' : 'h-5']")
         .loading-box.bg-blue-500.h-5.w-5.mx-1(v-for="item in progressValues")
       div(class="flex justify-end mt-4")

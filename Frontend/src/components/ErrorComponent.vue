@@ -1,18 +1,15 @@
 <template lang="pug">
 Teleport(to="body" v-if="error !== undefined")
   WindowFrame(
-    :program="{_id: 543245, name: 'Error', displayName: 'Error', isActive: true, image: ''}" 
+    :program="errorProgram" 
     variant="red"
-    :isMoveable="true"
+    :is-moveable="false"
   )
-    .error-component.m-4
-      .text-center
+    .error-component(class="m-4 flex flex-col items-center space-y-4")
+      div(class="flex space-x-4 items-center")
         IconComponent(name="bi-exclamation-octagon-fill" color="red" size="40")
-      .ms-4.flex.items-center
         p {{ error.text }}
-      div
-        .flex.justify-center.mt-4
-          ButtonComponent(@clicked="closeErrorComponent()" text="OK").px-4
+      ButtonComponent(@clicked="closeErrorComponent()" text="OK" class="px-16")
 </template>
 
 <script setup lang="ts">
@@ -21,12 +18,16 @@ import { computed } from 'vue'
 
 const errorstore = errorStore()
 const error = computed(() => errorstore.error)
+const errorProgram = {
+  _id: 543245, 
+  name: 'Error', 
+  displayName: 'Error', 
+  isActive: true, 
+  image: ''
+}
 
 const closeErrorComponent = () => {
   errorstore.resetError()
 }
 
 </script>
-
-<style lang="sass">
-</style>

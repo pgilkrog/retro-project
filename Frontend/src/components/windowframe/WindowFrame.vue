@@ -31,7 +31,6 @@ Teleport(to="#app")
 <script setup lang="ts">
 import type { IProgram } from "@/models/index"
 import { programsStore } from "@/stores/programsStore"
-import WindowframeMenu from "./windowframeMenu.vue"
 
 const {
   showMenu = false,
