@@ -49,9 +49,9 @@ const { program } = defineProps<{
 const userstore = userStore()
 const filestore = fileStore()
 
-const state: Ref<number> = ref(0)
-const color: Ref<string> = ref("")
-const tempImg: Ref<IFile | undefined> = ref(undefined)
+const state = ref<number>(0)
+const color = ref<string>('')
+const tempImg = ref<IFile | undefined>()
 const userData = storeToRefs(userstore).userData as Ref<IUser | undefined>
 const tabsList = ['Didsplay', 'Screen Saver', 'Profile']
 
@@ -64,14 +64,14 @@ const onColorSelected = (event: any): void => {
   event.preventDefault()
   let tempData = userstore.userData
   if (tempData === undefined) return
-  
-  (tempData.settings as IUserSettings).backgroundColour = color.value
+
+  ;(tempData.settings as IUserSettings).backgroundColour = color.value
   userstore.setUserData(tempData)
 }
 
 const saveUserInfo = (): void => {
   let tempSettings = userData.value as IUser
-  
+
   if (tempSettings === undefined) return
 
   setImage(tempImg.value)
@@ -95,5 +95,4 @@ const setTempImg = (img: IFile): void => {
 const getImageUrl = (filename: string): string => {
   return `${import.meta.env.VITE_BASE_URL}/uploads/${filename}`
 }
-
 </script>

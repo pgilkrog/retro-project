@@ -1,20 +1,11 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "prettier.json"],
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["es2019", "DOM"],
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"],
-    },
-    "ignoreDeprecations": "5.0",
-    "strictPropertyInitialization": false,
-  },
+  "files": [],
   "references": [
     {
-      "path": "./tsconfig.config.json",
+      "path": "./tsconfig.node.json"
     },
-  ],
-  "files": ["auto-imports.d.ts"]
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ]
 }

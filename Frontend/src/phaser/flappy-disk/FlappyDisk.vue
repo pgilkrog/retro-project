@@ -3,19 +3,19 @@ div(ref="gameContainer" class="game-container")
 </template>
 
 <script lang="ts">
-import Phaser from 'phaser'
-import { defineComponent, ref } from 'vue'
+import Phaser from "phaser";
+import { defineComponent, ref } from "vue";
 
-import Create from './scenes/Create'
-import Loader from './scenes/Loader'
-import Menu from './scenes/Menu'
-import Score from './scenes/Score'
-import Pause from './scenes/Pause'
+import Create from "./scenes/Create";
+import Loader from "./scenes/Loader";
+import Menu from "./scenes/Menu";
+import Score from "./scenes/Score";
+import Pause from "./scenes/Pause";
 
-export default defineComponent ({
-  name: 'GameComponent',
+export default defineComponent({
+  name: "GameComponent",
   setup() {
-    const gameContainer = ref<HTMLDivElement>()
+    const gameContainer = ref<HTMLDivElement>();
 
     onMounted(() => {
       new Phaser.Game({
@@ -25,25 +25,25 @@ export default defineComponent ({
         pixelArt: true,
         parent: gameContainer.value,
         physics: {
-            default: "arcade",
-            arcade: {
-                debug: false
-            }
+          default: "arcade",
+          arcade: {
+            debug: false,
+          },
         },
         scale: {
-            parent: gameContainer.value,
-            mode: Phaser.Scale.FIT,
-            autoCenter: Phaser.Scale.CENTER_BOTH,
-            width: 800,
-            height: 600
+          parent: gameContainer.value,
+          mode: Phaser.Scale.FIT,
+          autoCenter: Phaser.Scale.CENTER_BOTH,
+          width: 800,
+          height: 600,
         },
-        scene: [Loader, Create, Menu, Score, Pause]
-      })
-    })
+        scene: [Loader, Create, Menu, Score, Pause],
+      });
+    });
 
     return {
-      gameContainer
-    }
-  }
-})
+      gameContainer,
+    };
+  },
+});
 </script>

@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IMenuItem }  from '@/models/index'
+import type { IMenuItem } from '@/models/index'
 import jsondata from '@/assets/menuData.json'
 
 const { showMenu = false } = defineProps<{
@@ -28,7 +28,6 @@ const createMenu = () => {
 onMounted(() => {
   createMenu()
 })
-
 </script>
 <style lang="sass">
 .menu-item

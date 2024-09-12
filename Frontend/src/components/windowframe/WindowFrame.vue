@@ -4,11 +4,11 @@ Teleport(to="#app")
     .wrapper(
       v-if="program?.isActive === true" 
       :id="program._id"
-      class="bg-shadow bg-gray-300 flex flex-col absolute p-2 rounded px-2 w-96 sm:w-auto"
+      class="bg-shadow bg-gray-300 flex flex-col absolute p-2 rounded px-2"
       :style="[ isMoveable ? { top: program.top + 'px', left: program.left + 'px'} : { top: '40%', left: '50%', transform: 'translate(-50%, -50%)' }]"
     )
       header(
-        :class="['top-bar flex flex-col-reverse sm:flex-row justify-between items-center mb-1 p-2 px-4 rounded bg-gradient-to-r', getBackgroundColor(variant)]" 
+        :class="['top-bar flex flex-col-reverse sm:flex-row justify-between items-center mb-1 py-2 px-4 rounded bg-gradient-to-r', getBackgroundColor(variant)]" 
         @mousedown="handleMouseDown"
       )
         div(class="flex items-center content-center pointer-events-none mt-6 sm:mt-0")
@@ -29,27 +29,27 @@ Teleport(to="#app")
 </template>
 
 <script setup lang="ts">
-import type { IProgram } from "@/models/index"
-import { programsStore } from "@/stores/programsStore"
+import type { IProgram } from '@/models/index'
+import { programsStore } from '@/stores/programsStore'
 
 const {
   showMenu = false,
   disableButtons = false,
   program,
-  variant = "blue",
+  variant = 'blue',
   isNotProgram = false,
   isMoveable = true,
 } = defineProps<{
-  showMenu?: boolean,
-  disableButtons?: boolean,
-  program: IProgram,
-  variant?: string,
-  isNotProgram?: boolean,
-  isMoveable?: boolean,
+  showMenu?: boolean
+  disableButtons?: boolean
+  program: IProgram
+  variant?: string
+  isNotProgram?: boolean
+  isMoveable?: boolean
 }>()
 
 const emit = defineEmits<{
-  (e: "closeWindow"): void
+  (e: 'closeWindow'): void
 }>()
 
 const programsstore = programsStore()
@@ -60,21 +60,21 @@ const startY = ref(0)
 
 const menuButtons = [
   {
-    icon: "fa-window-minimize",
-    clicked: () => setInactive()
+    icon: 'fa-window-minimize',
+    clicked: () => setInactive(),
   },
   {
-    icon: "fa-square",
-    clicked: () => {}
+    icon: 'fa-square',
+    clicked: () => {},
   },
-  {            
-    icon: "fa-xmark" ,
-    clicked: () => closeWindow()
-  }
+  {
+    icon: 'fa-xmark',
+    clicked: () => closeWindow(),
+  },
 ]
 
 onMounted(() => {
-  console.log("CHECK THIS DO STUFF", program.name)
+  console.log('CHECK THIS DO STUFF', program.name)
 })
 
 const closeWindow = () => {
@@ -82,7 +82,7 @@ const closeWindow = () => {
   if (program) programsstore.removeProgramFromActive(program)
 
   // If the window is not a program but a form of popup emit the close window
-  if (isNotProgram === true) emit("closeWindow");
+  if (isNotProgram === true) emit('closeWindow')
 }
 
 const setInactive = () => {
@@ -94,7 +94,7 @@ const handleMouseDown = (event: MouseEvent) => {
   if (isMoveable === true) {
     const target = event.target as HTMLElement
 
-    if (target.classList.contains("top-bar")) {
+    if (target.classList.contains('top-bar')) {
       startDrag(event)
     }
   }
@@ -102,14 +102,14 @@ const handleMouseDown = (event: MouseEvent) => {
 
 const getBackgroundColor = (color: string) => {
   switch (color) {
-    case "yellow":
-      return "from-yellow-500 to-yellow-300"
-    case "red":
-      return "from-red-500 to-red-300"
-    case "green":
-      return "from-green-500 to-green-300"
+    case 'yellow':
+      return 'from-yellow-500 to-yellow-300'
+    case 'red':
+      return 'from-red-500 to-red-300'
+    case 'green':
+      return 'from-green-500 to-green-300'
     default:
-      return "from-blue-500 to-blue-300"
+      return 'from-blue-500 to-blue-300'
   }
 }
 
@@ -118,13 +118,13 @@ const startDrag = (event: MouseEvent) => {
     isDragging.value = true
     startX.value = event.clientX
     startY.value = event.clientY
-    document.addEventListener("mousemove", onDrag)
-    document.addEventListener("mouseup", stopDrag)
+    document.addEventListener('mousemove', onDrag)
+    document.addEventListener('mouseup', stopDrag)
   }
 }
 
 const onDrag = (event: MouseEvent) => {
-  if (!isDragging.value) return;
+  if (!isDragging.value) return
 
   const deltaX = event.clientX - startX.value
   const deltaY = event.clientY - startY.value
@@ -138,7 +138,7 @@ const onDrag = (event: MouseEvent) => {
 
 const stopDrag = () => {
   isDragging.value = false
-  document.removeEventListener("mousemove", onDrag)
-  document.removeEventListener("mouseup", stopDrag)
+  document.removeEventListener('mousemove', onDrag)
+  document.removeEventListener('mouseup', stopDrag)
 }
 </script>

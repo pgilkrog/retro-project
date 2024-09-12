@@ -1,6 +1,6 @@
 <template lang="pug">
 .bg-shadow.p-4.fit-content.rounded
-  .bg-shadow-inner.img-box()
+  .bg-shadow-inner.img-box(class="")
     ImageComponent.box(
       v-if="tempImg !== undefined && tempImg.name"
       id="pcscreen"
@@ -23,7 +23,7 @@ import { userStore } from '../../../stores/userStore'
 import type { IFile, IUser } from '../../../models/index'
 
 const { tempImg } = defineProps<{
-  tempImg: IFile
+  tempImg?: IFile
 }>()
 
 const userstore = userStore()

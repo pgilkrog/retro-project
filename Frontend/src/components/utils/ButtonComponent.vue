@@ -20,25 +20,27 @@ button(
 </template>
 
 <script setup lang="ts">
-const { 
-  text = '', 
-  icon, 
-  size = '16', 
-  active = false, 
-  disabled = false, 
-  color="black", 
-  type = 'button',
-  isLoading = false 
-} = defineProps<{
-  text?: string,
-  icon?: string,
-  size?: string,
-  active?: boolean,
-  disabled?: boolean,
-  color?: string,
-  isLoading?: boolean,
+interface IButtonComponent {
+  text?: string
+  icon?: string
+  size?: string
+  active?: boolean
+  disabled?: boolean
+  color?: string
+  isLoading?: boolean
   type?: string
-}>()
+}
+
+const {
+  text = '',
+  icon,
+  size = '16',
+  active = false,
+  disabled = false,
+  color = 'black',
+  type = 'button',
+  isLoading = false,
+} = defineProps<IButtonComponent>()
 
 const emit = defineEmits<{
   (e: 'clicked'): void

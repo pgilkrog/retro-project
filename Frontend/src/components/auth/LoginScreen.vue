@@ -43,41 +43,37 @@ import { useAppStore } from '../../stores/appStore'
 const appStore = useAppStore()
 
 const state = ref(1)
-const username = ref<string>("")
-const password = ref<string>("")
-const password2 = ref<string>("")
+const username = ref<string>('')
+const password = ref<string>('')
+const password2 = ref<string>('')
 const info = ref<string>('info')
 const infoText = ref<string>('Type a email and password to log in')
 const showHelp = ref<boolean>(false)
 const authstore = useAuthStore()
 const program = ref({
-  name: 'LogInNow', 
-  isActive: true, 
+  name: 'LogInNow',
+  isActive: true,
   image: 'fa-user-lock',
   displayName: 'Log in now',
-  color: 'light'
+  color: 'light',
 } as IProgram)
 
 const pressedOk = () => {
-  if (state.value === 1)
-    confirmLogin()
-  else if (state.value === 2)
-    registerUser()
-  else
-    changePassword()
+  if (state.value === 1) confirmLogin()
+  else if (state.value === 2) registerUser()
+  else changePassword()
 }
 
 const confirmLogin = (): void => {
   authstore.loginUser(username.value, password.value).then(() => {
     setTimeout(() => {
       router.push('/')
-    }, 100) 
+    }, 100)
   })
 }
 
 const registerUser = (): void => {
-  if (password.value === password2.value)
-    authstore.registerUser(username.value, password.value)
+  if (password.value === password2.value) authstore.registerUser(username.value, password.value)
 }
 
 const changePassword = (): void => {
@@ -92,7 +88,7 @@ const devLogin = () => {
   authstore.loginUser('hej@hej.com', 'hejsa1234').then(() => {
     setTimeout(() => {
       router.push('/')
-    }, 100) 
+    }, 100)
   })
 }
 

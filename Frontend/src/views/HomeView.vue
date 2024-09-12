@@ -45,6 +45,7 @@ import { useAuthStore } from '@/stores/authStore'
 // import LaCosaNostra from '@/phaser/la-cosa-nostra/LaCosaNostraGame.vue'
 import Game from '@/phaser/space-invaders/SpaceInvaders.vue'
 import ScreensaverMachine from '@/components/programs/ScreensaverMachine.vue'
+import { useId } from 'vue'
 
 const appStore = useAppStore()
 const authstore = useAuthStore()
@@ -53,9 +54,11 @@ const userstore = userStore()
 
 const userData = computed(() => userstore.userData)
 const showMenu = ref<boolean>(false)
-const allPrograms = computed<IInstalledProgram[]>(() => programsstore.installedPrograms) 
+const allPrograms = computed<IInstalledProgram[]>(() => programsstore.installedPrograms)
 const positionedList = computed<IInstalledProgram[]>(() => programsstore.positionedList)
 const showContextMenu = ref(false)
+const id1 = useId()
+const id2 = useId()
 
 onMounted(async () => {
   if (authstore.isLoggedIn === true) {
@@ -66,7 +69,7 @@ onMounted(async () => {
 })
 
 const generateComponent = (program: IProgram): void => {
-  programsstore.addProgramToActive({...program})
+  programsstore.addProgramToActive({ ...program })
 }
 
 const getImageUrl = (filename: string): string => {
@@ -89,11 +92,10 @@ const gridPositionChanged = async (object: any) => {
     _id: iProgram._id,
     programId: iProgram.program._id,
     gridPosition: object.gridPosition,
-    userId: userstore.userData?._id ?? ''
+    userId: userstore.userData?._id ?? '',
   }
   await programsstore.updateInstalledProgram(installedProgramToUpdate)
 }
-
 </script>
 
 <style lang="sass">

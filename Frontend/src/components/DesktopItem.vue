@@ -13,14 +13,13 @@
 </template>
 
 <script setup lang="ts">
-
 const { color = 'text-black', image = 'fa-house' } = defineProps<{
-  color?: string,
-  image?: string,
+  color?: string
+  image?: string
   displayName: string
 }>()
 
 const emit = defineEmits<{
-  (e:'generate-component'): void
+  (e: 'generate-component'): void
 }>()
 </script>

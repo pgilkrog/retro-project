@@ -5,7 +5,7 @@ WindowFrame(:program="program" :isMoveable="true")
       p {{ display !== '' ? display : '0' }}
     .button-wrapper(class="grid grid-cols-4 m-4 gap-4 w-100")
       ButtonComponent(
-        class=" px-8 py-6"
+        class=" !px-0 py-2"
         v-for="button in buttons" 
         :key="button.vlue"
         @clicked="handleClick(button)"
@@ -43,7 +43,7 @@ const buttons = [
   { text: '/', value: '/' },
   { text: '=', value: '=' },
 ] as Button[]
- 
+
 const handleClick = (button: Button) => {
   if (button.value === '=') {
     display.value = eval(display.value)
@@ -51,5 +51,4 @@ const handleClick = (button: Button) => {
     display.value += button.value
   }
 }
-
 </script>

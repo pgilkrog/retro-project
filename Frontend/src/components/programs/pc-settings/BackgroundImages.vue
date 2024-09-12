@@ -33,7 +33,7 @@ import { fileStore } from '../../../stores/fileStore'
 import type { IFile } from '@/models'
 
 const { tempImg } = defineProps<{
-  tempImg: IFile
+  tempImg?: IFile 
 }>()
 
 const emit = defineEmits<{

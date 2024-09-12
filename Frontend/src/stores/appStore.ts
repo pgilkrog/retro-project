@@ -1,9 +1,9 @@
-import { defineStore } from "pinia"
+import { defineStore } from 'pinia'
 
 export const useAppStore = defineStore('appStore', () => {
   const showScreensaver = ref<boolean>(false)
   const screensaverTimer = ref()
-  const isDev = ref<boolean>(import.meta.env.VITE_BASE_URL)
+  const isDev = ref<boolean>(import.meta.env.VITE_IS_DEV)
 
   const initiateScreensaverTimer = () => {
     if (screensaverTimer.value >= 0) {
@@ -24,10 +24,10 @@ export const useAppStore = defineStore('appStore', () => {
   }
 
   return {
-    showScreensaver, 
+    showScreensaver,
     setShowScreensaver,
     initiateScreensaverTimer,
     thismaybe,
-    isDev
+    isDev,
   }
 })

@@ -1,5 +1,4 @@
 import { defineStore } from "pinia"
-import { ref } from "vue"
 import { get, put, post, del } from '@/helpers/httpHelper'
 import { userStore } from "./userStore"
 import type { IInstalledProgram, IInstalledProgramDB, IProgram } from "../models/IProgram"
