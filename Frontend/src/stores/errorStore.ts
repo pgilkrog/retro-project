@@ -1,15 +1,15 @@
-import type { IErrorItem } from "@/models/IErrorItem"
-import { defineStore } from "pinia"
+import type { IErrorItem } from '@/models/IErrorItem'
+import { defineStore } from 'pinia'
 import axios from 'axios'
-import { userStore } from "./userStore"
+import { userStore } from './userStore'
 
 const url = import.meta.env.VITE_BASE_URL + '/error'
 
-export const errorStore = defineStore("errors", () => {
+export const useErrorStore = defineStore('errorStore', () => {
   const error = ref<IErrorItem>()
   const errorList = ref<IErrorItem[]>([])
   const errors = ref<IErrorItem[]>()
-  
+
   const userstore = userStore()
 
   const getErrors = async () => {
@@ -28,9 +28,9 @@ export const errorStore = defineStore("errors", () => {
       icon: 'bi bi-bug-fill',
       text: text,
       show: true,
-      timeStamp: new Date()
+      timeStamp: new Date(),
     } as IErrorItem
-    
+
     let tempList = errorList.value as IErrorItem[]
     tempList.push(error.value)
     createError(text)
@@ -41,12 +41,12 @@ export const errorStore = defineStore("errors", () => {
   }
 
   const createError = (text: string) => {
-    const response = axios.post(url, null, { 
-      params: { 
-        text: text, 
-        date: Date.now(), 
-        userId: userstore.userData?._id || 0 
-      }
+    const response = axios.post(url, null, {
+      params: {
+        text: text,
+        date: Date.now(),
+        userId: userstore.userData?._id || 0,
+      },
     })
     console.log('createError', response)
   }
@@ -59,6 +59,6 @@ export const errorStore = defineStore("errors", () => {
     setErrorList,
     setError,
     resetError,
-    createError
+    createError,
   }
 })

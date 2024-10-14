@@ -1,15 +1,15 @@
-import { defineStore } from "pinia"
-import { chatStore } from "./chatStore"
-import { programsStore } from "./programsStore"
-import type { IUser, IUserSettings } from "@/models/index"
+import { defineStore } from 'pinia'
+import { chatStore } from './chatStore'
+import { programsStore } from './programsStore'
+import type { IUser, IUserSettings } from '@/models/index'
 import { ref } from 'vue'
-import axios from "axios"
-import setAuthToken from "@/helpers/setAuthToken"
+import axios from 'axios'
+import setAuthToken from '@/helpers/setAuthToken'
 
 const url = import.meta.env.VITE_BASE_URL + '/user'
-type UserWithOnlineStatus = IUser & { online: boolean }; // Add online status type
+type UserWithOnlineStatus = IUser & { online: boolean } // Add online status type
 
-export const userStore = defineStore("user", () => {
+export const userStore = defineStore('user', () => {
   const allUsers = ref<IUser[]>()
   const onlineUsers = reactive<string[]>([])
   const userData = ref<IUser>()
@@ -23,24 +23,25 @@ export const userStore = defineStore("user", () => {
       const response = await axios.get(url)
       const { data, statusText } = response
 
-      if (statusText !== 'OK') return 
+      if (statusText !== 'OK') return
 
-      const users = data.users.map((user: IUser): UserWithOnlineStatus => ({
-        ...user,
-        online: chatstore.onlineUsers.includes(user.email),
-      }))
+      const users = data.users.map(
+        (user: IUser): UserWithOnlineStatus => ({
+          ...user,
+          online: chatstore.onlineUsers.includes(user.email),
+        })
+      )
 
       setAllUsers(users)
-  
     } catch (error) {
-      console.error("Error fetching users:", error)
+      console.error('Error fetching users:', error)
     }
   }
 
   const getUserById = async (): Promise<void> => {
     const userId = sessionStorage.getItem('userId')
 
-    if (userId == undefined) return 
+    if (userId == undefined) return
 
     try {
       const response = await axios.get(`${url}/${userId}`)
@@ -60,7 +61,7 @@ export const userStore = defineStore("user", () => {
     try {
       await axios.put(`${url}/settings/${settings._id}`, null, { params: settings })
     } catch (error) {
-      console.log(error) 
+      console.log(error)
     }
   }
 
@@ -81,6 +82,6 @@ export const userStore = defineStore("user", () => {
     setUserData,
     getUserById,
     updateUser,
-    updateUserSettings
+    updateUserSettings,
   }
 })

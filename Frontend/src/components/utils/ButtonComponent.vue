@@ -4,7 +4,7 @@ button(
   @click="emit('clicked')"
   :type
   :disabled
-  :class="['bg-gray-300 border rounded flex content-center justify-center items-center px-4 py-2', active ? 'bg-shadow-inner btn-active' : ' bg-shadow',  'bg-'+color+'-300', disabled === true ? 'bg-gray-200 cursor-not-allowed text-gray-500' : '']"
+  :class="['bg-gray-300 border rounded flex content-center justify-center items-center px-4 py-2', active ? 'bg-shadow-inner btn-active' : ' bg-shadow',  'bg-'+color+'-300', disabled === true && 'bg-gray-200 cursor-not-allowed text-gray-500']"
 )
   template(v-if="!isLoading")
     IconComponent(
@@ -20,16 +20,7 @@ button(
 </template>
 
 <script setup lang="ts">
-interface IButtonComponent {
-  text?: string
-  icon?: string
-  size?: string
-  active?: boolean
-  disabled?: boolean
-  color?: string
-  isLoading?: boolean
-  type?: string
-}
+import type { IButtonComponent } from '@/models'
 
 const {
   text = '',

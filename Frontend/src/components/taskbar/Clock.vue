@@ -3,21 +3,21 @@
 </template>
 
 <script setup lang="ts">
-import { errorStore } from '@/stores/errorStore'
+import { useErrorStore } from '@/stores/errorStore'
 
 const time = ref('')
-const errorstore = errorStore()
+const errorstore = useErrorStore()
 
 const updateTime = () => {
   var cd = new Date()
-  time.value =  zeroPadding(cd.getHours(), 2) + ':' +  zeroPadding(cd.getMinutes(), 2)    
+  time.value = zeroPadding(cd.getHours(), 2) + ':' + zeroPadding(cd.getMinutes(), 2)
 }
 const zeroPadding = (num: number, digit: number) => {
-    var zero = ''
-    for(var i = 0; i < digit; i++) {
-        zero += '0'
-    }
-    return (zero + num).slice(-digit)
+  var zero = ''
+  for (var i = 0; i < digit; i++) {
+    zero += '0'
+  }
+  return (zero + num).slice(-digit)
 }
 
 const addBug = () => {

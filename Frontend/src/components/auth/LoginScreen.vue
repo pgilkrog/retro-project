@@ -23,7 +23,8 @@ WindowFrame(
         .col-span-12
           InputComponent(v-model="password2" type="password")
     .buttons.mt-4.flex.justify-end.w-full.col-span-12
-      ButtonComponent(v-if="appStore.isDev" @clicked="devLogin()" text="Dev login")
+      ButtonComponent( @clicked="devLogin()" text="Dev login")
+      pre isDev: {{isDev}}
       ButtonComponent(@clicked="pressedOk()" text="OK") 
       //- ButtonComponent(@clicked="changeShowHelp()" text="Help" :active="showHelp")
   .buttons.flex.flex-col.bg-shadow-inner.p-4.m-2.rounded(v-if="showHelp === true")
@@ -39,8 +40,12 @@ import { useAuthStore } from '@/stores/authStore'
 import type { IProgram } from '@/models/index'
 import router from '@/router'
 import { useAppStore } from '../../stores/appStore'
+import { storeToRefs } from 'pinia'
 
 const appStore = useAppStore()
+const authstore = useAuthStore()
+
+const { isDev } = storeToRefs(appStore)
 
 const state = ref(1)
 const username = ref<string>('')
@@ -49,7 +54,6 @@ const password2 = ref<string>('')
 const info = ref<string>('info')
 const infoText = ref<string>('Type a email and password to log in')
 const showHelp = ref<boolean>(false)
-const authstore = useAuthStore()
 const program = ref({
   name: 'LogInNow',
   isActive: true,
@@ -58,7 +62,7 @@ const program = ref({
   color: 'light',
 } as IProgram)
 
-const pressedOk = () => {
+const pressedOk = (): void => {
   if (state.value === 1) confirmLogin()
   else if (state.value === 2) registerUser()
   else changePassword()
@@ -80,11 +84,11 @@ const changePassword = (): void => {
   authstore.changePassword(password.value)
 }
 
-const changeShowHelp = () => {
+const changeShowHelp = (): void => {
   showHelp.value = !showHelp.value
 }
 
-const devLogin = () => {
+const devLogin = (): void => {
   authstore.loginUser('hej@hej.com', 'hejsa1234').then(() => {
     setTimeout(() => {
       router.push('/')
@@ -92,7 +96,7 @@ const devLogin = () => {
   })
 }
 
-const changeState = (stateVal: number) => {
+const changeState = (stateVal: number): void => {
   if (stateVal === 1) {
     state.value = 1
     info.value = 'blue'

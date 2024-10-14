@@ -1,14 +1,17 @@
-export type * from '@/models/IProgram'
-export type { IMenuItem } from '@/models/IMenuItem'
-export type { IErrorItem } from '@/models/IErrorItem'
-export type { IPainting } from '@/models/IPainting'
-export type { IUser } from '@/models/IUser'
-export type { IUserSettings } from '@/models/IUserSettings'
-export type { IFile } from '@/models/IFile'
-export type { IChatMessage, IChatRoom } from '@/models/ChatTypes'
+export type * from './IProgram'
+export type * from './IMenuItem'
+export type * from './IErrorItem'
+export type * from './IPainting'
+export type * from './IUser'
+export type * from './IUserSettings'
+export type * from './IFile'
+export type * from './ChatTypes'
+export type * from './components/IButton'
+
+export type * from '@/models/components/IButton'
 
 export enum programTypes {
   Game,
   Accesory,
-  Tool
+  Tool,
 }

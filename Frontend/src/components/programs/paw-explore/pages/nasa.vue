@@ -10,6 +10,4 @@
     InputComponent()
     ButtonComponent(text="login" size="wide" class="w-full mt-8")
 </template>
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>

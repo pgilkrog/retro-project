@@ -29,4 +29,11 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  css: {
+    preprocessorOptions: {
+      sass: {
+        api: 'modern-compiler', // or "modern" maybe remove some time
+      },
+    },
+  },
 })

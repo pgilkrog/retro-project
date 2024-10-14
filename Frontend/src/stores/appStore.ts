@@ -5,6 +5,8 @@ export const useAppStore = defineStore('appStore', () => {
   const screensaverTimer = ref()
   const isDev = ref<boolean>(import.meta.env.VITE_IS_DEV)
 
+  const appInit = () => {}
+
   const initiateScreensaverTimer = () => {
     if (screensaverTimer.value >= 0) {
       setShowScreensaver(false)
@@ -25,6 +27,7 @@ export const useAppStore = defineStore('appStore', () => {
 
   return {
     showScreensaver,
+    appInit,
     setShowScreensaver,
     initiateScreensaverTimer,
     thismaybe,

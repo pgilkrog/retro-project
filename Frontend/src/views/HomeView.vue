@@ -89,8 +89,8 @@ const gridPositionChanged = async (object: any) => {
   object.item.gridPosition = object.gridPosition
   if (iProgram === undefined) return
   const installedProgramToUpdate: IInstalledProgramDB = {
-    _id: iProgram._id,
-    programId: iProgram.program._id,
+    _id: iProgram?._id,
+    programId: iProgram?.program?._id,
     gridPosition: object.gridPosition,
     userId: userstore.userData?._id ?? '',
   }

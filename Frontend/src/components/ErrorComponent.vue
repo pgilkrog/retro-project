@@ -13,21 +13,20 @@ Teleport(to="body" v-if="error !== undefined")
 </template>
 
 <script setup lang="ts">
-import { errorStore } from '@/stores/errorStore'
+import { useErrorStore } from '@/stores/errorStore'
 import { computed } from 'vue'
 
-const errorstore = errorStore()
+const errorstore = useErrorStore()
 const error = computed(() => errorstore.error)
 const errorProgram = {
-  _id: 543245, 
-  name: 'Error', 
-  displayName: 'Error', 
-  isActive: true, 
-  image: ''
+  _id: 543245,
+  name: 'Error',
+  displayName: 'Error',
+  isActive: true,
+  image: '',
 }
 
 const closeErrorComponent = () => {
   errorstore.resetError()
 }
-
 </script>
