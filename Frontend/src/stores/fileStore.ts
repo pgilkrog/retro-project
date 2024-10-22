@@ -1,7 +1,7 @@
-import { defineStore } from "pinia"
+import { defineStore } from 'pinia'
 import axios from 'axios'
-import { errorStore } from "./errorStore"
-import type { IFile, IPainting } from "@/models"
+import { useErrorStore } from './errorStore'
+import type { IFile, IPainting } from '@/models'
 import { userStore } from './userStore'
 import { ref } from 'vue'
 
@@ -10,8 +10,8 @@ const url = import.meta.env.VITE_BASE_URL + '/files'
 export const fileStore = defineStore('filestore', () => {
   const userstore = userStore()
   const allFiles = ref<IFile[]>([])
-  const errorstore = errorStore()
-  
+  const errorstore = useErrorStore()
+
   const uploadFile = async (formData: any) => {
     try {
       const response = await axios.post(url + '/upload', formData)
@@ -19,13 +19,13 @@ export const fileStore = defineStore('filestore', () => {
       const { filename, originalname, size, fieldname, path } = response.data.file
       const fileToStore = {
         _id: '',
-        name: filename, 
+        name: filename,
         originalName: originalname,
         size: size,
         type: fieldname,
         url: path,
         userId: userstore.userData?._id,
-        createdAt: new Date
+        createdAt: new Date(),
       } as IFile
       await axios.post(url, null, { params: fileToStore }).then(() => {
         getAllFiles()
@@ -49,6 +49,6 @@ export const fileStore = defineStore('filestore', () => {
   return {
     allFiles,
     uploadFile,
-    getAllFiles
+    getAllFiles,
   }
 })

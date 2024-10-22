@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@vue/runtime-core": "^3.2.47",
+    "animejs": "^3.2.2",
     "autoprefixer": "^10.4.16",
     "axios": "^1.7.2",
     "bootstrap-icons": "^1.10.1",
@@ -29,6 +30,7 @@
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",
     "@tsconfig/node20": "^20.1.4",
+    "@types/animejs": "^3.1.12",
     "@types/node": "^22.5.4",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vue/eslint-config-prettier": "^9.0.0",

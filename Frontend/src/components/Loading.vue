@@ -28,24 +28,24 @@
 import type { IProgram } from '@/models/index'
 
 const { loadingTime = 10 } = defineProps<{
-  loadingTime: number
+  loadingTime?: number
 }>()
 
 const emit = defineEmits<{
-  (e: 'close-loading'): void 
+  (e: 'close-loading'): void
 }>()
 
 const program = {
-  _id: "345345",
+  _id: '345345',
   name: 'Loading',
   displayName: 'Loading',
-  color: 'blue', 
-  isActive: true, 
+  color: 'blue',
+  isActive: true,
   image: 'bi-archive',
   left: 40,
   top: 40,
   sortOrder: 0,
-  type: 'Program'
+  type: 'Program',
 } as IProgram
 
 const loadingCompleted = ref(false)
@@ -55,10 +55,13 @@ const progress = ref<number>(0)
 
 const addToArray = () => {
   if (progressValues.value.length < 13) {
-    setTimeout(() => {
-      progressValues.value.push(1)
-      addToArray()
-    }, Math.random() * 1000 + 100)
+    setTimeout(
+      () => {
+        progressValues.value.push(1)
+        addToArray()
+      },
+      Math.random() * 1000 + 100
+    )
   }
 
   if (progressValues.value.length === 12) {
@@ -109,15 +112,15 @@ onMounted(() => {
 </script>
 
 <style lang="sass" scoped>
-.box 
+.box
   position: absolute
 
-.move-anim 
+.move-anim
   animation: move 2s ease-in-out infinite
 
-@keyframes move 
-  from 
+@keyframes move
+  from
     left: 20px
-  to 
+  to
     left: calc(100% - 50px)
 </style>

@@ -13,21 +13,17 @@ h2.mb-4 {{ title }}
 <script setup lang="ts">
 import type { IProgram } from '@/models/index'
 
-const {
-  programList,
-  title,
-  selectedProgramId
- } = defineProps<{
-  programList: IProgram[],
-  title: string,
+const { programList, title, selectedProgramId } = defineProps<{
+  programList: IProgram[]
+  title: string
   selectedProgramId: string
- }>()
+}>()
 
 const emit = defineEmits<{
- (e: 'changeSelectedProgram', program: IProgram): void
+  (e: 'changeSelectedProgram', program: IProgram): void
 }>()
 
 const changeSelectedProgram = (program: IProgram) => {
-  emit('changeSelectedProgram', {...program})
+  emit('changeSelectedProgram', { ...program })
 }
 </script>

@@ -1,11 +1,11 @@
-import { errorStore } from '@/stores/errorStore'
+import { useErrorStore } from '@/stores/errorStore'
 import type { IErrorItem } from '@/models/index'
 
-const errorstore = errorStore()
+const errorstore = useErrorStore()
 
 export default {
   errorHelp(error: string) {
-    errorstore.setError(error) 
+    errorstore.setError(error)
     console.error(error)
-  }
+  },
 }

@@ -16,14 +16,14 @@ WindowFrame(
         :active="state === button.active"
       )
     .program-list(class="bg-gray-300 p-4 bg-shadow-inner")
-      ProgramList(
+      ProgramsList(
         v-if="state === 'removePrograms'"
         title="Installed programs"
         :programList="installedPrograms"
         :selectedProgramId="selectedProgramId"
         v-on:changeSelectedProgram="changeSelectedProgram($event)"
       )
-      ProgramList(
+      ProgramsList(
         v-if="state === 'addPrograms'"
         title="Not installed programs"
         :programList="notInstalledPrograms"
@@ -44,7 +44,7 @@ WindowFrame(
         text="Remove"
         :disabled="selectedProgramId === ''"
       )
-Loader(v-if="isInstalling === true" @closeLoading="closeLoading()")
+Loading(v-if="isInstalling === true" @closeLoading="closeLoading()")
 </template>
 
 <script setup lang="ts">
@@ -52,11 +52,8 @@ import { programsStore } from '@/stores/programsStore'
 import { userStore } from '@/stores/userStore'
 import type { IProgram } from '@/models/index'
 
-import ProgramList from '@/components/programs/add-remove-programs/ProgramsList.vue'
-import Loader from '@/components/Loading.vue'
-
 const { program } = defineProps<{
-  program: Object
+  program: IProgram
 }>()
 
 const programsstore = programsStore()
@@ -65,34 +62,35 @@ const state = ref('removePrograms')
 const isInstalling = ref(false)
 
 let selectedProgram: IProgram | undefined
-let selectedProgramId = ref("")
+let selectedProgramId = ref('')
 
 const allPrograms = computed(() => programsstore.allPrograms)
 const notInstalledPrograms = computed(() => programsstore.notInstalledPrograms)
-const installedPrograms = computed(() => programsstore.installedPrograms.map(IPro => IPro.program))
+const installedPrograms = computed(() =>
+  programsstore.installedPrograms.map((IPro) => IPro.program)
+)
 
 const menuButtons = [
   {
-    clicked: () => changeState('removePrograms'), 
-    text: "Remove Program",
-    icon: "fa-computer", 
-    active: "removePrograms"
+    clicked: () => changeState('removePrograms'),
+    text: 'Remove Program',
+    icon: 'fa-computer',
+    active: 'removePrograms',
   },
   {
     clicked: () => changeState('addPrograms'),
-    text: "Add Program",
-    icon: "fa-folder-plus", 
-    active: "addPrograms",
-  }
+    text: 'Add Program',
+    icon: 'fa-folder-plus',
+    active: 'addPrograms',
+  },
 ]
 
 onMounted(() => {
-  console.log("GOT MOUNTED")
+  console.log('GOT MOUNTED')
 })
 
 const installProgram = () => {
-  if (selectedProgram === undefined)
-    return
+  if (selectedProgram === undefined) return
 
   isInstalling.value = true
   let user = userstore.userData
@@ -105,16 +103,19 @@ const installProgram = () => {
 }
 
 const removeProgram = () => {
-  if (selectedProgram === undefined)
-    return
+  if (selectedProgram === undefined) return
 
   isInstalling.value = true
   // let user = userstore.userData
   // if (user === undefined) return
   // user.installedPrograms = user.installedPrograms.filter(p => p !== selectedProgram?._id)
   // userstore.updateUser(user)
-  
-  programsstore.deleteInstalledProgram(programsstore.installedPrograms.find(program => program?.program?._id === selectedProgram?._id)?._id ?? '')
+
+  programsstore.deleteInstalledProgram(
+    programsstore.installedPrograms.find(
+      (program) => program?.program?._id === selectedProgram?._id
+    )?._id ?? ''
+  )
 }
 
 const updateUser = () => {

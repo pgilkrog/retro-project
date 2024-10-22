@@ -1,11 +1,11 @@
 <template lang="pug">
 .home-wrapper(
   v-if="userData != undefined"
-  class="flex h-full w-full absolute bg-center bg-no-repeat bg-cover" 
+  class="flex h-full w-full absolute bg-center bg-no-repeat bg-cover overflow-hidden" 
   :style="[userData.settings.useBackground === true ? {'background-image': 'url('+ getImageUrl(userData.settings?.backgroundImage) + ')'} : {'background-color': userData.settings?.backgroundColour}]"
   @mousemove="registerMouseMovement"
   @click="console.log('DODIA')"
-  @contextmenu="showContextMenu = true"
+  @contextmenu="rightClick()"
 )
   DesktopGrid(
     :list="positionedList" 
@@ -45,7 +45,6 @@ import { useAuthStore } from '@/stores/authStore'
 // import LaCosaNostra from '@/phaser/la-cosa-nostra/LaCosaNostraGame.vue'
 import Game from '@/phaser/space-invaders/SpaceInvaders.vue'
 import ScreensaverMachine from '@/components/programs/ScreensaverMachine.vue'
-import { useId } from 'vue'
 
 const appStore = useAppStore()
 const authstore = useAuthStore()
@@ -57,8 +56,6 @@ const showMenu = ref<boolean>(false)
 const allPrograms = computed<IInstalledProgram[]>(() => programsstore.installedPrograms)
 const positionedList = computed<IInstalledProgram[]>(() => programsstore.positionedList)
 const showContextMenu = ref(false)
-const id1 = useId()
-const id2 = useId()
 
 onMounted(async () => {
   if (authstore.isLoggedIn === true) {
@@ -86,15 +83,22 @@ const registerMouseMovement = (event: any): void => {
 
 const gridPositionChanged = async (object: any) => {
   const iProgram = object.item
-  object.item.gridPosition = object.gridPosition
   if (iProgram === undefined) return
+
+  object.item.gridPosition = object.gridPosition
+
   const installedProgramToUpdate: IInstalledProgramDB = {
-    _id: iProgram?._id,
-    programId: iProgram?.program?._id,
+    _id: iProgram._id,
+    programId: iProgram.program._id,
     gridPosition: object.gridPosition,
     userId: userstore.userData?._id ?? '',
   }
   await programsstore.updateInstalledProgram(installedProgramToUpdate)
+}
+
+const rightClick = () => {
+  console.log('right clicked')
+  showContextMenu.value = true
 }
 </script>
 

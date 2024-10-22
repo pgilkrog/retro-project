@@ -10,17 +10,13 @@
   p(class="just") {{ getSize }}
 </template>
 <script setup lang="ts">
-const {
-  color,
-  displayName,
-  image
- } = defineProps<{
-  displayName: string,
-  image: string,
+const { color, displayName, image } = defineProps<{
+  displayName: string
+  image: string
   color: string
- }>()
- 
+}>()
+
 const getSize = computed(() => {
- return `size: ${Math.round(Math.random() * 1000)}kb`
+  return `size: ${Math.round(Math.random() * 1000)}kb`
 })
 </script>

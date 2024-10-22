@@ -22,19 +22,20 @@
       )
 </template>
 <script setup lang="ts">
-import {programsStore} from '@/stores/programsStore'
+import type { IProgram } from '@/models'
+import { programsStore } from '@/stores/programsStore'
 const programsstore = programsStore()
 
-const { list, allPrograms } = defineProps<{ list: [], allPrograms: any }>()
+const { list, allPrograms } = defineProps<{ list: []; allPrograms: IProgram[] }>()
 
-let dragStartIndex: number | null = null;
+let dragStartIndex: number | null = null
 
-const emit  = defineEmits<{
-  (e: 'gridPositionChanged', object: any): void
+const emit = defineEmits<{
+  gridPositionChanged: [object: any]
 }>()
 
 const startDrag = (index: number) => {
-  dragStartIndex = index;
+  dragStartIndex = index
 }
 
 const endDrag = (event: any) => {
@@ -52,7 +53,7 @@ const endDrag = (event: any) => {
   }
 
   if (dropTarget && hasClass && dropTarget !== target) {
-    const dropIndex = +dropTarget.id 
+    const dropIndex = +dropTarget.id
 
     const item1 = list[dragStartIndex]
     const item2 = list[dropIndex]
@@ -62,18 +63,17 @@ const endDrag = (event: any) => {
 
     emit('gridPositionChanged', {
       item: item1,
-      gridPosition: dropIndex
+      gridPosition: dropIndex,
     })
 
     if (item2 !== undefined) {
       emit('gridPositionChanged', {
         item: item2,
-        gridPosition: dragStartIndex
+        gridPosition: dragStartIndex,
       })
     }
 
-    programsstore.updateInstalledProgram
     dragStartIndex = null // Reset drag state
   }
-};
+}
 </script>
