@@ -6,18 +6,19 @@ import { get } from '@/helpers/httpHelper'
 
 const url = import.meta.env.VITE_BASE_URL + '/paint'
 
-export const paintStore = defineStore("paint", () => {
+export const paintStore = defineStore('paint', () => {
   const allPaintings = ref<IPainting[]>([])
   const usersPaintings = ref<IPainting[]>([])
   const loadingPaintings = ref<boolean>(false)
 
   const getAllPaintings = (): void => {
     loadingPaintings.value = true
-    axios.get(url)
-      .then(data => {
+    axios
+      .get(url)
+      .then((data) => {
         allPaintings.value = toRaw(data.data.paintings)
-      })     
-      .catch((error: any) => {
+      })
+      .catch((error: Error) => {
         console.log(error)
       })
       .finally(() => {
@@ -49,6 +50,6 @@ export const paintStore = defineStore("paint", () => {
     loadingPaintings,
     getAllPaintings,
     getAllPaintingsByUserId,
-    postPainting
+    postPainting,
   }
 })

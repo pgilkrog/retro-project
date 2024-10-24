@@ -1,11 +1,13 @@
 <template lang="pug">
-.title.d-flex.justify-content-center.align-items-center.my-4(v-if="slide.title !== undefined && slide.title !== ''")
+.title(v-if="slide.title !== undefined && slide.title !== ''" class="d-flex justify-center items-center my-4")
   h1 {{ slide.title }}
-.text.d-flex.justify-content-center.align-items-center(v-if="slide.text !== undefined && slide.text !== ''")
+.text(v-if="slide.text !== undefined && slide.text !== ''" class="d-flex justify-center items-center")
   h3(v-html="slide.text")
 </template>
 <script setup lang="ts">
+import type { ISlide } from '@/models'
+
 const { slide } = defineProps<{
-  slide: Object
+  slide: ISlide
 }>()
 </script>

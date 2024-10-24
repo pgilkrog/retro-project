@@ -6,7 +6,7 @@ WindowFrame(
   :showMenu="false"
 )
   .pc-settings-wrapper.p-4
-    TabsComponent(:list="tabsList" v-on:tabClick="state = $event" :activeTab="state")
+    TabsComponent(:list="tabsList" @tabClick="state = $event" :activeTab="state")
     .content(v-if="state === 0" class="p-4 rounded-b border border-t-0 border-black")
       .row.flex.flex-col.items-center
         PCScreen(:tempImg="tempImg")
@@ -32,7 +32,7 @@ WindowFrame(
     .d-flex.justify-content-end.mt-4
       ButtonComponent(
         text="OK" 
-        v-on:clicked="saveUserInfo()"
+        @clicked="saveUserInfo()"
       )
 </template>
 
@@ -60,11 +60,10 @@ onMounted(() => {
   filestore.getAllFiles()
 })
 
-const onColorSelected = (event: any): void => {
+const onColorSelected = (event: Event): void => {
   event.preventDefault()
   let tempData = userstore.userData
   if (tempData === undefined) return
-
   ;(tempData.settings as IUserSettings).backgroundColour = color.value
   userstore.setUserData(tempData)
 }

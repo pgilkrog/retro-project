@@ -16,14 +16,14 @@ export default defineComponent({
   name: 'SalvatoreGame',
   setup() {
     const gameContainer = ref<HTMLDivElement>()
-    const MAP_WIDTH = 32*100
+    const MAP_WIDTH = 32 * 100
     const WIDTH = document.body.offsetWidth
-    const HEIGHT = 32*100
+    const HEIGHT = 32 * 100
     const SHARED_CONFIG = {
       mapOffset: MAP_WIDTH > WIDTH ? MAP_WIDTH - WIDTH : 0,
       width: WIDTH,
       height: HEIGHT,
-      zoomFactor: 1
+      zoomFactor: 1,
     } as IConfig
 
     const Scenes = [Loader, Game, Apartment1, UIScene]
@@ -39,8 +39,8 @@ export default defineComponent({
         physics: {
           default: 'arcade',
           arcade: {
-            debug: false
-          }
+            debug: false,
+          },
         },
         scale: {
           parent: gameContainer.value,
@@ -48,18 +48,13 @@ export default defineComponent({
           autoCenter: Phaser.Scale.CENTER_BOTH,
           width: '100%',
           height: '100%',
-          fullscreenTarget: 'body'
+          fullscreenTarget: 'body',
         },
-        scene: initScenes()
+        scene: initScenes(),
       })
     })
-    
-    return {
-      
-    }
-  }
+
+    return {}
+  },
 })
 </script>
-
-<style lang="sass" scoped>
-</style>

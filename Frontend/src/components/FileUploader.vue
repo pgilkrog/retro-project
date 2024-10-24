@@ -20,8 +20,8 @@ const selectFile = (event: any) => {
 }
 
 const uploadFile = () => {
-  if (!file) return 
-  
+  if (!file) return
+
   const formData = new FormData()
   formData.append('image', file.value)
 
@@ -30,6 +30,3 @@ const uploadFile = () => {
   })
 }
 </script>
-
-<style lang="sass" scoped>
-</style>

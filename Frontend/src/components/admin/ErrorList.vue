@@ -4,7 +4,6 @@
 </template>
 
 <script setup lang="ts">
-import type { IErrorItem } from '@/models'
 import { useErrorStore } from '@/stores/errorStore'
 import { computed } from 'vue'
 
@@ -15,5 +14,3 @@ onMounted(async () => {
   await errorstore.getErrors()
 })
 </script>
-
-<style lang="sass" scoped></style>

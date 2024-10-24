@@ -29,7 +29,7 @@ onMounted(() => {
   createMenu()
 })
 </script>
-<style lang="sass">
+<style scoped lang="sass">
 .menu-item
   cursor: pointer
   &:hover,

@@ -22,25 +22,22 @@ ButtonComponent(text="Print" @clicked="printInfo()" size="full")
 </template>
 
 <script setup lang="ts">
-import { userStore } from "@/stores/userStore"
+import { userStore } from '@/stores/userStore'
 
 const userstore = userStore()
 
 const info = ref({
-  name: "",
-  addressLine: "",
-  streetNumber: "",
-  town: "",
-  country: "",
-  postcode: "",
-  phoneNumber: "",
+  name: '',
+  addressLine: '',
+  streetNumber: '',
+  town: '',
+  country: '',
+  postcode: '',
+  phoneNumber: '',
   homeAddress: false,
 })
 
 const printInfo = () => {
   console.log(info)
 }
-
 </script>
-
-<style lang="sass" scoped></style>

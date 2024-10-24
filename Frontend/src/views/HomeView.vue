@@ -10,12 +10,12 @@
   DesktopGrid(
     :list="positionedList" 
     :allPrograms="allPrograms" 
-    v-on:gridPositionChanged="gridPositionChanged($event)"
+    @gridPositionChanged="gridPositionChanged($event)"
   )
     template(v-slot:listItem="program") 
       DesktopItem(
         v-if="program.listItem !== undefined"
-        v-on:generate-component="generateComponent(program.listItem)"
+        @generate-component="generateComponent(program.listItem)"
         :key="program.listItem._id"
         v-bind="program.listItem"
         :id="program.id"
@@ -26,7 +26,7 @@
   //- CarouselComponent
   ComponentMachine
   Menu(v-if="showMenu")
-  Taskbar(v-on:changeShowMenu="changeShowMenu" :showMenu="showMenu")
+  Taskbar(@changeShowMenu="changeShowMenu" :showMenu="showMenu")
   ScreensaverMachine(v-show="appStore.showScreensaver === true")
 //- Salvatore
 //- TestStuff
@@ -77,7 +77,7 @@ const changeShowMenu = (): void => {
   showMenu.value = !showMenu.value
 }
 
-const registerMouseMovement = (event: any): void => {
+const registerMouseMovement = (event: Event): void => {
   appStore.initiateScreensaverTimer()
 }
 
@@ -102,7 +102,7 @@ const rightClick = () => {
 }
 </script>
 
-<style lang="sass">
+<style scoped lang="sass">
 // canvas
 //   z-index: 9999
 //   position: absolute

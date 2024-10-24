@@ -3,7 +3,7 @@
   WindowFrame(:program="program" :isMoveable="true")
     Suspense(timeout="0")
       template(#default)
-        UsersList(v-on:setSelectedUser="setSelectedUser($event)")
+        UsersList(@setSelectedUser="setSelectedUser($event)")
       template(#fallback)
         div(class="flex justify-center py-4")
           .spinner-border.text-gray-700
@@ -53,17 +53,17 @@ let selectedUserSettings = {}
 
 const userstore = userStore()
 const userInfo = reactive({
-  firstName: "",
-  lastName: "",
-  email: "",
-  type: "",
-  installedPrograms: [] as string[]
+  firstName: '',
+  lastName: '',
+  email: '',
+  type: '',
+  installedPrograms: [] as string[],
 })
 const userSettingsInfo = reactive({
-  backgroundColour: "",
-  backgroundImage: "",
+  backgroundColour: '',
+  backgroundImage: '',
   useBackground: false,
-  theme: ""
+  theme: '',
 })
 
 // const allUsers = computed(() => userstore.allUsers)
@@ -71,10 +71,10 @@ const userSettingsInfo = reactive({
 const updateUser = () => {
   let temp = selectedUser as IUser
   temp.firstName = userInfo.firstName
-  temp.lastName = userInfo.lastName,
-  temp.email = userInfo.email,
-  temp.type = userInfo.type,
-  temp.installedPrograms = userInfo.installedPrograms
+  ;(temp.lastName = userInfo.lastName),
+    (temp.email = userInfo.email),
+    (temp.type = userInfo.type),
+    (temp.installedPrograms = userInfo.installedPrograms)
   userstore.updateUser(temp)
   resetInputs()
   changeShowManageUser(false)
@@ -91,17 +91,15 @@ const updateUserSettings = () => {
   changeShowManageUserSettings(false)
 }
 
-const deleteUser = (user: IUser) => {
-  
-}
+const deleteUser = (user: IUser) => {}
 
 const setSelectedUser = (user: IUser) => {
   changeShowManageUser(true)
   userInfo.firstName = user.firstName
-  userInfo.lastName = user.lastName,
-  userInfo.email = user.email,
-  userInfo.type = user.type,
-  userInfo.installedPrograms = user.installedPrograms
+  ;(userInfo.lastName = user.lastName),
+    (userInfo.email = user.email),
+    (userInfo.type = user.type),
+    (userInfo.installedPrograms = user.installedPrograms)
   selectedUser = user
   changeShowManageUser(true)
   setSelectedUserSettings(user.settings)
@@ -138,8 +136,4 @@ const changeShowManageUser = (bool: boolean) => {
 const changeShowManageUserSettings = (bool: boolean) => {
   showManageUserSettings.value = bool
 }
-
 </script>
-
-<style lang="sass" scoped>
-</style>

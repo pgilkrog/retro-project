@@ -7,11 +7,11 @@ import { defineComponent, ref } from 'vue'
 import Phaser from 'phaser'
 
 export interface IConfig {
-  mapOffset: number,
-  width: number,
-  height: number,
+  mapOffset: number
+  width: number
+  height: number
   zoomFactor: number
-} 
+}
 
 import Game from './scenes/Game'
 import Loader from './scenes/Loader'
@@ -22,14 +22,14 @@ export default defineComponent({
   name: 'SalvatoreGame',
   setup() {
     const gameContainer = ref<HTMLDivElement>()
-    const MAP_WIDTH = 32*100
+    const MAP_WIDTH = 32 * 100
     const WIDTH = document.body.offsetWidth
-    const HEIGHT = 32*100
+    const HEIGHT = 32 * 100
     const SHARED_CONFIG = {
       mapOffset: MAP_WIDTH > WIDTH ? MAP_WIDTH - WIDTH : 0,
       width: WIDTH,
       height: HEIGHT,
-      zoomFactor: 1
+      zoomFactor: 1,
     } as IConfig
 
     const Scenes = [Loader, Game]
@@ -46,8 +46,8 @@ export default defineComponent({
           default: 'arcade',
           arcade: {
             gravity: { x: 0, y: 0 },
-            debug: true
-          }
+            debug: true,
+          },
         },
         scale: {
           parent: gameContainer.value,
@@ -55,18 +55,13 @@ export default defineComponent({
           autoCenter: Phaser.Scale.CENTER_BOTH,
           width: '100%',
           height: '100%',
-          fullscreenTarget: 'body'
+          fullscreenTarget: 'body',
         },
-        scene: initScenes()
+        scene: initScenes(),
       })
     })
-    
-    return {
-      
-    }
-  }
+
+    return {}
+  },
 })
 </script>
-
-<style lang="sass" scoped>
-</style>

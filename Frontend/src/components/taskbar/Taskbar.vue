@@ -7,7 +7,7 @@ div(class="bg-gray-300 w-full h-auto fixed bottom-0 left-0 z-50")
       ButtonComponent(
         text="Start" 
         icon="fa-paw" 
-        v-on:clicked="emit('changeShowMenu')" 
+        @clicked="emit('changeShowMenu')" 
         :active="showMenu" 
         variant="primary"
         class="!py-3"
@@ -25,7 +25,7 @@ div(class="bg-gray-300 w-full h-auto fixed bottom-0 left-0 z-50")
       ButtonComponent(
         v-if="userstore.userData?.type === 'admin'" 
         text="admin" 
-        v-on:clicked="goToAdmin()" 
+        @clicked="goToAdmin()" 
         variant="danger"
       )
       div(class="px-3 ms-1 flex items-center p-2 rounded border-t-black border-s-black border  border-b-white border-e-white")
@@ -45,7 +45,7 @@ const emit = defineEmits<{
 }>()
 
 const { showMenu } = defineProps<{
-  showMenu: boolean 
+  showMenu: boolean
 }>()
 
 const programsstore = programsStore()
@@ -62,8 +62,8 @@ const goToAdmin = () => {
 }
 </script>
 
-<style lang="sass">
-.line 
+<style scoped lang="sass">
+.line
   height: 2px
   width: 100%
 </style>

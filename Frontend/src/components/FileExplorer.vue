@@ -24,35 +24,31 @@ WindowFrame(
 <script setup lang="ts">
 import type { IFile } from '@/models'
 
-const { 
-  files = [], 
-  isLoading = false 
-} = defineProps<{
-  files: IFile[],
+const { files = [], isLoading = false } = defineProps<{
+  files: IFile[]
   isLoading: Boolean
 }>()
 
 const emit = defineEmits<{
-  (e: 'itemClicked', item: any): void
-  (e: 'closeWindow'): void
+  itemClicked: [item: any]
+  closeWindow: []
 }>()
 
 const program = {
   _id: 245,
-  name: "FileExplorer",
-  displayName: "File explorer",
-  image: "bi-joystick", 
+  name: 'FileExplorer',
+  displayName: 'File explorer',
+  image: 'bi-joystick',
   isActive: true,
-  color: "warning"
+  color: 'warning',
 }
 
 const itemClicked = (item: any) => {
-  emit('itemClicked', {...item})
+  emit('itemClicked', { ...item })
   emit('closeWindow')
 }
 
 const closeWindow = () => {
   emit('closeWindow')
 }
-
 </script>

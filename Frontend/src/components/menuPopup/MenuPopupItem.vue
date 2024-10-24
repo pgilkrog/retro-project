@@ -1,5 +1,5 @@
 <template lang="pug">
-div(v-on:click="method({item: 'yes'})" class="flex items-center gap-x-2 cursor-pointer")
+div(@click="method({item: 'yes'})" class="flex items-center gap-x-2 cursor-pointer")
   IconComponent(:name="icon")
   | {{ name }}
 </template>
@@ -10,9 +10,9 @@ interface iListItem {
   method: () => {}
 }
 
-const props = defineProps<{   
+const props = defineProps<{
   name: string
   icon: string
-  method: any
-  }>()
+  method: () => {}
+}>()
 </script>

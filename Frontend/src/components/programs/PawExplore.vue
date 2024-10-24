@@ -43,9 +43,8 @@ const go = () => {
   }, 500)
   pageHistory.value?.push(pageToComponent[1])
 }
-
 </script>
-<style lang="sass">
+<style scoped lang="sass">
 .browser-content, .loading-content
   height: 600px
   width: 700px

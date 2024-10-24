@@ -11,7 +11,7 @@ WindowFrame(
       ButtonComponent(
         v-for="(button, key) in menuButtons"
         :key
-        v-on:clicked="button.clicked" 
+        @clicked="button.clicked" 
         v-bind="button"
         :active="state === button.active"
       )
@@ -21,14 +21,14 @@ WindowFrame(
         title="Installed programs"
         :programList="installedPrograms"
         :selectedProgramId="selectedProgramId"
-        v-on:changeSelectedProgram="changeSelectedProgram($event)"
+        @changeSelectedProgram="changeSelectedProgram($event)"
       )
       ProgramsList(
         v-if="state === 'addPrograms'"
         title="Not installed programs"
         :programList="notInstalledPrograms"
         :selectedProgramId="selectedProgramId"
-        v-on:changeSelectedProgram="changeSelectedProgram($event)"
+        @changeSelectedProgram="changeSelectedProgram($event)"
       )
   .row.p-2
     .flex.justify-end

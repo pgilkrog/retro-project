@@ -111,7 +111,7 @@ onMounted(() => {
 })
 </script>
 
-<style lang="sass" scoped>
+<style scoped lang="sass">
 .box
   position: absolute
 

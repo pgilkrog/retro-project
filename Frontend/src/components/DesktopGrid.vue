@@ -31,20 +31,21 @@ const { list, allPrograms } = defineProps<{ list: []; allPrograms: IProgram[] }>
 let dragStartIndex: number | null = null
 
 const emit = defineEmits<{
-  gridPositionChanged: [object: any]
+  gridPositionChanged: [object: object]
 }>()
 
 const startDrag = (index: number) => {
   dragStartIndex = index
 }
 
-const endDrag = (event: any) => {
+const endDrag = (event: DragEvent) => {
   if (dragStartIndex === null) return
 
   const target = event.target as HTMLElement // Get the dragged element
 
   // Find the element under the cursor (potential drop target)
   let dropTarget = document.elementFromPoint(event.clientX, event.clientY)
+  debugger
   let hasClass = dropTarget?.classList.contains('desktop-item')
 
   if (!hasClass) {

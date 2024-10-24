@@ -5,6 +5,7 @@ WindowFrame(
   variant="blue"
   :isMoveable="false"
   :disableButtons="true"
+  :isStatic="true"
 )
   .login-screen(class="grid py-2 px-4")
     .col-span-4.text-center
@@ -23,8 +24,7 @@ WindowFrame(
         .col-span-12
           InputComponent(v-model="password2" type="password")
     .buttons.mt-4.flex.justify-end.w-full.col-span-12
-      ButtonComponent( @clicked="devLogin()" text="Dev login")
-      pre isDev: {{isDev}}
+      ButtonComponent( @clicked="devLogin()" text="Guest login")
       ButtonComponent(@clicked="pressedOk()" text="OK") 
       //- ButtonComponent(@clicked="changeShowHelp()" text="Help" :active="showHelp")
   .buttons.flex.flex-col.bg-shadow-inner.p-4.m-2.rounded(v-if="showHelp === true")
@@ -39,13 +39,8 @@ WindowFrame(
 import { useAuthStore } from '@/stores/authStore'
 import type { IProgram } from '@/models/index'
 import router from '@/router'
-import { useAppStore } from '../../stores/appStore'
-import { storeToRefs } from 'pinia'
 
-const appStore = useAppStore()
 const authstore = useAuthStore()
-
-const { isDev } = storeToRefs(appStore)
 
 const state = ref(1)
 const username = ref<string>('')
@@ -89,7 +84,7 @@ const changeShowHelp = (): void => {
 }
 
 const devLogin = (): void => {
-  authstore.loginUser('hej@hej.com', 'hejsa1234').then(() => {
+  authstore.loginUser('check@check.com', 'hejsa1234').then(() => {
     setTimeout(() => {
       router.push('/')
     }, 100)

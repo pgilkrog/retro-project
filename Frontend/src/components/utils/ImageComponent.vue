@@ -27,9 +27,13 @@ const imageIsLoading = ref(true)
 const src = ref('')
 const fadeInClass = ref('fade-in-image')
 
-const { id, source, alt = '' } = defineProps<{
-  id: string,
-  source: string,
+const {
+  id,
+  source,
+  alt = '',
+} = defineProps<{
+  id: string
+  source: string
   alt?: string
 }>()
 
@@ -42,11 +46,11 @@ onMounted(async () => {
 
   const image = new Image()
   image.src = source
-  
+
   image.onload = () => {
     src.value = image.src
     imageIsLoading.value = false
-    setTimeout(() => fadeInClass.value = 'fade-in-image visible', 10)
+    setTimeout(() => (fadeInClass.value = 'fade-in-image visible'), 10)
   }
 
   image.onerror = () => {
@@ -57,12 +61,11 @@ onMounted(async () => {
 })
 </script>
 
-<style lang="sass" scoped>
-.fade-in-image 
+<style scoped lang="sass">
+.fade-in-image
   transition: opacity 0.5s ease
   opacity: 0
 
-.fade-in-image.visible 
+.fade-in-image.visible
   opacity: 1
-
 </style>

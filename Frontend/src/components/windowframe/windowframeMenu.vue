@@ -8,8 +8,6 @@
 
 <script setup lang="ts">
 const { showMenu } = defineProps<{
-  showMenu: boolean,
+  showMenu: boolean
 }>()
 </script>
-
-<style lang="sass" scoped></style>

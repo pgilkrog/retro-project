@@ -77,7 +77,7 @@ export const programsStore = defineStore('programs', () => {
     })
   }
 
-  const createInstalledProgram = async (programId: any) => {
+  const createInstalledProgram = async (programId: string) => {
     const gridPos = findAvailableGridPosition()
     await post(url + '/installedProgram', {
       params: { programId: programId, userId: userstore.userData?._id, gridPosition: gridPos },

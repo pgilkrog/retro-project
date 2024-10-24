@@ -21,10 +21,9 @@ const { program } = defineProps<{
   program: IProgram
 }>()
 
-const videoUrl = "https://www.youtube.com/embed/Hmyn67dWBe4"
-
+const videoUrl = 'https://www.youtube.com/embed/Hmyn67dWBe4'
 </script>
-<style lang="sass">
+<style scoped lang="sass">
 .display
   width: 800px
   height: 500px

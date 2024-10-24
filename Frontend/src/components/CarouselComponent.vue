@@ -29,52 +29,52 @@ import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'
 
 const listOfItems = [
-  {name: 'hej', url: 'https://google.dk'},
-  {name: 'hej2', url: 'https://google.dk'},
-  {name: 'hej3', url: 'https://google.dk'},
-  {name: 'hej4', url: 'https://google.dk'},
-  {name: 'hej5', url: 'https://google.dk'},
-  {name: 'hej6', url: 'https://google.dk'},
-  {name: 'hej7', url: 'https://google.dk'},
-  {name: 'hej8', url: 'https://google.dk'},
-  {name: 'hej9', url: 'https://google.dk'},
-  {name: 'hej10', url: 'https://google.dk'},
-  {name: 'hej11', url: 'https://google.dk'},
-  {name: 'hej12', url: 'https://google.dk'},
-  {name: 'hej13', url: 'https://google.dk'},
-  {name: 'hej14', url: 'https://google.dk'},
-  {name: 'hej15', url: 'https://google.dk'},
-  {name: 'hej16', url: 'https://google.dk'},
-  {name: 'hej17', url: 'https://google.dk'}
+  { name: 'hej', url: 'https://google.dk' },
+  { name: 'hej2', url: 'https://google.dk' },
+  { name: 'hej3', url: 'https://google.dk' },
+  { name: 'hej4', url: 'https://google.dk' },
+  { name: 'hej5', url: 'https://google.dk' },
+  { name: 'hej6', url: 'https://google.dk' },
+  { name: 'hej7', url: 'https://google.dk' },
+  { name: 'hej8', url: 'https://google.dk' },
+  { name: 'hej9', url: 'https://google.dk' },
+  { name: 'hej10', url: 'https://google.dk' },
+  { name: 'hej11', url: 'https://google.dk' },
+  { name: 'hej12', url: 'https://google.dk' },
+  { name: 'hej13', url: 'https://google.dk' },
+  { name: 'hej14', url: 'https://google.dk' },
+  { name: 'hej15', url: 'https://google.dk' },
+  { name: 'hej16', url: 'https://google.dk' },
+  { name: 'hej17', url: 'https://google.dk' },
 ]
 
 const settings = ref({
-      itemsToShow: 1,
-      snapAlign: 'center',
-    })
-    // breakpoints are mobile first
-    // any settings not specified will fallback to the carousel settings
-    const breakpoints = ref({
-      // 700px and up
-      700: {
-        itemsToShow: 3.5,
-        snapAlign: 'center',
-      },
-      // 1024 and up
-      1024: {
-        itemsToShow: 5,
-        snapAlign: 'start',
-      }
-    })
+  itemsToShow: 1,
+  snapAlign: 'center',
+})
+// breakpoints are mobile first
+// any settings not specified will fallback to the carousel settings
+const breakpoints = ref({
+  // 700px and up
+  700: {
+    itemsToShow: 3.5,
+    snapAlign: 'center',
+  },
+  // 1024 and up
+  1024: {
+    itemsToShow: 5,
+    snapAlign: 'start',
+  },
+})
 
-const isDragging = ref(false);
+const isDragging = ref(false)
 const mouseIsDown = ref(false)
-let startX = 0;
-const itemListRef = ref<HTMLElement>();
-let clickStartTime = 0;
+let startX = 0
+const itemListRef = ref<HTMLElement>()
+let clickStartTime = 0
 
-const clickCarousel = (item: any) => {
-  console.log(`Item clicked: ${item.name}`);
+const clickCarousel = (item: object) => {
+  console.log(item)
 }
 
 const scrollByClick = (value: number) => {
@@ -83,41 +83,42 @@ const scrollByClick = (value: number) => {
   itemListRef.value?.scrollBy({
     left: value, // adjust scroll distance as needed
     behavior: 'smooth',
-  });
+  })
 }
 
-const handleItemClick = (item: any) => {
+const handleItemClick = (item: { name: string; url: string }) => {
   // Check if click was not within a short timeframe after starting drag
-  if (Date.now() - clickStartTime < 150) { // Adjust debounce threshold as needed
+  if (Date.now() - clickStartTime < 150) {
+    // Adjust debounce threshold as needed
     // Handle item click logic, e.g., navigate to detail page
-    console.log(`Item clicked: ${item.name}`);
+    console.log(`Item clicked: ${item.name}`)
     // You can replace this with navigation logic using `router-link` or similar
     window.location.href = item.url
   }
-};
+}
 
 const handleMouseLeave = () => {
-  isDragging.value = false;
-};
+  isDragging.value = false
+}
 
 const startDragging = (event: MouseEvent) => {
   console.log('started dragging')
-  clickStartTime = Date.now(); // Capture click start time
-  isDragging.value = true;
-  startX = event.clientX;
-};
+  clickStartTime = Date.now() // Capture click start time
+  isDragging.value = true
+  startX = event.clientX
+}
 
 const stopDragging = () => {
   console.log('stopDragging')
-  isDragging.value = false;
-};
+  isDragging.value = false
+}
 
 const handleDrag = (event: MouseEvent) => {
   console.log('handle dis')
-  if (isDragging.value === false || !itemListRef.value) return;
+  if (isDragging.value === false || !itemListRef.value) return
 
-  const deltaX = event.clientX - startX;
-  itemListRef.value.scrollLeft -= deltaX;
-  startX = event.clientX;
-};
+  const deltaX = event.clientX - startX
+  itemListRef.value.scrollLeft -= deltaX
+  startX = event.clientX
+}
 </script>

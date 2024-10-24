@@ -1,7 +1,7 @@
 <template lang="pug">
 Component(
   v-for="program in activePrograms"
-  v-on:closeWindow="closeWindow(program.name)"
+  @closeWindow="closeWindow(program.name)"
   :key="program._id"
   :id="program.name"
   :is="program.name"
@@ -20,7 +20,7 @@ export default defineComponent({
   name: 'AdminComponentMachine',
   components: {
     ManagePrograms,
-    ManageUsers
+    ManageUsers,
   },
   setup() {
     const programsstore = programsStore()
@@ -28,11 +28,8 @@ export default defineComponent({
     const activePrograms = computed(() => programsstore.activePrograms)
 
     return {
-      activePrograms
+      activePrograms,
     }
-  }
+  },
 })
 </script>
-
-<style lang="sass" scoped>
-</style>

@@ -60,16 +60,16 @@ const programInfo = ref<IProgram>({
   color: '',
   sortOrder: 0,
   type: '',
-  isActive: false, 
+  isActive: false,
   left: 0,
-  top: 0
+  top: 0,
 })
 let showValidation = ref(false)
 
 const addProgram = () => {
   if (
-    programInfo.value.name !== '' && 
-    programInfo.value.image !== '' && 
+    programInfo.value.name !== '' &&
+    programInfo.value.image !== '' &&
     programInfo.value.displayName !== ''
   ) {
     const newProgram: IProgram = {
@@ -101,7 +101,7 @@ const resetInputs = () => {
     type: '',
     isActive: false,
     left: 0,
-    top: 0
+    top: 0,
   }
   selectedProgram.value = undefined
 }
@@ -130,10 +130,6 @@ const setUpdateState = (state: boolean, program: IProgram) => {
 const changeShowManageProgram = (bool: boolean) => {
   showManageProgram.value = bool
 
-  if (bool === false)
-    setUpdateState(false, {} as IProgram)
+  if (bool === false) setUpdateState(false, {} as IProgram)
 }
 </script>
-
-<style lang="sass" scoped>
-</style>

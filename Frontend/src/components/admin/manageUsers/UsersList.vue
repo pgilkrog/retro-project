@@ -1,20 +1,22 @@
 <template lang="pug">
-.d-flex.bg-shadow.py-1.px-4.justify-content-between.align-items-center.rounded.pointer(
-  v-for="item in userstore.allUsers" 
+div(
+  class="d-flex bg-shadow py-1 px-4 justify-between items-center rounded-md cursor-pointer"
+  v-for="item in allUsers" 
   :key="item._id" 
   @click="emit('setSelectedUser', item)"
 ) {{ item.email }}
 </template>
 
 <script setup lang="ts">
+import type { IUser } from '@/models'
 import { userStore } from '@/stores/userStore'
-import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
 
 const userstore = userStore()
-const allUsers = computed(() => userstore.allUsers)
+const { allUsers } = storeToRefs(userstore)
 
 const emit = defineEmits<{
-  (e: 'setSelectedUser', item: any): void
+  setSelectedUser: [user: IUser]
 }>()
 
 onMounted(async () => {

@@ -4,14 +4,14 @@
 .text.d-flex.justify-content-center.align-items-center(v-if="slide.image !== undefined && slide.image !== ''")
   ImageComponent(:id="slideTitleImage" :source="slide.image" alt="image of things")
 </template>
-<script setup lang="ts"> 
+<script setup lang="ts">
+import type { ISlide } from '@/models'
 
 const { slide } = defineProps<{
-  slide: Object
+  slide: ISlide
 }>()
-
 </script>
-<style lang="sass">
-img 
+<style scoped lang="sass">
+img
   max-width: 1000px
 </style>

@@ -34,7 +34,7 @@ const getImageUrl = (filename: string) => {
 }
 </script>
 
-<style lang="sass" scoped>
+<style scoped lang="sass">
 .img-box
   width: 300px
   height: 200px

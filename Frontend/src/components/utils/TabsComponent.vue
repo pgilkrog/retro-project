@@ -9,11 +9,8 @@
   .tab-fill.flex.flex-grow.border-b.border-black
 </template>
 <script setup lang="ts">
-const { 
-  list, 
-  activeTab = 0 
-} = defineProps<{
-  list: any[],
+const { list, activeTab = 0 } = defineProps<{
+  list: []
   activeTab: number
 }>()
 const emit = defineEmits<{

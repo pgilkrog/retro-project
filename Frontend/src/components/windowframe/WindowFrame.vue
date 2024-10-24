@@ -39,6 +39,7 @@ const {
   variant = 'blue',
   isNotProgram = false,
   isMoveable = true,
+  isStatic = false,
 } = defineProps<{
   showMenu?: boolean
   disableButtons?: boolean
@@ -46,6 +47,7 @@ const {
   variant?: string
   isNotProgram?: boolean
   isMoveable?: boolean
+  isStatic?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -74,15 +76,17 @@ const menuButtons = [
 ]
 
 onMounted(() => {
-  anime({
-    targets: '.window-wrapper',
-    translateX: 350,
-    translateY: 450,
-    scale: 0.01,
-    easing: 'easeInOutQuad',
-    direction: 'reverse',
-    duration: 500,
-  })
+  if (isStatic === false) {
+    anime({
+      targets: '.window-wrapper',
+      translateX: 350,
+      translateY: 450,
+      scale: 0.01,
+      easing: 'easeInOutQuad',
+      direction: 'reverse',
+      duration: 200,
+    })
+  }
 })
 
 const closeWindow = () => {
@@ -95,7 +99,7 @@ const closeWindow = () => {
 
 const setInactive = async () => {
   // Set if the window should be hidden on screen, but visible in the taskbar.
-  if (program) {
+  if (program != undefined) {
     await anime({
       targets: '.window-wrapper',
       translateX: 350,

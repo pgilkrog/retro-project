@@ -8,7 +8,8 @@ export type * from './IFile'
 export type * from './ChatTypes'
 export type * from './components/IButton'
 
-export type * from '@/models/components/IButton'
+export type * from './components/IButton'
+export * from './components/PawPoint'
 
 export enum programTypes {
   Game,

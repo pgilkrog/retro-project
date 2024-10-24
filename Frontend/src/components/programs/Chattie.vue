@@ -47,7 +47,4 @@ onUnmounted(() => {
 const activateRoom = (user: string) => {
   chatstore.joinRoom([user, userstore.userData!.email])
 }
-
 </script>
-<style lang="sass">
-</style>

@@ -21,7 +21,7 @@ export const useAppStore = defineStore('appStore', () => {
     showScreensaver.value = bool
   }
 
-  const thismaybe = (item: any) => {
+  const thismaybe = (item: object) => {
     console.log(item)
   }
 

@@ -33,18 +33,18 @@ import { fileStore } from '../../../stores/fileStore'
 import type { IFile } from '@/models'
 
 const { tempImg } = defineProps<{
-  tempImg?: IFile 
+  tempImg?: IFile
 }>()
 
 const emit = defineEmits<{
-  (e: 'setTempImg', item: any): void
+  setTempImg: [item: IFile | undefined]
 }>()
 
 const userstore = userStore()
 const filestore = fileStore()
 
 const displayOption = ref<string>('')
-const userData = storeToRefs(userstore).userData    
+const userData = storeToRefs(userstore).userData
 const images = computed(() => filestore.allFiles)
 
 const imageClicked = async (file: IFile) => {

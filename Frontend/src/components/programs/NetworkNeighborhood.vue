@@ -14,7 +14,4 @@ import type { IProgram } from '@/models'
 const { program } = defineProps<{
   program: IProgram
 }>()
-
-const items = ref([] as any)
-
 </script>

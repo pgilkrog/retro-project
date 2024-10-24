@@ -30,7 +30,7 @@ WindowFrame(
         ButtonComponent(icon="fa-circle" size="small" @clicked="setBrushType('circle')")
         ButtonComponent(icon="fa-square" size="small" @clicked="setBrushType('square')")
         ButtonComponent(icon="fa-spray-can" size="small" @clicked="setBrushType('spray')")
-      ColorTool(v-on:changeColor="changeColor($event)")
+      ColorTool(@changeColor="changeColor($event)")
       div
         input(type="color" v-model="state.color")
       div
@@ -71,19 +71,14 @@ const inputSave = ref<string>('')
 const showFiles = ref<boolean>(false)
 const myPaintings = ref<IPainting[]>([])
 
-const brushTypes = ref<string[]>([
-  'circle', 
-  'square', 
-  'line', 
-  'spray'
-])
+const brushTypes = ref<string[]>(['circle', 'square', 'line', 'spray'])
 const selectedBrush = ref<string>(brushTypes.value[0])
 
 onMounted(() => {
   const canvas = canvasRef.value
   if (!canvas) return
 
-  let canvasElement = document.getElementById("canvasWrapper")
+  let canvasElement = document.getElementById('canvasWrapper')
 
   canvas.width = canvasElement ? canvasElement.clientWidth : 500
   canvas.height = canvasElement ? canvasElement.clientHeight : 500
@@ -117,18 +112,24 @@ const draw = (event: MouseEvent): void => {
   ctx.beginPath()
 
   switch (selectedBrush.value) {
-    case 'circle': 
+    case 'circle':
       ctx.arc(x, y, state.brushSize, 0, 2 * Math.PI)
       break
     case 'square':
-      ctx.fillRect(x - state.brushSize, y - state.brushSize, state.brushSize*2, state.brushSize*2)
+      ctx.fillRect(
+        x - state.brushSize,
+        y - state.brushSize,
+        state.brushSize * 2,
+        state.brushSize * 2
+      )
       break
     case 'line':
       break
     case 'spray':
       const sprayRadius = state.brushSize / 1
 
-      for (let i = 0; i < 50; i++) { // Adjust the number of dots as needed
+      for (let i = 0; i < 50; i++) {
+        // Adjust the number of dots as needed
         const offsetX = (Math.random() - 0.5) * sprayRadius * 2
         const offsetY = (Math.random() - 0.5) * sprayRadius * 2
 
@@ -139,7 +140,7 @@ const draw = (event: MouseEvent): void => {
       }
       break
   }
-  
+
   ctx.fill()
 }
 
@@ -147,17 +148,15 @@ const setSize = (): void => {
   const canvas = canvasRef.value
   if (!canvas) return
 
-  if (canvasWidth.value != 0)
-    canvas.width = +canvasWidth.value
-  if (canvasHeight.value != 0)
-    canvas.height = +canvasHeight.value
-  
+  if (canvasWidth.value != 0) canvas.width = +canvasWidth.value
+  if (canvasHeight.value != 0) canvas.height = +canvasHeight.value
+
   console.log(canvas)
 }
 
 const savePainting = (text: string): void => {
   const canvas = canvasRef.value
-  if(canvas === undefined) return
+  if (canvas === undefined) return
 
   const newPainting = {
     _id: '',
@@ -165,10 +164,10 @@ const savePainting = (text: string): void => {
     canvas: canvas.toDataURL(),
     uId: userstore.userData?._id,
     height: canvasHeight.value,
-    width: canvasWidth.value
-  }  as IPainting
+    width: canvasWidth.value,
+  } as IPainting
 
-    paintstore.postPainting(newPainting)
+  paintstore.postPainting(newPainting)
 }
 
 const loadPainting = (painting: string): void => {
@@ -193,14 +192,16 @@ const loadPainting = (painting: string): void => {
 
 const setBrushType = (brushType: string): void => {
   selectedBrush.value = brushType
-} 
+}
 
 const changeColor = (color: string): void => {
   state.color = color
 }
 const changeShowFiles = (bool: boolean): void => {
   showFiles.value = bool
-  paintstore.getAllPaintingsByUserId(userstore.userData?._id !== undefined ? userstore.userData?._id : '')
+  paintstore.getAllPaintingsByUserId(
+    userstore.userData?._id !== undefined ? userstore.userData?._id : ''
+  )
 }
 
 const itemClicked = (painting: IPainting): void => {

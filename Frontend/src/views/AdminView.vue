@@ -3,7 +3,7 @@
   .desktop-container
     DesktopItem.mt-4(
       v-for="program in allPrograms"
-      v-on:generateComponent="generateComponent(program)"
+      @generateComponent="generateComponent(program)"
       :key="program._id"
       :displayName="program.displayName"
       :color="program.color"
@@ -14,32 +14,30 @@
 
 <script setup lang="ts">
 import AdminComponentMachine from '@/components/admin/AdminComponentMachine.vue'
+import type { IProgram } from '@/models'
 import { programsStore } from '@/stores/programsStore'
 
 const allPrograms = [
   {
-    id: 3245, 
+    id: 3245,
     name: 'ManagePrograms',
     displayName: 'Manage Programs',
     isActive: true,
     image: 'fa-computer',
-    color: 'light'
+    color: 'light',
   },
   {
-    id: 5432, 
+    id: 5432,
     name: 'ManageUsers',
     displayName: 'Manage Users',
     isActive: true,
     image: 'fa-users',
-    color: 'light'
+    color: 'light',
   },
 ]
 const programsstore = programsStore()
 
-const generateComponent = (program: any) => {
-  programsstore.addProgramToActive({...program})
+const generateComponent = (program: IProgram) => {
+  programsstore.addProgramToActive({ ...program })
 }
 </script>
-
-<style lang="sass" scoped>
-</style>
