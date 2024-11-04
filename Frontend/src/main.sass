@@ -31,16 +31,16 @@ body, html
   @apply bg-gray-300
 
 .game-container
+  position: absolute
+  display: flex
+  align-items: center
+  justify-content: center
   canvas
-    margin: 0 !important
-    padding: 0 !important
+    margin: auto !important
     display: block
     z-index: 9999
-    position: absolute
-    top: 0
-    bottom: 0
-    left: 0
-    right: 0
+    width: auto !important
+    height: auto !important
 
   /* width */
 ::-webkit-scrollbar

@@ -8,72 +8,71 @@ const adminView = () => import('@/views/AdminView.vue')
 const SalvatoreGame = () => import('@/phaser/salvatore/SalvatoreGame.vue')
 const LoginView = () => import('@/views/LoginView.vue')
 const TestStuff = () => import('@/phaser/test-stuff/TestStuff.vue')
-const LaCosaNostra = () => import('@/phaser/la-cosa-nostra/LaCosaNostraGame.vue')
 
 export default [
   {
     path: '/',
     name: 'home',
-    component: HomeView, 
+    component: HomeView,
     meta: {
-      requiresAuth : true,
-      roles: ['user', 'admin']
-    }
+      requiresAuth: true,
+      roles: ['user', 'admin'],
+    },
   },
   {
     path: '/login',
     name: 'login',
-    component: LoginView, 
+    component: LoginView,
     meta: {
-      requiresAuth : false,
-      roles: []
-    }
+      requiresAuth: false,
+      roles: [],
+    },
   },
   {
     path: '/startup',
     name: 'startup',
-    component: StartingUp
+    component: StartingUp,
   },
   {
     path: '/shutdown',
     name: 'shutdown',
-    component: ShutDown
+    component: ShutDown,
   },
   {
     path: '/pingpong',
     name: 'pingpong',
-    component: PingPong, 
+    component: PingPong,
     meta: {
       requiresAuth: true,
-      roles: ['user', 'admin']
-    }
+      roles: ['user', 'admin'],
+    },
   },
   {
     path: '/flappydisk',
     name: 'flappydisk',
-    component: FlappyDisc, 
+    component: FlappyDisc,
     meta: {
       requiresAuth: true,
-      roles: ['user', 'admin']
-    }
+      roles: ['user', 'admin'],
+    },
   },
   {
     path: '/spaceinvaders',
     name: 'spaceinvaders',
-    component: SpaceInvaders, 
+    component: SpaceInvaders,
     meta: {
       requiresAuth: true,
-      roles: ['user', 'admin']
-    }
+      roles: ['user', 'admin'],
+    },
   },
   {
     path: '/salvatore',
     name: 'platformer',
-    component: SalvatoreGame, 
+    component: SalvatoreGame,
     meta: {
       requiresAuth: false,
-      roles: ['user', 'admin']
-    }
+      roles: ['user', 'admin'],
+    },
   },
   {
     path: '/teststuff',
@@ -81,25 +80,16 @@ export default [
     component: TestStuff,
     meta: {
       requireAuth: false,
-      roles: ['user', 'admin']
-    }
-  },
-  {
-    path: '/lacosanostra',
-    name: 'LaCosaNostra',
-    component: LaCosaNostra,
-    meta: {
-      requireAuth: false,
-      roles: ['user', 'admin']
-    }
+      roles: ['user', 'admin'],
+    },
   },
   {
     path: '/admin',
     name: 'admin',
-    component: adminView, 
+    component: adminView,
     meta: {
-      requiresAuth : true,
-      roles: ['admin']
+      requiresAuth: true,
+      roles: ['admin'],
     },
-  }
+  },
 ]

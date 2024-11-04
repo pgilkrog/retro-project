@@ -1,42 +1,46 @@
 <template lang="pug">
-div(ref="gameContainer" class="game-container")
+.game-container(class="h-full w-full")
+  div(class="flex flex-col items-center")
+    .bg-shadow.p-8.fit-content.rounded.bg-gray-300
+      .bg-shadow-inner.img-box(class="").bg-gray-300
+        div(ref="gameContainer")
+    .square-1(class="bg-shadow bg-gray-300 rounded-bottom h-[20px] w-[450px]")
+    .square-2(class="bg-shadow bg-gray-300 h-[30px] w-[320px]")
+    .square-3(class="bg-shadow bg-gray-300 rounded-top h-[15px] w-[650px]")
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import Phaser from 'phaser'
 import Loader from './scenes/Loader'
 import GameScene from './scenes/GameScene'
-import { defineComponent, ref } from 'vue'
+import { ref } from 'vue'
 
-export default defineComponent ({
-  name: 'GameComponent',
-  setup() {
-    const gameContainer = ref<HTMLDivElement>()
+const gameContainer = ref<HTMLDivElement>()
 
-    onMounted(() => {
-      new Phaser.Game({
-        type: Phaser.AUTO,
-        width: "800",
-        height: "600",
-        pixelArt: true,
-        parent: gameContainer.value,
-        physics: {
-          default: "arcade"
-        },
-        scale: {
-            parent: gameContainer.value,
-            mode: Phaser.Scale.FIT,
-            autoCenter: Phaser.Scale.CENTER_BOTH,
-            width: 800,
-            height: 600
-        },
-        scene: [Loader, GameScene]
-      })
-    })
-
-    return {
-      gameContainer
-    }
-  }
+onMounted(() => {
+  new Phaser.Game({
+    type: Phaser.AUTO,
+    width: '800',
+    height: '600',
+    pixelArt: true,
+    parent: gameContainer.value,
+    physics: {
+      default: 'arcade',
+    },
+    scale: {
+      parent: gameContainer.value,
+      mode: Phaser.Scale.CENTER_BOTH,
+      width: 800,
+      height: 600,
+    },
+    scene: [Loader, GameScene],
+  })
 })
 </script>
+<style scoped lang="sass">
+canvas
+  display: block
+  margin: auto
+  width: 800
+  height: 600
+</style>

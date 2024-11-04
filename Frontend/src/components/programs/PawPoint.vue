@@ -46,7 +46,7 @@ const slides = ref<ISlide[]>([
     id: 1,
     title: 'Paws Projekt',
     text: '<ul><li>Vue 3</li><li>Pinia</li><li>Phaser 3</li></ul>',
-    type: SlideTypes.SlideTitleImage,
+    type: SlideTypes.SlideTitleText,
   },
   {
     id: 2,
@@ -68,13 +68,13 @@ const slides = ref<ISlide[]>([
       '<li>Suspense</li>' +
       '<li>Multiple v-models</li>' +
       '</ul>',
-    type: SlideTypes.SlideTitleImage,
+    type: SlideTypes.SlideTitleText,
   },
   {
     id: 4,
     title: 'Pinia',
     text: 'ting',
-    type: SlideTypes.SlideTitleImage,
+    type: SlideTypes.SlideTitleText,
   },
   {
     id: 5,
@@ -85,7 +85,7 @@ const slides = ref<ISlide[]>([
       '<li>Flappy Bird copi</li>' +
       '<li>Simple platformer</li>' +
       '</ul>',
-    type: SlideTypes.SlideTitleImage,
+    type: SlideTypes.SlideTitleText,
   },
 ])
 const activeSlide = ref<ISlide | undefined>(slides.value[0])

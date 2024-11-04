@@ -102,8 +102,4 @@ const rightClick = () => {
 }
 </script>
 
-<style scoped lang="sass">
-// canvas
-//   z-index: 9999
-//   position: absolute
-</style>
+<style scoped lang="sass"></style>
