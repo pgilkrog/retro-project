@@ -30,7 +30,7 @@
     div(class="flex flex-col p-4")
       InputComponent(v-model="userSettingsInfo.backgroundColour" label="Background color")
       InputComponent(v-model="userSettingsInfo.backgroundImage" label="Background Image")
-      InputComponent(v-model="userSettingsInfo.useBackground" label="Use Background" type="checkbox")
+      CheckboxComponent(v-model="userSettingsInfo.useBackground" label="Use Background")
       InputComponent(v-model="userSettingsInfo.theme" label="Theme")
       div(class="flex mt-3 justify-center")
         ButtonComponent(@clicked="changeShowManageUserSettings(false)" text="Cancel")

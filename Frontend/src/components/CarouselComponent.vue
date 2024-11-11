@@ -14,18 +14,9 @@
     ButtonComponent(text="<" class="!pointer-events-auto" @click="scrollByClick(-300)")
     ButtonComponent(text=">" class="!pointer-events-auto" @click="scrollByClick(300)")
 .test-dis 
-  Carousel( v-bind="settings" :breakpoints="breakpoints")
-    Slide(v-for="(item, index) in listOfItems" :key="index"
-        @click="clickCarousel(item)")
-      .item(
-        class="h-64 !w-[200px] bg-blue-200 p-4 my-4 cursor-pointer select-none"
-      )
-        p(class="px-8") {{ item.name }}
-    template(#addons)
-      Navigation
+
 </template>
 <script setup lang="ts">
-import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'
 
 const listOfItems = [

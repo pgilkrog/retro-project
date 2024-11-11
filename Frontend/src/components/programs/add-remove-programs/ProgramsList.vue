@@ -1,4 +1,4 @@
-<template lang="pug">  
+<template lang="pug">
 h2.mb-4 {{ title }} 
 .programs-list(v-if="programList" class="divide-y-2 divide-gray-400")
   ProgramListItem(

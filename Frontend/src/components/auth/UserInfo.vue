@@ -7,7 +7,7 @@ div(class="flex flex-col")
   InputComponent(v-model="info.country" placeholder="Country")
   InputComponent(v-model="info.postcode" placeholder="Postcode" type="number")
   InputComponent(v-model="info.phoneNumber" placeholder="Phone")
-  InputComponent(v-model="info.homeAddress" label="Home Address" type="checkbox")
+  CheckComponent(v-model="info.homeAddress" label="Home Address")
 div(class="flex flex-col my-4")
   p name: {{ info.name }}
   p address: {{ info.addressLine }}

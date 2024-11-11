@@ -14,7 +14,7 @@ WindowFrame(
       | {{ infoText }}
     form.col-span-12.mt-4
       .col-12.col-lg
-        InputComponent(v-model="username" label="Username" :useTwoLines="true")
+        InputComponent(v-model="username" label="Username" :useTwoLines="true" :use-debounce="true")
       .mt-2(v-if="state === 2 || state === 1")
         .col-span-12
           InputComponent(v-model="password" type="password" label="Password" :useTwoLines="true")

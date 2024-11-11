@@ -15,6 +15,7 @@ declare module 'vue' {
     CarouselComponent: typeof import('./src/components/CarouselComponent.vue')['default']
     Chattie: typeof import('./src/components/programs/Chattie.vue')['default']
     ChatWindow: typeof import('./src/components/programs/chattie/ChatWindow.vue')['default']
+    CheckboxComponent: typeof import('./src/components/utils/CheckboxComponent.vue')['default']
     Clock: typeof import('./src/components/taskbar/Clock.vue')['default']
     ColorTool: typeof import('./src/components/programs/paint/ColorTool.vue')['default']
     ComponentMachine: typeof import('./src/components/ComponentMachine.vue')['default']
