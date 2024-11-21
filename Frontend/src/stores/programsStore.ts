@@ -105,11 +105,13 @@ export const programsStore = defineStore('programs', () => {
 
   const generateGridPositions = () => {
     for (let i = 0; i < 99; i++) {
-      positionedList.value.push({
+      const positionedEl: IInstalledProgram = {
+        _id: 'dsaofgjh',
         program: undefined,
         userId: '',
         gridPosition: i,
-      } as IInstalledProgram)
+      }
+      positionedList.value.push(positionedEl)
     }
 
     installedPrograms.value.forEach((element) => {

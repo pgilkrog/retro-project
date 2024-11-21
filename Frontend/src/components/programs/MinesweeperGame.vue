@@ -12,19 +12,20 @@ WindowFrame(:program="program" :isMoveable="true")
 </template>
 
 <script setup lang="ts">
+import type { IProgram } from '@/models'
 import MinesweeperBlock from './minesweeper/MinesweeperBlock.vue'
 
 const { program } = defineProps<{
-  program: Object
+  program: IProgram
 }>()
 
-const grid = ref([] as Object[])
+const grid = ref<object[]>([])
 const rows = ref(10)
 const columns = ref(5)
 const bombs = ref(10)
 const gameOver = ref(false)
 
-onMounted (() => {
+onMounted(() => {
   generateBlocks()
 })
 
@@ -32,7 +33,7 @@ const clickedBlock = (block: any, index: any) => {
   block.isClicked = true
 }
 const generateBlocks = () => {
-  for(let i = 0; i < (rows.value * columns.value); i++) {
+  for (let i = 0; i < rows.value * columns.value; i++) {
     grid.value.push({ index: i, isClicked: false, isBomb: false })
   }
 }

@@ -1,7 +1,7 @@
 <template lang="pug">
 .input(:class="['flex m-1', useTwoLines === true ? 'flex-col text-start' : 'align-center items-center']")
   //- label(v-if="label" class="me-4 w-44") {{ label + ': ' }}
-  label {{model}}
+  label {{label}}
   input(
     class="bg-shadow-inner p-1 px-2 w-full rounded flex-grow"
     type="textbox"

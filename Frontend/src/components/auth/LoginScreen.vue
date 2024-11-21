@@ -42,20 +42,25 @@ import router from '@/router'
 
 const authstore = useAuthStore()
 
-const state = ref(1)
+const state = ref<number>(1)
 const username = ref<string>('')
 const password = ref<string>('')
 const password2 = ref<string>('')
 const info = ref<string>('info')
 const infoText = ref<string>('Type a email and password to log in')
 const showHelp = ref<boolean>(false)
-const program = ref({
+const program = ref<IProgram>({
+  _id: 'LoginScreenProgram',
   name: 'LogInNow',
   isActive: true,
   image: 'fa-user-lock',
-  displayName: 'Log in now',
   color: 'light',
-} as IProgram)
+  displayName: 'Log in now',
+  sortOrder: 1,
+  type: 'Program',
+  top: 200,
+  left: 200,
+})
 
 const pressedOk = (): void => {
   if (state.value === 1) confirmLogin()

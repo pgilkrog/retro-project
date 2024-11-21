@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { chatStore } from './chatStore'
 import { programsStore } from './programsStore'
-import type { IUser, IUserSettings } from '@/models/index'
+import type { IUser, IUserSettings } from '@/models'
 import { ref } from 'vue'
 import axios from 'axios'
 import setAuthToken from '@/helpers/setAuthToken'
@@ -18,7 +18,7 @@ export const userStore = defineStore('user', () => {
   const chatstore = chatStore()
 
   const getAllUsers = async (): Promise<void> => {
-    setAuthToken(sessionStorage.getItem('token') as string)
+    setAuthToken(sessionStorage.getItem('token') ?? '')
     try {
       const response = await axios.get(url)
       const { data, statusText } = response
@@ -53,8 +53,12 @@ export const userStore = defineStore('user', () => {
   }
 
   const updateUser = async (user: IUser): Promise<void> => {
-    const res = await axios.put(url + '/' + user._id, null, { params: user })
-    setUserData(res.data)
+    try {
+      const res = await axios.put(url + '/' + user._id, null, { params: user })
+      setUserData(res.data)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const updateUserSettings = async (settings: IUserSettings): Promise<void> => {

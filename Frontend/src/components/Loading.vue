@@ -35,7 +35,7 @@ const emit = defineEmits<{
   (e: 'close-loading'): void
 }>()
 
-const program = {
+const program: IProgram = {
   _id: '345345',
   name: 'Loading',
   displayName: 'Loading',
@@ -46,7 +46,7 @@ const program = {
   top: 40,
   sortOrder: 0,
   type: 'Program',
-} as IProgram
+}
 
 const loadingCompleted = ref(false)
 const progressValues = ref<number[]>([])

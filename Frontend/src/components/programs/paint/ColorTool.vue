@@ -10,12 +10,11 @@
 </template>
 
 <script setup lang="ts">
-
 const emit = defineEmits<{
-  (e: 'changeColor', color: string): void
+  changeColor: [color: string]
 }>()
 
-const colors = ref([
+const colors = ref<string[]>([
   '#0000ff',
   '#00ff00',
   '#ff0000',
@@ -26,11 +25,10 @@ const colors = ref([
   '#000000',
   '#f0f0f0',
   '#0ff00f',
-  '#1ef0ae'
-] as string[])
+  '#1ef0ae',
+])
 
 const changeColor = (color: string) => {
   emit('changeColor', color)
 }
-
 </script>

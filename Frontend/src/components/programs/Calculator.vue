@@ -25,7 +25,7 @@ const { program } = defineProps<{
 }>()
 
 const display = ref('')
-const buttons = [
+const buttons: Button[] = [
   { text: '1', value: '1' },
   { text: '2', value: '2' },
   { text: '3', value: '3' },
@@ -42,7 +42,7 @@ const buttons = [
   { text: '.', value: '.' },
   { text: '/', value: '/' },
   { text: '=', value: '=' },
-] as Button[]
+]
 
 const handleClick = (button: Button) => {
   if (button.value === '=') {

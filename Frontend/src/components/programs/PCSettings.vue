@@ -37,7 +37,7 @@ WindowFrame(
 </template>
 
 <script setup lang="ts">
-import type { IFile, IProgram, IUser, IUserSettings } from '../../models/index'
+import type { IFile, IProgram } from '../../models/index'
 import { userStore } from '../../stores/userStore'
 import { fileStore } from '../../stores/fileStore'
 import { storeToRefs } from 'pinia'
@@ -48,12 +48,12 @@ const { program } = defineProps<{
 
 const userstore = userStore()
 const filestore = fileStore()
+const { userData } = storeToRefs(userstore)
 
 const state = ref<number>(0)
 const color = ref<string>('')
 const tempImg = ref<IFile | undefined>()
-const userData = storeToRefs(userstore).userData as Ref<IUser | undefined>
-const tabsList = ['Didsplay', 'Screen Saver', 'Profile']
+const tabsList: string[] = ['Display', 'Screen Saver', 'Profile']
 
 onMounted(() => {
   color.value = userData.value?.settings?.backgroundColour ?? ''
@@ -62,29 +62,35 @@ onMounted(() => {
 
 const onColorSelected = (event: Event): void => {
   event.preventDefault()
+
   let tempData = userstore.userData
   if (tempData === undefined) return
-  ;(tempData.settings as IUserSettings).backgroundColour = color.value
+
+  tempData.settings.backgroundColour = color.value
   userstore.setUserData(tempData)
 }
 
 const saveUserInfo = (): void => {
-  let tempSettings = userData.value as IUser
+  let tempSettings = userData.value
 
   if (tempSettings === undefined) return
 
   setImage(tempImg.value)
   tempSettings.settings.backgroundColour = color.value
-  userstore.updateUserSettings(tempSettings.settings as IUserSettings)
+
+  userstore.updateUserSettings(tempSettings.settings)
   userstore.setUserData(tempSettings)
 }
 
 const setImage = (file: IFile | undefined): void => {
   let url = file === undefined ? '' : file.name
-  let temp = userData.value as IUser
-  temp.settings.backgroundImage = url
-  temp.settings.useBackground = file === undefined ? false : true
-  userstore.setUserData(temp)
+  let tempUserData = userData.value
+
+  if (tempUserData !== undefined) {
+    tempUserData.settings.backgroundImage = url
+    tempUserData.settings.useBackground = file === undefined ? false : true
+    userstore.setUserData(tempUserData)
+  }
 }
 
 const setTempImg = (img: IFile): void => {

@@ -1,5 +1,4 @@
 import { useErrorStore } from '@/stores/errorStore'
-import type { IErrorItem } from '@/models/index'
 
 const errorstore = useErrorStore()
 

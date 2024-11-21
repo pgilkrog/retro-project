@@ -1,8 +1,8 @@
 <template lang="pug">
 .manage-programs
-  WindowFrame(:program="program" :isMoveable="true")
+  WindowFrame(:program :is-moveable="true")
     .wrapper(class="flex flex-col m-2")
-      ButtonComponent.mb-4(@clicked="changeShowManageProgram(true)" text="Add new program" size="full") 
+      ButtonComponent.mb-4(@clicked="setEmptyProgram(), changeShowManageProgram(true)" text="Add new program" size="full") 
       div(
         class="hover hover:bg-gray-200 flex bg-shadow p-1 justify-between rounded cursor-pointer mt-1" 
         v-for="program in allPrograms" 
@@ -14,7 +14,7 @@
         IconComponent(name="bi-trash-fill" color="red" size="25" @click="deleteProgram(program)")
   
   WindowFrame(
-    :program="{name: 'ManageProgram', displayName: 'Manage Program', color: 'warning', image: 'fa-pencil', isActive: true}" 
+    :program="manageProgramProgram" 
     :isMoveable="true"
      v-if="showManageProgram"
   )
@@ -40,75 +40,64 @@
 </template>
 
 <script setup lang="ts">
-import { programsStore } from '@/stores/programsStore'
-import type { IProgram } from '@/models/index'
+import { programsStore } from '@/stores'
+import type { IProgram } from '@/models'
+import { storeToRefs } from 'pinia'
 
 const { program } = defineProps<{
-  program: Object
+  program: IProgram
 }>()
 
 const programsstore = programsStore()
-const allPrograms = computed(() => programsstore.allPrograms)
+const { allPrograms } = storeToRefs(programsstore)
+
 const showManageProgram = ref(false)
 const updateState = ref(false)
-let selectedProgram = ref<IProgram | undefined>(undefined)
-const programInfo = ref<IProgram>({
-  _id: '',
-  name: '',
-  displayName: '',
-  image: '',
-  color: '',
-  sortOrder: 0,
-  type: '',
-  isActive: false,
-  left: 0,
-  top: 0,
-})
-let showValidation = ref(false)
+
+const programInfo = ref<IProgram | undefined>()
+const selectedProgramInfo = ref<IProgram | undefined>()
+
+const showValidation = ref(false)
+
+const manageProgramProgram = {
+  name: 'ManageProgram',
+  displayName: 'Manage Program',
+  color: 'warning',
+  image: 'fa-pencil',
+  isActive: true,
+}
 
 const addProgram = () => {
   if (
+    programInfo.value !== undefined &&
     programInfo.value.name !== '' &&
     programInfo.value.image !== '' &&
     programInfo.value.displayName !== ''
   ) {
-    const newProgram: IProgram = {
-      ...programInfo.value,
-    }
-
-    programsstore.createProgram(newProgram)
+    programsstore.createProgram(programInfo.value)
     resetInputs()
   }
 }
 
 const deleteProgram = (program: IProgram) => {
-  selectedProgram.value = program
+  selectedProgramInfo.value = program
   showValidation.value = true
 }
 
 const updateProgram = () => {
-  programsstore.updateProgram(programInfo.value as IProgram)
+  if (programInfo.value !== undefined) {
+    programsstore.updateProgram(programInfo.value)
+  }
 }
 
 const resetInputs = () => {
-  programInfo.value = {
-    _id: '',
-    name: '',
-    displayName: '',
-    color: '',
-    image: '',
-    sortOrder: 0,
-    type: '',
-    isActive: false,
-    left: 0,
-    top: 0,
-  }
-  selectedProgram.value = undefined
+  programInfo.value = undefined
+  selectedProgramInfo.value = undefined
 }
 
 const ok = () => {
-  if (selectedProgram.value === undefined) return
-  else programsstore.deleteProgram(selectedProgram.value)
+  if (selectedProgramInfo.value === undefined) return
+  else programsstore.deleteProgram(selectedProgramInfo.value)
 }
 
 const cancel = () => {
@@ -120,7 +109,7 @@ const setUpdateState = (state: boolean, program: IProgram) => {
   updateState.value = state
 
   if (state === true) {
-    selectedProgram.value = program
+    selectedProgramInfo.value = program
     programInfo.value = program
   } else {
     resetInputs()
@@ -131,5 +120,20 @@ const changeShowManageProgram = (bool: boolean) => {
   showManageProgram.value = bool
 
   if (bool === false) setUpdateState(false, {} as IProgram)
+}
+
+const setEmptyProgram = () => {
+  selectedProgramInfo.value = {
+    _id: '',
+    name: '',
+    displayName: '',
+    image: '',
+    color: '',
+    sortOrder: 0,
+    type: '',
+    isActive: false,
+    left: 0,
+    top: 0,
+  }
 }
 </script>

@@ -28,8 +28,11 @@ const { tempImg } = defineProps<{
 
 const userstore = userStore()
 const { userData } = storeToRefs(userstore)
+const hej: any = []
 
 const getImageUrl = (filename: string) => {
+  if (userData.value) {
+  }
   return `${import.meta.env.VITE_BASE_URL}/uploads/${filename}`
 }
 </script>

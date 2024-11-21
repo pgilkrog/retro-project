@@ -29,9 +29,9 @@ export const useErrorStore = defineStore('errorStore', () => {
       text: text,
       show: true,
       timeStamp: new Date(),
-    } as IErrorItem
+    }
 
-    let tempList = errorList.value as IErrorItem[]
+    let tempList = errorList.value
     tempList.push(error.value)
     createError(text)
   }

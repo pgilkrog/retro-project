@@ -20,7 +20,7 @@ const { showMenu = false } = defineProps<{
   showMenu: boolean
 }>()
 
-const menuList = ref([] as IMenuItem[])
+const menuList = ref<IMenuItem[]>([])
 const createMenu = () => {
   menuList.value = JSON.parse(JSON.stringify(jsondata))
 }

@@ -17,16 +17,16 @@ export const fileStore = defineStore('filestore', () => {
       const response = await axios.post(url + '/upload', formData)
       console.log(formData, response)
       const { filename, originalname, size, fieldname, path } = response.data.file
-      const fileToStore = {
+      const fileToStore: IFile = {
         _id: '',
         name: filename,
         originalName: originalname,
         size: size,
         type: fieldname,
         url: path,
-        userId: userstore.userData?._id,
+        userId: userstore.userData?._id ?? '',
         createdAt: new Date(),
-      } as IFile
+      }
       await axios.post(url, null, { params: fileToStore }).then(() => {
         getAllFiles()
       })

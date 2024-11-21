@@ -1,11 +1,11 @@
 import axios from 'axios'
-import setAuthToken from "@/helpers/setAuthToken"
+import setAuthToken from '@/helpers/setAuthToken'
 
-export const get = async <T> (url: string): Promise<T> => {
+export const get = async <T>(url: string): Promise<T> => {
   checkAuthToken()
-  console.log("GET", url)
- 
-  try { 
+  console.log('GET', url)
+
+  try {
     const response = await axios.get(url)
     return response.data as T
   } catch (error) {
@@ -14,9 +14,9 @@ export const get = async <T> (url: string): Promise<T> => {
   }
 }
 
-export const post = async <T> (url: string, data: any): Promise<T> => {
+export const post = async <T>(url: string, data: any): Promise<T> => {
   checkAuthToken()
-  console.log("POST", url, data)
+  console.log('POST', url, data)
   try {
     return await axios.post(url, null, data)
   } catch (error) {
@@ -25,9 +25,9 @@ export const post = async <T> (url: string, data: any): Promise<T> => {
   }
 }
 
-export const put = async <T> (url: string, data: any): Promise<T> => {
+export const put = async <T>(url: string, data: any): Promise<T> => {
   checkAuthToken()
-  console.log("UPDATE", url, data)
+  console.log('UPDATE', url, data)
   try {
     return await axios.put(url, null, data)
   } catch (error) {
@@ -36,9 +36,9 @@ export const put = async <T> (url: string, data: any): Promise<T> => {
   }
 }
 
-export const del = async <T> (url: string): Promise<T> => {
+export const del = async <T>(url: string): Promise<T> => {
   checkAuthToken()
-  console.log("DELETE", url)
+  console.log('DELETE', url)
   try {
     return await axios.delete(url)
   } catch (error) {

@@ -158,14 +158,14 @@ const savePainting = (text: string): void => {
   const canvas = canvasRef.value
   if (canvas === undefined) return
 
-  const newPainting = {
+  const newPainting: IPainting = {
     _id: '',
     name: text,
     canvas: canvas.toDataURL(),
-    uId: userstore.userData?._id,
+    uId: userstore.userData?._id ?? 'uid',
     height: canvasHeight.value,
     width: canvasWidth.value,
-  } as IPainting
+  }
 
   paintstore.postPainting(newPainting)
 }

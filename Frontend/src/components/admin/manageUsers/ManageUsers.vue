@@ -8,24 +8,23 @@
         div(class="flex justify-center py-4")
           .spinner-border.text-gray-700
   WindowFrame(
-    :program="{name: 'ManageUser', displayName: 'Manage User', color: 'warning', image: 'fa-pencil', isActive: true}" 
+    v-if="showManageUser === true"
+    :program="manageUserProgram" 
     :isMoveable="true"
-    v-if="showManageUser"
   )
     div(class="flex flex-col p-4")
       InputComponent(v-model="userInfo.firstName" label="First Name")
       InputComponent(v-model="userInfo.lastName" label="Last Name")
       InputComponent(v-model="userInfo.email" label="Email")
       InputComponent(v-model="userInfo.type" label="Type")
-      //- InputComponent(v-model="userInfo.installedPrograms" label="Installed Programs")
       ButtonComponent.mt-3(@clicked="changeShowManageUserSettings(true)" text="Settings" size="full")
       div(class="flex mt-3 justify-center")
         ButtonComponent(@clicked="changeShowManageUser(false)" text="Cancel")
         ButtonComponent(@clicked="updateUser()" text="Update")
   WindowFrame(
-    :program="{name: 'ManageUserSettings', displayName: 'Manage User Settings', color: 'warning', image: 'fa-pencil', isActive: true}" 
+    v-if="showManageUserSettings === true"
+    :program="manageUserSettingsProgram" 
     :isMoveable="true"
-    v-if="showManageUserSettings"
   )
     div(class="flex flex-col p-4")
       InputComponent(v-model="userSettingsInfo.backgroundColour" label="Background color")
@@ -36,97 +35,62 @@
         ButtonComponent(@clicked="changeShowManageUserSettings(false)" text="Cancel")
         ButtonComponent(@clicked="updateUserSettings()" text="Update")
 </template>
-
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
-import { userStore } from '@/stores/userStore'
-import type { IProgram, IUser, IUserSettings } from '@/models/index'
+import { userStore } from '@/stores'
+import type { IProgram, IUser, IUserSettings } from '@/models'
 
 const { program } = defineProps<{
   program: IProgram
 }>()
 
+const userstore = userStore()
+
 const showManageUser = ref(false)
 const showManageUserSettings = ref(false)
-let selectedUser = {}
-let selectedUserSettings = {}
 
-const userstore = userStore()
-const userInfo = reactive({
-  firstName: '',
-  lastName: '',
-  email: '',
-  type: '',
-  installedPrograms: [] as string[],
-})
-const userSettingsInfo = reactive({
-  backgroundColour: '',
-  backgroundImage: '',
-  useBackground: false,
-  theme: '',
-})
+const userInfo = ref<IUser | undefined>()
+const userSettingsInfo = ref<IUserSettings | undefined>()
 
-// const allUsers = computed(() => userstore.allUsers)
+const manageUserProgram = {
+  name: 'ManageUser',
+  displayName: 'Manage User',
+  color: 'warning',
+  image: 'fa-pencil',
+  isActive: true,
+}
+const manageUserSettingsProgram = {
+  name: 'ManageUserSettings',
+  displayName: 'Manage User Settings',
+  color: 'warning',
+  image: 'fa-pencil',
+  isActive: true,
+}
 
 const updateUser = () => {
-  let temp = selectedUser as IUser
-  temp.firstName = userInfo.firstName
-  ;(temp.lastName = userInfo.lastName),
-    (temp.email = userInfo.email),
-    (temp.type = userInfo.type),
-    (temp.installedPrograms = userInfo.installedPrograms)
-  userstore.updateUser(temp)
-  resetInputs()
-  changeShowManageUser(false)
+  if (userInfo.value !== undefined) {
+    userstore.updateUser(userInfo.value)
+    userInfo.value = undefined
+    changeShowManageUser(false)
+  }
 }
 
 const updateUserSettings = () => {
-  let temp = selectedUserSettings as IUserSettings
-  temp.backgroundColour = userSettingsInfo.backgroundColour
-  temp.backgroundImage = userSettingsInfo.backgroundImage
-  temp.useBackground = userSettingsInfo.useBackground
-  temp.theme = userSettingsInfo.theme
-  userstore.updateUserSettings(temp)
-  resetSettingsInputs()
-  changeShowManageUserSettings(false)
+  if (userSettingsInfo.value !== undefined) {
+    userstore.updateUserSettings(userSettingsInfo.value)
+    userSettingsInfo.value = undefined
+    changeShowManageUserSettings(false)
+  }
 }
 
-const deleteUser = (user: IUser) => {}
-
 const setSelectedUser = (user: IUser) => {
+  userInfo.value = user
+  userSettingsInfo.value = user.settings
   changeShowManageUser(true)
-  userInfo.firstName = user.firstName
-  ;(userInfo.lastName = user.lastName),
-    (userInfo.email = user.email),
-    (userInfo.type = user.type),
-    (userInfo.installedPrograms = user.installedPrograms)
-  selectedUser = user
-  changeShowManageUser(true)
-  setSelectedUserSettings(user.settings)
 }
 
 const setSelectedUserSettings = (settings: IUserSettings) => {
-  userSettingsInfo.backgroundColour = settings.backgroundColour
-  userSettingsInfo.backgroundImage = settings.backgroundImage
-  userSettingsInfo.useBackground = settings.useBackground
-  userSettingsInfo.theme = settings.theme
-  selectedUserSettings = settings
-}
-
-const resetInputs = () => {
-  userInfo.firstName = ''
-  userInfo.lastName = ''
-  userInfo.email = ''
-  userInfo.type = ''
-  userInfo.installedPrograms = []
-  selectedUser = {}
-}
-
-const resetSettingsInputs = () => {
-  userSettingsInfo.backgroundColour = ''
-  userSettingsInfo.backgroundImage = ''
-  userSettingsInfo.useBackground = false
-  userSettingsInfo.theme = ''
+  userSettingsInfo.value = settings
+  changeShowManageUserSettings(true)
 }
 
 const changeShowManageUser = (bool: boolean) => {
