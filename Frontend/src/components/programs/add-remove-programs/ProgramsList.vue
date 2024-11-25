@@ -1,13 +1,19 @@
-<template lang="pug">
-h2.mb-4 {{ title }} 
-.programs-list(v-if="programList" class="divide-y-2 divide-gray-400")
-  ProgramListItem(
-    v-for="program in programList.filter((program: IProgram) => program.name !== 'AddOrRemovePrograms')"
-    :key="program._id"
-    v-bind="program"
-    :class="(program._id === selectedProgramId) ? 'bg-blue-600 text-white' : ''"
-    @click="changeSelectedProgram(program)"
-  )
+<template>
+  <h2 class="mb-4"> 
+    {{ title }} 
+  </h2>
+  <div 
+    v-if="programList" 
+    class="programs-list divide-y-2 divide-gray-400"
+  >
+    <ProgramListItem  
+      v-for="program in programList.filter((program: IProgram) => program.name !== 'AddOrRemovePrograms')"
+      :key="program._id"
+      v-bind="program"
+      :class="(program._id === selectedProgramId) ? 'bg-blue-600 text-white' : ''"
+      @click="changeSelectedProgram(program)" 
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -20,7 +26,7 @@ const { programList, title, selectedProgramId } = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'changeSelectedProgram', program: IProgram): void
+  'changeSelectedProgram': [program: IProgram]
 }>()
 
 const changeSelectedProgram = (program: IProgram) => {

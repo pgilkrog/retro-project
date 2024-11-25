@@ -55,7 +55,7 @@ export const userStore = defineStore('user', () => {
   const updateUser = async (user: IUser): Promise<void> => {
     try {
       const res = await axios.put(url + '/' + user._id, null, { params: user })
-      setUserData(res.data)
+      await setUserData(res.data)
     } catch (error) {
       console.log(error)
     }

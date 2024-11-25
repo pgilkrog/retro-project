@@ -1,39 +1,76 @@
-<template lang="pug">
-WindowFrame(
-  :program="program" 
-  :isMoveable="true"
-  :variant="program.color"
-  :showMenu="false"
-)
-  .pc-settings-wrapper.p-4
-    TabsComponent(:list="tabsList" @tabClick="state = $event" :activeTab="state")
-    .content(v-if="state === 0" class="p-4 rounded-b border border-t-0 border-black")
-      .row.flex.flex-col.items-center
-        PCScreen(:tempImg="tempImg")
-      .row.mt-4
-        BackgroundImages(@setTempImg="setTempImg($event)" :tempImg="tempImg")
-      .row.mt-4
-        FileUploader
-      .row.mt-4
-        .col
-          p Color:
-      .row
-        .col-2
-          input(
-            type="color" 
-            @change="onColorSelected" 
-            v-model="color"
-          )
-    .content.p-4.main-wrap(v-else-if="state === 1" class="p-4 rounded-b border border-t-0 border-black")
-      .row
-    .content.p-4.main-wrap(v-else-if="state === 2" class="p-4 rounded-b border border-t-0 border-black")
-      .row
-        UserInfo
-    .d-flex.justify-content-end.mt-4
-      ButtonComponent(
-        text="OK" 
-        @clicked="saveUserInfo()"
-      )
+<template>
+  <WindowFrame
+    :program="program"
+    :is-moveable="true"
+    :variant="program.color"
+    :show-menu="false"
+  >
+    <div class="pc-settings-wrapper p-4">
+      <TabsComponent
+        :list="tabsList"
+        @tab-click="state = $event"
+        :active-tab="state"
+      />
+
+      <!-- Content for Tab 0 -->
+      <div
+        v-if="state === 0"
+        class="content p-4 rounded-b border border-t-0 border-black"
+      >
+        <div class="row flex flex-col items-center">
+          <PCScreen :temp-img="tempImg" />
+        </div>
+        <div class="row mt-4">
+          <BackgroundImages
+            @set-temp-img="setTempImg($event)"
+            :temp-img="tempImg"
+          />
+        </div>
+        <div class="row mt-4">
+          <FileUploader />
+        </div>
+        <div class="row mt-4">
+          <div class="col">
+            <p>Color:</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2">
+            <input 
+              type="color" 
+              @change="onColorSelected" 
+              v-model="color" 
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Content for Tab 1 -->
+      <div
+        v-else-if="state === 1"
+        class="content p-4 main-wrap rounded-b border border-t-0 border-black"
+      >
+        <div class="row" />
+      </div>
+
+      <!-- Content for Tab 2 -->
+      <div
+        v-else-if="state === 2"
+        class="content p-4 main-wrap rounded-b border border-t-0 border-black"
+      >
+        <div class="row">
+          <UserInfo />
+        </div>
+      </div>
+
+      <div class="d-flex justify-end mt-4">
+        <ButtonComponent 
+          text="OK" 
+          @clicked="saveUserInfo()" 
+        />
+      </div>
+    </div>
+  </WindowFrame>
 </template>
 
 <script setup lang="ts">
@@ -55,49 +92,45 @@ const color = ref<string>('')
 const tempImg = ref<IFile | undefined>()
 const tabsList: string[] = ['Display', 'Screen Saver', 'Profile']
 
-onMounted(() => {
-  color.value = userData.value?.settings?.backgroundColour ?? ''
-  filestore.getAllFiles()
+onMounted(async () => {
+  color.value = userData.value?.settings.backgroundColour ?? ''
+  await filestore.getAllFiles()
 })
 
-const onColorSelected = (event: Event): void => {
+const onColorSelected = async (event: Event): Promise<void> => {
   event.preventDefault()
 
-  let tempData = userstore.userData
+  const tempData = userstore.userData
   if (tempData === undefined) return
 
   tempData.settings.backgroundColour = color.value
-  userstore.setUserData(tempData)
+  await userstore.setUserData(tempData)
 }
 
-const saveUserInfo = (): void => {
-  let tempSettings = userData.value
+const saveUserInfo = async () => {
+  const tempSettings = userData.value
 
   if (tempSettings === undefined) return
 
-  setImage(tempImg.value)
+  await setImage(tempImg.value)
   tempSettings.settings.backgroundColour = color.value
 
-  userstore.updateUserSettings(tempSettings.settings)
-  userstore.setUserData(tempSettings)
+  await userstore.updateUserSettings(tempSettings.settings)
+  await userstore.setUserData(tempSettings)
 }
 
-const setImage = (file: IFile | undefined): void => {
-  let url = file === undefined ? '' : file.name
-  let tempUserData = userData.value
+const setImage = async (file: IFile | undefined) => {
+  const url = file === undefined ? '' : file.name
+  const tempUserData = userData.value
 
   if (tempUserData !== undefined) {
     tempUserData.settings.backgroundImage = url
     tempUserData.settings.useBackground = file === undefined ? false : true
-    userstore.setUserData(tempUserData)
+    await userstore.setUserData(tempUserData)
   }
 }
 
 const setTempImg = (img: IFile): void => {
   tempImg.value = img
-}
-
-const getImageUrl = (filename: string): string => {
-  return `${import.meta.env.VITE_BASE_URL}/uploads/${filename}`
 }
 </script>

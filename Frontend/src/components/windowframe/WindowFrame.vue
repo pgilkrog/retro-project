@@ -1,32 +1,43 @@
-<template lang="pug">
-Teleport(to="#app")
-  .window-wrapper(
-    v-if="program?.isActive === true" 
-    :id="program._id"
-    class="bg-shadow bg-gray-300 flex flex-col absolute p-2 rounded px-2"
-    :style="[ isMoveable ? { top: program.top + 'px', left: program.left + 'px'} : { top: '40%', left: '50%', transform: 'translate(-50%, -50%)' }]"
-  )
-    header(
-      :class="['top-bar flex flex-col-reverse sm:flex-row justify-between items-center mb-1 py-2 px-4 rounded bg-gradient-to-r', getBackgroundColor(variant)]" 
-      @mousedown="handleMouseDown"
-    )
-      div(class="flex items-center content-center pointer-events-none mt-6 sm:mt-0")
-        IconComponent(:name="program.image" size="25" color="light")
-        p.font-semibold.pe-4.ps-4.text-2xl {{ program.displayName }}
-      div(class="flex")
-        ButtonComponent(
-          v-for="(button, key) in menuButtons"
-          :key
-          :icon="button.icon"
-          @clicked="button.clicked()"
-          :size="'small'"
-          :disabled="disableButtons"
-        )
-    windowframeMenu(:showMenu)
-    div(class="bg-gray-300 bg-shadow-inner rounded")
-      slot
+<template>
+  <Teleport to="#app">
+    <div 
+      v-if="program?.isActive === true" 
+      :id="program._id" 
+      class="window-wrapper bg-shadow bg-gray-300 flex flex-col absolute p-2 rounded px-2" 
+      :style="[isMoveable ? { top: programY + 'px', left: programX + 'px' } : { top: '40%', left: '50%', transform: 'translate(-50%, -50%)' }]"
+    >
+      <header 
+        :class="['top-bar flex flex-col-reverse sm:flex-row justify-between items-center mb-1 py-2 px-4 rounded bg-gradient-to-r', getBackgroundColor(variant)]" 
+        @mousedown="handleMouseDown"
+      >
+        <div class="flex items-center content-center pointer-events-none mt-6 sm:mt-0">
+          <IconComponent 
+            :name="program.image" 
+            size="25" 
+            color="light" 
+          />
+          <p class="font-semibold pe-4 ps-4 text-2xl">
+            {{ program.displayName }}
+          </p>
+        </div>
+        <div class="flex">
+          <ButtonComponent 
+            v-for="(button, key) in menuButtons" 
+            :key="key" 
+            :icon="button.icon" 
+            @clicked="button.clicked()" 
+            :size="'small'" 
+            :disabled="disableButtons" 
+          />
+        </div>
+      </header>
+      <windowframeMenu :show-menu="showMenu" />
+      <div class="bg-gray-300 bg-shadow-inner rounded">
+        <slot />
+      </div>
+    </div>
+  </Teleport>
 </template>
-
 <script setup lang="ts">
 import type { IProgram } from '@/models/index'
 import { programsStore } from '@/stores/programsStore'
@@ -60,22 +71,28 @@ const isDragging = ref(false)
 const startX = ref(0)
 const startY = ref(0)
 
+const programX = ref(0)
+const programY = ref(0)
+
 const menuButtons = [
   {
     icon: 'fa-window-minimize',
-    clicked: () => setInactive(),
+    clicked: () => { setInactive() },
   },
   {
     icon: 'fa-square',
-    clicked: () => {},
+    clicked: () => { console.log("hjfdgkh") },
   },
   {
     icon: 'fa-xmark',
-    clicked: () => closeWindow(),
+    clicked: () => { closeWindow() },
   },
 ]
 
 onMounted(() => {
+  programX.value = program.left
+  programY.value = program.top
+  
   if (isStatic === false) {
     anime({
       targets: '.window-wrapper',
@@ -91,16 +108,16 @@ onMounted(() => {
 
 const closeWindow = () => {
   // Remove the program from the active program list
-  if (program) programsstore.removeProgramFromActive(program)
+  programsstore.removeProgramFromActive(program)
 
   // If the window is not a program but a form of popup emit the close window
   if (isNotProgram === true) emit('closeWindow')
 }
 
-const setInactive = async () => {
+const setInactive = () => {
   // Set if the window should be hidden on screen, but visible in the taskbar.
-  if (program != undefined) {
-    await anime({
+
+    anime({
       targets: '.window-wrapper',
       translateX: 350,
       translateY: 450,
@@ -109,7 +126,7 @@ const setInactive = async () => {
       duration: 500,
     })
     programsstore.setProgramActiveState(program)
-  }
+  
 }
 
 const handleMouseDown = (event: MouseEvent) => {
@@ -151,8 +168,8 @@ const onDrag = (event: MouseEvent) => {
   const deltaX = event.clientX - startX.value
   const deltaY = event.clientY - startY.value
 
-  program.left += deltaX
-  program.top += deltaY
+  programX.value += deltaX
+  programY.value += deltaY
 
   startX.value = event.clientX
   startY.value = event.clientY

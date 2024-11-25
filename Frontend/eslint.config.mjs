@@ -1,11 +1,14 @@
+// @ts-check
+
 import eslint from '@eslint/js'
 import tseslint from 'typescript-eslint'
 import prettierConfig from 'eslint-config-prettier'
 import pluginVue from 'eslint-plugin-vue'
+import vueTsEslintConfig from '@vue/eslint-config-typescript'
 
 export default tseslint.config(
   {
-    // config with just ignores is the replacement for `.eslintignore`
+    // Config with just ignores is the replacement for `.eslintignore`
     ignores: ['dist/**', 'src/phaser/**'],
   },
   eslint.configs.recommended,
@@ -13,6 +16,7 @@ export default tseslint.config(
   {
     plugins: {
       '@typescript-eslint': tseslint.plugin,
+      vue: pluginVue,
     },
     languageOptions: {
       parser: tseslint.parser,
@@ -22,14 +26,13 @@ export default tseslint.config(
       },
     },
     rules: {
-      '@typescript-eslint/strict-boolean-expressions': 'error',
-      '@typescript-eslint/no-unsafe-argument': 'error',
-      '@typescript-eslint/no-unsafe-assignment': 'error',
-      '@typescript-eslint/no-unsafe-call': 'error',
-      '@typescript-eslint/no-unsafe-member-access': 'error',
-      '@typescript-eslint/no-unsafe-return': 'error',
+      "@typescript-eslint/no-unnecessary-boolean-literal-compare": "off",
+      "@typescript-eslint/no-confusing-non-null-assertion": "error",
+      "@typescript-eslint/no-empty-function": "error",
+      'vue/no-unused-vars': 'error',
     },
   },
-  pluginVue,
-  prettierConfig
+  prettierConfig,
+  ...pluginVue.configs['flat/strongly-recommended'], // Use strongly-recommended rules from eslint-plugin-vue
+  ...vueTsEslintConfig()
 )

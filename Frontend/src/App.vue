@@ -1,8 +1,11 @@
-<template lang="pug">
-.app-wrapper(id="app")
-  router-view
-ErrorComponent(v-if="error !== undefined")
-
+<template>
+  <div 
+    class="app-wrapper" 
+    id="app"
+  >
+    <RouterView />
+    <ErrorComponent v-if="error !== undefined" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -24,7 +27,7 @@ const { cookies } = useCookies()
 onMounted(async () => {
   await authstore.checkIfUserIsLoggedIn()
 
-  let my_cookies_value = cookies.get('myCookie')
+  const my_cookies_value = cookies.get('myCookie')
   console.log('COOKIE', my_cookies_value)
   cookies.set(
     'LAST_RESULT_ENTRY_KEY',
@@ -38,9 +41,9 @@ onMounted(async () => {
   console.log('error', error)
 })
 
-watch(checkedAuth, (newValue, oldValue) => {
+watch(checkedAuth, async (newValue, oldValue) => {
   if (newValue === true && oldValue === false) {
-    router.push('/')
+    await router.push('/')
   }
 })
 </script>

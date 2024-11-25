@@ -32,3 +32,8 @@ export interface IInstalledProgram {
   userId: string
   gridPosition: number
 }
+
+export interface IGridProgram {
+  gridPosition: number
+  program: IInstalledProgram
+}

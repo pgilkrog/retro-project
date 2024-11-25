@@ -32,6 +32,7 @@ const hej: any = []
 
 const getImageUrl = (filename: string) => {
   if (userData.value) {
+    console.log(hej)
   }
   return `${import.meta.env.VITE_BASE_URL}/uploads/${filename}`
 }

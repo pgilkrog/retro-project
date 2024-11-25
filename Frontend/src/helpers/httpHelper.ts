@@ -1,3 +1,5 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+
 import axios from 'axios'
 import setAuthToken from '@/helpers/setAuthToken'
 
@@ -18,7 +20,7 @@ export const post = async <T>(url: string, data: any): Promise<T> => {
   checkAuthToken()
   console.log('POST', url, data)
   try {
-    return await axios.post(url, null, data)
+    return await axios.post(url, data)
   } catch (error) {
     console.error('API request error:', error)
     throw error
@@ -29,7 +31,7 @@ export const put = async <T>(url: string, data: any): Promise<T> => {
   checkAuthToken()
   console.log('UPDATE', url, data)
   try {
-    return await axios.put(url, null, data)
+    return await axios.put(url, data)
   } catch (error) {
     console.error('API request error:', error)
     throw error

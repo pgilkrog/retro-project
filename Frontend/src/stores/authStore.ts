@@ -10,9 +10,9 @@ const url = import.meta.env.VITE_BASE_URL + '/auth'
 export const useAuthStore = defineStore('auth', () => {
   const errorstore = useErrorStore()
 
-  const isLoggedIn = ref<Boolean>(false)
+  const isLoggedIn = ref<boolean>(false)
   const user = ref<IUser>()
-  const checkedAuth = ref<Boolean>(false)
+  const checkedAuth = ref<boolean>(false)
   const token = ref<string>()
   const userId = ref<string>()
 
