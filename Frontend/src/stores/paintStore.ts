@@ -1,8 +1,6 @@
 import { defineStore } from 'pinia'
-import { ref, toRaw } from 'vue'
 import type { IPainting } from '../models/index'
-import axios from 'axios'
-import { get } from '@/helpers/httpHelper'
+import { get, post } from '@/helpers/httpHelper'
 
 const url = import.meta.env.VITE_BASE_URL + '/paint'
 
@@ -11,19 +9,11 @@ export const paintStore = defineStore('paint', () => {
   const usersPaintings = ref<IPainting[]>([])
   const loadingPaintings = ref<boolean>(false)
 
-  const getAllPaintings = (): void => {
+  const getAllPaintings = async (): Promise<void> => {
     loadingPaintings.value = true
-    axios
-      .get(url)
-      .then((data) => {
-        allPaintings.value = toRaw(data.data.paintings)
-      })
-      .catch((error: Error) => {
-        console.log(error)
-      })
-      .finally(() => {
-        loadingPaintings.value = false
-      })
+    const response = await get<IPainting[]>(url)
+    allPaintings.value = response
+    loadingPaintings.value = false
   }
 
   const getAllPaintingsByUserId = async (userId: string): Promise<void> => {
@@ -33,15 +23,7 @@ export const paintStore = defineStore('paint', () => {
   }
 
   const postPainting = async (painting: IPainting): Promise<void> => {
-    try {
-      await axios.post(url, painting, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-    } catch (error) {
-      console.error(error)
-    }
+      await post(url, painting,)
   }
 
   return {

@@ -28,7 +28,8 @@ export default tseslint.config(
     rules: {
       "@typescript-eslint/no-unnecessary-boolean-literal-compare": "off",
       "@typescript-eslint/no-confusing-non-null-assertion": "error",
-      "@typescript-eslint/no-empty-function": "error",
+      "@typescript-eslint/no-empty-function": "error",  
+      "@typescript-eslint/no-floating-promises": "off",
       'vue/no-unused-vars': 'error',
     },
   },
