@@ -1,7 +1,6 @@
 <template>
   <div class="desktop-grid flex h-full w-full justify-start py-4">
     <div 
-      v-if="allPrograms" 
       class="grid grid-cols-9 grid-rows-12 w-full"
     >
       <div 
@@ -31,10 +30,10 @@
 </template>
 
 <script setup lang="ts">
-import type { IInstalledProgram, IProgram } from '@/models'
+import type { IInstalledProgram } from '@/models'
 import { programsStore } from '@/stores'
 
-const { list, allPrograms } = defineProps<{ list: IInstalledProgram[]; allPrograms: IProgram[] }>()
+const { list } = defineProps<{ list: IInstalledProgram[] }>()
 
 const programsstore = programsStore()
 let dragStartIndex: number | null = null

@@ -23,7 +23,7 @@ export const paintStore = defineStore('paint', () => {
   }
 
   const postPainting = async (painting: IPainting): Promise<void> => {
-      await post(url, painting,)
+      await post(url, painting)
   }
 
   return {

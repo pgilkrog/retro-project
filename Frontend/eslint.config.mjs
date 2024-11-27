@@ -1,5 +1,4 @@
 // @ts-check
-
 import eslint from '@eslint/js'
 import tseslint from 'typescript-eslint'
 import prettierConfig from 'eslint-config-prettier'
@@ -8,7 +7,6 @@ import vueTsEslintConfig from '@vue/eslint-config-typescript'
 
 export default tseslint.config(
   {
-    // Config with just ignores is the replacement for `.eslintignore`
     ignores: ['dist/**', 'src/phaser/**'],
   },
   eslint.configs.recommended,
@@ -34,6 +32,6 @@ export default tseslint.config(
     },
   },
   prettierConfig,
-  ...pluginVue.configs['flat/strongly-recommended'], // Use strongly-recommended rules from eslint-plugin-vue
+  ...pluginVue.configs['flat/strongly-recommended'], 
   ...vueTsEslintConfig()
 )

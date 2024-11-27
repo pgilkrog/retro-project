@@ -1,26 +1,28 @@
-<template lang="pug">
-.bg-shadow.p-4.fit-content.rounded
-  .bg-shadow-inner.img-box(class="")
-    ImageComponent.box(
-      v-if="tempImg !== undefined && tempImg.name"
-      id="pcscreen"
-      :source="getImageUrl(tempImg.name)" 
-      alt="image for showing how wallpaper looks like"
-      class
-    )
-    .box(
-      v-else
-      :style="[{'background-color': userData.settings?.backgroundColour}]"
-    )
-.bg-shadow.square-1.rounded-bottom
-.bg-shadow.square-2
-.bg-shadow.square-3.rounded-top
+<template>
+  <div class="pc-screen bg-shadow p-4 fit-content rounded">
+    <div class="bg-shadow-inner img-box">
+      <ImageComponent
+        v-if="tempImg !== undefined && tempImg.name"
+        id="pcscreen"
+        :source="getImageUrl(tempImg.name)" 
+        alt="image for showing how wallpaper looks like"
+        class
+      />
+      <div 
+        v-else
+        :style="[{'background-color': userData?.settings?.backgroundColour}]"
+      />
+    </div>
+  </div>
+  <div class="bg-shadow square-1 rounded-bottom" />
+  <div class="bg-shadow square-2" />
+  <div class="bg-shadow square-3 rounded-top" />
 </template>
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { userStore } from '../../../stores/userStore'
-import type { IFile, IUser } from '../../../models/index'
+import type { IFile } from '../../../models/index'
 
 const { tempImg } = defineProps<{
   tempImg?: IFile
@@ -28,12 +30,8 @@ const { tempImg } = defineProps<{
 
 const userstore = userStore()
 const { userData } = storeToRefs(userstore)
-const hej: any = []
 
 const getImageUrl = (filename: string) => {
-  if (userData.value) {
-    console.log(hej)
-  }
   return `${import.meta.env.VITE_BASE_URL}/uploads/${filename}`
 }
 </script>

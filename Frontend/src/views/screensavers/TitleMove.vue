@@ -1,6 +1,12 @@
-<template lang="pug">
-.screen-saver(class="absolute z-50 w-full h-full bg-gray-900")
-  span(ref="textEl" :class="textColor") Text yo
+<template>
+  <div class="screen-saver absolute z-50 w-full h-full bg-gray-900">
+    <span 
+      ref="textEl" 
+      :class="['absolute text-2xl', textColor]"
+    >
+      Text yo
+    </span>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -44,19 +50,9 @@ onMounted(() => {
     y.value += yVel.value
     handleBounce()
 
-    if (
-      textEl.value != undefined &&
-      textEl.value.style != undefined &&
-      textEl.value.style.transform != undefined
-    ) {
-      textEl.value.style.transform = `translate(${x.value}px, ${y.value}px)`
+    if (textEl.value != undefined) {
+      textEl.value.style.transform = `translate(${x.value.toString()}px, ${y.value.toString()}px)`
     }
   }, 10)
 })
 </script>
-
-<style scoped lang="sass">
-.screen-saver span
-  position: absolute
-  font-size: 72px
-</style>

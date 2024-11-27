@@ -3,7 +3,7 @@ import { get, put, post, del } from '@/helpers/httpHelper'
 import { userStore } from './userStore'
 import type { IGridProgram, IInstalledProgram, IInstalledProgramDB, IProgram } from '../models/IProgram'
 
-const url: string = import.meta.env.VITE_BASE_URL + '/program'
+const url: string = '/program'
 
 export const programsStore = defineStore('programs', () => {
   const userstore = userStore()

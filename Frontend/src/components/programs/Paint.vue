@@ -108,7 +108,7 @@
       :is-loading="paintstore.loadingPaintings" 
       :files="paintstore.usersPaintings" 
       @item-clicked="itemClicked($event)" 
-      @close-qindow="changeShowFiles(false)" 
+      @close-window="changeShowFiles(false)" 
     />
   </WindowFrame>
 </template>

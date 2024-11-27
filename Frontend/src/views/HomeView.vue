@@ -9,15 +9,14 @@
   >
     <DesktopGrid 
       :list="positionedList" 
-      :all-programs="allPrograms" 
     >
       <template #listItem="program">
         <DesktopItem 
           v-if="program.listItem !== undefined" 
-          @generate-component="generateComponent(program.listItem)" 
           :key="program.listItem._id" 
-          v-bind="program.listItem" 
           :id="program.id"
+          v-bind="program.listItem" 
+          @generate-component="generateComponent(program.listItem)" 
         />
       </template>
     </DesktopGrid>
@@ -65,7 +64,6 @@ const userstore = userStore()
 
 const userData = computed(() => userstore.userData)
 const showMenu = ref<boolean>(false)
-const allPrograms = computed<IInstalledProgram[]>(() => programsstore.installedPrograms)
 const positionedList = computed<IInstalledProgram[]>(() => programsstore.positionedList)
 const showContextMenu = ref(false)
 

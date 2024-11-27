@@ -2,8 +2,8 @@ import { defineStore } from 'pinia'
 import { io } from 'socket.io-client'
 import { ref } from 'vue'
 import { userStore } from './userStore'
-import axios from 'axios'
 import type { IChatMessage, IChatRoom } from '@/models'
+import { get } from '@/helpers/httpHelper'
 
 export const chatStore = defineStore('chat', () => {
   const userstore = userStore()
@@ -13,9 +13,11 @@ export const chatStore = defineStore('chat', () => {
   const activeRooms = ref<IChatRoom[]>([])
 
   const init = async () => {
-    await authendicate(userstore.userData?.email!)
-    await initSocketListeners()
-    await fetchOnlineUsers()
+    if (userstore.userData !== undefined) {
+      authendicate(userstore.userData.email)
+      initSocketListeners()
+      await fetchOnlineUsers()
+    }
   }
 
   const initSocketListeners = () => {
@@ -36,20 +38,16 @@ export const chatStore = defineStore('chat', () => {
   }
 
   const fetchOnlineUsers = async () => {
-    try {
-      const response = await axios.get(import.meta.env.VITE_BASE_URL + '/online-users')
-      onlineUsers.value = response.data
-    } catch (error) {
-      console.error('Error fetching online users:', error)
-    }
+    const response = await get<string[]>('/online-users')
+    onlineUsers.value = response
   }
 
-  const authendicate = async (userEmail: string) => {
-    await socket.emit('authendicate', userEmail)
+  const authendicate = (userEmail: string) => {
+    socket.emit('authendicate', userEmail)
   }
 
   const joinRoom = (users: string[]) => {
-    let sortedUsers = users.sort((a: string, b: string) => a.localeCompare(b))
+    const sortedUsers = users.sort((a: string, b: string) => a.localeCompare(b))
     socket.emit('joinRoom', sortedUsers)
 
     const room: IChatRoom = {
@@ -64,7 +62,9 @@ export const chatStore = defineStore('chat', () => {
   }
 
   const sendMessage = (message: IChatMessage, room: IChatRoom) => {
-    socket.emit('chatMessage', { roomName: room.participants, ...message })
+    if (message.text !== '') {
+      socket.emit('chatMessage', { roomName: room.participants, ...message })
+    }
   }
 
   const chatDisconnect = () => {
