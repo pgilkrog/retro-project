@@ -11,6 +11,7 @@ export default tseslint.config(
   },
   eslint.configs.recommended,
   tseslint.configs.strictTypeChecked,
+  ...pluginVue.configs['flat/strongly-recommended'],
   {
     plugins: {
       '@typescript-eslint': tseslint.plugin,
@@ -24,14 +25,27 @@ export default tseslint.config(
       },
     },
     rules: {
-      "@typescript-eslint/no-unnecessary-boolean-literal-compare": "off",
-      "@typescript-eslint/no-confusing-non-null-assertion": "error",
-      "@typescript-eslint/no-empty-function": "error",  
-      "@typescript-eslint/no-floating-promises": "off",
+      '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'off',
+      '@typescript-eslint/no-confusing-non-null-assertion': 'error',
+      '@typescript-eslint/no-empty-function': 'error',
+      '@typescript-eslint/no-floating-promises': 'off',
       'vue/no-unused-vars': 'error',
+      'vue/singleline-html-element-content-newline': 'off',
+      'vue/multiline-html-element-content-newline': 'off',
+      'vue/html-self-closing': [
+        'error',
+        {
+          html: {
+            void: 'always',
+            normal: 'always',
+            component: 'always',
+          },
+          svg: 'always',
+          math: 'always',
+        },
+      ],
     },
   },
-  prettierConfig,
-  ...pluginVue.configs['flat/strongly-recommended'], 
-  ...vueTsEslintConfig()
+  ...vueTsEslintConfig(),
+  prettierConfig
 )

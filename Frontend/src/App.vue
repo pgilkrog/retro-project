@@ -1,6 +1,6 @@
 <template>
-  <div 
-    class="app-wrapper" 
+  <div
+    class="app-wrapper"
     id="app"
   >
     <RouterView />

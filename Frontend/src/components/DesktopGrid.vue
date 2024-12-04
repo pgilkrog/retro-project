@@ -1,9 +1,7 @@
 <template>
   <div class="desktop-grid flex h-full w-full justify-start py-4">
-    <div 
-      class="grid grid-cols-9 grid-rows-12 w-full"
-    >
-      <div 
+    <div class="grid grid-cols-9 grid-rows-12 w-full">
+      <div
         v-for="(program, index) in list"
         :key="index"
         draggable="true"
@@ -11,17 +9,17 @@
         @dragend="endDrag($event)"
         class="flex items-center justify-center"
       >
-        <slot 
-          v-if="program !== undefined && program.program !== undefined" 
+        <slot
+          v-if="program !== undefined && program.program !== undefined"
           :list-item="program.program"
-          name="listItem" 
+          name="listItem"
           :id="index"
           class="flex-grow"
         />
-        <div 
-          v-else 
-          :id="index.toString()" 
-          class="flex-grow desktop-item w-full h-full" 
+        <div
+          v-else
+          :id="index.toString()"
+          class="flex-grow desktop-item w-full h-full"
           draggable="true"
         />
       </div>
@@ -56,18 +54,20 @@ const endDrag = async (event: DragEvent) => {
     if (dropTarget?.parentElement !== undefined) dropTarget = dropTarget.parentElement
   }
 
-  if (
-    dropTarget != undefined && 
-    hasClass === true && 
-    dropTarget !== target
-  ) {
+  if (dropTarget != undefined && hasClass === true && dropTarget !== target) {
     const dropIndex = +dropTarget.id
 
     const item1 = list[dragStartIndex]
     const item2 = list[dropIndex]
 
-    await programsstore.changeInstalledProgramGridPosition({ program: item2, gridPosition: dragStartIndex})
-    await programsstore.changeInstalledProgramGridPosition({ program: item1, gridPosition: dropIndex})
+    await programsstore.changeInstalledProgramGridPosition({
+      program: item2,
+      gridPosition: dragStartIndex,
+    })
+    await programsstore.changeInstalledProgramGridPosition({
+      program: item1,
+      gridPosition: dropIndex,
+    })
 
     dragStartIndex = null // Reset drag state
   }

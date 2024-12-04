@@ -36,11 +36,11 @@
         </div>
         <div class="row">
           <div class="col-2">
-            <input 
-              type="color" 
-              @change="onColorSelected" 
-              v-model="color" 
-            >
+            <input
+              type="color"
+              @change="onColorSelected"
+              v-model="color"
+            />
           </div>
         </div>
       </div>
@@ -64,9 +64,9 @@
       </div>
 
       <div class="d-flex justify-end mt-4">
-        <ButtonComponent 
-          text="OK" 
-          @clicked="saveUserInfo()" 
+        <ButtonComponent
+          text="OK"
+          @clicked="saveUserInfo()"
         />
       </div>
     </div>

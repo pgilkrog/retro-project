@@ -1,20 +1,34 @@
-<template lang="pug">
-WindowFrame(
-  :program="program"
-  :isMoveable="true"
-)
-  .paw-eplorer
-    .top-bar(class="flex m-2")
-      ButtonComponent(icon="fa-caret-left")
-      ButtonComponent(icon="fa-caret-right").mx-2
-      ButtonComponent(icon="fa-rotate")
-      InputComponent(v-model="inputText").mx-2
-      ButtonComponent(icon="fa-rotate-right" text="GO" @click="go()")
-    .browser-content(class="w-auto bg-gray-50 bg-shadow-inner m-2" v-if="isLoadingPage === false")
-      Component(:is="defineAsyncComponent(() => import(`./paw-explore/pages/${currentPage}.vue`))")
-    .loading-content(class="w-auto bg-gray-50 bg-shadow-inner m-2 flex items-center justify-center text-5xl" v-else)
-      p is Loading..
-
+<template>
+  <WindowFrame
+    :program="program"
+    :is-moveable="true"
+  >
+    <div class="paw-eplorer">
+      <div class="top-bar flex m-2">
+        <ButtonComponent icon="fa-caret-left" />
+        <ButtonComponent icon="fa-caret-right" />
+        <ButtonComponent icon="fa-rotate" />
+        <InputComponent v-model="inputText" />
+        <ButtonComponent 
+          icon="fa-rotate-right" 
+          text="GO" 
+          @click="go()" 
+        />
+      </div>
+      <div 
+        v-if="isLoadingPage === false"
+        class="h-[600px] w-[700px] bg-gray-50 bg-shadow-inner m-2" 
+      >
+        <Component :is="defineAsyncComponent(() => import(`./paw-explore/pages/${currentPage}.vue`))" />
+      </div>
+      <div 
+        v-else
+        class="h-[600px] w-[700px] bg-gray-50 bg-shadow-inner m-2 flex items-center justify-center text-5xl" 
+      >
+        <p> is Loading.. </p>
+      </div>
+    </div>
+  </WindowFrame>
 </template>
 <script setup lang="ts">
 import type { IProgram } from '@/models/index'
@@ -24,11 +38,10 @@ const { program } = defineProps<{
   program: IProgram
 }>()
 
-const url = ref<string>('http://www.googol.dk')
 const inputText = ref<string>('')
 const currentPage = ref<string>('googol')
 const isLoadingPage = ref<boolean>(false)
-const pageHistory = ref<string[]>()
+const pageHistory = ref<string[]>([])
 
 onMounted(() => {
   inputText.value = 'www.googol.dk'
@@ -41,11 +54,6 @@ const go = () => {
   setTimeout(() => {
     isLoadingPage.value = false
   }, 500)
-  pageHistory.value?.push(pageToComponent[1])
+  pageHistory.value.push(pageToComponent[1])
 }
 </script>
-<style scoped lang="sass">
-.browser-content, .loading-content
-  height: 600px
-  width: 700px
-</style>

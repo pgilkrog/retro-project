@@ -1,15 +1,18 @@
-<template lang="pug">
-.admin-view.bg-fill.p-4
-  .desktop-container
-    DesktopItem.mt-4(
-      v-for="program in allPrograms"
-      @generateComponent="generateComponent(program)"
-      :key="program._id"
-      :displayName="program.displayName"
-      :color="program.color"
-      :name="program.image"
-    )
-  AdminComponentMachine
+<template>
+  <div class="admin-view p-4">
+    <div class="desktop-container">
+      <DesktopItem 
+        v-for="program in allPrograms"
+        :key="program._id"
+        class="mt-4"
+        :display-name="program.displayName"
+        :color="program.color"
+        :name="program.image"
+        @generate-component="generateComponent(program)"
+      />
+    </div>
+    <AdminComponentMachine />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -17,25 +20,34 @@ import AdminComponentMachine from '@/components/admin/AdminComponentMachine.vue'
 import type { IProgram } from '@/models'
 import { programsStore } from '@/stores/programsStore'
 
-const allPrograms = [
+const programsstore = programsStore()
+
+const allPrograms: IProgram[] = [
   {
-    id: 3245,
+    _id: '3245',
     name: 'ManagePrograms',
     displayName: 'Manage Programs',
     isActive: true,
     image: 'fa-computer',
     color: 'light',
+    sortOrder: 1,
+    top: 10,
+    left: 10,
+    type: 'Program'
   },
   {
-    id: 5432,
+    _id: '5432',
     name: 'ManageUsers',
     displayName: 'Manage Users',
     isActive: true,
     image: 'fa-users',
     color: 'light',
+    sortOrder: 2,
+    top: 10,
+    left: 10,
+    type: 'Program'
   },
 ]
-const programsstore = programsStore()
 
 const generateComponent = (program: IProgram) => {
   programsstore.addProgramToActive({ ...program })

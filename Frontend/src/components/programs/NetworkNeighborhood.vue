@@ -1,11 +1,19 @@
-<template lang="pug">
-WindowFrame(:program="program" :isMoveable="true")
-  Suspense(timeout="0")
-    template(#default)
-      ErrorList
-    template(#fallback)
-      div.d-flex.p-4.justify-content-center
-        .spinner-border
+<template>
+  <WindowFrame  
+    :program="program" 
+    :is-moveable="true"
+  >
+    <Suspense imeout="0">
+      <template #default>
+        <ErrorList />
+      </template>
+      <template #fallback>
+        <div class="flex p-4 justify-center">
+          <div class="spinner-border" />
+        </div>
+      </template>
+    </Suspense>
+  </WindowFrame>
 </template>
 
 <script setup lang="ts">

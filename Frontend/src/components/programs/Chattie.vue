@@ -42,8 +42,8 @@
             size="20" 
           />
           <div 
-            class="ms-4 text-green-500" 
             v-if="chatstore.onlineUsers.includes(user.email)"
+            class="ms-4 text-green-500" 
           >
             {{ user.email }}
           </div>
@@ -80,7 +80,6 @@ const userstore = userStore()
 onMounted(async () => {
   await chatstore.init()
   await userstore.getAllUsers()
-  console.log('', userstore.allUsers)
 })
 
 onUnmounted(() => {

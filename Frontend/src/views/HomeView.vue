@@ -1,41 +1,39 @@
 <template>
-  <div 
-    v-if="userData != undefined" 
-    class="home-wrapper flex h-full w-full absolute bg-center bg-no-repeat bg-cover overflow-hidden" 
-    :style="[userData.settings.useBackground === true ? {'background-image': 'url('+ getImageUrl(userData.settings?.backgroundImage) + ')'} : {'background-color': userData.settings?.backgroundColour}]" 
-    @mousemove="registerMouseMovement" 
-    @click="console.log('DODIA')" 
+  <div
+    v-if="userData != undefined"
+    class="home-wrapper flex h-full w-full absolute bg-center bg-no-repeat bg-cover overflow-hidden"
+    :style="[userData.settings.useBackground === true ? { 'background-image': 'url(' + getImageUrl(userData.settings?.backgroundImage) + ')' } : { 'background-color': userData.settings?.backgroundColour }]"
+    @mousemove="registerMouseMovement"
+    @click="console.log('DODIA')"
     @contextmenu="rightClick()"
   >
-    <DesktopGrid 
-      :list="positionedList" 
-    >
+    <DesktopGrid :list="positionedList">
       <template #listItem="program">
-        <DesktopItem 
-          v-if="program.listItem !== undefined" 
-          :key="program.listItem._id" 
+        <DesktopItem
+          v-if="program.listItem !== undefined"
+          :key="program.listItem._id"
           :id="program.id"
-          v-bind="program.listItem" 
-          @generate-component="generateComponent(program.listItem)" 
+          v-bind="program.listItem"
+          @generate-component="generateComponent(program.listItem)"
         />
       </template>
     </DesktopGrid>
-    
-    <div 
-      v-show="showContextMenu" 
+
+    <div
+      v-if="showContextMenu === true"
       class="context-menu"
     >
       <div class="menu bg-gray-200 p-2 rounded bg-shadow absolute">
         <p>hejsa</p>
       </div>
     </div>
-    
+
     <!-- CarouselComponent -->
     <ComponentMachine />
     <Menu v-if="showMenu" />
-    <Taskbar 
-      @change-show-menu="changeShowMenu" 
-      :show-menu="showMenu" 
+    <Taskbar
+      :show-menu="showMenu"
+      @change-show-menu="changeShowMenu"
     />
     <ScreensaverMachine v-show="appStore.showScreensaver === true" />
     <!-- Salvatore -->
@@ -90,7 +88,6 @@ const changeShowMenu = (): void => {
 const registerMouseMovement = (): void => {
   appStore.initiateScreensaverTimer()
 }
-
 
 const rightClick = () => {
   console.log('right clicked')

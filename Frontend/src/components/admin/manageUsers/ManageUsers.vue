@@ -1,7 +1,7 @@
 <template>
   <div class="manage-users">
-    <WindowFrame 
-      :program="program" 
+    <WindowFrame
+      :program="program"
       :is-moveable="true"
     >
       <Suspense timeout="0">
@@ -16,83 +16,83 @@
       </Suspense>
     </WindowFrame>
 
-    <WindowFrame 
-      v-if="showManageUser === true" 
-      :program="manageUserProgram" 
+    <WindowFrame
+      v-if="showManageUser === true"
+      :program="manageUserProgram"
       :is-moveable="true"
     >
-      <div 
-        v-if="userInfo !== undefined" 
+      <div
+        v-if="userInfo !== undefined"
         class="flex flex-col p-4"
       >
-        <InputComponent 
-          v-model="userInfo.firstName" 
-          label="First Name" 
+        <InputComponent
+          v-model="userInfo.firstName"
+          label="First Name"
         />
-        <InputComponent 
-          v-model="userInfo.lastName" 
-          label="Last Name" 
+        <InputComponent
+          v-model="userInfo.lastName"
+          label="Last Name"
         />
-        <InputComponent 
-          v-model="userInfo.email" 
-          label="Email" 
+        <InputComponent
+          v-model="userInfo.email"
+          label="Email"
         />
-        <InputComponent 
-          v-model="userInfo.type" 
-          label="Type" 
+        <InputComponent
+          v-model="userInfo.type"
+          label="Type"
         />
-        <ButtonComponent 
-          class="mt-3" 
-          @clicked="changeShowManageUserSettings(true)" 
-          text="Settings" 
-          size="full" 
+        <ButtonComponent
+          class="mt-3"
+          @clicked="changeShowManageUserSettings(true)"
+          text="Settings"
+          size="full"
         />
         <div class="flex mt-3 justify-center">
-          <ButtonComponent 
-            @clicked="changeShowManageUser(false)" 
-            text="Cancel" 
+          <ButtonComponent
+            @clicked="changeShowManageUser(false)"
+            text="Cancel"
           />
-          <ButtonComponent 
-            @clicked="updateUser()" 
-            text="Update" 
+          <ButtonComponent
+            @clicked="updateUser()"
+            text="Update"
           />
         </div>
       </div>
     </WindowFrame>
 
-    <WindowFrame 
-      v-if="showManageUserSettings === true" 
-      :program="manageUserSettingsProgram" 
+    <WindowFrame
+      v-if="showManageUserSettings === true"
+      :program="manageUserSettingsProgram"
       :is-moveable="true"
     >
       <div
-        v-if="userSettingsInfo !== undefined" 
+        v-if="userSettingsInfo !== undefined"
         class="flex flex-col p-4"
       >
-        <InputComponent 
-          v-model="userSettingsInfo.backgroundColour" 
-          label="Background color" 
+        <InputComponent
+          v-model="userSettingsInfo.backgroundColour"
+          label="Background color"
         />
-        <InputComponent 
-          v-model="userSettingsInfo.backgroundImage" 
-          label="Background Image" 
+        <InputComponent
+          v-model="userSettingsInfo.backgroundImage"
+          label="Background Image"
         />
-        <CheckboxComponent 
-          v-model="userSettingsInfo.useBackground" 
-          label="Use Background" 
+        <CheckboxComponent
+          v-model="userSettingsInfo.useBackground"
+          label="Use Background"
         />
-        <InputComponent 
-          v-model="userSettingsInfo.theme" 
-          label="Theme" 
+        <InputComponent
+          v-model="userSettingsInfo.theme"
+          label="Theme"
         />
         <div class="flex mt-3 justify-center">
-          <ButtonComponent 
-            @clicked="changeShowManageUserSettings(false)" 
-            text="Cancel" 
+          <ButtonComponent
+            @clicked="changeShowManageUserSettings(false)"
+            text="Cancel"
           />
-          <ButtonComponent 
-            @clicked="updateUserSettings()" 
-            text="Update" 
+          <ButtonComponent
+            @clicked="updateUserSettings()"
+            text="Update"
           />
         </div>
       </div>

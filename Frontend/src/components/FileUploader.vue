@@ -1,12 +1,18 @@
-<template lang="pug">
-form(@submit.prevent="uploadFile").file-uploader.d-flex.align-items-center
-  input(
-    type="file"
-    ref="fileInput"
-    @change="selectFile"
-  ) 
-  //- button.btn.ms-4(type="submit") Submit
-  ButtonComponent(text="Submit" type="submit")
+<template>
+  <form 
+    @submit.prevent="uploadFile" 
+    class=".file-uploader.d-flex.align-items-center"
+  >
+    <input
+      type="file"
+      ref="fileInput"
+      @change="selectFile"
+    >
+    <ButtonComponent 
+      text="Submit" 
+      type="submit" 
+    />
+  </form>
 </template>
 
 <script setup lang="ts">
@@ -20,8 +26,6 @@ const selectFile = (event: any) => {
 }
 
 const uploadFile = () => {
-  if (!file) return
-
   const formData = new FormData()
   formData.append('image', file.value)
 

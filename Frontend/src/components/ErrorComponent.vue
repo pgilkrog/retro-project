@@ -1,15 +1,25 @@
-<template lang="pug">
-Teleport(to="body" v-if="error !== undefined")
-  WindowFrame(
+<template>
+  <WindowFrame
     :program="errorProgram" 
     variant="red"
     :is-moveable="false"
-  )
-    .error-component(class="m-4 flex flex-col items-center space-y-4")
-      div(class="flex space-x-4 items-center")
-        IconComponent(name="bi-exclamation-octagon-fill" color="red" size="40")
-        p {{ error.text }}
-      ButtonComponent(@clicked="closeErrorComponent()" text="OK" class="px-16")
+  >
+    <div class="error-component m-4 flex flex-col items-center space-y-4">
+      <div class="flex space-x-4 items-center">
+        <IconComponent 
+          name="bi-exclamation-octagon-fill" 
+          color="red" 
+          size="40" 
+        />
+        <p>{{ error?.text }}</p>
+      </div>
+      <ButtonComponent 
+        @clicked="closeErrorComponent()" 
+        text="OK" 
+        class="px-16" 
+      />
+    </div>
+  </WindowFrame>    
 </template>
 
 <script setup lang="ts">

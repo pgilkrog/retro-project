@@ -1,14 +1,30 @@
-<template lang="pug">
-WindowFrame(:program="program" variant="primary" :isMoveable="true" :showMenu="true")
-  .bg-black.text-white.p-4
-    p Retro-Project Desktop 97
-    p.ms-4 (C)Copyright Someting, Something Complete
-    .my-4
-    p(v-for="s in textWritten" v-html="s")
-    .d-flex.mt-4
-      p C:\DESKTOP&#62;
-      form(@submit.prevent="submitMethod")
-        input(autofocus v-model="inputText").bg-black.text-white.w-100.border-none
+<template>
+  <WindowFrame
+    :program="program"
+    variant="primary"
+    :is-moveable="true"
+    :show-menu="true"
+  >
+    <div class="bg-black text-white p-4">
+      <p>Retro-Project Desktop 97</p>
+      <p class="ms-4">(C)Copyright Someting, Something Complete</p>
+      <p
+        v-for="(s, index) in textWritten"
+        :key="index"
+        v-html="s"
+      />
+      <div class="d-flex mt-4">
+        <p>C:\DESKTOP&#62;</p>
+        <form @submit.prevent="submitMethod">
+          <input
+            autofocus
+            v-model="inputText"
+            class="bg-black text-white w-100 border-none"
+          />
+        </form>
+      </div>
+    </div>
+  </WindowFrame>
 </template>
 
 <script setup lang="ts">
@@ -19,25 +35,14 @@ const { program } = defineProps<{
   program: IProgram
 }>()
 
-const emit = defineEmits<{
-  (e: 'closeWindow', text: string): void
-}>()
-
 const inputText = ref<string>('')
 const textWritten = ref<string[]>([])
-const helpText = [
-  '<ol class="ms-4">' +
-  '<li>Play-PingPong</li>' +
-  '<li>Play-FlappyDisk</li>' +
-  '</ol>'
-]
+const helpText: string[] = ['<ol class="ms-4">' + '<li>Play-PingPong</li>' + '<li>Play-FlappyDisk</li>' + '</ol>']
 
-const closeWindow = () => {
-  emit('closeWindow', 'NetworkNeighborhood')
-}
 const submitMethod = () => {
-  if (inputText.value === '')
+  if (inputText.value === '') {
     return
+  }
 
   textWritten.value.push(inputText.value)
   commands(inputText.value)
@@ -45,7 +50,8 @@ const submitMethod = () => {
 }
 
 const commands = (text: string) => {
-  let tempText = text.trim().replace(" ", "").toLocaleLowerCase()
+  const tempText = text.trim().replace(' ', '').toLocaleLowerCase()
+
   switch (tempText) {
     case 'help': {
       textWritten.value = textWritten.value.concat(helpText)
