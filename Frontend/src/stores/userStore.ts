@@ -1,17 +1,16 @@
 import { defineStore } from 'pinia'
 import { chatStore } from './chatStore'
 import { programsStore } from './programsStore'
-import type { IUser, IUserSettings } from '@/models'
+import type { IUser, IUserResponse, IUserSettings } from '@/models'
 import { ref } from 'vue'
-import axios from 'axios'
 import setAuthToken from '@/helpers/setAuthToken'
+import { get, put } from '@/helpers/httpHelper'
 
-const url = import.meta.env.VITE_BASE_URL + '/user'
+const url = '/user'
 type UserWithOnlineStatus = IUser & { online: boolean } // Add online status type
 
 export const userStore = defineStore('user', () => {
   const allUsers = ref<IUser[]>()
-  const onlineUsers = reactive<string[]>([])
   const userData = ref<IUser>()
 
   const programstore = programsStore()
@@ -19,13 +18,11 @@ export const userStore = defineStore('user', () => {
 
   const getAllUsers = async (): Promise<void> => {
     setAuthToken(sessionStorage.getItem('token') ?? '')
-    try {
-      const response = await axios.get(url)
-      const { data, statusText } = response
 
-      if (statusText !== 'OK') return
+    const response = await get<{ users: IUser[]; status: boolean }>(url)
 
-      const users = data.users.map(
+    if (response.status == true) {
+      const users = response.users.map(
         (user: IUser): UserWithOnlineStatus => ({
           ...user,
           online: chatstore.onlineUsers.includes(user.email),
@@ -33,43 +30,33 @@ export const userStore = defineStore('user', () => {
       )
 
       setAllUsers(users)
-    } catch (error) {
-      console.error('Error fetching users:', error)
     }
   }
 
   const getUserById = async (): Promise<void> => {
     const userId = sessionStorage.getItem('userId')
-
     if (userId == undefined) return
 
-    try {
-      const response = await axios.get(`${url}/${userId}`)
-      await setUserData(response.data.user)
-      userData.value
-    } catch (error) {
-      console.log(error)
+    const response = await get<IUserResponse>(`${url}/${userId}`)
+    if (response.status === true && response.user !== undefined) {
+      await setUserData(response.user)
     }
   }
 
   const updateUser = async (user: IUser): Promise<void> => {
-    try {
-      const res = await axios.put(url + '/' + user._id, null, { params: user })
-      await setUserData(res.data)
-    } catch (error) {
-      console.log(error)
+    const response = await put<IUserResponse>(url + `/${user._id}`, { params: user })
+
+    if (response.status === true && response.user !== undefined) {
+      await setUserData(response.user)
     }
   }
 
   const updateUserSettings = async (settings: IUserSettings): Promise<void> => {
-    try {
-      await axios.put(`${url}/settings/${settings._id}`, null, { params: settings })
-    } catch (error) {
-      console.log(error)
-    }
+    await put(`${url}/settings/${settings._id}`, settings)
   }
 
   const setUserData = async (user: IUser): Promise<void> => {
+    console.log(user)
     userData.value = user
     await programstore.setInstalledPrograms()
   }

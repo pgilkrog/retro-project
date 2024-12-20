@@ -1,35 +1,57 @@
-<template lang="pug">
-WindowFrame(
-  :program="program" 
-  :isMoveable="true"
-  :variant="program.color"
-  :isNotProgram="false"
-  :showMenu="true"
-)
-  .pawpoint(class="flex flex-col justify-between")
-    .active-slide(class="h-full flex bg-blue-500 flex-col m-4 justify-center items-center cursor-pointer text-white")
-      Component(
-        v-if="loadingSlide === false && activeSlide !== undefined && activeSlide.type !== undefined"
-        :is="defineAsyncComponent(() => import(`@/components/programs/pawpoint/slides/${activeSlide.type}.vue`))"
-        :slide="activeSlide"
-      )
-      span(v-else) 
-        .title(class="flex justify-center items-center my-4")
-          .spinner-border
-    .group-slides(class="flex")
-      .group-slides-item(
-        class="m-4 flex cursor-pointer"
-        v-for="slide in slides"
-        @click="setActiveSlide(slide)"
-        :key="slide.id"
-      )
-        div(
-          class="flex bg-blue-500 text-white w-full justify-center items-center"
-          :class="activeSlide.title === slide.title ? 'border border-danger' : ''")
-          h1 {{ slide.id }}
-      .group-slides-item(class="m-4 flex cursor-pointer") 
-        div(class="flex bg-green-500 text-white w-full justify-center items-center")
-          IconComponent(name="fa-plus" color="light")
+<template>
+  <WindowFrame
+    :program="program"
+    :is-moveable="true"
+    :variant="program.color"
+    :is-not-program="false"
+    :show-menu="true"
+  >
+    <div class="pawpoint flex flex-col justify-between">
+      <div
+        class="active-slide h-full flex bg-blue-500 flex-col m-4 justify-center items-center cursor-pointer text-white"
+      >
+        <Component
+          v-if="
+            loadingSlide === false && activeSlide !== undefined && activeSlide.type !== undefined
+          "
+          :is="
+            defineAsyncComponent(
+              () => import(`@/components/programs/pawpoint/slides/${activeSlide.type}.vue`)
+            )
+          "
+          :slide="activeSlide"
+        ></Component>
+        <span v-else>
+          <div class="title flex justify-center items-center my-4">
+            <div class="spinner-border"></div>
+          </div>
+        </span>
+      </div>
+      <div class="group-slides flex">
+        <div
+          class="group-slides-item m-4 flex cursor-pointer"
+          v-for="slide in slides"
+          @click="setActiveSlide(slide)"
+          :key="slide.id"
+        >
+          <div
+            class="flex bg-blue-500 text-white w-full justify-center items-center"
+            :class="activeSlide.title === slide.title ? 'border border-danger' : ''"
+          >
+            <h1>{{ slide.id }}</h1>
+          </div>
+        </div>
+        <div class="group-slides-item m-4 flex cursor-pointer">
+          <div class="flex bg-green-500 text-white w-full justify-center items-center">
+            <IconComponent
+              name="fa-plus"
+              color="light"
+            ></IconComponent>
+          </div>
+        </div>
+      </div>
+    </div>
+  </WindowFrame>
 </template>
 
 <script setup lang="ts">
@@ -92,7 +114,6 @@ const activeSlide = ref<ISlide | undefined>(slides.value[0])
 
 const setActiveSlide = (slide: ISlide) => {
   loadingSlide.value = true
-  activeSlide.value = undefined
   activeSlide.value = slide
   loadingSlide.value = false
 }

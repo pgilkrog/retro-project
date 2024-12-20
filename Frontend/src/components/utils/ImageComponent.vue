@@ -1,23 +1,24 @@
-<template lang="pug">
-img(
-  v-if="imageIsLoading === false && src !== ''" 
-  :id
-  :src 
-  :alt 
-  :class="fadeInClass"
-)
-div(
-  v-else 
-  class="bg-gray-200 rounded flex justify-center items-center border border-gray-900 h-[200px] w-[200px]" 
-  role="img" 
-  :aria-label="alt" 
-) 
-  iconComponent(
-    :name="imageIsLoading === true ? 'fa-spinner' : 'bi-image'" 
-    :class="imageIsLoading === true ? 'animate-spin' : ''"
-    color="dark" 
-    size="34"
-  )
+<template>
+  <img
+    v-if="imageIsLoading === false && src !== ''"
+    :id
+    :src
+    :alt
+    :class="fadeInClass"
+  />
+  <div
+    v-else
+    class="bg-gray-200 rounded flex justify-center items-center border border-gray-900 h-[200px] w-[200px]"
+    role="img"
+    :aria-label="alt"
+  >
+    <iconComponent
+      :name="imageIsLoading === true ? 'fa-spinner' : 'bi-image'"
+      :class="imageIsLoading === true ? 'animate-spin' : ''"
+      color="dark"
+      size="34"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -37,7 +38,7 @@ const {
   alt?: string
 }>()
 
-onMounted(async () => {
+onMounted(() => {
   if (!source) {
     // Handle case where source is not provided
     imageIsLoading.value = false

@@ -1,19 +1,23 @@
-<template lang="pug">
-.minesweeper-block.m-1.rounded.text-light(
-  v-if="Block !== undefined" 
-  :class="Block.isClicked === true ? 'bg-shadow-inner' : 'bg-shadow'"
-)
-  template(v-if="Block.isClicked === true")
-    template(v-if="Block.bombcount > 0 && Block.isBomb === false")
-      | {{ Block.bombcount }}
-    template(v-else-if="Block.isBomb === true")
-      | B 
-    template(v-else)
-      | {{ Block.index }}
+<template>
+  <div
+    class="minesweeper-block m-1 rounded text-light"
+    v-if="block !== undefined"
+    :class="block.isClicked === true ? 'bg-shadow-inner' : 'bg-shadow'"
+  >
+    <template v-if="block.isClicked === true">
+      <template v-if="block.bombcount > 0 && block.isBomb === false">
+        {{ block.bombcount }}
+      </template>
+      <template v-else-if="block.isBomb === true">B</template>
+      <template v-else>
+        {{ block.index }}
+      </template>
+    </template>
+  </div>
 </template>
 
 <script setup lang="ts">
-const { Block } = defineProps<{
-  Block: Object | undefined
+const { block } = defineProps<{
+  block: any
 }>()
 </script>

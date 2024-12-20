@@ -1,10 +1,12 @@
-<template lang="pug">
-div(
-  class="d-flex bg-shadow py-1 px-4 justify-between items-center rounded-md cursor-pointer"
-  v-for="item in allUsers" 
-  :key="item._id" 
-  @click="emit('setSelectedUser', item)"
-) {{ item.email }}
+<template>
+  <div
+    class="d-flex bg-shadow py-1 px-4 justify-between items-center rounded-md cursor-pointer"
+    v-for="item in allUsers"
+    :key="item._id"
+    @click="emit('setSelectedUser', item)"
+  >
+    {{ item.email }}
+  </div>
 </template>
 
 <script setup lang="ts">

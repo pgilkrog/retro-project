@@ -1,9 +1,13 @@
-<template lang="pug">
-.menu-container(class="flex mx-2 my-1" v-if="showMenu")
-  .me-2 File
-  .mx-2 Edit 
-  .mx-2 View
-  .ms-2 Help
+<template>
+  <div
+    class="menu-container flex mx-2 my-1 space-x-2"
+    v-if="showMenu === true"
+  >
+    <p>File</p>
+    <p>Edit</p>
+    <p>View</p>
+    <p>Help</p>
+  </div>
 </template>
 
 <script setup lang="ts">

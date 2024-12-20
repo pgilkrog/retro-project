@@ -1,18 +1,22 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
 import type { IUser } from '@/models/index'
 import setAuthToken from '@/helpers/setAuthToken'
-import { useErrorStore } from './errorStore'
 import router from '@/router'
+import { post } from '@/helpers/httpHelper'
 
-const url = import.meta.env.VITE_BASE_URL + '/auth'
+const url = '/auth'
+
+interface IAuthResponse {
+  data: {
+    token: string
+    resUser: IUser
+  }
+}
 
 export const useAuthStore = defineStore('auth', () => {
-  const errorstore = useErrorStore()
-
   const isLoggedIn = ref<boolean>(false)
-  const user = ref<IUser>()
   const checkedAuth = ref<boolean>(false)
+  const user = ref<IUser>()
   const token = ref<string>()
   const userId = ref<string>()
 
@@ -29,34 +33,24 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const loginUser = async (email: string, password: string): Promise<void> => {
-    try {
-      const response = await axios.post(url + '/login/', { email: email, password: password })
-      const { token, user } = response.data
+    const response = await post<IAuthResponse>(url + '/login/', {
+      email: email,
+      password: password,
+    })
 
-      sessionStorage.setItem('token', token)
-      sessionStorage.setItem('userId', user._id)
+    const { token, resUser } = response.data
 
-      user.value = user
-      isLoggedIn.value = true
-      checkedAuth.value = true
-    } catch (error: any) {
-      console.log(error)
-      let message =
-        error.response.data.msg !== undefined
-          ? error.response.data.msg
-          : error.response.data.errors[0].msg
-      errorstore.setError(message)
-    }
+    sessionStorage.setItem('token', token)
+    sessionStorage.setItem('userId', resUser._id)
+
+    user.value = resUser
+    isLoggedIn.value = true
+    checkedAuth.value = true
   }
 
   const registerUser = async (userName: string, password: string): Promise<void> => {
-    try {
-      const user = { email: userName, password: password }
-      const response = await axios.post(url, user)
-      console.log(response)
-    } catch (error: any) {
-      console.log(error)
-    }
+    const user = { email: userName, password: password }
+    await post(url, user)
   }
 
   const signOut = (): void => {
@@ -67,26 +61,27 @@ export const useAuthStore = defineStore('auth', () => {
     router.push({ name: 'login' })
   }
 
-  const changePassword = (password: string) => {
-    // updatePassword(this.getUser, password)
-  }
-
   const setToken = (newToken: string): void => {
     token.value = newToken
     sessionStorage.setItem('token', newToken)
   }
 
   const refreshToken = async (): Promise<void> => {
-    token.value = sessionStorage.getItem('token') ?? undefined
-    userId.value = sessionStorage.getItem('userId') ?? undefined
+    token.value = sessionStorage.getItem('token') ?? ''
+    userId.value = sessionStorage.getItem('userId') ?? ''
 
-    const response = await axios.post(url + '/refreshToken/', { id: userId.value })
+    const response = await post<IAuthResponse>(url + '/refreshToken/', {
+      id: userId.value,
+    })
+    debugger
+    if (token.value !== '') {
+      setAuthToken(token.value)
+    }
 
-    if (token.value) setAuthToken(token.value)
+    sessionStorage.setItem('userId', response.data.resUser._id)
 
-    sessionStorage.setItem('userId', response.data.user._id)
     setToken(response.data.token)
-    user.value = response.data.user
+    user.value = response.data.resUser
   }
 
   return {
@@ -98,7 +93,6 @@ export const useAuthStore = defineStore('auth', () => {
     loginUser,
     registerUser,
     signOut,
-    changePassword,
     setToken,
     refreshToken,
   }

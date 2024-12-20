@@ -2,7 +2,11 @@
   <div
     v-if="userData != undefined"
     class="home-wrapper flex h-full w-full absolute bg-center bg-no-repeat bg-cover overflow-hidden"
-    :style="[userData.settings.useBackground === true ? { 'background-image': 'url(' + getImageUrl(userData.settings?.backgroundImage) + ')' } : { 'background-color': userData.settings?.backgroundColour }]"
+    :style="[
+      userData.settings.useBackground === true
+        ? { 'background-image': 'url(' + getImageUrl(userData.settings?.backgroundImage) + ')' }
+        : { 'background-color': userData.settings?.backgroundColour },
+    ]"
     @mousemove="registerMouseMovement"
     @click="console.log('DODIA')"
     @contextmenu="rightClick()"
@@ -31,7 +35,7 @@
     <!-- CarouselComponent -->
     <ComponentMachine />
     <Menu v-if="showMenu" />
-    <Taskbar
+    <TaskbarComponent
       :show-menu="showMenu"
       @change-show-menu="changeShowMenu"
     />

@@ -1,9 +1,11 @@
-<template lang="pug">
-div(ref="gameContainer" class="game-container")
+<template>
+  <div
+    ref="gameContainer"
+    class="game-container"
+  />
 </template>
 
 <script setup lang="ts">
-import { defineComponent, ref } from 'vue'
 import Phaser from 'phaser'
 
 import Game from './scenes/Game'

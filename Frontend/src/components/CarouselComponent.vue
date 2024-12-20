@@ -1,20 +1,36 @@
-<template lang="pug">
-.wrapper(class="w-100 overflow-hidden" ref="itemListRef" @mouseleave="handleMouseLeave")
-  .test-horizontal(class="w-100 bg-red-200 inline-flex space-x-6 overflow-x-hidden px-4" )
-    .item(
-      v-for="item in listOfItems" 
-      class="h-[300px] min-w-72 bg-blue-200 p-4 my-4 cursor-pointer select-none"
-      @click.prevent="handleItemClick(item)"
-      @mousedown.prevent="startDragging"
-      @mouseup.prevent="stopDragging"
-      @mousemove.prevent="handleDrag"
-    )
-      p(class="px-8") {{ item.name }}
-  .buttons(class="absolute w-full flex justify-between -mt-52 pointer-events-none")
-    ButtonComponent(text="<" class="!pointer-events-auto" @click="scrollByClick(-300)")
-    ButtonComponent(text=">" class="!pointer-events-auto" @click="scrollByClick(300)")
-.test-dis 
-
+<template>
+  <div
+    class="wrapper w-100 overflow-hidden"
+    ref="itemListRef"
+    @mouseleave="handleMouseLeave"
+  >
+    <div class="test-horizontal w-100 bg-red-200 inline-flex space-x-6 overflow-x-hidden px-4">
+      <div
+        v-for="(item, key) in listOfItems"
+        :key
+        class="item h-[300px] min-w-72 bg-blue-200 p-4 my-4 cursor-pointer select-none"
+        @click.prevent="handleItemClick(item)"
+        @mousedown.prevent="startDragging"
+        @mouseup.prevent="stopDragging"
+        @mousemove.prevent="handleDrag"
+      >
+        <p class="px-8">{{ item.name }}</p>
+      </div>
+    </div>
+    <div class="buttons absolute w-full flex justify-between -mt-52 pointer-events-none">
+      <ButtonComponent
+        text="<"
+        class="!pointer-events-auto"
+        @click="scrollByClick(-300)"
+      />
+      <ButtonComponent
+        text=">"
+        class="!pointer-events-auto"
+        @click="scrollByClick(300)"
+      />
+    </div>
+  </div>
+  <div class="test-dis" />
 </template>
 <script setup lang="ts">
 import 'vue3-carousel/dist/carousel.css'
@@ -39,34 +55,10 @@ const listOfItems = [
   { name: 'hej17', url: 'https://google.dk' },
 ]
 
-const settings = ref({
-  itemsToShow: 1,
-  snapAlign: 'center',
-})
-// breakpoints are mobile first
-// any settings not specified will fallback to the carousel settings
-const breakpoints = ref({
-  // 700px and up
-  700: {
-    itemsToShow: 3.5,
-    snapAlign: 'center',
-  },
-  // 1024 and up
-  1024: {
-    itemsToShow: 5,
-    snapAlign: 'start',
-  },
-})
-
 const isDragging = ref(false)
-const mouseIsDown = ref(false)
 let startX = 0
 const itemListRef = ref<HTMLElement>()
 let clickStartTime = 0
-
-const clickCarousel = (item: object) => {
-  console.log(item)
-}
 
 const scrollByClick = (value: number) => {
   // itemListRef.value!.scrollLeft += 300;

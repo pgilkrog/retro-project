@@ -1,33 +1,24 @@
-<template lang="pug">
-.starting-up(class="bg-blue-500 flex justify-center items-center flex-col text-white")
-  IconComponent(name="fa-computer" color="light" size="200")
-  h1.light.mt-4 Starting up...
+<template>
+  <div class="bg-blue-500 flex justify-center items-center flex-col text-white">
+    <IconComponent
+      name="fa-computer"
+      color="light"
+      size="200"
+    />
+    <h1 class="light mt-4">Starting up...</h1>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { watch } from 'vue'
 import router from '@/router'
 
-import { userStore } from '@/stores/userStore'
 import { useAuthStore } from '@/stores/authStore'
 import { programsStore } from '@/stores/programsStore'
 
 const authstore = useAuthStore()
-const userstore = userStore()
 const programsstore = programsStore()
-
-const progressValue = ref<number>(0)
-const checkAuth = ref<Boolean>(authstore.checkedAuth)
-
-const startLoading = () => {
-  let interval = setInterval(() => {
-    if (progressValue.value < 100) {
-      progressValue.value += 1
-    } else {
-      clearInterval(interval)
-    }
-  }, 100)
-}
+const checkAuth = ref<boolean>(authstore.checkedAuth)
 
 watch(checkAuth, (newValue, oldValue) => {
   if (newValue === true && oldValue === false) {
@@ -36,16 +27,12 @@ watch(checkAuth, (newValue, oldValue) => {
 })
 
 const goToRoute = () => {
-  if (checkAuth.value)
-    router.push('/home')
-  else
-    router.push('/login')
+  if (checkAuth.value) router.push('/home')
+  else router.push('/login')
 }
 
 onMounted(async () => {
-  await authstore.init()
   await programsstore.init()
   goToRoute()
-})  
-
+})
 </script>

@@ -1,14 +1,20 @@
-<template lang="pug">
-WindowFrame(:program="program" :isMoveable="true")
-  .minesweeper-wrapper 
-    .topbar 
-    .game-wrapper
-      MinesweeperBlock(
-        v-for="(item, index) in grid" 
-        :key="index" 
-        :Block="item"
-        @click="clickedBlock(item, index)"
-      )
+<template>
+  <WindowFrame
+    :program="program"
+    :is-moveable="true"
+  >
+    <div class="minesweeper-wrapper">
+      <div class="topbar" />
+      <div class="game-wrapper">
+        <MinesweeperBlock
+          v-for="(item, index) in grid"
+          :key="index"
+          :block="item"
+          @click="clickedBlock(item, index)"
+        />
+      </div>
+    </div>
+  </WindowFrame>
 </template>
 
 <script setup lang="ts">
@@ -22,8 +28,8 @@ const { program } = defineProps<{
 const grid = ref<object[]>([])
 const rows = ref(10)
 const columns = ref(5)
-const bombs = ref(10)
-const gameOver = ref(false)
+// const bombs = ref(10)
+// const gameOver = ref(false)
 
 onMounted(() => {
   generateBlocks()

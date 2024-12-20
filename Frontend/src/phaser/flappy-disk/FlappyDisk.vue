@@ -1,5 +1,8 @@
-<template lang="pug">
-div(ref="gameContainer" class="game-container")
+<template>
+  <div
+    ref="gameContainer"
+    class="game-container"
+  />
 </template>
 
 <script setup lang="ts">

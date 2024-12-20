@@ -1,35 +1,74 @@
-<template lang="pug">
-.loading
-  WindowFrame(
-    :program="program" 
-    :showMenu="false" 
-    :isMoveable="true"
-    @closeWindow="emit('close-loading')"
-  )
-    .p-4
-      .folder-animation(class="flex justify-between")
-        IconComponent(name="bi-folder-fill" color="yellow" size="32" class="z-20")
-        .box(:class="loadingCompleted === true ? '' : 'move-anim'")
-          IconComponent(name="bi-file-earmark-fill" class="text-white" size="32" class="z-10")
-        IconComponent(name="bi-folder-fill" color="yellow" size="32" class="z-20")
-      .loading-bar(:class="['bg-shadow-inner mt-4 flex', progressValues.lenth > 0 ? 'h-auto' : 'h-5']")
-        .loading-box.bg-blue-500.h-5.w-5.mx-1(v-for="item in progressValues")
-      div(class="flex justify-end mt-4")
-        ButtonComponent(text="Close" v-if="loadingCompleted === true" @clicked="emit('close-loading')")
-    .text-black.p-4
-      div Installing...
-      div
-        div(:style="{ width: progress + '%' }")
-      ul
-        li(v-for="(file, index) in files.slice(files.length-1, files.length)" :key="index") {{ file }}
+<template>
+  <div class="loading">
+    <WindowFrame
+      :program="program"
+      :show-menu="false"
+      :is-moveable="true"
+      @close-window="emit('close-loading')"
+    >
+      <div class="p-4">
+        <div class="folder-animation flex justify-between">
+          <IconComponent
+            name="bi-folder-fill"
+            color="yellow"
+            size="32"
+            class="z-20"
+          />
+          <div
+            class="box"
+            :class="loadingCompleted === true ? '' : 'move-anim'"
+          >
+            <IconComponent
+              name="bi-file-earmark-fill"
+              class="text-white z-10"
+              size="32"
+            />
+          </div>
+          <IconComponent
+            name="bi-folder-fill"
+            color="yellow"
+            size="32"
+            class="z-20"
+          />
+        </div>
+        <div
+          class="loading-bar bg-shadow-inner mt-4 flex"
+          :class="[progressValues.length > 0 ? 'h-auto' : 'h-5']"
+        >
+          <div
+            class="loading-box bg-blue-500 h-5 w-5 mx-1"
+            v-for="(item, key) in progressValues"
+            :key
+          ></div>
+        </div>
+        <div class="flex justify-end mt-4">
+          <ButtonComponent
+            text="Close"
+            v-if="loadingCompleted === true"
+            @clicked="emit('close-loading')"
+          />
+        </div>
+      </div>
+      <div class="text-black p-4">
+        <div>Installing...</div>
+        <div>
+          <div :style="{ width: progress + '%' }"></div>
+        </div>
+        <ul>
+          <li
+            v-for="(file, index) in files.slice(files.length - 1, files.length)"
+            :key="index"
+          >
+            {{ file }}
+          </li>
+        </ul>
+      </div>
+    </WindowFrame>
+  </div>
 </template>
 
 <script setup lang="ts">
 import type { IProgram } from '@/models/index'
-
-const { loadingTime = 10 } = defineProps<{
-  loadingTime?: number
-}>()
 
 const emit = defineEmits<{
   (e: 'close-loading'): void

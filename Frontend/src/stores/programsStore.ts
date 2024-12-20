@@ -1,7 +1,12 @@
 import { defineStore } from 'pinia'
 import { get, put, post, del } from '@/helpers/httpHelper'
 import { userStore } from './userStore'
-import type { IGridProgram, IInstalledProgram, IInstalledProgramDB, IProgram } from '../models/IProgram'
+import type {
+  IGridProgram,
+  IInstalledProgram,
+  IInstalledProgramDB,
+  IProgram,
+} from '../models/IProgram'
 
 const url: string = '/program'
 
@@ -46,27 +51,20 @@ export const programsStore = defineStore('programs', () => {
   }
 
   const updateProgram = async (program: IProgram): Promise<void> => {
-    try {
-      await put(url + '/' + program._id, { params: program }).then(() => getProgramsFromDB())
-    } catch (error) {
-      console.log(error)      
-    }
+    await put(url + '/' + program._id, { params: program }).then(() => getProgramsFromDB())
   }
 
   const deleteProgram = async (program: IProgram): Promise<void> => {
     try {
       await del(url + '/' + program._id).then(() => getProgramsFromDB())
     } catch (error) {
-      console.log(error)      
+      console.log(error)
     }
   }
 
   const createProgram = async (program: IProgram): Promise<void> => {
-    try {
-      await post(url, { params: program }).then(() => getProgramsFromDB())
-    } catch (error) {
-      console.log(error)      
-    }
+    await post(url, program)
+    await getProgramsFromDB()
   }
 
   //** Installed Program */
@@ -82,6 +80,7 @@ export const programsStore = defineStore('programs', () => {
 
     allPrograms.value.forEach((program) => {
       const findProgram = programs.find((pro) => pro.programId === program._id)
+
       if (findProgram !== undefined) {
         installedPrograms.value.push({
           _id: findProgram._id,
@@ -125,7 +124,6 @@ export const programsStore = defineStore('programs', () => {
       }
       positionedList.value.push(positionedEl)
     }
-
     installedPrograms.value.forEach((element) => {
       positionedList.value[element.gridPosition] = element
     })
@@ -142,20 +140,20 @@ export const programsStore = defineStore('programs', () => {
     positionedList.value[gridProgram.gridPosition] = gridProgram.program
 
     const iProgram = gridProgram.program
-    
+
     if (iProgram.program === undefined) {
       return
     }
-  
+
     gridProgram.program.gridPosition = gridProgram.gridPosition
-  
+
     const installedProgramToUpdate: IInstalledProgramDB = {
       _id: iProgram._id,
       programId: iProgram.program._id,
       gridPosition: gridProgram.gridPosition,
       userId: userstore.userData?._id ?? '',
     }
-  
+
     await updateInstalledProgram(installedProgramToUpdate)
   }
 
@@ -178,6 +176,6 @@ export const programsStore = defineStore('programs', () => {
     updateInstalledProgram,
     deleteInstalledProgram,
     generateGridPositions,
-    changeInstalledProgramGridPosition
+    changeInstalledProgramGridPosition,
   }
 })

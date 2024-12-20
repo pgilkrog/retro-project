@@ -1,38 +1,99 @@
-<template lang="pug">
-WindowFrame(
-  :program="program" 
-  :showMenu="false" 
-  variant="blue"
-  :isMoveable="false"
-  :disableButtons="true"
-  :isStatic="true"
-)
-  .login-screen(class="grid py-2 px-4")
-    .col-span-4.text-center
-      IconComponent(name="fa-key" color="yellow" size="30" rotate="0")
-    .col-span-8.flex.items-center.px-4
-      | {{ infoText }}
-    form.col-span-12.mt-4
-      .col-12.col-lg
-        InputComponent(v-model="username" label="Username" :useTwoLines="true" :use-debounce="true")
-      .mt-2(v-if="state === 2 || state === 1")
-        .col-span-12
-          InputComponent(v-model="password" type="password" label="Password" :useTwoLines="true")
-      .mt-2(v-if="state === 2")
-        .col-span-12.flex.items-center
-          .login-text Password:
-        .col-span-12
-          InputComponent(v-model="password2" type="password")
-    .buttons.mt-4.flex.justify-end.w-full.col-span-12
-      ButtonComponent( @clicked="devLogin()" text="Guest login")
-      ButtonComponent(@clicked="pressedOk()" text="OK") 
-      //- ButtonComponent(@clicked="changeShowHelp()" text="Help" :active="showHelp")
-  .buttons.flex.flex-col.bg-shadow-inner.p-4.m-2.rounded(v-if="showHelp === true")
-    p Some helping info and stuff
-    div(class="flex justify-center mt-4")
-      ButtonComponent.me-4(@clicked="changeState(2)" v-if="state === 1" text="Create User") 
-      ButtonComponent.me-4(@clicked="changeState(1)" v-else text="Login")
-      ButtonComponent(@clicked="changeState(3)" text="Forgot password") 
+<template>
+  <WindowFrame
+    :program="program"
+    :show-menu="false"
+    variant="blue"
+    :is-moveable="false"
+    :disable-buttons="true"
+    :is-static="true"
+  >
+    <div class="login-screen grid py-2 px-4">
+      <div class="col-span-4 text-center">
+        <icon-component
+          name="fa-key"
+          color="yellow"
+          size="30"
+          rotate="0"
+        />
+      </div>
+      <div class="col-span-8 flex items-center px-4">
+        {{ infoText }}
+      </div>
+      <form class="col-span-12 mt-4">
+        <div class="col-12 col-lg">
+          <input-component
+            v-model="username"
+            label="Username"
+            :use-two-lines="true"
+            :use-debounce="true"
+          />
+        </div>
+        <div
+          class="mt-2"
+          v-if="state === 2 || state === 1"
+        >
+          <div class="col-span-12">
+            <input-component
+              v-model="password"
+              type="password"
+              label="Password"
+              :use-two-lines="true"
+            />
+          </div>
+        </div>
+        <div
+          class="mt-2"
+          v-if="state === 2"
+        >
+          <div class="col-span-12 flex items-center">
+            <div class="login-text">Password:</div>
+          </div>
+          <div class="col-span-12">
+            <input-component
+              v-model="password2"
+              type="password"
+            />
+          </div>
+        </div>
+      </form>
+      <div class="buttons mt-4 flex justify-end w-full col-span-12">
+        <ButtonComponent
+          @clicked="devLogin()"
+          text="Guest login"
+        />
+        <ButtonComponent
+          @clicked="pressedOk()"
+          text="OK"
+        />
+        <!-- Uncomment below if needed -->
+        <!-- <button-component @clicked="changeShowHelp()" text="Help" :active="showHelp"></button-component> -->
+      </div>
+    </div>
+    <div
+      class="buttons flex flex-col bg-shadow-inner p-4 m-2 rounded"
+      v-if="showHelp === true"
+    >
+      <p>Some helping info and stuff</p>
+      <div class="flex justify-center mt-4">
+        <ButtonComponent
+          class="me-4"
+          @clicked="changeState(2)"
+          v-if="state === 1"
+          text="Create User"
+        />
+        <ButtonComponent
+          class="me-4"
+          @clicked="changeState(1)"
+          v-else
+          text="Login"
+        />
+        <ButtonComponent
+          @clicked="changeState(3)"
+          text="Forgot password"
+        />
+      </div>
+    </div>
+  </WindowFrame>
 </template>
 
 <script setup lang="ts">
@@ -84,9 +145,9 @@ const changePassword = (): void => {
   authstore.changePassword(password.value)
 }
 
-const changeShowHelp = (): void => {
-  showHelp.value = !showHelp.value
-}
+// const changeShowHelp = (): void => {
+//   showHelp.value = !showHelp.value
+// }
 
 const devLogin = (): void => {
   authstore.loginUser('check@check.com', 'hejsa1234').then(() => {

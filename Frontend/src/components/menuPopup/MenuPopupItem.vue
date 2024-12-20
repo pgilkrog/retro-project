@@ -1,16 +1,14 @@
-<template lang="pug">
-div(@click="method({item: 'yes'})" class="flex items-center gap-x-2 cursor-pointer")
-  IconComponent(:name="icon")
-  | {{ name }}
+<template>
+  <div
+    @click="method({ item: 'yes' })"
+    class="flex items-center gap-x-2 cursor-pointer"
+  >
+    <IconComponent :name="icon" />
+    <p>{{ name }}</p>
+  </div>
 </template>
 <script setup lang="ts">
-interface iListItem {
-  name: string
-  icon: string
-  method: () => {}
-}
-
-const props = defineProps<{
+const { name, icon, method } = defineProps<{
   name: string
   icon: string
   method: () => {}

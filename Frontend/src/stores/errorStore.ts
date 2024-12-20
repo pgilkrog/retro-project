@@ -1,7 +1,7 @@
 import type { IErrorItem } from '@/models/IErrorItem'
 import { defineStore } from 'pinia'
-import axios from 'axios'
 import { userStore } from './userStore'
+import { get, post } from '@/helpers/httpHelper'
 
 const url = import.meta.env.VITE_BASE_URL + '/error'
 
@@ -13,10 +13,8 @@ export const useErrorStore = defineStore('errorStore', () => {
   const userstore = userStore()
 
   const getErrors = async () => {
-    const response = await axios.get(url).then((data) => {
-      errors.value = data.data.errors
-    })
-    console.log(response)
+    const response = await get<{ data: { errors: IErrorItem[] } }>(url)
+    errors.value = response.data.errors
   }
 
   const setErrorList = () => {
@@ -31,8 +29,6 @@ export const useErrorStore = defineStore('errorStore', () => {
       timeStamp: new Date(),
     }
 
-    let tempList = errorList.value
-    tempList.push(error.value)
     createError(text)
   }
 
@@ -40,15 +36,14 @@ export const useErrorStore = defineStore('errorStore', () => {
     error.value = undefined
   }
 
-  const createError = (text: string) => {
-    const response = axios.post(url, null, {
+  const createError = async (text: string) => {
+    await post(url, {
       params: {
         text: text,
         date: Date.now(),
         userId: userstore.userData?._id || 0,
       },
     })
-    console.log('createError', response)
   }
 
   return {

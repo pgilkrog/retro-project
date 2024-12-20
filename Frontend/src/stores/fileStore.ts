@@ -1,49 +1,47 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
-import { useErrorStore } from './errorStore'
-import type { IFile, IPainting } from '@/models'
+import type { IFile } from '@/models'
 import { userStore } from './userStore'
 import { ref } from 'vue'
+import { post, get } from '@/helpers/httpHelper'
 
-const url = import.meta.env.VITE_BASE_URL + '/files'
+const url = '/files'
 
 export const fileStore = defineStore('filestore', () => {
   const userstore = userStore()
   const allFiles = ref<IFile[]>([])
-  const errorstore = useErrorStore()
 
-  const uploadFile = async (formData: any) => {
-    try {
-      const response = await axios.post(url + '/upload', formData)
-      console.log(formData, response)
-      const { filename, originalname, size, fieldname, path } = response.data.file
-      const fileToStore: IFile = {
-        _id: '',
-        name: filename,
-        originalName: originalname,
-        size: size,
-        type: fieldname,
-        url: path,
-        userId: userstore.userData?._id ?? '',
-        createdAt: new Date(),
+  const uploadFile = async (formData: FormData) => {
+    const response = await post<{
+      data: {
+        file: {
+          filename: string
+          originalname: string
+          size: number
+          fieldname: string
+          path: string
+        }
       }
-      await axios.post(url, null, { params: fileToStore }).then(() => {
-        getAllFiles()
-      })
-    } catch (error) {
-      console.log(error)
-      errorstore.createError('Error accured while uploading file')
+    }>(url + '/upload', formData)
+
+    const { filename, originalname, size, fieldname, path } = response.data.file
+    const fileToStore: IFile = {
+      _id: '',
+      name: filename,
+      originalName: originalname,
+      size: size,
+      type: fieldname,
+      url: path,
+      userId: userstore.userData?._id ?? '',
+      createdAt: new Date(),
     }
+
+    await post(url, { params: fileToStore })
+    await getAllFiles()
   }
 
   const getAllFiles = async () => {
-    try {
-      const response = await axios.get(url)
-      allFiles.value = response.data.files
-      console.log(response)
-    } catch (error: any) {
-      console.warn(error)
-    }
+    const response = await get<{ files: IFile[] }>(url)
+    allFiles.value = response.files
   }
 
   return {

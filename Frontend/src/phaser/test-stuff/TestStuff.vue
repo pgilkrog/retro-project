@@ -1,12 +1,15 @@
-<template lang="pug">
-div(ref="gameContainer" class="game-container")
+<template>
+  <div
+    ref="gameContainer"
+    class="game-container"
+  />
 </template>
 
 <script setup lang="ts">
 import Phaser from 'phaser'
 import Loader from './scenes/Loader'
 import GameScene from './scenes/inventory/GameScene'
-import { ref } from 'vue'
+
 export interface IConfig {
   mapOffset: number
   width: number

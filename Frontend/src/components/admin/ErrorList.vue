@@ -1,6 +1,11 @@
-<template lang="pug">
-.error-item(v-for="(error, index) in errorList" :ket="index")
-  p {{ error.text }}
+<template>
+  <div
+    class="error-item"
+    v-for="(error, key) in errorList"
+    :key
+  >
+    <p>{{ error.text }}</p>
+  </div>
 </template>
 
 <script setup lang="ts">

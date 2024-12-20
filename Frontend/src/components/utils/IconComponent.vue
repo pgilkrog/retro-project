@@ -1,8 +1,8 @@
-<template lang="pug">
-i.icon(
-  :class="[iconClass(), 'text-' + color + '-500', 'flex']" 
-  :style="'font-size: ' + size + 'px !important; transform: rotate(' + rotate + 'deg);'"
-)
+<template>
+  <i
+    :class="['icon', iconClass(), 'text-' + color + '-500', 'flex']"
+    :style="'font-size: ' + size + 'px !important; transform: rotate(' + rotate + 'deg);'"
+  />
 </template>
 
 <script setup lang="ts">
@@ -12,7 +12,7 @@ const {
   size = '24',
   rotate = '0',
 } = defineProps<{
-  name: string
+  name: string | undefined
   color?: string
   size?: string
   rotate?: string
@@ -21,8 +21,8 @@ const {
 const iconClass = () => {
   if (name === undefined) return 'fa fa-bug'
 
-  if (name?.startsWith('bi-')) return 'bi ' + name
-  else if (name?.startsWith('fa-')) return 'fa ' + name
+  if (name.startsWith('bi-')) return 'bi ' + name
+  else if (name.startsWith('fa-')) return 'fa ' + name
   else return 'fa fa-bug'
 }
 </script>

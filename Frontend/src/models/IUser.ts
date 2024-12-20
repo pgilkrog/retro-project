@@ -20,3 +20,8 @@ export interface IUserSettings {
   displayOption: string
   theme: string
 }
+
+export interface IUserResponse {
+  user: IUser | undefined
+  status: boolean
+}

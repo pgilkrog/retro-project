@@ -1,21 +1,34 @@
-<template lang="pug">
-.menu-item(class="py-2 px-4 w-full justify-between flex items-center text-black hover:bg-blue-500" @click="openProgram()")
-  h3(class="flex items-center me-6")
-    IconComponent.me-3(:color="color === 'light' ? 'dark' : color" :name="img") 
-    |  {{title}}
-  span(v-if="hasChildren === true") 
-    IconComponent.ms-2(name="fa-caret-right")
+<template>
+  <div
+    class="py-2 px-4 w-full justify-between flex items-center text-black hover:bg-blue-500"
+    @click="openProgram()"
+  >
+    <h3 class="flex items-center me-6 space-x-3">
+      <IconComponent
+        :color="color === 'light' ? 'dark' : color"
+        :name="img"
+      />
+      {{ title }}
+    </h3>
+    <span v-if="hasChildren === true">
+      <IconComponent name="fa-caret-right" />
+    </span>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/authStore'
 import { useRouter } from 'vue-router'
 
-const { img, title = 'Title not given', hasChildren = false, componentName = 'Name not given', color } = defineProps<{
-  img: string,
-  title: string,
-  hasChildren: boolean,
-  componentName: string,
+const {
+  img,
+  title = 'Title not given',
+  hasChildren = false,
+  color,
+} = defineProps<{
+  img: string
+  title: string
+  hasChildren: boolean
   color: string
 }>()
 
@@ -23,7 +36,7 @@ const authstore = useAuthStore()
 const router = useRouter()
 
 const openProgram = () => {
-  switch(title) {
+  switch (title) {
     case 'Shutdown...':
       router.push('/shutdown')
       break
@@ -38,7 +51,7 @@ const openProgram = () => {
       break
     case 'Flappy Disk':
       router.push('/flappydisk')
-      break        
+      break
     case 'Salvatore':
       router.push('/salvatore')
       break
@@ -53,10 +66,9 @@ const openProgram = () => {
   }
 }
 
-const signOut = async () => {
-  await authstore.signOut()
+const signOut = () => {
+  authstore.signOut()
   authstore.$reset()
   router.push('/login')
 }
-
 </script>

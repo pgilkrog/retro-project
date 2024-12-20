@@ -16,7 +16,7 @@
         v-if="icon"
         :name="icon"
         size="16"
-        :class="text !== '' ? 'me-2' : ''"
+        :class="{ 'me-2': text !== '' }"
       />
       <p
         v-if="text"

@@ -1,3 +1,3 @@
-<template lang="pug">
-LoginScreen
+<template>
+  <LoginScreen />
 </template>

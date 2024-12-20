@@ -1,7 +1,7 @@
 <template>
   <div class="admin-view p-4">
     <div class="desktop-container">
-      <DesktopItem 
+      <DesktopItem
         v-for="program in allPrograms"
         :key="program._id"
         class="mt-4"
@@ -33,7 +33,7 @@ const allPrograms: IProgram[] = [
     sortOrder: 1,
     top: 10,
     left: 10,
-    type: 'Program'
+    type: 'Program',
   },
   {
     _id: '5432',
@@ -45,11 +45,11 @@ const allPrograms: IProgram[] = [
     sortOrder: 2,
     top: 10,
     left: 10,
-    type: 'Program'
+    type: 'Program',
   },
 ]
 
 const generateComponent = (program: IProgram) => {
-  programsstore.addProgramToActive({ ...program })
+  programsstore.addProgramToActive(program)
 }
 </script>
