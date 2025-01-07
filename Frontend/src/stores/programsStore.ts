@@ -21,6 +21,8 @@ export const programsStore = defineStore('programs', () => {
 
   const init = async () => {
     await getProgramsFromDB()
+    await setInstalledPrograms()
+    generateGridPositions()
   }
 
   const getProgramsFromDB = async (): Promise<void> => {
@@ -55,11 +57,7 @@ export const programsStore = defineStore('programs', () => {
   }
 
   const deleteProgram = async (program: IProgram): Promise<void> => {
-    try {
-      await del(url + '/' + program._id).then(() => getProgramsFromDB())
-    } catch (error) {
-      console.log(error)
-    }
+    await del(url + '/' + program._id).then(() => getProgramsFromDB())
   }
 
   const createProgram = async (program: IProgram): Promise<void> => {
@@ -96,34 +94,46 @@ export const programsStore = defineStore('programs', () => {
 
   const createInstalledProgram = async (programId: string) => {
     const gridPos = findAvailableGridPosition()
+
     await post(url + '/installedProgram', {
-      params: { programId: programId, userId: userstore.userData?._id, gridPosition: gridPos },
+      programId: programId,
+      userId: userstore.userData?._id,
+      gridPosition: gridPos,
     })
+
     await setInstalledPrograms()
     generateGridPositions()
   }
 
   const deleteInstalledProgram = async (id: string) => {
-    await del(url + '/installedProgram/' + id)
-    await setInstalledPrograms()
-    generateGridPositions()
+    const installedProgram = installedPrograms.value.find(
+      (program: IInstalledProgram) => program.program?._id === id
+    )
+
+    if (installedProgram != undefined) {
+      await del(url + '/installedProgram/' + installedProgram._id)
+      await setInstalledPrograms()
+      generateGridPositions()
+    }
   }
 
   const updateInstalledProgram = async (installedProgam: IInstalledProgramDB | undefined) => {
-    if (installedProgam === undefined) return
-    await put(url + '/installedProgram/' + installedProgam._id, { params: installedProgam })
+    if (installedProgam != undefined) {
+      await put(url + '/installedProgram/' + installedProgam._id, installedProgam)
+    }
   }
 
   const generateGridPositions = () => {
     for (let i = 0; i < 99; i++) {
       const positionedEl: IInstalledProgram = {
-        _id: 'dsaofgjh',
+        _id: '0',
         program: undefined,
         userId: '',
         gridPosition: i,
       }
       positionedList.value.push(positionedEl)
     }
+
     installedPrograms.value.forEach((element) => {
       positionedList.value[element.gridPosition] = element
     })
@@ -164,7 +174,6 @@ export const programsStore = defineStore('programs', () => {
     notInstalledPrograms,
     positionedList,
     init,
-    getProgramsFromDB,
     addProgramToActive,
     removeProgramFromActive,
     setProgramActiveState,
@@ -172,10 +181,7 @@ export const programsStore = defineStore('programs', () => {
     deleteProgram,
     createProgram,
     createInstalledProgram,
-    setInstalledPrograms,
-    updateInstalledProgram,
     deleteInstalledProgram,
-    generateGridPositions,
     changeInstalledProgramGridPosition,
   }
 })

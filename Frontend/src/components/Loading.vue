@@ -71,7 +71,7 @@
 import type { IProgram } from '@/models/index'
 
 const emit = defineEmits<{
-  (e: 'close-loading'): void
+  'close-loading': []
 }>()
 
 const program: IProgram = {
@@ -87,10 +87,15 @@ const program: IProgram = {
   type: 'Program',
 }
 
-const loadingCompleted = ref(false)
+const loadingCompleted = ref<boolean>(false)
 const progressValues = ref<number[]>([])
 const files = ref<string[]>([])
 const progress = ref<number>(0)
+
+onMounted(() => {
+  addToArray()
+  startInstallation()
+})
 
 const addToArray = () => {
   if (progressValues.value.length < 13) {
@@ -143,17 +148,9 @@ const generateRandomString = () => {
 
   return result
 }
-
-onMounted(() => {
-  addToArray()
-  startInstallation()
-})
 </script>
 
 <style scoped lang="sass">
-.box
-  position: absolute
-
 .move-anim
   animation: move 2s ease-in-out infinite
 

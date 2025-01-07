@@ -5,32 +5,33 @@ import routes from './routes'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: routes
+  routes: routes,
 })
 
 router.beforeEach(async (to, from, next) => {
-  const isAuthendicated = await checkAuthendication()
+  const isAuthendicated = checkAuthendication()
   const rolesToCheck = to.meta.roles as string[]
+  const userstore = userStore()
+
+  if (userstore.userData == undefined) {
+    await userstore.getUserById()
+  }
 
   if (isAuthendicated === false && to.meta.requiresAuth === true) {
     next({ name: 'login' })
     return
   }
 
-  if (to.name === 'admin' && rolesToCheck && checkUserRole(rolesToCheck) === false)
+  if (rolesToCheck.length > 0 && checkUserRole(rolesToCheck) === false) {
     return
- 
+  }
+
   next()
 })
 
 const checkAuthendication = () => {
   const authstore = useAuthStore()
   return authstore.isLoggedIn
-}
-
-const checkedAuth = () => {
-  const authstore = useAuthStore()
-  return authstore.checkedAuth
 }
 
 const checkUserRole = (roles: string[]) => {

@@ -1,124 +1,145 @@
 [
   {
+    "id": "1",
     "title": "Profile",
     "img": "bi-folder",
     "subMenu": []
   },
   {
+    "id": "2",
     "title": "Programs",
     "img": "bi-window-fullscreen",
     "subMenu": [
       {
+        "id": "2-1",
         "title": "Accesories",
         "img": "bi-tools",
         "subMenu": [
           {
+            "id": "2-1-1",
             "title": "Settings",
-            "img": "bi-sliders", 
+            "img": "bi-sliders",
             "subMenu": []
           },
           {
+            "id": "2-1-2",
             "title": "Documents",
-            "img": "bi-folder", 
+            "img": "bi-folder",
             "subMenu": []
           }
         ]
-      },    
+      },
       {
+        "id": "2-2",
         "title": "Settings",
-        "img": "bi-sliders", 
+        "img": "bi-sliders",
         "subMenu": []
       },
       {
+        "id": "2-3",
         "title": "Documents",
-        "img": "bi-folder", 
+        "img": "bi-folder",
         "subMenu": []
       },
       {
+        "id": "2-4",
         "title": "Games",
-        "img": "bi-joystick", 
+        "img": "bi-joystick",
         "subMenu": [
           {
+            "id": "2-4-1",
             "title": "Ping Pong",
-            "img": "bi-sliders", 
+            "img": "bi-sliders",
             "subMenu": []
-          },      
+          },
           {
+            "id": "2-4-2",
             "title": "Space Invaders",
-            "img": "bi-sliders", 
+            "img": "bi-sliders",
             "subMenu": []
-          },      
+          },
           {
+            "id": "2-4-3",
             "title": "Flappy Disk",
-            "img": "bi-sliders", 
+            "img": "bi-sliders",
             "subMenu": []
-          },      
+          },
           {
+            "id": "2-4-4",
             "title": "Salvatore",
             "img": "fa-joystic",
             "subMenu": []
-          }, 
+          },
           {
+            "id": "2-4-5",
             "title": "TestStuff",
             "img": "fa-joystic",
             "subMenu": []
           },
           {
+            "id": "2-4-6",
             "title": "LaCosaNostra",
             "img": "fa-joystic",
             "sub": []
           }
         ]
       }
-    ] 
+    ]
   },
   {
+    "id": "3",
     "title": "Documents",
     "img": "bi-folder",
-    "subMenu": [  
+    "subMenu": [
       {
         "title": "Settings",
-        "img": "bi-sliders", 
+        "img": "bi-sliders",
         "subMenu": []
       },
       {
         "title": "Documents",
-        "img": "bi-folder", 
+        "img": "bi-folder",
         "subMenu": []
-      },  
+      },
       {
         "title": "Programs",
-        "img": "bi-window-fullscreen", 
+        "img": "bi-window-fullscreen",
         "subMenu": []
       }
     ]
-  },  
+  },
   {
+    "id": "4",
     "title": "Settings",
-    "img": "bi-sliders", 
+    "img": "bi-sliders",
     "subMenu": []
   },
   {
+    "id": "5",
     "title": "Find",
-    "img": "bi-search", 
+    "img": "bi-search",
     "subMenu": []
-  },    
+  },
   {
+    "id": "6",
     "title": "Help",
     "img": "bi-question-circle",
     "subMenu": []
-  },    
+  },
   {
+    "id": "7",
     "title": "Run...",
-    "img": "bi-hourglass",   
+    "img": "bi-hourglass",
     "subMenu": []
-  },        
+  },
   {
+    "id": "8",
     "title": "Logout",
     "img": "bi-person",
     "subMenu": []
-  },        
+  },
   {
+    "id": "9",
     "title": "Shutdown...",
     "img": "bi-power",
     "subMenu": []

@@ -1,39 +1,59 @@
 <template>
   <div
-    class="py-2 px-4 w-full justify-between flex items-center text-black hover:bg-blue-500"
+    class="cursor-pointer space-x-4 py-2 px-4 w-full justify-between flex items-center text-black hover:bg-blue-500"
     @click="openProgram()"
+    @mouseleave="onMouseLeave()"
+    @mouseover="onMouseOver()"
   >
-    <h3 class="flex items-center me-6 space-x-3">
+    <h3 class="flex items-center space-x-2">
       <IconComponent
         :color="color === 'light' ? 'dark' : color"
         :name="img"
       />
-      {{ title }}
+      <p>{{ title }}</p>
     </h3>
-    <span v-if="hasChildren === true">
+    <span v-if="list.length > 0">
       <IconComponent name="fa-caret-right" />
     </span>
   </div>
+  <MenuList
+    v-show="list.length > 0 && showSubMenu === true"
+    class="absolute ml-[100%] mb-[100%] -mt-12 !border-l-0"
+    :menu-list="list"
+    @mouseleave="onMouseLeave()"
+    @mouseover="onMouseOver()"
+  />
 </template>
 
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/authStore'
 import { useRouter } from 'vue-router'
+import MenuList from './MenuList.vue'
+import type { IMenuItem } from '@/models'
 
 const {
-  img,
-  title = 'Title not given',
-  hasChildren = false,
-  color,
+  img = 'bi-folder',
+  title,
+  color = 'black',
+  list = [],
 } = defineProps<{
-  img: string
+  img?: string
   title: string
-  hasChildren: boolean
-  color: string
+  color?: string
+  list?: IMenuItem[]
 }>()
 
 const authstore = useAuthStore()
 const router = useRouter()
+const showSubMenu = ref<boolean>(false)
+
+const onMouseOver = () => {
+  showSubMenu.value = true
+}
+
+const onMouseLeave = () => {
+  showSubMenu.value = false
+}
 
 const openProgram = () => {
   switch (title) {
@@ -57,9 +77,6 @@ const openProgram = () => {
       break
     case 'TestStuff':
       router.push('/teststuff')
-      break
-    case 'LaCosaNostra':
-      router.push('/lacosanostra')
       break
     default:
       break

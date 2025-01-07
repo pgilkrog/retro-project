@@ -8,13 +8,13 @@
         : { 'background-color': userData.settings?.backgroundColour },
     ]"
     @mousemove="registerMouseMovement"
-    @click="console.log('DODIA')"
-    @contextmenu="rightClick()"
+    @click="leftClick()"
+    @contextmenu="rightClick($event)"
   >
     <DesktopGrid :list="positionedList">
       <template #listItem="program">
         <DesktopItem
-          v-if="program.listItem !== undefined"
+          v-if="program.listItem != undefined"
           :key="program.listItem._id"
           :id="program.id"
           v-bind="program.listItem"
@@ -23,27 +23,24 @@
       </template>
     </DesktopGrid>
 
-    <div
+    <ContextMenu
       v-if="showContextMenu === true"
-      class="context-menu"
-    >
-      <div class="menu bg-gray-200 p-2 rounded bg-shadow absolute">
-        <p>hejsa</p>
-      </div>
-    </div>
+      :position="contextMenuPosition"
+    />
 
-    <!-- CarouselComponent -->
     <ComponentMachine />
-    <Menu v-if="showMenu" />
+    <TaskbarMenu v-if="showMenu === true" />
     <TaskbarComponent
       :show-menu="showMenu"
       @change-show-menu="changeShowMenu"
     />
     <ScreensaverMachine v-show="appStore.showScreensaver === true" />
+    <!-- CarouselComponent -->
     <!-- Salvatore -->
     <!-- TestStuff -->
     <!-- LaCosaNostra -->
     <!-- Game -->
+    <!-- <PingPong /> -->
   </div>
 </template>
 
@@ -52,15 +49,14 @@ import type { IProgram, IInstalledProgram } from '@/models/index'
 import { userStore } from '@/stores/userStore'
 import { useAppStore } from '@/stores/appStore'
 import { programsStore } from '@/stores/programsStore'
-import { useAuthStore } from '@/stores/authStore'
+import ScreensaverMachine from '@/components/programs/ScreensaverMachine.vue'
 // import Salvatore from '@/phaser/salvatore/SalvatoreGame.vue'
 // import TestStuff from '@/phaser/test-stuff/TestStuff.vue'
 // import LaCosaNostra from '@/phaser/la-cosa-nostra/LaCosaNostraGame.vue'
 // import Game from '@/phaser/space-invaders/SpaceInvaders.vue'
-import ScreensaverMachine from '@/components/programs/ScreensaverMachine.vue'
+// import PingPong from '@/phaser/ping-pong/PingPong.vue'
 
 const appStore = useAppStore()
-const authstore = useAuthStore()
 const programsstore = programsStore()
 const userstore = userStore()
 
@@ -68,13 +64,10 @@ const userData = computed(() => userstore.userData)
 const showMenu = ref<boolean>(false)
 const positionedList = computed<IInstalledProgram[]>(() => programsstore.positionedList)
 const showContextMenu = ref(false)
+const contextMenuPosition = ref<{ x: number; y: number }>({ x: 0, y: 0 })
 
 onMounted(async () => {
-  if (authstore.isLoggedIn === true) {
-    await programsstore.init()
-    await userstore.getUserById()
-    programsstore.generateGridPositions()
-  }
+  await programsstore.init()
 })
 
 const generateComponent = (program: IProgram): void => {
@@ -93,8 +86,15 @@ const registerMouseMovement = (): void => {
   appStore.initiateScreensaverTimer()
 }
 
-const rightClick = () => {
-  console.log('right clicked')
+const leftClick = (): void => {
+  showContextMenu.value = false
+}
+
+const rightClick = (event: MouseEvent): void => {
   showContextMenu.value = true
+  contextMenuPosition.value = {
+    x: event.x,
+    y: event.y,
+  }
 }
 </script>

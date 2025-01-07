@@ -1,7 +1,7 @@
 <template>
   <form
+    class="file-uploader flex items-center"
     @submit.prevent="uploadFile"
-    class=".file-uploader.d-flex.align-items-center"
   >
     <input
       type="file"

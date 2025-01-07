@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { chatStore } from './chatStore'
-import { programsStore } from './programsStore'
 import type { IUser, IUserResponse, IUserSettings } from '@/models'
 import { ref } from 'vue'
 import setAuthToken from '@/helpers/setAuthToken'
@@ -10,11 +9,10 @@ const url = '/user'
 type UserWithOnlineStatus = IUser & { online: boolean } // Add online status type
 
 export const userStore = defineStore('user', () => {
+  const chatstore = chatStore()
+
   const allUsers = ref<IUser[]>()
   const userData = ref<IUser>()
-
-  const programstore = programsStore()
-  const chatstore = chatStore()
 
   const getAllUsers = async (): Promise<void> => {
     setAuthToken(sessionStorage.getItem('token') ?? '')
@@ -35,11 +33,13 @@ export const userStore = defineStore('user', () => {
 
   const getUserById = async (): Promise<void> => {
     const userId = sessionStorage.getItem('userId')
-    if (userId == undefined) return
+    if (userId == undefined) {
+      return
+    }
 
     const response = await get<IUserResponse>(`${url}/${userId}`)
     if (response.status === true && response.user !== undefined) {
-      await setUserData(response.user)
+      setUserData(response.user)
     }
   }
 
@@ -47,7 +47,7 @@ export const userStore = defineStore('user', () => {
     const response = await put<IUserResponse>(url + `/${user._id}`, { params: user })
 
     if (response.status === true && response.user !== undefined) {
-      await setUserData(response.user)
+      setUserData(response.user)
     }
   }
 
@@ -55,10 +55,8 @@ export const userStore = defineStore('user', () => {
     await put(`${url}/settings/${settings._id}`, settings)
   }
 
-  const setUserData = async (user: IUser): Promise<void> => {
-    console.log(user)
+  const setUserData = (user: IUser) => {
     userData.value = user
-    await programstore.setInstalledPrograms()
   }
 
   const setAllUsers = (users: IUser[] | undefined): void => {
@@ -68,7 +66,6 @@ export const userStore = defineStore('user', () => {
   return {
     allUsers,
     userData,
-    programstore,
     getAllUsers,
     setUserData,
     getUserById,

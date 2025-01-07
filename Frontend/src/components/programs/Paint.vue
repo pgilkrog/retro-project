@@ -153,10 +153,10 @@ const draw = (event: MouseEvent) => {
   if (drawing.value === false) return
 
   const canvas = canvasRef.value
-  if (!canvas) return
+  if (canvas == undefined) return
 
   const ctx = canvas.getContext('2d')
-  if (!ctx) return
+  if (ctx == undefined) return
 
   // To center the brush on the mouse, you can use the canvas's getBoundingClientRect() method to calculate the difference between the canvas's top-left corner and the viewport's top-left corner, and then subtract that difference from the clientX and clientY values
   const rect = canvas.getBoundingClientRect()
@@ -200,12 +200,10 @@ const draw = (event: MouseEvent) => {
 
 const setSize = () => {
   const canvas = canvasRef.value
-  if (!canvas) return
+  if (canvas == undefined) return
 
   if (canvasWidth.value != 0) canvas.width = +canvasWidth.value
   if (canvasHeight.value != 0) canvas.height = +canvasHeight.value
-
-  console.log(canvas)
 }
 
 // const savePainting = (text: string) => {
@@ -225,15 +223,15 @@ const setSize = () => {
 // }
 
 const newPainting = () => {
-  console.log('nbe')
+  console.log('new')
 }
 
 const loadPainting = (painting: string) => {
   const canvas = canvasRef.value
-  if (!canvas) return
+  if (canvas == undefined) return
 
   const ctx = canvas.getContext('2d')
-  if (!ctx) return
+  if (ctx == undefined) return
 
   const image = new Image()
   image.src = painting
@@ -242,7 +240,7 @@ const loadPainting = (painting: string) => {
     canvas.height = image.height
 
     const ctx = canvas.getContext('2d')
-    if (!ctx) return
+    if (ctx == undefined) return
 
     ctx.drawImage(image, 0, 0)
   }
@@ -258,9 +256,10 @@ const changeColor = (color: string) => {
 
 const changeShowFiles = async (bool: boolean) => {
   showFiles.value = bool
-  await paintstore.getAllPaintingsByUserId(
-    userstore.userData?._id !== undefined ? userstore.userData._id : ''
-  )
+
+  if (bool === true) {
+    await paintstore.getAllPaintingsByUserId(userstore.userData?._id ?? '')
+  }
 }
 
 const itemClicked = (painting: IPainting) => {

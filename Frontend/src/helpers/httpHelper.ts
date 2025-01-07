@@ -33,7 +33,7 @@ export const put = async <T>(url: string, data: object): Promise<T> => {
   console.log('UPDATE', 'url: ' + url, 'data: ' + JSON.stringify(data))
 
   try {
-    return await axios.put(baseUrl + url, { data: data })
+    return await axios.put(baseUrl + url, data)
   } catch (error) {
     console.error('API request error:', error)
     throw error

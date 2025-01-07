@@ -11,8 +11,8 @@
         :key="key"
       >
         <span
-          style="text-align: right"
           v-if="item.sender !== userstore.userData?.email"
+          style="text-align: right"
         >
           <p class="text-blue-500">{{ item.sender }}</p>
           <p v-html="item.text" />
@@ -32,8 +32,8 @@
         @keydown.enter="sendMessage()"
       />
       <ButtonComponent
-        @clicked="sendMessage()"
         text="Send"
+        @clicked="sendMessage()"
       />
     </div>
   </WindowFrame>

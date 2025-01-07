@@ -11,12 +11,10 @@
         class="active-slide h-full flex bg-blue-500 flex-col m-4 justify-center items-center cursor-pointer text-white"
       >
         <Component
-          v-if="
-            loadingSlide === false && activeSlide !== undefined && activeSlide.type !== undefined
-          "
+          v-if="loadingSlide === false && activeSlide != undefined && activeSlide.type != undefined"
           :is="
             defineAsyncComponent(
-              () => import(`@/components/programs/pawpoint/slides/${activeSlide.type}.vue`)
+              () => import(`@/components/programs/pawpoint/slides/${activeSlide?.type}.vue`)
             )
           "
           :slide="activeSlide"
@@ -31,12 +29,14 @@
         <div
           class="group-slides-item m-4 flex cursor-pointer"
           v-for="slide in slides"
-          @click="setActiveSlide(slide)"
           :key="slide.id"
+          @click="setActiveSlide(slide)"
         >
           <div
-            class="flex bg-blue-500 text-white w-full justify-center items-center"
-            :class="activeSlide.title === slide.title ? 'border border-danger' : ''"
+            :class="[
+              'flex bg-blue-500 text-white w-full justify-center items-center',
+              { 'border border-danger': activeSlide?.title === slide.title },
+            ]"
           >
             <h1>{{ slide.id }}</h1>
           </div>
@@ -62,7 +62,7 @@ const { program } = defineProps<{
   program: IProgram
 }>()
 
-const loadingSlide = ref(false)
+const loadingSlide = ref<boolean>(false)
 const slides = ref<ISlide[]>([
   {
     id: 1,

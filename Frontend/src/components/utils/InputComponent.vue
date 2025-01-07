@@ -1,17 +1,21 @@
 <template>
-  <div :class="['finput lex m-1', useTwoLines === true ? 'flex-col text-start' : 'align-center items-center']">
-    <label> {{ label }} </label>
-    <input 
+  <div
+    :class="[
+      'flex m-1',
+      useTwoLines === true ? 'flex-col text-start' : 'align-center items-center',
+    ]"
+  >
+    <label>{{ label }}</label>
+    <input
       class="bg-shadow-inner p-1 px-2 w-full rounded flex-grow"
       type="textbox"
-      v-model="debouncedModel" 
+      v-model="debouncedModel"
       v-bind="$attrs"
       :placeholder
-    >
+    />
   </div>
 </template>
 <script setup lang="ts">
-
 const {
   label,
   placeholder = '',

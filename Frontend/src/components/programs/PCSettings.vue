@@ -8,8 +8,8 @@
     <div class="pc-settings-wrapper p-4">
       <TabsComponent
         :list="tabsList"
-        @tab-click="state = $event"
         :active-tab="state"
+        @tab-click="state = $event"
       />
 
       <!-- Content for Tab 0 -->
@@ -22,8 +22,8 @@
         </div>
         <div class="row mt-4">
           <BackgroundImages
-            @set-temp-img="setTempImg($event)"
             :temp-img="tempImg"
+            @set-temp-img="setTempImg($event)"
           />
         </div>
         <div class="row mt-4">
@@ -37,9 +37,9 @@
         <div class="row">
           <div class="col-2">
             <input
+              v-model="color"
               type="color"
               @change="onColorSelected"
-              v-model="color"
             />
           </div>
         </div>
@@ -97,36 +97,36 @@ onMounted(async () => {
   await filestore.getAllFiles()
 })
 
-const onColorSelected = async (event: Event): Promise<void> => {
+const onColorSelected = (event: Event): void => {
   event.preventDefault()
 
   const tempData = userstore.userData
-  if (tempData === undefined) return
+  if (tempData == undefined) return
 
   tempData.settings.backgroundColour = color.value
-  await userstore.setUserData(tempData)
+  userstore.setUserData(tempData)
 }
 
 const saveUserInfo = async () => {
   const tempSettings = userData.value
 
-  if (tempSettings === undefined) return
+  if (tempSettings == undefined) return
 
-  await setImage(tempImg.value)
+  setImage(tempImg.value)
   tempSettings.settings.backgroundColour = color.value
 
   await userstore.updateUserSettings(tempSettings.settings)
-  await userstore.setUserData(tempSettings)
+  userstore.setUserData(tempSettings)
 }
 
-const setImage = async (file: IFile | undefined) => {
+const setImage = (file: IFile | undefined) => {
   const url = file === undefined ? '' : file.name
   const tempUserData = userData.value
 
-  if (tempUserData !== undefined) {
+  if (tempUserData != undefined) {
     tempUserData.settings.backgroundImage = url
-    tempUserData.settings.useBackground = file === undefined ? false : true
-    await userstore.setUserData(tempUserData)
+    tempUserData.settings.useBackground = file == undefined ? false : true
+    userstore.setUserData(tempUserData)
   }
 }
 

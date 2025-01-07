@@ -11,14 +11,14 @@
       <div class="buttons mt-4 flex">
         <ButtonComponent
           class="me-2"
-          @clicked="emit('ok')"
           text="Ok"
           size="wide"
+          @clicked="emit('ok')"
         />
         <ButtonComponent
-          @clicked="emit('cancel')"
           text="Cancel"
           size="wide"
+          @clicked="emit('cancel')"
         />
       </div>
     </div>

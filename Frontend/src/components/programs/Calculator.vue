@@ -1,20 +1,22 @@
 <template>
-  <WindowFrame 
-    :program="program" 
+  <WindowFrame
+    :program="program"
     :is-moveable="true"
   >
     <div class="calculator-wrapper">
-      <div class="display flex p-3 bg-gray-200 w-100 rounded bg-shadow-inner my-2 mx-4 justify-end text">
+      <div
+        class="display flex p-3 bg-gray-200 w-100 rounded bg-shadow-inner my-2 mx-4 justify-end text"
+      >
         <p>{{ display !== '' ? display : '0' }}</p>
       </div>
       <div class="button-wrapper grid grid-cols-4 m-4 gap-4 w-100">
         <ButtonComponent
-          class=" !px-0 py-2"
-          v-for="button in buttons" 
+          v-for="button in buttons"
           :key="button.value"
-          @clicked="handleClick(button)"
-          :text="button.text"
+          class="!px-0 py-2"
           size="text-2xl"
+          :text="button.text"
+          @clicked="handleClick(button)"
         />
       </div>
     </div>
@@ -22,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IProgram } from '@/models';
+import type { IProgram } from '@/models'
 
 interface Button {
   text: string

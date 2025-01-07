@@ -55,7 +55,7 @@ const emit = defineEmits<{
   changeShowMenu: []
 }>()
 
-const { showMenu } = defineProps<{
+const { showMenu = false } = defineProps<{
   showMenu: boolean
 }>()
 

@@ -11,15 +11,15 @@
       disabled === true && 'bg-gray-200 cursor-not-allowed text-gray-500',
     ]"
   >
-    <template v-if="!isLoading">
+    <template v-if="isLoading == false">
       <IconComponent
-        v-if="icon"
+        v-if="icon != undefined"
         :name="icon"
         size="16"
         :class="{ 'me-2': text !== '' }"
       />
       <p
-        v-if="text"
+        v-if="text !== ''"
         :class="[size]"
       >
         {{ text }}

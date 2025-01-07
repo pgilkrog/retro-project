@@ -16,6 +16,7 @@ interface IAuthResponse {
 export const useAuthStore = defineStore('auth', () => {
   const isLoggedIn = ref<boolean>(false)
   const checkedAuth = ref<boolean>(false)
+
   const user = ref<IUser>()
   const token = ref<string>()
   const userId = ref<string>()
@@ -24,12 +25,12 @@ export const useAuthStore = defineStore('auth', () => {
     token.value = sessionStorage.getItem('token') ?? undefined
     userId.value = sessionStorage.getItem('userId') ?? undefined
 
-    if (!userId.value && !token.value) return
+    if (userId.value !== undefined && token.value !== undefined) {
+      isLoggedIn.value = true
+      checkedAuth.value = true
 
-    isLoggedIn.value = true
-    checkedAuth.value = true
-
-    await refreshToken()
+      await refreshToken()
+    }
   }
 
   const loginUser = async (email: string, password: string): Promise<void> => {
@@ -73,7 +74,7 @@ export const useAuthStore = defineStore('auth', () => {
     const response = await post<IAuthResponse>(url + '/refreshToken/', {
       id: userId.value,
     })
-    debugger
+
     if (token.value !== '') {
       setAuthToken(token.value)
     }
@@ -88,12 +89,9 @@ export const useAuthStore = defineStore('auth', () => {
     isLoggedIn,
     user,
     checkedAuth,
-    token,
     checkIfUserIsLoggedIn,
     loginUser,
     registerUser,
     signOut,
-    setToken,
-    refreshToken,
   }
 })
