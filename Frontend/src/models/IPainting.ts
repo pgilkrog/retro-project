@@ -2,7 +2,7 @@ export interface IPainting {
   _id: string
   name: string
   canvas: string
-  uId: string
+  userId: string
   width: number
   height: number
 }

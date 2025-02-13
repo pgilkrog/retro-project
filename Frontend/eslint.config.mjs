@@ -4,6 +4,7 @@ import tseslint from 'typescript-eslint'
 import prettierConfig from 'eslint-config-prettier'
 import pluginVue from 'eslint-plugin-vue'
 import vueTsEslintConfig from '@vue/eslint-config-typescript'
+import { explicitUndefinedCheck } from './eslint-rules/no-unspecific-if-statement.js'
 
 export default tseslint.config(
   {
@@ -16,6 +17,11 @@ export default tseslint.config(
     plugins: {
       '@typescript-eslint': tseslint.plugin,
       vue: pluginVue,
+      custom: {
+        rules: {
+          'no-negated-condition': explicitUndefinedCheck,
+        },
+      },
     },
     languageOptions: {
       parser: tseslint.parser,
@@ -44,6 +50,7 @@ export default tseslint.config(
           math: 'always',
         },
       ],
+      'custom/no-negated-condition': 'error',
     },
   },
   ...vueTsEslintConfig(),

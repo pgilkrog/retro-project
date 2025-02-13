@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import type { IPainting } from '../models/index'
 import { get, post } from '@/helpers/httpHelper'
 
-const url = import.meta.env.VITE_BASE_URL + '/paint'
+const url = '/paint'
 
 export const paintStore = defineStore('paint', () => {
   const allPaintings = ref<IPainting[]>([])
@@ -23,7 +23,7 @@ export const paintStore = defineStore('paint', () => {
   }
 
   const postPainting = async (painting: IPainting): Promise<void> => {
-      await post(url, painting)
+    await post(url, painting)
   }
 
   return {

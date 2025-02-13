@@ -6,16 +6,17 @@ import App from './App.vue'
 import router from './router'
 
 import './main.sass'
-import "bootstrap-icons/font/bootstrap-icons.css"
+import 'bootstrap-icons/font/bootstrap-icons.css'
 
 globalCookiesConfig({
   expireTimes: '30d',
   path: '',
   domain: '',
   secure: true,
-  sameSite: "None"
+  sameSite: 'None',
 })
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 const app = createApp(App)
 const pinia = createPinia()
 

@@ -32,7 +32,7 @@ export const chatStore = defineStore('chat', () => {
 
   const handleChatMessage = (message: IChatMessage) => {
     const tempRoom = activeRooms.value.find((room) => room.roomName === message.room)
-    if (tempRoom) {
+    if (tempRoom != undefined) {
       tempRoom.messages.unshift(message)
     }
   }

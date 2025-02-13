@@ -7,23 +7,15 @@
     :variant="program.color"
   >
     <div class="paint-wrapper flex justify-between w-[1200px] h-[800px]">
-      <div
-        v-if="canvasHeight > 0 && canvasWidth > 0"
-        class="canvas-wrapper flex w-full h-full overflow-scroll"
-      >
-        <div
-          :width="canvasWidth"
-          :height="canvasHeight"
-        >
-          <canvas
-            id="canvasWrapper"
-            class="bg-white w-full h-full"
-            ref="canvasRef"
-            @mousedown="drawing = true"
-            @mousemove="draw"
-            @mouseup="drawing = false"
-          />
-        </div>
+      <div class="canvas-wrapper w-full h-full overflow-scroll">
+        <canvas
+          id="canvasWrapper"
+          class="bg-white"
+          ref="canvasRef"
+          @mousedown="drawing = true"
+          @mousemove="draw"
+          @mouseup="drawing = false"
+        />
       </div>
 
       <!-- Tools Sidebar -->
@@ -31,31 +23,34 @@
         <div class="size">
           <InputComponent
             type="number"
-            v-model="canvasWidth"
-            label="Width"
+            label="W: "
+            v-model="tempCanvasWidth"
+            @on-change="initCanvas()"
           />
           <InputComponent
             type="number"
-            v-model="canvasHeight"
-            label="Height"
+            label="H: "
+            v-model="tempCanvasHeight"
+            @on-change="initCanvas()"
           />
-          <ButtonComponent
+          <!-- <ButtonComponent
             text="new"
             @clicked="newPainting()"
-          />
+          /> -->
         </div>
 
         <div class="icons flex justify-center">
           <ButtonComponent
             icon="fa-file"
             size="small"
-            @clicked="setSize()"
+            @clicked="initCanvas()"
           />
           <ButtonComponent
             icon="fa-floppy-disk"
             size="small"
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"
+            @clicked="savePainting()"
           />
           <ButtonComponent
             icon="fa-folder"
@@ -134,20 +129,27 @@ const brushSize = ref<number>(5)
 const selectedBrush = ref<string>(brushTypes.value[0])
 
 const canvasWidth = ref<number>(800)
-const canvasHeight = ref<number>(500)
+const canvasHeight = ref<number>(600)
+const tempCanvasWidth = ref<number>(canvasWidth.value)
+const tempCanvasHeight = ref<number>(canvasHeight.value)
 
 // const inputSave = ref<string>('')
 const showFiles = ref<boolean>(false)
 
 onMounted(() => {
+  initCanvas()
+})
+
+const initCanvas = () => {
   const canvas = canvasRef.value
   if (canvas === undefined) return
 
-  const canvasElement = document.getElementById('canvasWrapper')
+  canvasHeight.value = tempCanvasHeight.value
+  canvasWidth.value = tempCanvasWidth.value
 
-  canvas.width = canvasElement ? canvasElement.clientWidth : 500
-  canvas.height = canvasElement ? canvasElement.clientHeight : 500
-})
+  canvas.width = tempCanvasWidth.value
+  canvas.height = tempCanvasHeight.value
+}
 
 const draw = (event: MouseEvent) => {
   if (drawing.value === false) return
@@ -198,32 +200,20 @@ const draw = (event: MouseEvent) => {
   ctx.fill()
 }
 
-const setSize = () => {
+const savePainting = (text: string) => {
   const canvas = canvasRef.value
-  if (canvas == undefined) return
+  if (canvas === undefined) return
 
-  if (canvasWidth.value != 0) canvas.width = +canvasWidth.value
-  if (canvasHeight.value != 0) canvas.height = +canvasHeight.value
-}
+  const newPainting: IPainting = {
+    _id: '',
+    name: text,
+    canvas: canvas.toDataURL(),
+    userId: userstore.userData?._id ?? 'unknown',
+    height: canvasHeight.value,
+    width: canvasWidth.value,
+  }
 
-// const savePainting = (text: string) => {
-//   const canvas = canvasRef.value
-//   if (canvas === undefined) return
-
-//   const newPainting: IPainting = {
-//     _id: '',
-//     name: text,
-//     canvas: canvas.toDataURL(),
-//     uId: userstore.userData?._id ?? 'uid',
-//     height: canvasHeight.value,
-//     width: canvasWidth.value,
-//   }
-
-//   paintstore.postPainting(newPainting)
-// }
-
-const newPainting = () => {
-  console.log('new')
+  paintstore.postPainting(newPainting)
 }
 
 const loadPainting = (painting: string) => {

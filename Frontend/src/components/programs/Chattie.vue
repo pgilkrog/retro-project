@@ -80,6 +80,7 @@ const userstore = userStore()
 onMounted(async () => {
   await chatstore.init()
   await userstore.getAllUsers()
+  if (!program) return
 })
 
 onUnmounted(() => {

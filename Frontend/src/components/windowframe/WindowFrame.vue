@@ -33,9 +33,9 @@
             v-for="(button, key) in menuButtons"
             :key="key"
             :icon="button.icon"
-            @clicked="button.clicked()"
             :size="'small'"
             :disabled="disableButtons"
+            @clicked="button.clicked()"
           />
         </div>
       </header>
@@ -107,7 +107,7 @@ onMounted(() => {
   programX.value = program.left
   programY.value = program.top
 
-  if (isStatic === false) {
+  if (!isStatic) {
     anime({
       targets: '.window-wrapper',
       translateX: 350,
