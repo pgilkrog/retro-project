@@ -18,6 +18,6 @@
 
 <script setup lang="ts">
 const { block } = defineProps<{
-  block: any
+  block?: any
 }>()
 </script>

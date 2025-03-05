@@ -107,7 +107,7 @@ onMounted(() => {
   programX.value = program.left
   programY.value = program.top
 
-  if (!isStatic) {
+  if (isStatic === false) {
     anime({
       targets: '.window-wrapper',
       translateX: 350,

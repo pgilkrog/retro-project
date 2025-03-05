@@ -30,7 +30,7 @@ const fadeInClass = ref('fade-in-image')
 
 const {
   id,
-  source,
+  source = '',
   alt = '',
 } = defineProps<{
   id: string
@@ -39,7 +39,7 @@ const {
 }>()
 
 onMounted(() => {
-  if (!source) {
+  if (source !== '') {
     // Handle case where source is not provided
     imageIsLoading.value = false
     return

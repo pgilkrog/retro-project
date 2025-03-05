@@ -1,14 +1,18 @@
 import type Phaser from 'phaser'
 
 interface TilePosition {
-  x: number,
+  x: number
   y: number
 }
 
 const toKey = (x: number, y: number) => `${x}x${y}`
 
-const findPath = (start: Phaser.Math.Vector2, target: Phaser.Math.Vector2, groundLayer: Phaser.Tilemaps.TilemapLayer, wallsLayer: Phaser.Tilemaps.TilemapLayer) => {
-  
+const findPath = (
+  start: Phaser.Math.Vector2,
+  target: Phaser.Math.Vector2,
+  groundLayer: Phaser.Tilemaps.TilemapLayer,
+  wallsLayer: Phaser.Tilemaps.TilemapLayer
+) => {
   if (!groundLayer.getTileAt(target.x, target.y)) {
     return []
   }
@@ -18,17 +22,17 @@ const findPath = (start: Phaser.Math.Vector2, target: Phaser.Math.Vector2, groun
   }
 
   const queue: TilePosition[] = []
-  const parentForKey: { [key: string]: { key: string, position: TilePosition } } = {}
+  const parentForKey: { [key: string]: { key: string; position: TilePosition } } = {}
 
   const startKey = toKey(start.x, start.y)
   const targetKey = toKey(target.x, target.y)
 
   parentForKey[startKey] = {
     key: '',
-    position: { x: -1, y: -1 }
+    position: { x: -1, y: -1 },
   }
 
-  queue.push(start)
+  queue.push({ x: start.x, y: start.y })
 
   while (queue.length > 0) {
     const { x, y } = queue.shift()!
@@ -39,10 +43,10 @@ const findPath = (start: Phaser.Math.Vector2, target: Phaser.Math.Vector2, groun
     }
 
     const neighbors = [
-      { x, y: y -1 },   // top
-      { x: x + 1, y },  // right
-      { x, y: y + 1 },  // bottom
-      { x: x - 1, y }   // left
+      { x, y: y - 1 }, // top
+      { x: x + 1, y }, // right
+      { x, y: y + 1 }, // bottom
+      { x: x - 1, y }, // left
     ]
 
     for (let i = 0; i < neighbors.length; i++) {
@@ -65,13 +69,13 @@ const findPath = (start: Phaser.Math.Vector2, target: Phaser.Math.Vector2, groun
 
       parentForKey[key] = {
         key: currentKey,
-        position: { x, y }
+        position: { x, y },
       }
 
       queue.push(neighbor)
     }
   }
-  
+
   const path: Phaser.Math.Vector2[] = []
 
   let currentKey = targetKey

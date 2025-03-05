@@ -7,7 +7,7 @@
       <div class="wrapper flex flex-col m-2">
         <ButtonComponent
           class="mb-4"
-          @clicked="setEmptyProgram(), changeShowManageProgram(true)"
+          @clicked="(setEmptyProgram(), changeShowManageProgram(true))"
           text="Add new program"
           size="full"
         />
@@ -22,7 +22,7 @@
               name="fa-pencil"
               color="yellow"
               size="25"
-              @click="setUpdateState(true, program), changeShowManageProgram(true)"
+              @click="(setUpdateState(true, program), changeShowManageProgram(true))"
             />
             <p class="mx-2">
               {{ `${program.sortOrder}: ${program.name}` }}
@@ -187,7 +187,9 @@ const setUpdateState = (state: boolean, program: IProgram) => {
 const changeShowManageProgram = (bool: boolean) => {
   showManageProgram.value = bool
 
-  if (bool) setUpdateState(false, {} as IProgram)
+  if (bool === true) {
+    setUpdateState(false, {} as IProgram)
+  }
 }
 
 const setEmptyProgram = () => {

@@ -1,13 +1,9 @@
-require('ts-node').register()
+import { explicitUndefinedCheck } from './no-unspecific-if-statement.js'
+import { defineEmitSuggestion } from './define-emit-structure.js'
 
-const projectName = 'project-name'
-
-const configs = {
-  all: {
-    plugins: [projectName],
-  },
+const rules = {
+  'explicit-if-conditions': explicitUndefinedCheck,
+  'define-emit-suggestion': defineEmitSuggestion,
 }
 
-const rules = require('./index.ts').default
-
-module.exports = { configs, rules }
+export default rules

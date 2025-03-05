@@ -3,9 +3,9 @@
     v-if="userData != undefined"
     class="home-wrapper flex h-full w-full absolute bg-center bg-no-repeat bg-cover overflow-hidden"
     :style="[
-      userData.settings.useBackground === true
-        ? { 'background-image': 'url(' + getImageUrl(userData.settings?.backgroundImage) + ')' }
-        : { 'background-color': userData.settings?.backgroundColour },
+      userData?.settings?.useBackground === true
+        ? { 'background-image': 'url(' + getImageUrl(userData?.settings?.backgroundImage) + ')' }
+        : { 'background-color': userData?.settings?.backgroundColour },
     ]"
     @mousemove="registerMouseMovement"
     @click="leftClick()"
@@ -41,6 +41,7 @@
     <!-- LaCosaNostra -->
     <!-- Game -->
     <!-- <PingPong /> -->
+    <Platformer />
   </div>
 </template>
 
@@ -50,11 +51,14 @@ import { userStore } from '@/stores/userStore'
 import { useAppStore } from '@/stores/appStore'
 import { programsStore } from '@/stores/programsStore'
 import ScreensaverMachine from '@/components/programs/ScreensaverMachine.vue'
+// import Platformer from '@/phaser/first-game/Platformer.vue'
 // import Salvatore from '@/phaser/salvatore/SalvatoreGame.vue'
 // import TestStuff from '@/phaser/test-stuff/TestStuff.vue'
 // import LaCosaNostra from '@/phaser/la-cosa-nostra/LaCosaNostraGame.vue'
 // import Game from '@/phaser/space-invaders/SpaceInvaders.vue'
 // import PingPong from '@/phaser/ping-pong/PingPong.vue'
+// import Platformer from '@/phaser/first-game/Platformer.vue'
+import Platformer from '@/phaser/ShooterPlatformer/ShooterPlatformer.vue'
 
 const appStore = useAppStore()
 const programsstore = programsStore()

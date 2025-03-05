@@ -102,7 +102,7 @@
       v-if="showFiles === true"
       :is-loading="paintstore.loadingPaintings"
       :files="paintstore.usersPaintings"
-      @item-clicked="itemClicked($event)"
+      @item-clicked="(item: IPainting) => itemClicked(item)"
       @close-window="changeShowFiles(false)"
     />
   </WindowFrame>

@@ -35,8 +35,9 @@ onMounted(() => {
   generateBlocks()
 })
 
-const clickedBlock = (block: any, index: any) => {
+const clickedBlock = (block: { isClicked: boolean }, index: number) => {
   block.isClicked = true
+  console.log(index)
 }
 const generateBlocks = () => {
   for (let i = 0; i < rows.value * columns.value; i++) {

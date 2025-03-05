@@ -142,7 +142,7 @@ const registerUser = (): void => {
 }
 
 const changePassword = (): void => {
-  authstore.changePassword(password.value)
+  // authstore.changePassword(password.value)
 }
 
 // const changeShowHelp = (): void => {

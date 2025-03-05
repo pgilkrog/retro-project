@@ -30,8 +30,8 @@ export const programsStore = defineStore('programs', () => {
   }
 
   const addProgramToActive = (program: IProgram) => {
-    const newProgram = { ...program, isActive: true, left: 40, top: 40 } // Create a copy
-    if (!activePrograms.value.find((x) => x._id === newProgram._id)) {
+    const newProgram = { ...program, isActive: true, left: 40, top: 40 }
+    if (activePrograms.value.find((x) => x._id === newProgram._id) === undefined) {
       activePrograms.value.push(newProgram)
     }
   }

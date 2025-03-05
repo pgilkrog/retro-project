@@ -14,7 +14,7 @@ enum states {
   skeletonHit = 'skeleton-hit',
   skeletonStomp = 'skeleton-stomp',
   death = 'death',
-  attack = 'attack'
+  attack = 'attack',
 }
 
 enum animations {
@@ -22,7 +22,7 @@ enum animations {
   characterWalk = 'character-walk',
   characterDeath = 'character-death',
   characterAttack1 = 'character-attack-1',
-  characterRoll = 'character-roll'
+  characterRoll = 'character-roll',
 }
 
 export default class MagePlayerController {
@@ -40,7 +40,12 @@ export default class MagePlayerController {
 
   private lastSkeleton?: MatterSprite
 
-  constructor(scene: Phaser.Scene, sprite: MatterSprite, cursors: CursorKeys, obstaclesController: ObstaclesController) {
+  constructor(
+    scene: Phaser.Scene,
+    sprite: MatterSprite,
+    cursors: CursorKeys,
+    obstaclesController: ObstaclesController
+  ) {
     this.sprite = sprite
     this.cursors = cursors
     this.obstaclesController = obstaclesController
@@ -58,27 +63,27 @@ export default class MagePlayerController {
     this.stateMachine
       .addState(states.idle, {
         onEnter: this.idleOnEnter,
-        onUpdate: this.idleOnUpdate
+        onUpdate: this.idleOnUpdate,
       })
       .addState(states.walk, {
         onEnter: this.walkOnEnter,
-        onUpdate: this.walkOnUpdate
+        onUpdate: this.walkOnUpdate,
       })
       .addState(states.jump, {
         onEnter: this.jumpOnEnter,
-        onUpdate: this.jumpOnUpdate
+        onUpdate: this.jumpOnUpdate,
       })
       .addState(states.spikeHit, {
-        onEnter: this.spikeHitOnEnter
+        onEnter: this.spikeHitOnEnter,
       })
       .addState(states.skeletonHit, {
-        onEnter: this.skeletonHitOnEnter
+        onEnter: this.skeletonHitOnEnter,
       })
       .addState(states.death, {
-        onEnter: this.deathOnEnter
+        onEnter: this.deathOnEnter,
       })
       .addState(states.attack, {
-        onEnter: this.attackOnEnter
+        onEnter: this.attackOnEnter,
       })
       .setState(states.idle)
 
@@ -88,27 +93,24 @@ export default class MagePlayerController {
 
       if (this.obstaclesController.is('spikes', body)) {
         this.stateMachine.setState(states.spikeHit)
-        return         
+        return
       }
 
       if (this.obstaclesController.is('skeleton', body)) {
         this.lastSkeleton = body.gameObject
 
-        if (this.sprite.y < body.position.y)
-          this.stateMachine.setState(states.skeletonStomp)
-        else 
-          this.stateMachine.setState(states.skeletonHit)
+        if (this.sprite.y < body.position.y) this.stateMachine.setState(states.skeletonStomp)
+        else this.stateMachine.setState(states.skeletonHit)
 
         return
       }
 
-      if (!gameObject)
-        return
+      if (!gameObject) return
 
       if (gameObject instanceof Phaser.Physics.Matter.TileBody) {
         if (this.stateMachine.isCurrentState(states.jump) && data.collision.normal.y < 0) {
           this.stateMachine.setState(states.idle)
-          this.jumpCount = 0      
+          this.jumpCount = 0
         }
 
         return
@@ -126,7 +128,7 @@ export default class MagePlayerController {
 
         case 'potion-health': {
           const value = sprite.getData('healthPoints') ?? 10
-          this.health = Phaser.Math.Clamp(this.health + value, 0 , 100)
+          this.health = Phaser.Math.Clamp(this.health + value, 0, 100)
           sprite.destroy()
           events.emit('health-changed', this.health)
           break
@@ -164,12 +166,9 @@ export default class MagePlayerController {
 
     if (this.cursors.left.isDown || this.cursors.right.isDown)
       this.stateMachine.setState(states.walk)
-    else if (spaceJustPressed)
-      this.stateMachine.setState(states.jump)   
-    else if (this.ctrl.isDown && this.mana >= 5)
-      this.stateMachine.setState(states.attack)
-    else
-      this.sprite.setVelocityX(0)
+    else if (spaceJustPressed) this.stateMachine.setState(states.jump)
+    else if (this.ctrl.isDown && this.mana >= 5) this.stateMachine.setState(states.attack)
+    else this.sprite.setVelocityX(0)
   }
 
   private walkOnEnter() {
@@ -177,7 +176,6 @@ export default class MagePlayerController {
   }
 
   private walkOnUpdate() {
-
     if (this.cursors.left.isDown) {
       this.sprite.setVelocityX(-this.speed)
       this.sprite.flipX = true
@@ -209,7 +207,7 @@ export default class MagePlayerController {
     } else if (this.cursors.right.isDown) {
       this.sprite.setVelocityX(this.speed)
       this.sprite.flipX = false
-    } 
+    }
 
     const spaceJustPressed = Phaser.Input.Keyboard.JustDown(this.cursors.space)
 
@@ -231,13 +229,10 @@ export default class MagePlayerController {
     if (this.lastSkeleton) {
       if (this.sprite.x < this.lastSkeleton.x) {
         this.sprite.setVelocityX(-5)
-      }
-      else {
+      } else {
         this.sprite.setVelocityX(5)
       }
-    }
-    else
-      this.sprite.setVelocityY(10)
+    } else this.sprite.setVelocityY(10)
 
     this.setHealth(this.health - 25)
     this.sprite.setVelocityY(-5)
@@ -255,74 +250,105 @@ export default class MagePlayerController {
     })
 
     this.scene.time.delayedCall(1500, () => {
-      this.scene.scene.start('game-over')      
+      this.scene.scene.start('game-over')
     })
   }
 
   private attackOnEnter() {
     this.sprite.play(animations.characterAttack1)
-    this.setMana(this.mana - 5)   
+    this.setMana(this.mana - 5)
     this.scene.time.delayedCall(400, () => {
-      this.shootMagic()   
+      this.shootMagic()
       this.stateMachine.setState(states.idle)
-    })       
+    })
   }
 
   setMagicMissile(missiles: Phaser.Physics.Matter.Sprite) {
-    this.missiles = missiles;
+    this.missiles = missiles
   }
 
   private shootMagic() {
-    if(this.sprite.flipX === false) {
-      this.missiles?.setPosition(this.sprite.body!.position.x + 20, this.sprite.body!.position.y - 10)
+    if (this.sprite.flipX === false) {
+      this.missiles?.setPosition(
+        this.sprite.body!.position.x + 20,
+        this.sprite.body!.position.y - 10
+      )
       this.missiles?.setVelocity(5, 0)
     } else {
-      this.missiles?.setPosition(this.sprite.body!.position.x - 20, this.sprite.body!.position.y - 10)
+      this.missiles?.setPosition(
+        this.sprite.body!.position.x - 20,
+        this.sprite.body!.position.y - 10
+      )
       this.missiles?.setVelocity(-5, 0)
     }
   }
-  
+
   private createAnimations() {
     this.sprite.anims.create({
       key: animations.characterIdle,
-      frames: this.sprite.anims.generateFrameNames('mage-character', { start: 1, end: 12, prefix: 'Cut/mage-idle-', suffix: '.png' }),
+      frames: this.sprite.anims.generateFrameNames('mage-character', {
+        start: 1,
+        end: 12,
+        prefix: 'Cut/mage-idle-',
+        suffix: '.png',
+      }),
       repeat: -1,
-      frameRate: 10
+      frameRate: 10,
     })
 
     this.sprite.anims.create({
       key: animations.characterWalk,
-      frames: this.sprite.anims.generateFrameNames('mage-character', { start: 1, end: 4, prefix: 'Cut/mage-walk-', suffix: '.png' }),
+      frames: this.sprite.anims.generateFrameNames('mage-character', {
+        start: 1,
+        end: 4,
+        prefix: 'Cut/mage-walk-',
+        suffix: '.png',
+      }),
       repeat: -1,
-      frameRate: 10
+      frameRate: 10,
     })
 
     this.sprite.anims.create({
       key: animations.characterDeath,
-      frames: this.sprite.anims.generateFrameNames('mage-character', { start: 1, end: 7, prefix: 'Cut/mage-death-', suffix: '.png' }),
+      frames: this.sprite.anims.generateFrameNames('mage-character', {
+        start: 1,
+        end: 7,
+        prefix: 'Cut/mage-death-',
+        suffix: '.png',
+      }),
       repeat: 0,
-      frameRate: 10
+      frameRate: 10,
     })
-    
+
     this.sprite.anims.create({
       key: animations.characterAttack1,
-      frames: this.sprite.anims.generateFrameNames('mage-character', { start: 1, end: 3, prefix: 'Cut/mage-attack1-', suffix: '.png' }),
+      frames: this.sprite.anims.generateFrameNames('mage-character', {
+        start: 1,
+        end: 3,
+        prefix: 'Cut/mage-attack1-',
+        suffix: '.png',
+      }),
       repeat: 0,
       frameRate: 6,
     })
 
     this.sprite.anims.create({
       key: animations.characterRoll,
-      frames: this.sprite.anims.generateFrameNames('mage-character', { start: 1, end: 5, prefix: 'Cut/mage-roll-', suffix: '.png'}),
+      frames: this.sprite.anims.generateFrameNames('mage-character', {
+        start: 1,
+        end: 5,
+        prefix: 'Cut/mage-roll-',
+        suffix: '.png',
+      }),
       repeat: -1,
-      frameRate: 15
+      frameRate: 15,
     })
   }
 
-  private changeColor () {
+  private changeColor() {
     const startColor = Phaser.Display.Color.ValueToColor(0xffffff)
     const endColor = Phaser.Display.Color.ValueToColor(0xff0000)
-    
+
     this.scene.tweens.addCounter({
       from: 0,
       to: 100,
@@ -330,7 +356,7 @@ export default class MagePlayerController {
       repeat: 2,
       yoyo: true,
       ease: Phaser.Math.Easing.Sine.InOut,
-      onUpdate: tween => {
+      onUpdate: (tween) => {
         const value = tween.getValue()
         const colorObject = Phaser.Display.Color.Interpolate.ColorWithColor(
           startColor,
@@ -339,14 +365,10 @@ export default class MagePlayerController {
           value
         )
 
-        const color = Phaser.Display.Color.GetColor(
-          colorObject.r,
-          colorObject.g,
-          colorObject.b
-        )
+        const color = Phaser.Display.Color.GetColor(colorObject.r, colorObject.g, colorObject.b)
 
         this.sprite.setTint(color)
-      }
+      },
     })
   }
 }

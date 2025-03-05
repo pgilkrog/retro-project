@@ -2,7 +2,6 @@
 module.exports = {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   media: false, // or 'media' or 'class'
-  content: ['./src/**/*.{vue,js,ts,jsx,tsx}'],
   safelist: [
     'bg-yellow-500',
     'bg-red-500',
