@@ -14,15 +14,25 @@ export default class Game extends Phaser.Scene {
     const tileset = map.addTilesetImage('Tileset', 'tiles')
     const tilesetCollider = map.addTilesetImage('colliderImg', 'collide')
 
-    if (tileset != undefined) {
-      const collideLayer = map.createLayer('Collider', tilesetCollider!)
+    if (tileset != undefined && tilesetCollider != undefined) {
+      const collideLayer = map.createLayer('Collider', tilesetCollider)
       collideLayer?.setCollisionByProperty({ Collide: true })
-      this.matter.world.convertTilemapLayer(collideLayer!)
-      debugDraw(collideLayer!, this)
-      map.createLayer('Floor', tileset)
+      if (collideLayer != undefined) {
+        this.matter.world.convertTilemapLayer(collideLayer)
+      }
+      map.createLayer('Ground', tileset)
     }
 
-    this.player = new PlayerController(this)
+    const objectLayer = map.getObjectLayer('Objects')
+    if (objectLayer != undefined) {
+      objectLayer.objects.forEach((objectData) => {
+        const { x = 0, y = 0, name = '' } = objectData
+
+        if (name === 'player-spawn') {
+          this.player = new PlayerController(this, x, y)
+        }
+      })
+    }
   }
 
   update(t: number, dt: number) {

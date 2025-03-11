@@ -45,7 +45,7 @@ export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
       prefix: 'jump_',
       suffix: '.png',
     }),
-    frameRate: 10,
+    frameRate: 8,
     repeat: 0,
   })
 
@@ -59,5 +59,29 @@ export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
     }),
     frameRate: 10,
     repeat: -1,
+  })
+
+  sprite.anims.create({
+    key: 'player_recharge',
+    frames: sprite.anims.generateFrameNames('player', {
+      start: 0,
+      end: 16,
+      prefix: 'recharge_',
+      suffix: '.png',
+    }),
+    frameRate: 10,
+    repeat: -1,
+  })
+
+  sprite.anims.create({
+    key: 'player_falling',
+    frames: sprite.anims.generateFrameNames('player', {
+      start: 3,
+      end: 5,
+      prefix: 'jump_',
+      suffix: '.png',
+    }),
+    frameRate: 10,
+    repeat: 0,
   })
 }

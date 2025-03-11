@@ -44,7 +44,7 @@ onMounted(() => {
     physics: {
       default: 'matter',
       matter: {
-        debug: false,
+        debug: true,
         setBounds: {
           left: true,
           right: true,
