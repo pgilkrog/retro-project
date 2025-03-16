@@ -1,9 +1,11 @@
 import Phaser from 'phaser'
 import PlayerController from './entities/player/PlayerController'
+import BulletController from './objects/BulletController'
 import { debugDraw } from '@/phaser/utils/debug'
 
 export default class Game extends Phaser.Scene {
   private player: PlayerController | undefined
+  private bullets: BulletController | undefined
 
   constructor() {
     super({ key: 'PlayScene' })
@@ -33,6 +35,8 @@ export default class Game extends Phaser.Scene {
         }
       })
     }
+
+    this.bullets = new BulletController(this)
   }
 
   update(t: number, dt: number) {

@@ -8,6 +8,8 @@ import testMapTiles from '@/phaser/ShooterPlatformer/assets/testmap/Tileset.png'
 
 import collideImg from '@/phaser/ShooterPlatformer/assets/testmap/colliderImg.png'
 
+import bullet from '@/phaser/ShooterPlatformer/assets/reticle.png'
+
 export default class Loader extends Scene {
   constructor() {
     super({ key: 'Loader' })
@@ -19,6 +21,8 @@ export default class Loader extends Scene {
     this.load.tilemapTiledJSON('testMap', testMapJson)
 
     this.load.atlas('player', playerPNG, playerJson)
+
+    this.load.image('bullet', bullet)
   }
 
   create() {

@@ -1,6 +1,7 @@
 import StateMachine from '@/phaser/utils/StateMachine'
 import { PlayerAnimations } from './PlayerAnimations'
 import Entity from '../Entity'
+import BulletController from '../../objects/BulletController'
 
 enum playerStates {
   idle = 'idle',
@@ -8,6 +9,7 @@ enum playerStates {
   run = 'run',
   jump = 'jump',
   shoot = 'shoot',
+  recharge = 'recharge',
   falling = 'falling',
 }
 
@@ -18,11 +20,16 @@ enum playerAnims {
   jump = 'player_jump',
   shoot = 'player_shoot',
   falling = 'player_falling',
+  recharge = 'player_recharge',
 }
 
 export default class PlayerController extends Entity {
   inAir: boolean = false
   private fallingDelayTimer: Phaser.Time.TimerEvent | undefined
+  private bulletController: BulletController | undefined
+  private canShoot: boolean = true
+
+  private bulletAmount: number = 50
 
   private keyInputs: {
     [key: string]: Phaser.Input.Keyboard.Key
@@ -31,6 +38,7 @@ export default class PlayerController extends Entity {
   constructor(scene: Phaser.Scene, spawnX: number, spawnY: number) {
     super(scene, 'player', spawnX, spawnY)
 
+    this.bulletController = new BulletController(scene)
     this.createKeyInputs(scene)
 
     scene.cameras.main.startFollow(this.sprite!)
@@ -49,24 +57,19 @@ export default class PlayerController extends Entity {
       const body2 = data.bodyB as MatterJS.BodyType
       const gameObject2 = body2.gameObject
 
-      console.log(data)
       if (
         gameObject instanceof Phaser.Physics.Matter.TileBody ||
         gameObject2 instanceof Phaser.Physics.Matter.TileBody
       ) {
-        console.log(data.collision.normal.y)
         if (
           (this.stateMachine?.isCurrentState(playerStates.jump) ||
             this.stateMachine?.isCurrentState(playerStates.falling)) &&
           data.collision.normal.y >= 1
         ) {
-          console.log("Player's feet are touching the ground")
           this.stateMachine.setState(playerStates.idle)
           this.sprite?.setVelocity(0, 0)
           this.inAir = false
         }
-
-        return
       }
     })
   }
@@ -77,7 +80,7 @@ export default class PlayerController extends Entity {
 
     const velocityY = this.sprite?.body?.velocity.y
     const threshold = 1e-10
-    console.log(velocityY)
+
     if (velocityY != undefined) {
       if (
         Math.abs(velocityY) > threshold &&
@@ -121,6 +124,10 @@ export default class PlayerController extends Entity {
         onEnter: this.fallingOnEnter,
         onUpdate: this.fallingOnUpdate,
       })
+      .addState(playerStates.recharge, {
+        onEnter: this.rechargeOnEnter,
+        onUpdate: this.rechargeOnUpdate,
+      })
       .setState(playerStates.idle)
   }
 
@@ -139,6 +146,10 @@ export default class PlayerController extends Entity {
     if (this.scene?.input.activePointer.leftButtonDown()) {
       this.stateMachine?.setState(playerStates.shoot)
     }
+
+    if (this.keyInputs['keyR'].isDown) {
+      this.stateMachine?.setState(playerStates.recharge)
+    }
   }
 
   walkOnEnter() {
@@ -146,14 +157,8 @@ export default class PlayerController extends Entity {
   }
   walkOnUpdate() {
     if (this.sprite != undefined) {
-      this.sprite.setVelocity(0)
-
-      if (this.keyInputs['keyD'].isDown) {
-        this.sprite?.setVelocityX(this.speed)
-        this.sprite.flipX = false
-      } else if (this.keyInputs['keyA'].isDown) {
-        this.sprite?.setVelocityX(-this.speed)
-        this.sprite.flipX = true
+      if (this.keyInputs['keyD'].isDown || this.keyInputs['keyA'].isDown) {
+        this.moveLeftAndRight()
       } else {
         this.sprite?.setVelocityX(0)
         this.stateMachine?.setState(playerStates.idle)
@@ -171,23 +176,39 @@ export default class PlayerController extends Entity {
     this.inAir = true
   }
   jumpOnUpdate() {
-    if (this.sprite != undefined) {
-      if (this.keyInputs['keyD'].isDown) {
-        this.sprite?.setVelocityX(this.speed)
-        this.sprite.flipX = false
-      } else if (this.keyInputs['keyA'].isDown) {
-        this.sprite?.setVelocityX(-this.speed)
-        this.sprite.flipX = true
-      }
-    }
+    this.moveLeftAndRight()
   }
 
   shootOnEnter() {
     this.sprite?.play(playerAnims.shoot)
   }
   shootOnUpdate() {
+    this.moveLeftAndRight()
+
     if (this.scene?.input.activePointer.isDown === false) {
       this.stateMachine?.setState(playerStates.idle)
+    } else {
+      if (this.bulletController != undefined) {
+        if (this.canShoot === true && this.bulletAmount > 0) {
+          const isFlipped = this.sprite?.flipX === true
+          this.bulletController.shootBullet(
+            isFlipped ? this.sprite?.x! - 30 : this.sprite?.x! + 25,
+            this.sprite?.y! - 8,
+            isFlipped ? -100 : 100
+          )
+          this.bulletAmount -= 1
+          this.canShoot = false
+
+          // Set a timer to reset canShoot after a delay
+          this.scene?.time.addEvent({
+            delay: 200, // delay in milliseconds
+            callback: () => {
+              this.canShoot = true
+            },
+            callbackScope: this,
+          })
+        }
+      }
     }
   }
 
@@ -196,9 +217,43 @@ export default class PlayerController extends Entity {
     this.sprite?.play(playerAnims.falling)
   }
   fallingOnUpdate() {
+    this.moveLeftAndRight()
+
     if (this.sprite?.body?.velocity.y! <= 0 && this.inAir === true) {
       this.stateMachine?.setState(playerStates.idle)
       this.inAir = false
+    }
+  }
+
+  rechargeOnEnter() {
+    this.sprite?.play(playerAnims.recharge)
+  }
+  rechargeOnUpdate() {
+    // Set a timer to reset canShoot after a delay
+    this.scene?.time.addEvent({
+      delay: 1800, // delay in milliseconds
+      callback: () => {
+        this.stateMachine?.setState(playerStates.idle)
+      },
+      callbackScope: this,
+    })
+    this.bulletAmount = 50
+  }
+
+  moveLeftAndRight() {
+    if (this.sprite != undefined) {
+      if (this.keyInputs['keyD'].isDown) {
+        this.sprite?.setVelocityX(this.speed)
+        this.sprite.flipX = false
+      } else if (this.keyInputs['keyA'].isDown) {
+        this.sprite?.setVelocityX(-this.speed)
+        this.sprite.flipX = true
+      } else if (
+        this.stateMachine?.isCurrentState(playerStates.falling) === false ||
+        this.stateMachine?.isCurrentState(playerStates.jump) === false
+      ) {
+        this.sprite?.setVelocityX(0)
+      }
     }
   }
 
@@ -206,6 +261,7 @@ export default class PlayerController extends Entity {
     this.keyInputs['keyA'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A)
     this.keyInputs['keyD'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D)
     this.keyInputs['space'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+    this.keyInputs['keyR'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.R)
 
     // this.keyInputs['keyW'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.W)
     // this.keyInputs['keyS'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S)

@@ -9,7 +9,7 @@
 import { ref, onMounted } from 'vue'
 import Phaser from 'phaser'
 
-import Loader from './scenes/Loader'
+import Loader from './scenes/loader'
 import Game from './scenes/Game'
 
 export interface IConfig {
@@ -44,7 +44,7 @@ onMounted(() => {
     physics: {
       default: 'matter',
       matter: {
-        debug: true,
+        debug: false,
         setBounds: {
           left: true,
           right: true,
