@@ -1,29 +1,33 @@
+import { Bullet } from './Bullet'
+
 export default class PlayerController {
   private scene: Phaser.Scene | undefined
-  private bullets: Phaser.Physics.Matter.Image[] = []
+  private bullets: Phaser.GameObjects.Group | undefined
+  private bulletAmount: number = 50
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene
-
-    for (let i = 0; i < 20; i++) {
-      const bullet = scene.matter.add.sprite(10, 300, 'bullet').setScale(0.1).setFixedRotation()
-      bullet.active = false
-      bullet.setOnCollide((data: MatterJS.ICollisionPair) => {
-        bullet.active = false
-      })
-      this.bullets.push(bullet)
-    }
+    this.bullets = scene.add.group({
+      classType: Bullet,
+      maxSize: this.bulletAmount,
+      runChildUpdate: true,
+    })
   }
 
-  shootBullet(x: number, y: number, speed: number = 20) {
-    const bullet = this.bullets.find(
-      (bullet: Phaser.Physics.Matter.Image) => bullet.active === false
-    )
+  getBullet(x: number, y: number) {
+    let bullet = this.bullets?.getFirstDead(false)
 
-    if (bullet != undefined) {
-      bullet.active = true
-      bullet.setPosition(x, y)
-      bullet.setVelocityX(speed)
+    if (
+      bullet == undefined &&
+      this.scene != undefined &&
+      this.bullets != undefined &&
+      this.bullets.getLength() < this.bulletAmount
+    ) {
+      bullet = new Bullet(this.scene, x, y)
+      this.bullets?.add(bullet)
+      console.log('bullet created', this.bullets?.getLength())
     }
+
+    return bullet
   }
 }

@@ -2,6 +2,7 @@ import StateMachine from '@/phaser/utils/StateMachine'
 import { PlayerAnimations } from './PlayerAnimations'
 import Entity from '../Entity'
 import BulletController from '../../objects/BulletController'
+import { sharedInstance as events } from '../../EventCenter'
 
 enum playerStates {
   idle = 'idle',
@@ -191,13 +192,22 @@ export default class PlayerController extends Entity {
       if (this.bulletController != undefined) {
         if (this.canShoot === true && this.bulletAmount > 0) {
           const isFlipped = this.sprite?.flipX === true
-          this.bulletController.shootBullet(
-            isFlipped ? this.sprite?.x! - 30 : this.sprite?.x! + 25,
-            this.sprite?.y! - 8,
-            isFlipped ? -100 : 100
+
+          let bullet = this.bulletController.getBullet(
+            isFlipped ? this.sprite?.x! - 30 : this.sprite?.x! + 50,
+            this.sprite?.y! - 8
           )
+          if (bullet != undefined) {
+            bullet.fire(
+              isFlipped ? this.sprite?.x! - 30 : this.sprite?.x! + 25,
+              this.sprite?.y! - 8,
+              isFlipped ? -100 : 100,
+              0
+            ) // Adjust velocity as needed
+          }
           this.bulletAmount -= 1
           this.canShoot = false
+          events.emit('bullets-changed', this.bulletAmount)
 
           // Set a timer to reset canShoot after a delay
           this.scene?.time.addEvent({
@@ -234,6 +244,7 @@ export default class PlayerController extends Entity {
       delay: 1800, // delay in milliseconds
       callback: () => {
         this.stateMachine?.setState(playerStates.idle)
+        events.emit('bullets-changed', 50)
       },
       callbackScope: this,
     })

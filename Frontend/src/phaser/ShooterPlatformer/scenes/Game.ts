@@ -12,6 +12,8 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
+    this.scene.launch('ui')
+
     const map = this.make.tilemap({ key: 'testMap' })
     const tileset = map.addTilesetImage('Tileset', 'tiles')
     const tilesetCollider = map.addTilesetImage('colliderImg', 'collide')
