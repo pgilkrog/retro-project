@@ -1,11 +1,13 @@
 export class Bullet extends Phaser.Physics.Matter.Sprite {
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene.matter.world, x, y, 'bullet')
+
     this.scene = scene
     this.scene.add.existing(this)
     this.setActive(false)
     this.setVisible(false)
     this.setScale(0.1)
+
     this.setOnCollide((data: MatterJS.ICollisionPair) => {
       this.setActive(false)
       this.setVisible(false)

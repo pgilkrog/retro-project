@@ -3,10 +3,11 @@ import { Bullet } from './Bullet'
 export default class PlayerController {
   private scene: Phaser.Scene | undefined
   private bullets: Phaser.GameObjects.Group | undefined
-  private bulletAmount: number = 50
+  private bulletAmount: number = 100
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene
+
     this.bullets = scene.add.group({
       classType: Bullet,
       maxSize: this.bulletAmount,

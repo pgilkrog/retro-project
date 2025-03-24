@@ -6,7 +6,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
 import Phaser from 'phaser'
 
 import Loader from './scenes/loader'
@@ -45,7 +44,7 @@ onMounted(() => {
     physics: {
       default: 'matter',
       matter: {
-        debug: false,
+        debug: true,
         setBounds: {
           left: true,
           right: true,

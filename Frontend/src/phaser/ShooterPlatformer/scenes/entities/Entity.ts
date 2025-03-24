@@ -18,7 +18,7 @@ export default class PlayerController {
   ) {
     this.scene = scene
     this.stateMachine = new StateMachine(this, entityName)
-    this.sprite = this.scene?.matter.add.sprite(spawnX, spawnY, entityName, 'idle_0.png')
+    this.sprite = this.scene?.matter.add.sprite(spawnX, spawnY, entityName, '')
     this.speed = speedValue
     this.health = healthValue
     this.create()
