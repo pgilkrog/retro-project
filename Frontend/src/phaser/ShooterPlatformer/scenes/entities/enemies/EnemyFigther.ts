@@ -8,6 +8,7 @@ enum enemyStates {
 export default class EnemyFighter extends Entity {
   private walkDirection: number = 2
   private changeDirectionTimer: number = 0
+  private isFollowingPath: boolean = false
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, 'enemy_fighter', x, y)
@@ -45,7 +46,6 @@ export default class EnemyFighter extends Entity {
   }
   idleOnUpdate(dt: number) {
     this.changeDirectionTimer += dt
-
     if (this.changeDirectionTimer >= 2000) {
       this.stateMachine?.setState(enemyStates.enemy_walk)
     }
@@ -58,11 +58,13 @@ export default class EnemyFighter extends Entity {
   walkOnUpdate(dt: number) {
     this.changeDirectionTimer += dt
     this.sprite?.setVelocityX(this.walkDirection)
-
     if (this.changeDirectionTimer >= 2000) {
       this.stateMachine?.setState(enemyStates.enemy_idle)
     }
   }
+
+  // make the npc walk along the path
+  startWalkAnimation(path: any) {}
 
   createAnims() {
     this.sprite?.anims.create({

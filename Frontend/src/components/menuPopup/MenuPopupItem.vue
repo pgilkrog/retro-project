@@ -11,6 +11,6 @@
 const { name, icon, method } = defineProps<{
   name: string
   icon: string
-  method: () => 0
+  method: (item: any) => void
 }>()
 </script>

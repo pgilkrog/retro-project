@@ -8,6 +8,7 @@ import enemy1PNG from '@/phaser/ShooterPlatformer/assets/enemies/enemy1/texture.
 
 import testMapJson from '@/phaser/ShooterPlatformer/assets/testmap/testmap.json'
 import testMapTiles from '@/phaser/ShooterPlatformer/assets/testmap/Tileset.png'
+import pathfindingTiles from '@/phaser/ShooterPlatformer/assets/testmap/pathfindingboxes.png'
 
 import collideImg from '@/phaser/ShooterPlatformer/assets/testmap/colliderImg.png'
 
@@ -21,6 +22,7 @@ export default class Loader extends Scene {
   preload() {
     this.load.image('tiles', testMapTiles)
     this.load.image('collide', collideImg)
+    this.load.image('pathfinding', pathfindingTiles)
     this.load.tilemapTiledJSON('testMap', testMapJson)
 
     this.load.atlas('player', playerPNG, playerJson)

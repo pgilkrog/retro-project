@@ -20,7 +20,7 @@ export const useAppStore = defineStore('appStore', () => {
   }
 
   const thismaybe = (item: object) => {
-    console.log(item)
+    console.log('thismaybe', item)
   }
 
   return {

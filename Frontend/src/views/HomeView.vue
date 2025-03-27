@@ -29,6 +29,31 @@
     />
 
     <ComponentMachine />
+    <MenuPopup
+      :list="[
+        {
+          name: 'hej',
+          method: () => {
+            thismehtod2()
+          },
+          icon: 'fa-house',
+        },
+        {
+          name: 'dav',
+          method: () => {
+            thismethod()
+          },
+          icon: 'fa-house',
+        },
+        {
+          name: 'check',
+          method: (item: object) => {
+            appStore.thismaybe(item)
+          },
+          icon: 'fa-house',
+        },
+      ]"
+    />
     <TaskbarMenu v-if="showMenu === true" />
     <TaskbarComponent
       :show-menu="showMenu"
@@ -41,7 +66,7 @@
     <!-- LaCosaNostra -->
     <!-- Game -->
     <!-- <PingPong /> -->
-    <Platformer />
+    <!-- <Platformer /> -->
   </div>
 </template>
 
@@ -58,7 +83,7 @@ import ScreensaverMachine from '@/components/programs/ScreensaverMachine.vue'
 // import Game from '@/phaser/space-invaders/SpaceInvaders.vue'
 // import PingPong from '@/phaser/ping-pong/PingPong.vue'
 // import Platformer from '@/phaser/first-game/Platformer.vue'
-import Platformer from '@/phaser/ShooterPlatformer/ShooterPlatformer.vue'
+// import Platformer from '@/phaser/ShooterPlatformer/ShooterPlatformer.vue'
 
 const appStore = useAppStore()
 const programsstore = programsStore()
@@ -80,6 +105,14 @@ const generateComponent = (program: IProgram): void => {
 
 const getImageUrl = (filename: string): string => {
   return `${import.meta.env.VITE_BASE_URL}/uploads/${filename}`
+}
+
+const thismethod = () => {
+  console.log('thismethod')
+}
+
+const thismehtod2 = () => {
+  console.log('thismehtod2')
 }
 
 const changeShowMenu = (): void => {
