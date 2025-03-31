@@ -6,13 +6,27 @@ export enum EntityTypes {
   Capo,
   Soldier,
   Associate,
-  Police
+  Police,
 }
 
 export enum ItemTypes {
-  weapon, 
+  weapon,
   food,
   money,
   alcohol,
-  trash
+  trash,
+}
+
+export enum TileSets {
+  bricks,
+  terrain,
+  vicAccessories,
+  vicGarden,
+  vicMansion,
+  vicMarket,
+  vicStreets,
+  vicTenement,
+  vicWindowsDoors,
+  vicWalls,
+  vicFloors,
 }

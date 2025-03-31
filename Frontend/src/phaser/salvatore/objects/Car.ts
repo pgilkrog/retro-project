@@ -1,4 +1,4 @@
-import StateMachine from '@/phaser/utils/StateMachine';
+import StateMachine from '@/phaser/utils/StateMachine'
 import Phaser from 'phaser'
 
 enum carStates {
@@ -9,22 +9,22 @@ enum carStates {
 
 export default class Car extends Phaser.Physics.Arcade.Sprite {
   private stateMachine?: StateMachine
-  private speed: number = 400 
+  private speed: number = 400
   private keyInputs: {
-    [key: string]: Phaser.Input.Keyboard.Key;
+    [key: string]: Phaser.Input.Keyboard.Key
   } = {}
 
   hasPlayerIn: boolean = false
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y, 'car', 'LuxuryCar/luxury_car_w.png')
-    
+
     scene.add.existing(this)
     scene.physics.add.existing(this)
 
     this.init()
     this.initEvents()
     this.createStateMachine()
-    this.setDepth(y+10)
+    this.setDepth(y + 10)
   }
 
   private init(): void {
@@ -47,9 +47,9 @@ export default class Car extends Phaser.Physics.Arcade.Sprite {
 
   update(dt: number) {
     if (this.hasPlayerIn === true) {
-      this.stateMachine?.update(dt)     
-      
-      this.setDepth(this.y) 
+      this.stateMachine?.update(dt)
+
+      this.setDepth(this.y)
     }
   }
 
@@ -59,33 +59,29 @@ export default class Car extends Phaser.Physics.Arcade.Sprite {
     this.stateMachine
       .addState(carStates.idle, {
         onEnter: this.idleOnEnter,
-        onUpdate: this.idleOnUpdate
+        onUpdate: this.idleOnUpdate,
       })
       .addState(carStates.drive, {
         onEnter: this.driveOnEnter,
-        onUpdate: this.driveOnUpdate
+        onUpdate: this.driveOnUpdate,
       })
       .setState(carStates.idle)
   }
 
-  idleOnEnter() {
-
-  }
+  idleOnEnter() {}
 
   idleOnUpdate() {
     if (
-      this.keyInputs['keyD'].isDown || 
-      this.keyInputs['keyA'].isDown || 
-      this.keyInputs['keyW'].isDown || 
+      this.keyInputs['keyD'].isDown ||
+      this.keyInputs['keyA'].isDown ||
+      this.keyInputs['keyW'].isDown ||
       this.keyInputs['keyS'].isDown
     ) {
       this.stateMachine?.setState(carStates.drive)
     }
   }
 
-  driveOnEnter() {
-
-  }
+  driveOnEnter() {}
 
   driveOnUpdate() {
     this.setVelocity(0)
@@ -94,41 +90,35 @@ export default class Car extends Phaser.Physics.Arcade.Sprite {
     if (this.keyInputs['keyD'].isDown) {
       this.setVelocityX(this.speed)
       this.setTexture('car', 'LuxuryCar/luxury_car_w.png')
-    } 
-    else if (this.keyInputs['keyA'].isDown) {
+    } else if (this.keyInputs['keyA'].isDown) {
       this.setVelocityX(-this.speed)
       this.setTexture('car', 'LuxuryCar/luxury_car_e.png')
-    } 
-    else if (this.keyInputs['keyW'].isDown) {
+    } else if (this.keyInputs['keyW'].isDown) {
       this.setVelocityY(-this.speed)
       this.setTexture('car', 'LuxuryCar/luxury_car_s.png')
-    } 
-    else if (this.keyInputs['keyS'].isDown) {
+    } else if (this.keyInputs['keyS'].isDown) {
       this.setVelocityY(this.speed)
       this.setTexture('car', 'LuxuryCar/luxury_car_n.png')
-    } 
-    
+    }
+
     if (this.keyInputs['keyW'].isDown && this.keyInputs['keyD'].isDown) {
       this.setVelocity(this.speed, -this.speed)
       this.setTexture('car', 'LuxuryCar/luxury_car_sw.png')
-    } 
-    else if (this.keyInputs['keyW'].isDown && this.keyInputs['keyA'].isDown) {
+    } else if (this.keyInputs['keyW'].isDown && this.keyInputs['keyA'].isDown) {
       this.setVelocity(-this.speed, -this.speed)
       this.setTexture('car', 'LuxuryCar/luxury_car_se.png')
-    } 
-    else if (this.keyInputs['keyS'].isDown && this.keyInputs['keyD'].isDown) {
+    } else if (this.keyInputs['keyS'].isDown && this.keyInputs['keyD'].isDown) {
       this.setVelocity(this.speed, this.speed)
       this.setTexture('car', 'LuxuryCar/luxury_car_nw.png')
-    } 
-    else if (this.keyInputs['keyS'].isDown && this.keyInputs['keyA'].isDown) {
+    } else if (this.keyInputs['keyS'].isDown && this.keyInputs['keyA'].isDown) {
       this.setVelocity(-this.speed, this.speed)
       this.setTexture('car', 'LuxuryCar/luxury_car_ne.png')
     }
 
     if (
-      this.keyInputs['keyD'].isDown || 
-      this.keyInputs['keyA'].isDown || 
-      this.keyInputs['keyW'].isDown || 
+      this.keyInputs['keyD'].isDown ||
+      this.keyInputs['keyA'].isDown ||
+      this.keyInputs['keyW'].isDown ||
       this.keyInputs['keyS'].isDown
     ) {
       //Do Nothing

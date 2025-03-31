@@ -9,12 +9,12 @@ export default class SceneManager {
   }
 
   public start(sceneKey: string, data?: any): void {
-    if (!this.scenes.has(sceneKey)) {
+    if (this.scenes.has(sceneKey) === false) {
       console.error(`Scene ${sceneKey} not found in SceneManager`)
       return
     }
 
-    if (this.currentSceneKey) {
+    if (this.currentSceneKey != undefined) {
       this.scenes.get(this.currentSceneKey)?.scene.stop()
     }
 

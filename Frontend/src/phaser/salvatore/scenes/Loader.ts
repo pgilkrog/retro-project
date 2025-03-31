@@ -66,7 +66,6 @@ export default class Loader extends Scene {
     this.load.image('apple', apple)
     this.load.image('bread', bread)
 
-
     // Audio
     this.load.audio('theme', musicTheme)
   }

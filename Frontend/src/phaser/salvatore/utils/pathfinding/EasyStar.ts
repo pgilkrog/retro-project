@@ -22,17 +22,17 @@ const easyStarInit = (layer: any, entities: any, scene: Phaser.Scene, map: any) 
   easystar.setAcceptableTiles([1, 2, 3, 4])
   easystar.setGrid(grid)
   easystar.enableCornerCutting()
-  
-  scene.time.addEvent({ 
-    delay: 500, 
-    callback: () => updatePaths(entities, map), 
-    callbackScope: this, 
-    loop: true 
+
+  scene.time.addEvent({
+    delay: 500,
+    callback: () => updatePaths(entities, map),
+    callbackScope: this,
+    loop: true,
   })
 }
 
 const updatePaths = (array: any[], map: any) => {
-  array.forEach((entity: any, index: number) => { 
+  array.forEach((entity: any, index: number) => {
     // if there is no destination or if the NPC has reached its destination
     if (entity.isFollowingPath === false) {
       const startX = Math.floor(entity.x / map.getTileSize())
@@ -47,20 +47,23 @@ const updatePaths = (array: any[], map: any) => {
 
       easystar.calculate()
       if (startX !== endX || startY !== endY) {
-        if (endX < 1 || endY < 1) console.log("got bad path", startY, endY)
+        if (endX < 1 || endY < 1) console.log('got bad path', startY, endY)
         easystar.findPath(startX, startY, endX, endY, (path: any) => {
           if (path) {
             entity.isFollowingPath = true
-            const worldPath = path.map((p: any) => ({ x: p.x * map.getTileSize(), y: p.y * map.getTileSize() }))
+            const worldPath = path.map((p: any) => ({
+              x: p.x * map.getTileSize(),
+              y: p.y * map.getTileSize(),
+            }))
 
             // set the entity's destination to the end of the path
             npcDestinations[index] = worldPath[worldPath.length - 1]
 
             // start the entity's walk animation along the path
-            entity.startWalkAnimation(worldPath)
+            entity.pathfinding(worldPath)
           }
         })
-      }          
+      }
     }
   })
 }

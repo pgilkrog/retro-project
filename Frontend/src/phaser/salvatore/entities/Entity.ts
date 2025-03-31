@@ -1,6 +1,6 @@
-import { InventoryManager } from "../utils/inventory/InventoryManager"
-import { ItemsManager } from "../utils/items/index"
-import type { EntityTypes } from "../interfaces/enums"
+import { InventoryManager } from '../utils/inventory/InventoryManager'
+import { ItemsManager } from '../utils/items/index'
+import type { EntityTypes } from '../interfaces/enums'
 import { InventoryUI } from '../utils/inventory/InventoryUI'
 
 export class Entity extends Phaser.Physics.Arcade.Sprite {
@@ -18,13 +18,13 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
   private invUI!: InventoryUI
 
   constructor(
-    scene: Phaser.Scene, 
-    x: number, 
-    y: number, 
-    sprite: string, 
-    health: number, 
-    maxHealth: number, 
-    respect: number, 
+    scene: Phaser.Scene,
+    x: number,
+    y: number,
+    sprite: string,
+    health: number,
+    maxHealth: number,
+    respect: number,
     speed: number,
     entityType: EntityTypes,
     carryWeight: number,
@@ -51,8 +51,8 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
 
   init() {
     this.setCollideWorldBounds(true)
-    this.body!.setSize(40, 20, true)
-    this.body!.setOffset(0, 80)
+    this.body?.setSize(40, 20, true)
+    this.body?.setOffset(0, 80)
     this.setScale(0.6)
     this.setInteractive()
   }
@@ -66,4 +66,6 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
     this.invUI.setVisible(show)
     this.invUI.setPosition(this.x, this.y)
   }
+
+  pathfinding(path: Phaser.Math.Vector2[]) {}
 }

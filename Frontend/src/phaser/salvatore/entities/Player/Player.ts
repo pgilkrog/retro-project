@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import findPath from '../../utils/findPath'
+import findPath from '../../utils/pathfinding/findPath'
 import StateMachine from '@/phaser/utils/StateMachine'
 import { createPlayerAnimations } from './PlayerAnimations'
 import { Entity } from '../Entity'
@@ -11,7 +11,7 @@ enum playerStates {
   death = 'death',
   attack = 'attack',
   combat = 'combat',
-  inCar = 'inCar'
+  inCar = 'inCar',
 }
 
 enum playerAnims {
@@ -19,11 +19,10 @@ enum playerAnims {
   walkLeft = 'walkLeft',
   walkRight = 'walkRight',
   walkUp = 'walkUp',
-  walkDown = 'walkDown'
+  walkDown = 'walkDown',
 }
 
 export default class Player extends Entity {
-  private map: any
   private stateMachine?: StateMachine
 
   private movePath: Phaser.Math.Vector2[] = []
@@ -36,10 +35,9 @@ export default class Player extends Entity {
     [key: string]: Phaser.Input.Keyboard.Key
   } = {}
 
-  constructor(scene: Phaser.Scene, x: number, y: number, map: any) {
+  constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y, 'npc-4', 100, 100, 0, 200, EntityTypes.Player, 50, 'Salvatore')
 
-    this.map = map
     this.inCar = false
 
     this.inventory.addItem(this.itemsManager.getFoodItems()[0], 2, 0)
@@ -55,12 +53,16 @@ export default class Player extends Entity {
     this.initEvents()
     this.createKeyInputs()
     this.createStateMachine()
-    this.createInventory(this.scene, true)
+    this.createInventory(scene, true)
     this.toggleInventory(false)
 
-    this.on('pointerdown', () => {
-      console.log("CLICKED Player")
-    }, this)
+    this.on(
+      'pointerdown',
+      () => {
+        console.log('CLICKED Player')
+      },
+      this
+    )
   }
 
   update(dt: number) {
@@ -70,14 +72,13 @@ export default class Player extends Entity {
       this.toggleInventory(this.showInventory)
       this.showInventory = !this.showInventory
       this.tabKeyPressed = true
-    } 
-    else if (this.keyInputs['tab'].isUp) {
+    } else if (this.keyInputs['tab'].isUp) {
       this.tabKeyPressed = false
     }
   }
 
   moveAlong(path: Phaser.Math.Vector2[]) {
-    if (!path || path.length <= 0) {
+    if (path == undefined || path.length <= 0) {
       return
     }
 
@@ -109,11 +110,11 @@ export default class Player extends Entity {
     this.stateMachine
       .addState(playerStates.idle, {
         onEnter: this.idleOnEnter,
-        onUpdate: this.idleOnUpdate
+        onUpdate: this.idleOnUpdate,
       })
       .addState(playerStates.walk, {
         onEnter: this.walkOnEnter,
-        onUpdate: this.walkOnUpdate
+        onUpdate: this.walkOnUpdate,
       })
       .setState(playerStates.idle)
   }
@@ -124,9 +125,9 @@ export default class Player extends Entity {
 
   private idleOnUpdate(): void {
     if (
-      this.keyInputs['keyD'].isDown || 
-      this.keyInputs['keyA'].isDown || 
-      this.keyInputs['keyW'].isDown || 
+      this.keyInputs['keyD'].isDown ||
+      this.keyInputs['keyA'].isDown ||
+      this.keyInputs['keyW'].isDown ||
       this.keyInputs['keyS'].isDown
     ) {
       this.stateMachine?.setState(playerStates.walk)
@@ -150,22 +151,20 @@ export default class Player extends Entity {
 
     if (this.keyInputs['keyD'].isDown) {
       this.setVelocityX(this.speed)
-    } 
-    else if (this.keyInputs['keyA'].isDown) {
+    } else if (this.keyInputs['keyA'].isDown) {
       this.setVelocityX(-this.speed)
     }
-    
+
     if (this.keyInputs['keyW'].isDown) {
       this.setVelocityY(-this.speed)
-    } 
-    else if (this.keyInputs['keyS'].isDown) {
+    } else if (this.keyInputs['keyS'].isDown) {
       this.setVelocityY(this.speed)
     }
 
     if (
-      this.keyInputs['keyD'].isDown || 
-      this.keyInputs['keyA'].isDown || 
-      this.keyInputs['keyW'].isDown || 
+      this.keyInputs['keyD'].isDown ||
+      this.keyInputs['keyA'].isDown ||
+      this.keyInputs['keyW'].isDown ||
       this.keyInputs['keyS'].isDown
     ) {
       //Do Nothing
@@ -174,62 +173,46 @@ export default class Player extends Entity {
     }
   }
 
-  private drivingOnEnter () {
+  private drivingOnEnter() {}
 
-  }
-
-  private drivingOnUpdate () {
-    
-  }
+  private drivingOnUpdate() {}
 
   moveToPoint() {
-    // PUT THIS IN INIT   
+    // PUT THIS IN INIT
     // this.scene.input.on(Phaser.Input.Events.POINTER_UP, (pointer: Phaser.Input.Pointer) => {
-
     //   const { worldX, worldY } = pointer
-
     //   const startVec = this.map.getLayers().groundLayer.worldToTileXY(this.x, this.y)
     //   const targetVec = this.map.getLayers().groundLayer.worldToTileXY(worldX, worldY)
-
     //   const path = findPath(startVec, targetVec, this.map.getLayers().groundLayer, this.map.getLayers().collideLayer)
     //   this.moveAlong(path)
     // })
-
     // this.scene.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
     //   this.scene.input.off(Phaser.Input.Events.POINTER_UP)
     // })
-
-
     // PUT THIS IN UPDATE
     // let dx = 0
     // let dy = 0
-
     // if (this.moveToTarget) {
     //   dx = this.moveToTarget.x - this.x
     //   dy = this.moveToTarget.y - this.y
-
     //   if (Math.abs(dx) < 5) {
     //     dx = 0
     //   }
     //   if (Math.abs(dy) < 5) {
     //     dy = 0
     //   }
-
     //   if (dx === 0 && dy === 0) {
     //     if (this.movePath.length > 0) {
     //       this.moveTo(this.movePath.shift()!)
     //       return
     //     }
-
     //     this.moveToTarget = undefined
     //   }
     // }
-
     // const leftDown = dx < 0
     // const rightDown = dx > 0
     // const upDown = dy < 0
     // const downDown = dy > 0
-    
     // if (leftDown)
     // {
     //   this.setVelocity(-this.speed, 0)
