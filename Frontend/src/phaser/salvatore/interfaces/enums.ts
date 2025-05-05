@@ -7,6 +7,7 @@ export enum EntityTypes {
   Soldier,
   Associate,
   Police,
+  Civilian,
 }
 
 export enum ItemTypes {

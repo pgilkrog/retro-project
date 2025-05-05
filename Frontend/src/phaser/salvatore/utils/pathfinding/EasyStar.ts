@@ -14,8 +14,11 @@ const easyStarInit = (layer: any, entities: any, scene: Phaser.Scene, map: any) 
       // Sets the cost of the tile
       const isWalkable = tile.properties ? tile.properties.cost : -1
       rowData.push(isWalkable === undefined ? -1 : isWalkable)
-      // Set tile cost accordingly
-      easystar.setTileCost(isWalkable, isWalkable)
+
+      // Only set tile cost for walkable tiles
+      if (isWalkable > 0) {
+        easystar.setTileCost(isWalkable, isWalkable)
+      }
     })
     grid.push(rowData)
   })

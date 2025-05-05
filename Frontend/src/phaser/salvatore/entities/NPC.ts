@@ -18,7 +18,7 @@ export default class NPC extends Entity {
       100,
       50,
       50,
-      EntityTypes.Associate,
+      EntityTypes.Civilian,
       50,
       name
     )

@@ -61,7 +61,7 @@
     />
     <ScreensaverMachine v-show="appStore.showScreensaver === true" />
     <!-- CarouselComponent -->
-    <Salvatore />
+    <!-- <Salvatore /> -->
     <!-- TestStuff -->
     <!-- LaCosaNostra -->
     <!-- Game -->
@@ -77,7 +77,7 @@ import { useAppStore } from '@/stores/appStore'
 import { programsStore } from '@/stores/programsStore'
 import ScreensaverMachine from '@/components/programs/ScreensaverMachine.vue'
 // import Platformer from '@/phaser/first-game/Platformer.vue'
-import Salvatore from '@/phaser/salvatore/SalvatoreGame.vue'
+// import Salvatore from '@/phaser/salvatore/SalvatoreGame.vue'
 // import TestStuff from '@/phaser/test-stuff/TestStuff.vue'
 // import LaCosaNostra from '@/phaser/la-cosa-nostra/LaCosaNostraGame.vue'
 // import Game from '@/phaser/space-invaders/SpaceInvaders.vue'

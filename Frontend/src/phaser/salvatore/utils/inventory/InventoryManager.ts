@@ -7,10 +7,11 @@ export class InventoryManager {
   public addItem(item: Item, quantity: number, inventoryIndex: number) {
     const invItem = this.getItemFromInventory(item)
 
-    if (invItem)
+    if (invItem) {
       invItem.quantity += quantity
-    else
+    } else {
       this.items.push(new InventoryItem(item, quantity, inventoryIndex))
+    }
   }
 
   public removeItem(item: Item, quantity: number) {
@@ -19,7 +20,7 @@ export class InventoryManager {
     if (invItem) {
       invItem.quantity -= quantity
       if (invItem.quantity <= 0) {
-        console.log("DELTED ITEM")
+        console.log('DELTED ITEM')
         const index = this.items.indexOf(invItem)
         this.items.splice(index, 1)
       }
@@ -36,7 +37,7 @@ export class InventoryManager {
   }
 
   public getItemFromInventory(item: Item): InventoryItem | undefined {
-    return this.items.find(invItem => invItem.item.name === item.name)
+    return this.items.find((invItem) => invItem.item.name === item.name)
   }
 
   public getAllItems(): InventoryItem[] {

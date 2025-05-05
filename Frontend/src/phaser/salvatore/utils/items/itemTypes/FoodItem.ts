@@ -5,21 +5,15 @@ export class FoodItem extends Item {
   public healing: number
 
   constructor(
-    name: string, 
-    description: string, 
+    name: string,
+    description: string,
     value: number,
-    weight: number, 
+    weight: number,
     healing: number,
     image: string
   ) {
-    super(
-      name, 
-      description, 
-      ItemTypes.food, 
-      value,
-      weight,
-      image
-    )
+    super(name, description, ItemTypes.food, value, weight, image)
+
     this.healing = healing
   }
 }

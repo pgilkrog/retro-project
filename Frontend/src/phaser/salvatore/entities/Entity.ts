@@ -15,7 +15,7 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
 
   public inventory: InventoryManager
   public itemsManager: ItemsManager
-  private invUI!: InventoryUI
+  protected invUI: InventoryUI
 
   constructor(
     scene: Phaser.Scene,

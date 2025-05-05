@@ -28,7 +28,7 @@ export default class Player extends Entity {
   private movePath: Phaser.Math.Vector2[] = []
   private moveToTarget?: Phaser.Math.Vector2
   public inCar: boolean = false
-  private showInventory: boolean = true
+  private showInventory: boolean = false
   private tabKeyPressed: boolean = false
 
   private keyInputs: {
@@ -66,14 +66,20 @@ export default class Player extends Entity {
   }
 
   update(dt: number) {
+    console.log('Player Update')
     this.stateMachine?.update(dt)
 
     if (this.keyInputs['tab'].isDown && !this.tabKeyPressed) {
-      this.toggleInventory(this.showInventory)
       this.showInventory = !this.showInventory
+      this.toggleInventory(this.showInventory)
       this.tabKeyPressed = true
     } else if (this.keyInputs['tab'].isUp) {
       this.tabKeyPressed = false
+    }
+
+    if (this.showInventory === true) {
+      console.log('show inventory')
+      this.invUI.setPosition(this.x, this.y)
     }
   }
 

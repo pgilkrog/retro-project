@@ -8,8 +8,16 @@ import { AudioManager } from '../utils/AudioManager'
 import easyStarInit from '../utils/pathfinding/EasyStar'
 import type { IConfig } from '../interfaces/IConfig'
 
+enum tiled_objects {
+  plater_spawn = 'player_spawn',
+  npc_spawn = 'npc_spawn',
+  door_apartment_1 = 'door_apartment_1',
+  car_1 = 'car_1',
+}
+
 export default class Game extends Scene {
   private config: IConfig
+
   private player: Player | undefined
   private npcs: NPC[] = []
   private door!: any
@@ -25,7 +33,6 @@ export default class Game extends Scene {
   create() {
     this.map = new Map1(this)
     this.audiomanager = new AudioManager(this)
-    this.audiomanager.create()
 
     this.map.getLayers().objectLayer.objects.forEach((objData: any) => {
       const { x = 0, y = 0, name = '' } = objData
