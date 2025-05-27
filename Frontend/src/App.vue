@@ -4,14 +4,12 @@
     id="app"
   >
     <RouterView />
-    <ErrorComponent v-if="error !== undefined" />
+    <ErrorComponent v-if="error != undefined" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/authStore'
-import { watch } from 'vue'
-import router from './router'
 import { useCookies } from 'vue3-cookies'
 import { useErrorStore } from '@/stores/errorStore'
 import { storeToRefs } from 'pinia'
@@ -19,7 +17,6 @@ import { storeToRefs } from 'pinia'
 const authstore = useAuthStore()
 const errorStore = useErrorStore()
 
-const { checkedAuth } = storeToRefs(authstore)
 const { error } = storeToRefs(errorStore)
 
 const { cookies } = useCookies()
@@ -38,12 +35,7 @@ onMounted(async () => {
     true,
     'None'
   )
-  console.log('error', error)
-})
 
-watch(checkedAuth, async (newValue, oldValue) => {
-  if (newValue === true && oldValue === false) {
-    await router.push('/')
-  }
+  console.log('error', error)
 })
 </script>

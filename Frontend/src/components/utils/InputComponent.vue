@@ -7,7 +7,7 @@
   >
     <label>{{ label }}</label>
     <input
-      class="bg-shadow-inner p-1 px-2 w-full rounded flex-grow"
+      class="bg-shadow-inner p-1 px-2 w-full flex-grow"
       type="textbox"
       v-model="debouncedModel"
       v-bind="$attrs"

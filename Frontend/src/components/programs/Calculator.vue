@@ -4,9 +4,7 @@
     :is-moveable="true"
   >
     <div class="calculator-wrapper">
-      <div
-        class="display flex p-3 bg-gray-200 w-100 rounded bg-shadow-inner my-2 mx-4 justify-end text"
-      >
+      <div class="display flex p-3 bg-gray-200 w-100 bg-shadow-inner my-2 mx-4 justify-end text">
         <p>{{ display !== '' ? display : '0' }}</p>
       </div>
       <div class="button-wrapper grid grid-cols-4 m-4 gap-4 w-100">

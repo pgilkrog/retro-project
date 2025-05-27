@@ -8,7 +8,7 @@
   />
   <div
     v-else
-    class="bg-gray-200 rounded flex justify-center items-center border border-gray-900 h-[200px] w-[200px]"
+    class="bg-gray-200 flex justify-center items-center border border-gray-900 h-[200px] w-[200px]"
     role="img"
     :aria-label="alt"
   >

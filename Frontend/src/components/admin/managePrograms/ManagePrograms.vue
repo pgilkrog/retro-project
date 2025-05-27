@@ -12,7 +12,7 @@
           size="full"
         />
         <div
-          class="hover hover:bg-gray-200 flex bg-shadow p-1 justify-between rounded cursor-pointer mt-1"
+          class="hover hover:bg-gray-200 flex bg-shadow p-1 justify-between cursor-pointer mt-1"
           v-for="aProgram in allPrograms"
           :key="aProgram._id"
         >

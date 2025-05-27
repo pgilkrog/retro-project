@@ -6,11 +6,10 @@
       <div class="flex py-1 ms-1">
         <ButtonComponent
           text="Start"
+          class="py-3"
           icon="fa-paw"
-          @clicked="emit('changeShowMenu')"
           :active="showMenu"
-          variant="primary"
-          class="!py-3"
+          @clicked="emit('changeShowMenu')"
         />
         <div class="programs-container flex ml-2">
           <ButtonComponent
@@ -31,7 +30,7 @@
           variant="danger"
         />
         <div
-          class="px-3 ms-1 flex items-center p-2 rounded border-t-black border-s-black border border-b-white border-e-white"
+          class="px-3 ms-1 flex items-center p-2 border-t-black border-s-black border border-b-white border-e-white"
         >
           <IconComponent
             name="fa-user"

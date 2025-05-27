@@ -3,7 +3,7 @@
     <div
       v-if="program?.isActive === true"
       :id="program._id"
-      class="window-wrapper bg-shadow bg-gray-300 flex flex-col absolute p-2 rounded px-2"
+      class="window-wrapper bg-shadow bg-gray-300 flex flex-col absolute p-2 px-2"
       :style="[
         isMoveable
           ? { top: programY + 'px', left: programX + 'px' }
@@ -13,7 +13,7 @@
     >
       <header
         :class="[
-          'top-bar flex flex-col-reverse sm:flex-row justify-between items-center mb-1 py-2 px-4 rounded bg-gradient-to-r',
+          'top-bar flex flex-col-reverse sm:flex-row justify-between items-center mb-1 py-2 px-4  bg-gradient-to-r',
           getBackgroundColor(variant),
         ]"
         @mousedown="handleMouseDown"
@@ -40,7 +40,7 @@
         </div>
       </header>
       <windowframeMenu :show-menu="showMenu" />
-      <div class="bg-gray-300 bg-shadow-inner rounded">
+      <div class="bg-gray-300 bg-shadow-inner">
         <slot />
       </div>
     </div>

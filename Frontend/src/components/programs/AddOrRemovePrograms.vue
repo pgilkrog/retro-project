@@ -49,7 +49,7 @@
         />
       </div>
     </div>
-    <Loading
+    <LoadingComponent
       v-if="isInstalling === true"
       @close-loading="closeLoading()"
     />

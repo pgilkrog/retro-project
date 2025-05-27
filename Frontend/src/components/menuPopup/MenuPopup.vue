@@ -6,8 +6,8 @@
     />
     <div class="flex flex-col gap-y-2 mt-2">
       <MenuPopupItem
-        v-for="(item, key) in list"
-        :key="key"
+        v-for="(item, index) in list"
+        :key="index"
         v-bind="item"
         v-show="showMenu"
       />

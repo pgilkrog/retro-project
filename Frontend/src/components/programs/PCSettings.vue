@@ -15,7 +15,7 @@
       <!-- Content for Tab 0 -->
       <div
         v-if="state === 0"
-        class="content p-4 rounded-b border border-t-0 border-black"
+        class="content p-4 border border-t-0 border-black"
       >
         <div class="row flex flex-col items-center">
           <PCScreen :temp-img="tempImg" />
@@ -48,7 +48,7 @@
       <!-- Content for Tab 1 -->
       <div
         v-else-if="state === 1"
-        class="content p-4 main-wrap rounded-b border border-t-0 border-black"
+        class="content p-4 main-wrap border border-t-0 border-black"
       >
         <div class="row" />
       </div>
@@ -56,7 +56,7 @@
       <!-- Content for Tab 2 -->
       <div
         v-else-if="state === 2"
-        class="content p-4 main-wrap rounded-b border border-t-0 border-black"
+        class="content p-4 main-wrap border border-t-0 border-black"
       >
         <div class="row">
           <UserInfo />

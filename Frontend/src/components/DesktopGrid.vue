@@ -4,17 +4,17 @@
       <div
         v-for="(program, index) in list"
         :key="index"
+        class="flex items-center justify-center"
         draggable="true"
         @dragstart="startDrag(index)"
         @dragend="endDrag($event)"
-        class="flex items-center justify-center"
       >
         <slot
           v-if="program !== undefined && program.program !== undefined"
-          :list-item="program.program"
-          name="listItem"
           :id="index"
+          name="listItem"
           class="flex-grow"
+          :list-item="program.program"
         />
         <div
           v-else
@@ -41,7 +41,9 @@ const startDrag = (index: number) => {
 }
 
 const endDrag = async (event: DragEvent) => {
-  if (dragStartIndex === null) return
+  if (dragStartIndex == undefined) {
+    return
+  }
 
   const target: EventTarget | null = event.target // Get the dragged element
 
@@ -51,7 +53,10 @@ const endDrag = async (event: DragEvent) => {
 
   if (hasClass === false) {
     hasClass = dropTarget?.parentElement?.classList.contains('desktop-item')
-    if (dropTarget?.parentElement !== undefined) dropTarget = dropTarget.parentElement
+
+    if (dropTarget?.parentElement != undefined) {
+      dropTarget = dropTarget.parentElement
+    }
   }
 
   if (dropTarget != undefined && hasClass === true && dropTarget !== target) {

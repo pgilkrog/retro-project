@@ -1,6 +1,6 @@
 <template>
   <div
-    class="d-flex bg-shadow py-1 px-4 justify-between items-center rounded-md cursor-pointer"
+    class="d-flex bg-shadow py-1 px-4 justify-between items-center cursor-pointer"
     v-for="item in allUsers"
     :key="item._id"
     @click="emit('setSelectedUser', item)"

@@ -1,5 +1,5 @@
 <template>
-  <div class="loading">
+  <div class="loadingcomponent">
     <WindowFrame
       :program="program"
       :show-menu="false"

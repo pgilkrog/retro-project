@@ -1,5 +1,7 @@
 <template>
-  <div class="background-images-wrapper bg-gray-300 bg-shadow-inner flex flex-col rounded h-40 overflow-auto">
+  <div
+    class="background-images-wrapper bg-gray-300 bg-shadow-inner flex flex-col h-40 overflow-auto"
+  >
     <div
       class="image-item m-1 flex items-center hover:bg-blue-500 p-1 cursor-pointer"
       @click="imageClicked(undefined)"

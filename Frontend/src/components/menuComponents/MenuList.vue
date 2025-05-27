@@ -1,5 +1,5 @@
 <template>
-  <ul class="menu-list bg-gray-300 bg-shadow flex flex-col rounded">
+  <ul class="menu-list bg-gray-300 bg-shadow flex flex-col">
     <li
       v-for="(item, key) in menuList"
       :key="key"

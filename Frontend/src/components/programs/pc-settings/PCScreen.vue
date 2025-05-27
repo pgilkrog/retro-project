@@ -1,22 +1,22 @@
 <template>
-  <div class="pc-screen bg-shadow p-4 fit-content rounded">
+  <div class="pc-screen bg-shadow p-4 fit-content">
     <div class="bg-shadow-inner img-box">
       <ImageComponent
         v-if="tempImg !== undefined && tempImg.name"
         id="pcscreen"
-        :source="getImageUrl(tempImg.name)" 
+        :source="getImageUrl(tempImg.name)"
         alt="image for showing how wallpaper looks like"
         class
       />
-      <div 
+      <div
         v-else
-        :style="[{'background-color': userData?.settings?.backgroundColour}]"
+        :style="[{ 'background-color': userData?.settings?.backgroundColour }]"
       />
     </div>
   </div>
-  <div class="bg-shadow square-1 rounded-bottom" />
+  <div class="bg-shadow square-1" />
   <div class="bg-shadow square-2" />
-  <div class="bg-shadow square-3 rounded-top" />
+  <div class="bg-shadow square-3" />
 </template>
 
 <script setup lang="ts">

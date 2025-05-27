@@ -43,15 +43,7 @@ onMounted(() => {
     parent: gameContainer.value,
     physics: {
       default: 'matter',
-      matter: {
-        debug: true,
-        setBounds: {
-          left: true,
-          right: true,
-          top: true,
-          bottom: true,
-        },
-      },
+      matter: { debug: true, setBounds: { left: true, right: true, top: true, bottom: true } },
     },
     scale: {
       parent: gameContainer.value,

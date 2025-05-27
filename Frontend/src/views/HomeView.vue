@@ -3,9 +3,9 @@
     v-if="userData != undefined"
     class="home-wrapper flex h-full w-full absolute bg-center bg-no-repeat bg-cover overflow-hidden"
     :style="[
-      userData?.settings?.useBackground === true
-        ? { 'background-image': 'url(' + getImageUrl(userData?.settings?.backgroundImage) + ')' }
-        : { 'background-color': userData?.settings?.backgroundColour },
+      userData.settings?.useBackground === true
+        ? { 'background-image': 'url(' + getImageUrl(userData.settings?.backgroundImage) + ')' }
+        : { 'background-color': userData.settings?.backgroundColour },
     ]"
     @mousemove="registerMouseMovement"
     @click="leftClick()"
@@ -53,6 +53,7 @@
           icon: 'fa-house',
         },
       ]"
+      title=""
     />
     <TaskbarMenu v-if="showMenu === true" />
     <TaskbarComponent
@@ -76,6 +77,7 @@ import { userStore } from '@/stores/userStore'
 import { useAppStore } from '@/stores/appStore'
 import { programsStore } from '@/stores/programsStore'
 import ScreensaverMachine from '@/components/programs/ScreensaverMachine.vue'
+import { storeToRefs } from 'pinia'
 // import Platformer from '@/phaser/first-game/Platformer.vue'
 // import Salvatore from '@/phaser/salvatore/SalvatoreGame.vue'
 // import TestStuff from '@/phaser/test-stuff/TestStuff.vue'
@@ -89,11 +91,12 @@ const appStore = useAppStore()
 const programsstore = programsStore()
 const userstore = userStore()
 
-const userData = computed(() => userstore.userData)
 const showMenu = ref<boolean>(false)
 const positionedList = computed<IInstalledProgram[]>(() => programsstore.positionedList)
-const showContextMenu = ref(false)
+const showContextMenu = ref<boolean>(false)
 const contextMenuPosition = ref<{ x: number; y: number }>({ x: 0, y: 0 })
+
+const { userData } = storeToRefs(userstore)
 
 onMounted(async () => {
   await programsstore.init()

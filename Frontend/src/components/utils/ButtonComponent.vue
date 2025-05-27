@@ -1,22 +1,21 @@
 <template>
   <button
-    v-bind="$attrs"
-    @click="emit('clicked')"
     type="button"
     :disabled
     :class="[
-      'bg-gray-300 border rounded flex content-center justify-center items-center px-4 py-2',
-      active ? 'bg-shadow-inner btn-active' : ' bg-shadow',
+      'bg-gray-300 border  flex content-center justify-center items-center px-4 py-2',
       'bg-' + color + '-300',
-      disabled === true && 'bg-gray-200 cursor-not-allowed text-gray-500',
+      active ? 'bg-shadow-inner btn-active' : ' bg-shadow',
+      { 'bg-gray-200 cursor-not-allowed text-gray-500': disabled === true },
     ]"
+    @click="emit('clicked')"
   >
     <template v-if="isLoading == false">
       <IconComponent
         v-if="icon != undefined"
+        :class="{ 'me-2': text !== '' }"
         :name="icon"
         size="16"
-        :class="{ 'me-2': text !== '' }"
       />
       <p
         v-if="text !== ''"

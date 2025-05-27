@@ -70,7 +70,7 @@
       </div>
     </div>
     <div
-      class="buttons flex flex-col bg-shadow-inner p-4 m-2 rounded"
+      class="buttons flex flex-col bg-shadow-inner p-4 m-2"
       v-if="showHelp === true"
     >
       <p>Some helping info and stuff</p>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="minesweeper-block m-1 rounded text-light"
+    class="minesweeper-block m-1 text-light"
     v-if="block !== undefined"
     :class="block.isClicked === true ? 'bg-shadow-inner' : 'bg-shadow'"
   >
