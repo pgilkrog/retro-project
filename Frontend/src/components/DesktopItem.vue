@@ -4,10 +4,15 @@
     v-bind="$attrs"
     @click="emit('generate-component')"
   >
-    <IconComponent
+    <!-- <IconComponent
       :color
       :name="image"
       size="34"
+    /> -->
+    <ImageComponent
+      class="h-16 w-16"
+      :id="image"
+      :source="icon"
     />
     <p class="mt-2 line-clamp-2 bg-emerald-700 px-1 py-0.5">
       {{ displayName }}
@@ -16,6 +21,9 @@
 </template>
 
 <script setup lang="ts">
+import ImageComponent from './utils/ImageComponent.vue'
+import icon from '@/assets/icons/retropcicon.png'
+
 const { color = 'text-black', image = 'fa-house' } = defineProps<{
   color?: string
   image?: string

@@ -7,7 +7,7 @@
       <div class="wrapper flex flex-col m-2">
         <ButtonComponent
           class="mb-4"
-          @clicked="(setEmptyProgram(), changeShowManageProgram(true))"
+          @clicked="setEmptyProgram()"
           text="Add new program"
           size="full"
         />
@@ -22,17 +22,17 @@
               name="fa-pencil"
               color="yellow"
               size="25"
-              @click="(setUpdateState(true, program), changeShowManageProgram(true))"
+              @click.prevent="setUpdateState(true, aProgram)"
             />
             <p class="mx-2">
-              {{ `${program.sortOrder}: ${program.name}` }}
+              {{ `${aProgram.sortOrder}: ${aProgram.name}` }}
             </p>
           </div>
           <IconComponent
             name="bi-trash-fill"
             color="red"
             size="25"
-            @click="deleteProgram(program)"
+            @click="deleteProgram(aProgram)"
           />
         </div>
       </div>
@@ -100,7 +100,7 @@
 
     <Validating
       v-if="showValidation === true"
-      :text="'Delete program: ' + selectedProgramInfo?.displayName"
+      :text="'Delete program: ' + programInfo?.displayName"
       @ok="ok()"
       @cancel="cancel()"
     />
@@ -123,7 +123,6 @@ const showManageProgram = ref(false)
 const updateState = ref(false)
 
 const programInfo = ref<IProgram | undefined>()
-const selectedProgramInfo = ref<IProgram | undefined>()
 
 const showValidation = ref(false)
 
@@ -134,6 +133,10 @@ const manageProgramProgram = {
   image: 'fa-pencil',
   isActive: true,
 }
+
+onMounted(() => {
+  console.log('ManagePrograms mounted')
+})
 
 const addProgram = async () => {
   if (
@@ -148,7 +151,7 @@ const addProgram = async () => {
 }
 
 const deleteProgram = (program: IProgram) => {
-  selectedProgramInfo.value = program
+  programInfo.value = program
   showValidation.value = true
 }
 
@@ -160,12 +163,12 @@ const updateProgram = async () => {
 
 const resetInputs = () => {
   programInfo.value = undefined
-  selectedProgramInfo.value = undefined
+  programInfo.value = undefined
 }
 
 const ok = async () => {
-  if (selectedProgramInfo.value === undefined) return
-  else await programsstore.deleteProgram(selectedProgramInfo.value)
+  if (programInfo.value === undefined) return
+  else await programsstore.deleteProgram(programInfo.value)
 }
 
 const cancel = () => {
@@ -173,11 +176,12 @@ const cancel = () => {
   resetInputs()
 }
 
-const setUpdateState = (state: boolean, program: IProgram) => {
+const setUpdateState = (state: boolean, program: IProgram | undefined) => {
   updateState.value = state
+  showManageProgram.value = true
 
   if (state === true) {
-    selectedProgramInfo.value = program
+    programInfo.value = program
     programInfo.value = program
   } else {
     resetInputs()
@@ -188,12 +192,13 @@ const changeShowManageProgram = (bool: boolean) => {
   showManageProgram.value = bool
 
   if (bool === true) {
-    setUpdateState(false, {} as IProgram)
+    setUpdateState(false, undefined)
   }
 }
 
 const setEmptyProgram = () => {
-  selectedProgramInfo.value = {
+  showManageProgram.value = true
+  programInfo.value = {
     _id: '',
     name: '',
     displayName: '',

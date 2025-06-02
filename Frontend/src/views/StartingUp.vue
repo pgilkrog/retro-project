@@ -32,7 +32,7 @@ const goToRoute = () => {
 }
 
 onMounted(async () => {
-  await programsstore.init()
+  await programsstore.programStoreInit()
   goToRoute()
 })
 </script>

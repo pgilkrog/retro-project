@@ -24,9 +24,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const imageIsLoading = ref(true)
-const src = ref('')
-const fadeInClass = ref('fade-in-image')
+const imageIsLoading = ref<boolean>(true)
+const src = ref<string>('')
+const fadeInClass = ref<string>('fade-in-image')
 
 const {
   id,
@@ -39,7 +39,7 @@ const {
 }>()
 
 onMounted(() => {
-  if (source !== '') {
+  if (source === '') {
     // Handle case where source is not provided
     imageIsLoading.value = false
     return

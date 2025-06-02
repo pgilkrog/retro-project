@@ -19,7 +19,7 @@ export const programsStore = defineStore('programs', () => {
   const notInstalledPrograms = ref<IProgram[]>([])
   const positionedList = ref<IInstalledProgram[]>([])
 
-  const init = async () => {
+  const programStoreInit = async () => {
     await getProgramsFromDB()
     await setInstalledPrograms()
     generateGridPositions()
@@ -53,16 +53,25 @@ export const programsStore = defineStore('programs', () => {
   }
 
   const updateProgram = async (program: IProgram): Promise<void> => {
-    await put(url + '/' + program._id, { params: program }).then(() => getProgramsFromDB())
+    const updatedProgram: IProgram = await put(url + '/' + program._id, { params: program })
+    const index = allPrograms.value.findIndex((p) => p._id === updatedProgram._id)
+
+    if (index !== -1) {
+      allPrograms.value[index] = updatedProgram
+    }
   }
 
   const deleteProgram = async (program: IProgram): Promise<void> => {
-    await del(url + '/' + program._id).then(() => getProgramsFromDB())
+    await del(url + '/' + program._id)
+    const index = allPrograms.value.findIndex((p) => p._id === program._id)
+    if (index !== -1) {
+      allPrograms.value.splice(index, 1)
+    }
   }
 
   const createProgram = async (program: IProgram): Promise<void> => {
-    await post(url, program)
-    await getProgramsFromDB()
+    const newProgram: IProgram = await post(url, program)
+    allPrograms.value.push(newProgram)
   }
 
   //** Installed Program */
@@ -173,7 +182,8 @@ export const programsStore = defineStore('programs', () => {
     installedPrograms,
     notInstalledPrograms,
     positionedList,
-    init,
+    programStoreInit,
+    getProgramsFromDB,
     addProgramToActive,
     removeProgramFromActive,
     setProgramActiveState,

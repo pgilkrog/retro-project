@@ -49,6 +49,14 @@ const allPrograms: IProgram[] = [
   },
 ]
 
+onMounted(() => {
+  if (programsstore.allPrograms.length <= 0) {
+    programsstore.getProgramsFromDB()
+  }
+
+  programsstore.programStoreInit()
+})
+
 const generateComponent = (program: IProgram) => {
   programsstore.addProgramToActive(program)
 }

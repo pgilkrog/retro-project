@@ -99,7 +99,7 @@ const contextMenuPosition = ref<{ x: number; y: number }>({ x: 0, y: 0 })
 const { userData } = storeToRefs(userstore)
 
 onMounted(async () => {
-  await programsstore.init()
+  await programsstore.programStoreInit()
 })
 
 const generateComponent = (program: IProgram): void => {
