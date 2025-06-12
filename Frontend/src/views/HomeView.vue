@@ -18,6 +18,7 @@
           :key="program.listItem._id"
           :id="program.id"
           v-bind="program.listItem"
+          :background-color="userData.settings?.backgroundColour"
           @generate-component="generateComponent(program.listItem)"
         />
       </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="tabsComponent flex">
+  <div class="tabscomponent flex">
     <div
       v-for="(item, key) in list"
       :key
@@ -13,7 +13,7 @@
     >
       {{ item }}
     </div>
-    <div class="tab-fill.flex.flex-grow.border-b.border-black" />
+    <div class="flex flex-grow border-b border-black" />
   </div>
 </template>
 <script setup lang="ts">

@@ -59,7 +59,7 @@ const emit = defineEmits<{
 const filestore = fileStore()
 
 const displayOption = ref<string>('')
-const images = computed(() => filestore.allFiles)
+const images = computed(() => filestore.userFiles)
 
 const imageClicked = (file: IFile | undefined) => {
   emit('setTempImg', file)

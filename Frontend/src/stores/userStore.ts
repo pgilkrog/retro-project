@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { chatStore } from './chatStore'
 import type { IUser, IUserResponse, IUserSettings } from '@/models'
-import { ref } from 'vue'
 import setAuthToken from '@/helpers/setAuthToken'
 import { get, put } from '@/helpers/httpHelper'
 

@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { userStore } from './userStore'
 import { get, post } from '@/helpers/httpHelper'
 
-const url = import.meta.env.VITE_BASE_URL + '/error'
+const url = '/error'
 
 export const useErrorStore = defineStore('errorStore', () => {
   const error = ref<IErrorItem>()
@@ -13,8 +13,8 @@ export const useErrorStore = defineStore('errorStore', () => {
   const userstore = userStore()
 
   const getErrors = async () => {
-    const response = await get<{ data: { errors: IErrorItem[] } }>(url)
-    errors.value = response.data.errors
+    const response = await get<{ errors: IErrorItem[] }>(url)
+    errors.value = response.errors
   }
 
   const setErrorList = () => {

@@ -16,8 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
 interface IListItem {
   name: string
   icon: string

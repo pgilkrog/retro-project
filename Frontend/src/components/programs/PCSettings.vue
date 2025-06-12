@@ -94,14 +94,21 @@ const tabsList: string[] = ['Display', 'Screen Saver', 'Profile']
 
 onMounted(async () => {
   color.value = userData.value?.settings.backgroundColour ?? ''
-  await filestore.getAllFiles()
+  await filestore.getFilesByUserId(userData.value?._id)
+
+  tempImg.value =
+    userData.value?.settings.backgroundImage != undefined
+      ? filestore.userFiles.find((file) => file.name === userData.value?.settings.backgroundImage)
+      : undefined
 })
 
 const onColorSelected = (event: Event): void => {
   event.preventDefault()
 
   const tempData = userstore.userData
-  if (tempData == undefined) return
+  if (tempData == undefined) {
+    return
+  }
 
   tempData.settings.backgroundColour = color.value
   userstore.setUserData(tempData)
@@ -110,7 +117,9 @@ const onColorSelected = (event: Event): void => {
 const saveUserInfo = async () => {
   const tempSettings = userData.value
 
-  if (tempSettings == undefined) return
+  if (tempSettings == undefined) {
+    return
+  }
 
   setImage(tempImg.value)
   tempSettings.settings.backgroundColour = color.value
@@ -130,7 +139,10 @@ const setImage = (file: IFile | undefined) => {
   }
 }
 
-const setTempImg = (img: IFile): void => {
-  tempImg.value = img
+const setTempImg = (img: IFile | undefined): void => {
+  tempImg.value = undefined
+  setTimeout(() => {
+    tempImg.value = img
+  }, 100)
 }
 </script>

@@ -88,7 +88,7 @@ export const programsStore = defineStore('programs', () => {
     allPrograms.value.forEach((program) => {
       const findProgram = programs.find((pro) => pro.programId === program._id)
 
-      if (findProgram !== undefined) {
+      if (findProgram != undefined) {
         installedPrograms.value.push({
           _id: findProgram._id,
           program: program,

@@ -22,8 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
 const imageIsLoading = ref<boolean>(true)
 const src = ref<string>('')
 const fadeInClass = ref<string>('fade-in-image')

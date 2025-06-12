@@ -1,16 +1,17 @@
 <template>
-  <div class="pc-screen">
+  <div class="pc-screen flex flex-col items-center justify-center">
     <div class="bg-shadow p-4 fit-content">
       <div class="bg-shadow-inner img-box">
         <ImageComponent
-          v-if="tempImg !== undefined && tempImg.name"
+          v-if="tempImg != undefined && tempImg.name"
           id="pcscreen"
-          :source="getImageUrl(tempImg.name)"
+          :source="getDatUrl"
           alt="image for showing how wallpaper looks like"
-          class
+          class="box"
         />
         <div
           v-else
+          class="w-full h-full"
           :style="[{ 'background-color': userData?.settings?.backgroundColour }]"
         />
       </div>
@@ -33,9 +34,9 @@ const { tempImg } = defineProps<{
 const userstore = userStore()
 const { userData } = storeToRefs(userstore)
 
-const getImageUrl = (filename: string) => {
-  return `${import.meta.env.VITE_BASE_URL}/uploads/${filename}`
-}
+const getDatUrl = computed(() => {
+  return tempImg != undefined ? `${import.meta.env.VITE_BASE_URL}/uploads/${tempImg.name}` : ''
+})
 </script>
 
 <style scoped lang="sass">

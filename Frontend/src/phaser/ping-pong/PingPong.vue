@@ -17,7 +17,6 @@
 import Phaser from 'phaser'
 import Loader from './scenes/Loader'
 import GameScene from './scenes/GameScene'
-import { ref } from 'vue'
 
 const gameContainer = ref<HTMLDivElement>()
 

@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { io } from 'socket.io-client'
-import { ref } from 'vue'
 import { userStore } from './userStore'
 import type { IChatMessage, IChatRoom } from '@/models'
 import { get } from '@/helpers/httpHelper'

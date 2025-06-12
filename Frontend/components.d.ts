@@ -30,7 +30,6 @@ declare module 'vue' {
     IconComponent: typeof import('./src/components/utils/IconComponent.vue')['default']
     ImageComponent: typeof import('./src/components/utils/ImageComponent.vue')['default']
     InputComponent: typeof import('./src/components/utils/InputComponent.vue')['default']
-    Loading: typeof import('./src/components/Loading.vue')['default']
     LoadingComponent: typeof import('./src/components/LoadingComponent.vue')['default']
     LoginScreen: typeof import('./src/components/auth/LoginScreen.vue')['default']
     ManagePrograms: typeof import('./src/components/admin/managePrograms/ManagePrograms.vue')['default']

@@ -4,17 +4,15 @@
     v-bind="$attrs"
     @click="emit('generate-component')"
   >
-    <!-- <IconComponent
-      :color
-      :name="image"
-      size="34"
-    /> -->
     <ImageComponent
       class="h-16 w-16"
       :id="image"
       :source="icon"
     />
-    <p class="mt-2 line-clamp-2 bg-emerald-700 px-1 py-0.5">
+    <p
+      class="mt-2 line-clamp-2 px-1 py-0.5"
+      :style="[{ 'background-color': backgroundColor }]"
+    >
       {{ displayName }}
     </p>
   </div>
@@ -22,15 +20,23 @@
 
 <script setup lang="ts">
 import ImageComponent from './utils/ImageComponent.vue'
-import icon from '@/assets/icons/retropcicon.png'
 
-const { color = 'text-black', image = 'fa-house' } = defineProps<{
+const { image = 'fa-house', backgroundColor = '#047857' } = defineProps<{
   color?: string
   image?: string
   displayName: string
+  backgroundColor?: string
 }>()
 
 const emit = defineEmits<{
   'generate-component': []
 }>()
+
+const icons = import.meta.glob('@/assets/icons/*', { eager: true, import: 'default' })
+
+const icon = computed(() => {
+  const found = icons[`/src/assets/icons/${image}.png`]
+
+  return typeof found === 'string' ? found : (icons['/src/assets/icons/retropcicon.png'] as string)
+})
 </script>
