@@ -23,7 +23,10 @@ export default class Alien {
 
   update = (time: number, dt: number) => {
     this.alienBullets?.children.each((bullet: any) => {
-      if (bullet.y > this.scene.physics.world.bounds.height) this.resetBullet(bullet)
+      if (bullet.y > this.scene.physics.world.bounds.height) {
+        this.resetBullet(bullet)
+      }
+
       return bullet
     })
   }
@@ -40,6 +43,7 @@ export default class Alien {
         alien.setScale(0.6)
         aliens.add(alien)
         this.addAlienShootEvent(alien)
+
         return alien
       })
 
@@ -54,6 +58,7 @@ export default class Alien {
         alien.setScale(0.8)
         aliens.add(alien)
         this.addAlienShootEvent(alien)
+
         return alien
       })
 
@@ -67,6 +72,7 @@ export default class Alien {
       .children.each((alien: any) => {
         aliens.add(alien)
         this.addAlienShootEvent(alien)
+
         return alien
       })
   }
@@ -82,7 +88,7 @@ export default class Alien {
   alienShoot = (alien: any) => {
     if (alien.active === true) {
       const bullet = this.alienBullets?.get(alien.x, alien.y)
-      if (bullet) {
+      if (bullet != undefined) {
         this.lazerSound2.play()
         bullet
           .setActive(true)
@@ -105,7 +111,10 @@ export default class Alien {
     let leftmostAlien = this.scene.physics.world.bounds.width - 50
 
     aliens.children.each((alien: any, index: number) => {
-      if (alien.y > this.scene.physics.world.bounds.height) this.scene.scene.stop()
+      if (alien.y > this.scene.physics.world.bounds.height) {
+        this.scene.scene.stop()
+      }
+
       alien.setVelocityX(this.alien_speed * this.direction)
 
       if (alien.x > rightmostAlien) {
@@ -131,6 +140,7 @@ export default class Alien {
       })
     }
   }
+
   resetBullet = (bullet: Physics.Arcade.Sprite) => {
     bullet.setActive(false).setVisible(false).setPosition(-20, -20).setVelocityY(0)
   }
