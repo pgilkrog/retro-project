@@ -31,7 +31,6 @@ const SHARED_CONFIG = {
 onMounted(() => {
   new Phaser.Game({
     type: Phaser.AUTO,
-    ...SHARED_CONFIG,
     pixelArt: true,
     parent: gameContainer.value,
     physics: {

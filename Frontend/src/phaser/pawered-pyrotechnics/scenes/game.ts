@@ -1,31 +1,80 @@
 import { Scene } from 'phaser'
 import { io, Socket } from 'socket.io-client'
+import PlayerController from '../player/PlayerController'
 
 const api = import.meta.env.VITE_BASE_URL
 
-interface PlayerSprites {
-  [id: string]: Phaser.GameObjects.Arc
-}
-
 export default class Game extends Scene {
-  socket: Socket | undefined
-  players: PlayerSprites = {}
-  myId: string | undefined = ''
+  private socket: Socket | undefined
+  private myId: string | undefined = ''
+  private solidWalls: Phaser.Physics.Arcade.StaticGroup | undefined
 
-  private keyInputs: {
-    [key: string]: Phaser.Input.Keyboard.Key
-  } = {}
+  private thisPlayer: PlayerController | undefined
+  private playerList: Record<string, PlayerController> = {}
 
   constructor() {
     super({ key: 'Game' })
   }
 
-  create = () => {
-    this.createKeyInputs(this)
+  create = async () => {
+    await this.createSockets()
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
+      this.socket?.disconnect()
+    })
+  }
+
+  update(dt: number) {
+    this.thisPlayer?.update(dt)
+  }
+
+  addPlayer(player: { id: string; x: number; y: number }) {
+    if (this.socket != undefined && player.id != this.myId) {
+      this.playerList[player.id] = new PlayerController(this, player.x, player.y, this.socket)
+    }
+  }
+
+  createSolidWalls = () => {
+    this.solidWalls = this.physics.add.staticGroup()
+
+    const tileSize = 64
+    const cols = 15 // width in tiles
+    const rows = 15 // height in tiles
+    const startX = 0 // starting X position
+    const startY = 0 // starting Y position
+
+    for (let y = 0; y < rows; y++) {
+      for (let x = 0; x < cols; x++) {
+        const isBorder = y === 0 || y === rows - 1 || x === 0 || x === cols - 1
+        const isInnerBlock = y % 2 === 0 && x % 2 === 0
+
+        if (isBorder || isInnerBlock) {
+          const wall = this.solidWalls.create(
+            startX + x * tileSize,
+            startY + y * tileSize,
+            'solidwall'
+          )
+          wall.setScale(2)
+          wall.setOrigin(0)
+          wall.setSize(64, 64)
+          wall.setOffset(16, 16)
+        }
+      }
+    }
+
+    this.physics.add.collider(this.thisPlayer?.sprite!, this.solidWalls)
+  }
+
+  createSockets = () => {
     this.socket = io(api.replace('/api', ''))
 
     this.socket.on('connect', () => {
       this.myId = this.socket?.id
+
+      if (this.socket != undefined && this.socket.id != undefined) {
+        this.thisPlayer = new PlayerController(this, 400, 400, this.socket)
+
+        this.createSolidWalls()
+      }
     })
 
     this.socket?.emit('joinGame', this.myId)
@@ -41,98 +90,14 @@ export default class Game extends Scene {
     })
 
     this.socket.on('playerMoved', (data) => {
-      const player = this.players[data.id]
-      if (player != undefined) {
-        player.setPosition(data.x, data.y)
+      const tempPlayer = this.playerList[data.id]
+      if (tempPlayer != undefined && data.id != this.myId) {
+        tempPlayer.sprite?.setPosition(data.x, data.y)
       }
     })
 
     this.socket.on('playerDisconnected', (id) => {
-      this.players[id].destroy()
-      delete this.players[id]
+      delete this.playerList[id]
     })
-
-    // this.input.keyboard?.on('keydown', this.handleMovement.bind(this))
-
-    this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
-      this.socket?.disconnect()
-    })
-  }
-
-  update() {
-    if (this.keyInputs['keyW']?.isDown) {
-      this.handleMovement('up')
-    }
-
-    if (this.keyInputs['keyS']?.isDown) {
-      this.handleMovement('down')
-    }
-
-    if (this.keyInputs['keyA']?.isDown) {
-      this.handleMovement('left')
-    }
-
-    if (this.keyInputs['keyD']?.isDown) {
-      this.handleMovement('right')
-    }
-
-    if (this.keyInputs['keySpace']?.isDown) {
-      this.handleMovement('space')
-    }
-  }
-
-  addPlayer(player: { id: string; x: number; y: number }) {
-    const color = player.id === this.myId ? 0x00ff00 : 0xff0000
-    const circle = this.add.circle(player.x, player.y, 20, color)
-    this.players[player.id] = circle
-  }
-
-  handleMovement(key: string) {
-    if (this.myId == undefined) {
-      return
-    }
-
-    const me = this.players[this.myId]
-
-    if (me == undefined) {
-      return
-    }
-
-    const speed = 3
-    let moved = false
-
-    switch (key) {
-      case 'up':
-        me.y -= speed
-        moved = true
-        break
-      case 'down':
-        me.y += speed
-        moved = true
-        break
-      case 'left':
-        me.x -= speed
-        moved = true
-        break
-      case 'right':
-        me.x += speed
-        moved = true
-        break
-      case 'space':
-        console.log('Space key pressed')
-        break
-    }
-
-    if (moved === true) {
-      this.socket?.emit('move', { x: me.x, y: me.y })
-    }
-  }
-
-  private createKeyInputs(scene: Phaser.Scene) {
-    this.keyInputs['keyA'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
-    this.keyInputs['keyD'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
-    this.keyInputs['keyW'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
-    this.keyInputs['keyS'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN)
-    this.keyInputs['keySpace'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
   }
 }
