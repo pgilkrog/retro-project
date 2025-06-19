@@ -17,6 +17,7 @@ export default class PlayerController {
   private health: number = 100
   private speed: number = 200
   private canLayBomb: boolean = true
+  private bombDelayRecharge: number = 600 // milliseconds
   private socket: Socket | undefined
 
   private keyInputs: {
@@ -77,11 +78,14 @@ export default class PlayerController {
     ) {
       this.stateMachine?.setState(playerStates.walk)
     }
+
+    if (this.keyInputs['keySpace'].isDown && this.canLayBomb) {
+      this.stateMachine?.setState(playerStates.lay_bomb)
+    }
   }
 
   walkOnEnter() {}
   walkOnUpdate() {
-    console.log('PlayerController: walkOnUpdate')
     if (this.sprite != undefined) {
       if (this.keyInputs['keyLeft'].isDown || this.keyInputs['keyRight'].isDown) {
         const direction = this.keyInputs['keyRight'].isDown ? 1 : -1
@@ -107,17 +111,37 @@ export default class PlayerController {
         this.sprite.setVelocityY(0)
         this.stateMachine?.setState(playerStates.idle)
       }
+
+      if (this.keyInputs['keySpace'].isDown && this.canLayBomb) {
+        this.stateMachine?.setState(playerStates.lay_bomb)
+      }
     }
+
     this.socket?.emit('move', { x: this.sprite?.x, y: this.sprite?.y })
   }
 
   layBombOnEnter() {}
-  layBombOnUpdate() {}
+  layBombOnUpdate() {
+    if (this.canLayBomb) {
+      this.canLayBomb = false
+      this.socket?.emit('placeBomb', { x: this.sprite?.x, y: this.sprite?.y })
+      this.stateMachine?.setState(playerStates.idle)
+
+      this.scene?.time.addEvent({
+        delay: this.bombDelayRecharge,
+        callback: () => {
+          console.log('Bomb can be laid again')
+          this.canLayBomb = true
+        },
+        callbackScope: this,
+      })
+    } else {
+      console.log('Cannot lay another bomb yet')
+    }
+  }
 
   rechargeOnEnter() {}
   rechargeOnUpdate() {}
-
-  handleButtonPressed(key: string) {}
 
   private createKeyInputs(scene: Phaser.Scene) {
     this.keyInputs['keyLeft'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)

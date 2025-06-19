@@ -1,6 +1,7 @@
 import { Scene } from 'phaser'
 import { io, Socket } from 'socket.io-client'
 import PlayerController from '../player/PlayerController'
+import BombController from '../BombController'
 
 const api = import.meta.env.VITE_BASE_URL
 
@@ -12,6 +13,8 @@ export default class Game extends Scene {
   private thisPlayer: PlayerController | undefined
   private playerList: Record<string, PlayerController> = {}
 
+  private bombController: BombController | undefined
+
   constructor() {
     super({ key: 'Game' })
   }
@@ -21,6 +24,8 @@ export default class Game extends Scene {
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.socket?.disconnect()
     })
+
+    this.bombController = new BombController(this, 0, 0)
   }
 
   update(dt: number) {
@@ -98,6 +103,11 @@ export default class Game extends Scene {
 
     this.socket.on('playerDisconnected', (id) => {
       delete this.playerList[id]
+    })
+
+    this.socket.on('bombPlaced', (data) => {
+      console.log('Bomb placed by:', data)
+      this.bombController?.getBomb(data.x, data.y)
     })
   }
 }
