@@ -6,6 +6,7 @@ enum playerStates {
   walk = 'player_walk',
   lay_bomb = 'player_bomb',
   recharge = 'player_recharge',
+  dead = 'player_dead',
 }
 
 export default class PlayerController {
@@ -30,9 +31,9 @@ export default class PlayerController {
     this.stateMachine = new StateMachine(this, 'player')
     this.sprite = scene.physics.add
       .sprite(spawnX, spawnY, 'cat1')
-      .setSize(540, 740)
-      .setScale(0.07)
-      .setOffset(250, 200)
+      .setSize(40, 54)
+      .setScale(1)
+      .setOffset(15, 6)
     this.socket = socket
     this.createKeyInputs(scene)
     this.setStates()
@@ -64,6 +65,10 @@ export default class PlayerController {
       .addState(playerStates.recharge, {
         onEnter: this.rechargeOnEnter,
         onUpdate: this.rechargeOnUpdate,
+      })
+      .addState(playerStates.dead, {
+        onEnter: this.deadOnEnter,
+        onUpdate: this.deadOnUpdate,
       })
       .setState(playerStates.idle)
   }
@@ -143,11 +148,20 @@ export default class PlayerController {
   rechargeOnEnter() {}
   rechargeOnUpdate() {}
 
+  deadOnEnter() {
+    this.sprite?.setTexture('bomb')
+  }
+  deadOnUpdate() {}
+
   private createKeyInputs(scene: Phaser.Scene) {
     this.keyInputs['keyLeft'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
     this.keyInputs['keyRight'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
     this.keyInputs['keyUp'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
     this.keyInputs['keyDown'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN)
     this.keyInputs['keySpace'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+  }
+
+  public setDeathState() {
+    this.stateMachine?.setState(playerStates.dead)
   }
 }

@@ -20,12 +20,13 @@ export default class Game extends Scene {
   }
 
   create = async () => {
-    await this.createSockets()
+    this.createSockets()
+
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.socket?.disconnect()
     })
 
-    this.bombController = new BombController(this, 0, 0)
+    this.bombController = new BombController(this)
   }
 
   update(dt: number) {
@@ -79,6 +80,27 @@ export default class Game extends Scene {
         this.thisPlayer = new PlayerController(this, 400, 400, this.socket)
 
         this.createSolidWalls()
+
+        if (
+          this.thisPlayer != undefined &&
+          this.thisPlayer.sprite != undefined &&
+          this.bombController != undefined &&
+          this.bombController.bombs != undefined &&
+          this.bombController.explosions != undefined
+        ) {
+          this.physics.add.collider(this.thisPlayer.sprite, this.bombController.bombs)
+
+          this.physics.add.collider(
+            this.thisPlayer.sprite,
+            this.bombController.explosions,
+            (body1, body2) => {
+              if (body1 === this.thisPlayer?.sprite || body2 === this.thisPlayer?.sprite) {
+                this.thisPlayer?.setDeathState()
+                this.socket?.emit('playerDied', this.myId)
+              }
+            }
+          )
+        }
       }
     })
 
@@ -106,8 +128,19 @@ export default class Game extends Scene {
     })
 
     this.socket.on('bombPlaced', (data) => {
-      console.log('Bomb placed by:', data)
-      this.bombController?.getBomb(data.x, data.y)
+      const getBomb = this.bombController?.getBomb(data.x, data.y)
+
+      if (getBomb != undefined) {
+        this.bombController?.activateBomb(getBomb)
+      }
+    })
+
+    this.socket.on('playerDied', (id) => {
+      const tempPlayer = this.playerList[id]
+
+      if (tempPlayer != undefined) {
+        tempPlayer.setDeathState()
+      }
     })
   }
 }

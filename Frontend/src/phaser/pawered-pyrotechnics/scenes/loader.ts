@@ -1,7 +1,7 @@
 import { Scene } from 'phaser'
-import cat1 from '../assets/player_cat_1.png'
+import cat1 from '../assets/FelineBombermanPixelArtSmall.png'
 import solidwall from '../assets/solidwall.png'
-import bomb from '../assets/bomb.png'
+import bomb from '../assets/bombSmall.png'
 
 const api = import.meta.env.VITE_BASE_URL + '/assets/spaceshooter/'
 
