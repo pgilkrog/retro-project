@@ -9,6 +9,7 @@
 import Phaser from 'phaser'
 import Loader from './scenes/loader'
 import GameScene from './scenes/game'
+import MainMenu from './scenes/mainMenu'
 
 export interface IConfig {
   mapOffset: number
@@ -48,7 +49,7 @@ onMounted(() => {
       height: '100%',
       fullscreenTarget: 'body',
     },
-    scene: [Loader, GameScene],
+    scene: [Loader, GameScene, MainMenu],
     audio: {
       disableWebAudio: false,
     },

@@ -8,7 +8,8 @@ const api = import.meta.env.VITE_BASE_URL
 export default class Game extends Scene {
   private socket: Socket | undefined
   private myId: string | undefined = ''
-  private solidWalls: Phaser.Physics.Arcade.StaticGroup | undefined
+  private solidWalls: Phaser.Tilemaps.TilemapLayer | undefined // <-- Add this line
+  private breakableWalls: Phaser.Tilemaps.TilemapLayer | undefined // <-- Add this
 
   private thisPlayer: PlayerController | undefined
   private playerList: Record<string, PlayerController> = {}
@@ -25,8 +26,6 @@ export default class Game extends Scene {
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.socket?.disconnect()
     })
-
-    this.bombController = new BombController(this)
   }
 
   update(dt: number) {
@@ -39,35 +38,34 @@ export default class Game extends Scene {
     }
   }
 
-  createSolidWalls = () => {
-    this.solidWalls = this.physics.add.staticGroup()
+  createWalls = () => {
+    const map = this.make.tilemap({ key: 'map1' })
+    const tileset = map.addTilesetImage('walls', 'walls', 64, 64)
 
-    const tileSize = 64
-    const cols = 15 // width in tiles
-    const rows = 15 // height in tiles
-    const startX = 0 // starting X position
-    const startY = 0 // starting Y position
+    if (tileset != undefined) {
+      const solidWalls = map.createLayer('SolidWalls', tileset)
 
-    for (let y = 0; y < rows; y++) {
-      for (let x = 0; x < cols; x++) {
-        const isBorder = y === 0 || y === rows - 1 || x === 0 || x === cols - 1
-        const isInnerBlock = y % 2 === 0 && x % 2 === 0
+      if (solidWalls != undefined) {
+        this.solidWalls = solidWalls
+        solidWalls.setCollisionByProperty({ collide: true })
+        this.physics.add.collider(this.thisPlayer?.sprite!, solidWalls)
+      }
 
-        if (isBorder || isInnerBlock) {
-          const wall = this.solidWalls.create(
-            startX + x * tileSize,
-            startY + y * tileSize,
-            'solidwall'
-          )
-          wall.setScale(2)
-          wall.setOrigin(0)
-          wall.setSize(64, 64)
-          wall.setOffset(16, 16)
-        }
+      const breakableWalls = map.createLayer('BreakableWalls', tileset)
+
+      if (breakableWalls != undefined) {
+        this.breakableWalls = breakableWalls
+        breakableWalls.setCollisionByProperty({ collide: true })
+
+        // Randomize breakable walls: remove some tiles randomly
+        breakableWalls.forEachTile((tile) => {
+          if (tile.index !== -1 && Math.random() > 0.5) {
+            // 50% chance to remove
+            breakableWalls.removeTileAt(tile.x, tile.y)
+          }
+        })
       }
     }
-
-    this.physics.add.collider(this.thisPlayer?.sprite!, this.solidWalls)
   }
 
   createSockets = () => {
@@ -79,7 +77,9 @@ export default class Game extends Scene {
       if (this.socket != undefined && this.socket.id != undefined) {
         this.thisPlayer = new PlayerController(this, 400, 400, this.socket)
 
-        this.createSolidWalls()
+        this.createWalls()
+
+        this.bombController = new BombController(this, this.solidWalls, this.breakableWalls) // <-- Pass breakableWalls
 
         if (
           this.thisPlayer != undefined &&

@@ -1,7 +1,8 @@
 import { Scene } from 'phaser'
 import cat1 from '../assets/FelineBombermanPixelArtSmall.png'
-import solidwall from '../assets/solidwall.png'
+import walls from '../assets/walls.png'
 import bomb from '../assets/bombSmall.png'
+import map1 from '../assets/map1.json'
 
 const api = import.meta.env.VITE_BASE_URL + '/assets/spaceshooter/'
 
@@ -12,11 +13,13 @@ export default class Loader extends Scene {
 
   preload() {
     this.load.image('cat1', cat1)
-    this.load.image('solidwall', solidwall)
     this.load.image('bomb', bomb)
+
+    this.load.image('walls', walls)
+    this.load.tilemapTiledJSON('map1', map1)
   }
 
   create() {
-    this.scene.start('Game')
+    this.scene.start('MainMenu')
   }
 }
