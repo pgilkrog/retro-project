@@ -20,6 +20,7 @@ export default class PlayerController {
   private canLayBomb: boolean = true
   private bombDelayRecharge: number = 600 // milliseconds
   private socket: Socket | undefined
+  public playerNumber: number = 0
 
   private keyInputs: {
     [key: string]: Phaser.Input.Keyboard.Key
@@ -163,5 +164,10 @@ export default class PlayerController {
 
   public setDeathState() {
     this.stateMachine?.setState(playerStates.dead)
+  }
+
+  public setPlayerNumber(playerNumber: number) {
+    this.playerNumber = playerNumber
+    console.log('playerNUmber', playerNumber)
   }
 }

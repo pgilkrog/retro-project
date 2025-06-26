@@ -5,16 +5,26 @@ import BombController from '../BombController'
 
 const api = import.meta.env.VITE_BASE_URL
 
+interface MapCords {
+  x: number
+  y: number
+}
+
 export default class Game extends Scene {
   private socket: Socket | undefined
   private myId: string | undefined = ''
-  private solidWalls: Phaser.Tilemaps.TilemapLayer | undefined // <-- Add this line
-  private breakableWalls: Phaser.Tilemaps.TilemapLayer | undefined // <-- Add this
+  private solidWalls: Phaser.Tilemaps.TilemapLayer | undefined
+  private breakableWalls: Phaser.Tilemaps.TilemapLayer | undefined
 
-  private thisPlayer: PlayerController | undefined
+  private player: PlayerController | undefined
   private playerList: Record<string, PlayerController> = {}
 
   private bombController: BombController | undefined
+
+  private map: Phaser.Tilemaps.Tilemap | undefined
+  private tileset: Phaser.Tilemaps.Tileset | undefined
+  private mapCors: MapCords[] = []
+  private spawnPoints: MapCords[] = []
 
   constructor() {
     super({ key: 'Game' })
@@ -29,7 +39,7 @@ export default class Game extends Scene {
   }
 
   update(dt: number) {
-    this.thisPlayer?.update(dt)
+    this.player?.update(dt)
   }
 
   addPlayer(player: { id: string; x: number; y: number }) {
@@ -39,31 +49,63 @@ export default class Game extends Scene {
   }
 
   createWalls = () => {
-    const map = this.make.tilemap({ key: 'map1' })
-    const tileset = map.addTilesetImage('walls', 'walls', 64, 64)
+    this.map = this.make.tilemap({ key: 'map1' })
+    this.tileset = this.map.addTilesetImage('walls', 'walls', 64, 64) ?? undefined
 
-    if (tileset != undefined) {
-      const solidWalls = map.createLayer('SolidWalls', tileset)
+    if (this.tileset != undefined) {
+      const solidWalls = this.map.createLayer('SolidWalls', this.tileset)
 
       if (solidWalls != undefined) {
         this.solidWalls = solidWalls
         solidWalls.setCollisionByProperty({ collide: true })
-        this.physics.add.collider(this.thisPlayer?.sprite!, solidWalls)
+        this.physics.add.collider(this.player?.sprite!, solidWalls)
       }
 
-      const breakableWalls = map.createLayer('BreakableWalls', tileset)
+      if (this.player?.playerNumber === 1) {
+        this.createBreakableWalls(undefined)
+      } else {
+        this.createBreakableWalls(this.mapCors)
+      }
+    }
+  }
+
+  createBreakableWalls = (mapCords: MapCords[] | undefined) => {
+    if (this.map != undefined && this.tileset != undefined) {
+      const breakableWalls = this.map.createLayer('BreakableWalls', this.tileset)
 
       if (breakableWalls != undefined) {
+        this.physics.add.collider(this.player?.sprite!, breakableWalls)
         this.breakableWalls = breakableWalls
         breakableWalls.setCollisionByProperty({ collide: true })
 
-        // Randomize breakable walls: remove some tiles randomly
-        breakableWalls.forEachTile((tile) => {
-          if (tile.index !== -1 && Math.random() > 0.5) {
-            // 50% chance to remove
-            breakableWalls.removeTileAt(tile.x, tile.y)
-          }
-        })
+        if (mapCords != undefined) {
+          console.log(mapCords)
+          // Use provided coordinates to set breakable walls
+          mapCords.breakableWalls.forEach((cord) => {
+            breakableWalls.removeTileAt(cord.x, cord.y)
+          })
+        } else {
+          console.log('HIT THIS', this.player?.playerNumber)
+          // Randomize breakable walls: remove some tiles randomly
+          const breakableWallTiles: MapCords[] = []
+
+          breakableWalls.forEachTile((tile) => {
+            if (tile.index !== -1 && Math.random() > 0.5) {
+              // 50% chance to remove
+              breakableWalls.removeTileAt(tile.x, tile.y)
+              breakableWallTiles.push({ x: tile.x, y: tile.y })
+            }
+          })
+
+          this.socket?.emit('mapCreated', { breakableWalls: breakableWallTiles })
+        }
+
+        // Serialize the remaining breakable wall tiles
+        // breakableWalls.forEachTile((tile) => {
+        //   if (tile.index !== -1) {
+        //     breakableWallTiles.push({ x: tile.x, y: tile.y, index: tile.index })
+        //   }
+        // })
       }
     }
   }
@@ -75,36 +117,45 @@ export default class Game extends Scene {
       this.myId = this.socket?.id
 
       if (this.socket != undefined && this.socket.id != undefined) {
-        this.thisPlayer = new PlayerController(this, 400, 400, this.socket)
-
-        this.createWalls()
-
-        this.bombController = new BombController(this, this.solidWalls, this.breakableWalls) // <-- Pass breakableWalls
-
-        if (
-          this.thisPlayer != undefined &&
-          this.thisPlayer.sprite != undefined &&
-          this.bombController != undefined &&
-          this.bombController.bombs != undefined &&
-          this.bombController.explosions != undefined
-        ) {
-          this.physics.add.collider(this.thisPlayer.sprite, this.bombController.bombs)
-
-          this.physics.add.collider(
-            this.thisPlayer.sprite,
-            this.bombController.explosions,
-            (body1, body2) => {
-              if (body1 === this.thisPlayer?.sprite || body2 === this.thisPlayer?.sprite) {
-                this.thisPlayer?.setDeathState()
-                this.socket?.emit('playerDied', this.myId)
-              }
-            }
-          )
-        }
+        this.player = new PlayerController(this, 400, 400, this.socket)
+        this.socket?.emit('joinGame')
       }
     })
 
-    this.socket?.emit('joinGame', this.myId)
+    this.socket.on('startGame', () => {
+      this.createWalls()
+      this.map?.getObjectLayer('PlayerSpawn')?.objects.forEach((data) => {
+        this.spawnPoints.push({ x: data.x ?? 0, y: data.y ?? 0 })
+      })
+
+      this.player?.sprite?.setPosition(
+        this.spawnPoints[this.player.playerNumber - 1].x,
+        this.spawnPoints[this.player.playerNumber - 1].y
+      )
+
+      this.bombController = new BombController(this, this.solidWalls, this.breakableWalls)
+
+      if (
+        this.player != undefined &&
+        this.player.sprite != undefined &&
+        this.bombController != undefined &&
+        this.bombController.bombs != undefined &&
+        this.bombController.explosions != undefined
+      ) {
+        this.physics.add.collider(this.player.sprite, this.bombController.bombs)
+
+        this.physics.add.collider(
+          this.player.sprite,
+          this.bombController.explosions,
+          (body1, body2) => {
+            if (body1 === this.player?.sprite || body2 === this.player?.sprite) {
+              this.player?.setDeathState()
+              this.socket?.emit('playerDied', this.myId)
+            }
+          }
+        )
+      }
+    })
 
     this.socket.on('currentPlayers', (players) => {
       for (const id in players) {
@@ -142,5 +193,14 @@ export default class Game extends Scene {
         tempPlayer.setDeathState()
       }
     })
+
+    this.socket.on('mapCords', (data) => {
+      console.log(data)
+      this.mapCors = data
+    })
+
+    this.socket.on('yourPlayerNumber', (playerNumber: number) =>
+      this.player?.setPlayerNumber(playerNumber)
+    )
   }
 }
