@@ -1,7 +1,7 @@
 <template>
   <div
     ref="gameContainer"
-    class="game-container"
+    class="game-container bg-emerald-700"
   />
 </template>
 
@@ -19,9 +19,9 @@ export interface IConfig {
 }
 
 const gameContainer = ref<HTMLDivElement>()
-const MAP_WIDTH = 32 * 100
+const MAP_WIDTH = 64 * 15
 const WIDTH = document.body.offsetWidth
-const HEIGHT = 32 * 100
+const HEIGHT = 64 * 15
 const SHARED_CONFIG = {
   mapOffset: MAP_WIDTH > WIDTH ? MAP_WIDTH - WIDTH : 0,
   width: WIDTH,
@@ -43,10 +43,10 @@ onMounted(() => {
     },
     scale: {
       parent: gameContainer.value,
+      width: 960,
+      height: 832,
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH,
-      width: '100%',
-      height: '100%',
       fullscreenTarget: 'body',
     },
     scene: [Loader, GameScene, MainMenu],

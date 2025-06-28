@@ -1,18 +1,23 @@
+import CardController from "./CardController"
+
 export default class BombController {
   private scene: Phaser.Scene | undefined
   private solidWalls: Phaser.Tilemaps.TilemapLayer | undefined
-  private breakableWalls: Phaser.Tilemaps.TilemapLayer | undefined // <-- Add this
+  private breakableWalls: Phaser.Tilemaps.TilemapLayer | undefined
   public bombs: Phaser.Physics.Arcade.Group | undefined
   public explosions: Phaser.Physics.Arcade.Group | undefined
+  private cardController: CardController | undefined
 
   constructor(
     scene: Phaser.Scene,
     solidWalls?: Phaser.Tilemaps.TilemapLayer,
-    breakableWalls?: Phaser.Tilemaps.TilemapLayer // <-- Add this
+    breakableWalls?: Phaser.Tilemaps.TilemapLayer,
+    cardController?: CardController
   ) {
     this.scene = scene
     this.solidWalls = solidWalls
-    this.breakableWalls = breakableWalls // <-- Add this
+    this.breakableWalls = breakableWalls 
+    this.cardController = cardController
 
     this.bombs = scene.physics.add.group({
       classType: Phaser.Physics.Arcade.Sprite,
@@ -39,7 +44,11 @@ export default class BombController {
   }
 
   activateBomb = (bomb: Phaser.Physics.Arcade.Sprite, range: number = 1) => {
-    this.scene?.time.addEvent({
+    if (this.scene == undefined) {
+      return
+    }
+
+    this.scene.time.addEvent({
       delay: 3000,
       callback: () => {
         const tileSize = 64
@@ -76,6 +85,8 @@ export default class BombController {
               if (tile != undefined && tile.index !== -1) {
                 // Remove the breakable wall
                 this.breakableWalls.removeTileAt(tile.x, tile.y)
+                
+                this.cardController = new CardController(this.scene!, ex, ey)
                 this.spawnExplosion(ex, ey)
                 break // Stop explosion in this direction
               }
@@ -91,10 +102,10 @@ export default class BombController {
   }
 
   spawnExplosion = (x: number, y: number) => {
-    const explosion = this.explosions?.get(x, y, 'bomb')
+    const explosion = this.explosions?.get(x, y, 'explosion')
 
     if (explosion != undefined) {
-      explosion.setActive(true).setVisible(true).setDepth(1).setScale(1).setAlpha(1)
+      explosion.setActive(true).setVisible(true).setScale(2.46).setDepth(1).setAlpha(1)
 
       this.scene?.time.addEvent({
         delay: 500,

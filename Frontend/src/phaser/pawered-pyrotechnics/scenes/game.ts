@@ -2,6 +2,7 @@ import { Scene } from 'phaser'
 import { io, Socket } from 'socket.io-client'
 import PlayerController from '../player/PlayerController'
 import BombController from '../BombController'
+import type CardController from '../CardController'
 
 const api = import.meta.env.VITE_BASE_URL
 
@@ -20,6 +21,7 @@ export default class Game extends Scene {
   private playerList: Record<string, PlayerController> = {}
 
   private bombController: BombController | undefined
+  private cardController: CardController | undefined
 
   private map: Phaser.Tilemaps.Tilemap | undefined
   private tileset: Phaser.Tilemaps.Tileset | undefined
@@ -53,7 +55,7 @@ export default class Game extends Scene {
     this.tileset = this.map.addTilesetImage('walls', 'walls', 64, 64) ?? undefined
 
     if (this.tileset != undefined) {
-      const solidWalls = this.map.createLayer('SolidWalls', this.tileset)
+      const solidWalls = this.map.createLayer('solidWalls', this.tileset)
 
       if (solidWalls != undefined) {
         this.solidWalls = solidWalls
@@ -69,9 +71,9 @@ export default class Game extends Scene {
     }
   }
 
-  createBreakableWalls = (mapCords: MapCords[] | undefined) => {
+  createBreakableWalls = (mapCords: any | undefined) => {
     if (this.map != undefined && this.tileset != undefined) {
-      const breakableWalls = this.map.createLayer('BreakableWalls', this.tileset)
+      const breakableWalls = this.map.createLayer('breakableWalls', this.tileset)
 
       if (breakableWalls != undefined) {
         this.physics.add.collider(this.player?.sprite!, breakableWalls)
@@ -81,7 +83,7 @@ export default class Game extends Scene {
         if (mapCords != undefined) {
           console.log(mapCords)
           // Use provided coordinates to set breakable walls
-          mapCords.breakableWalls.forEach((cord) => {
+          mapCords.breakableWalls.forEach((cord: any) => {
             breakableWalls.removeTileAt(cord.x, cord.y)
           })
         } else {
@@ -99,13 +101,6 @@ export default class Game extends Scene {
 
           this.socket?.emit('mapCreated', { breakableWalls: breakableWallTiles })
         }
-
-        // Serialize the remaining breakable wall tiles
-        // breakableWalls.forEachTile((tile) => {
-        //   if (tile.index !== -1) {
-        //     breakableWallTiles.push({ x: tile.x, y: tile.y, index: tile.index })
-        //   }
-        // })
       }
     }
   }
@@ -124,7 +119,7 @@ export default class Game extends Scene {
 
     this.socket.on('startGame', () => {
       this.createWalls()
-      this.map?.getObjectLayer('PlayerSpawn')?.objects.forEach((data) => {
+      this.map?.getObjectLayer('playerSpawns')?.objects.forEach((data) => {
         this.spawnPoints.push({ x: data.x ?? 0, y: data.y ?? 0 })
       })
 

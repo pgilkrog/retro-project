@@ -9,11 +9,11 @@ export default class BaseScene extends Phaser.Scene {
   }
 
   create() {
-    this.add.image(0, 0, 'sky').setOrigin(0);
+    this.add.image(0, 0, 'sky').setOrigin(0)
   }
 
   createMenu(menu: any) {
-    let lastMenuPositionY = 0;
+    let lastMenuPositionY = 0
 
     menu.forEach((menuItem: any) => {
       const menuPosition = [this.screenCenter[0], this.screenCenter[1] + lastMenuPositionY]
@@ -25,15 +25,15 @@ export default class BaseScene extends Phaser.Scene {
   }
   
   setupMenuEvents(menuItem: any) {
-    const textGO = menuItem.textGo;
-    textGO.setInteractive();
+    const textGO = menuItem.textGo
+    textGO.setInteractive()
 
     textGO.on('pointerover', () => {
-      textGO.setStyle({fill: '#ff0'});
+      textGO.setStyle({fill: '#ff0'})
     })
 
     textGO.on('pointerout', () => {
-      textGO.setStyle({fill: '#fff'});
+      textGO.setStyle({fill: '#fff'})
     })
 
     textGO.on('pointerup', () => {

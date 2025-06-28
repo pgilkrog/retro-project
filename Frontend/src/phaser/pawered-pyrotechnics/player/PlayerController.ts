@@ -15,7 +15,6 @@ export default class PlayerController {
   public sprite: Phaser.Physics.Arcade.Sprite | undefined
 
   private id: string | undefined = ''
-  private health: number = 100
   private speed: number = 200
   private canLayBomb: boolean = true
   private bombDelayRecharge: number = 600 // milliseconds
