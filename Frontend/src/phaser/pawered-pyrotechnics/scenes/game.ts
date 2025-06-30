@@ -2,7 +2,7 @@ import { Scene } from 'phaser'
 import { io, Socket } from 'socket.io-client'
 import PlayerController from '../player/PlayerController'
 import BombController from '../BombController'
-import type CardController from '../CardController'
+import CardController from '../CardController'
 
 const api = import.meta.env.VITE_BASE_URL
 
@@ -33,6 +33,7 @@ export default class Game extends Scene {
   }
 
   create = async () => {
+    this.cardController = new CardController(this)
     this.createSockets()
 
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
@@ -45,7 +46,7 @@ export default class Game extends Scene {
   }
 
   addPlayer(player: { id: string; x: number; y: number }) {
-    if (this.socket != undefined && player.id != this.myId) {
+    if (this.socket != undefined && player.id !== this.myId) {
       this.playerList[player.id] = new PlayerController(this, player.x, player.y, this.socket)
     }
   }
@@ -55,6 +56,7 @@ export default class Game extends Scene {
     this.tileset = this.map.addTilesetImage('walls', 'walls', 64, 64) ?? undefined
 
     if (this.tileset != undefined) {
+      this.map.createLayer('background', this.tileset)
       const solidWalls = this.map.createLayer('solidWalls', this.tileset)
 
       if (solidWalls != undefined) {
@@ -87,7 +89,6 @@ export default class Game extends Scene {
             breakableWalls.removeTileAt(cord.x, cord.y)
           })
         } else {
-          console.log('HIT THIS', this.player?.playerNumber)
           // Randomize breakable walls: remove some tiles randomly
           const breakableWallTiles: MapCords[] = []
 
@@ -128,7 +129,12 @@ export default class Game extends Scene {
         this.spawnPoints[this.player.playerNumber - 1].y
       )
 
-      this.bombController = new BombController(this, this.solidWalls, this.breakableWalls)
+      this.bombController = new BombController(
+        this, 
+        this.solidWalls, 
+        this.breakableWalls, 
+        this.cardController
+      )
 
       if (
         this.player != undefined &&
@@ -138,7 +144,6 @@ export default class Game extends Scene {
         this.bombController.explosions != undefined
       ) {
         this.physics.add.collider(this.player.sprite, this.bombController.bombs)
-
         this.physics.add.collider(
           this.player.sprite,
           this.bombController.explosions,
@@ -149,6 +154,13 @@ export default class Game extends Scene {
             }
           }
         )
+
+        if (this.cardController != undefined && this.cardController.cards != undefined) {
+          this.physics.add.collider(this.player.sprite, this.cardController?.cards, (body1, body2) => {
+            console.log('card collected', body1, body2)
+            body2.destroy()
+          })
+        }
       }
     })
 

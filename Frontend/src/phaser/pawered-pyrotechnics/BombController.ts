@@ -28,7 +28,7 @@ export default class BombController {
     this.explosions = scene.physics.add.group({
       defaultKey: 'explosion',
       classType: Phaser.Physics.Arcade.Sprite,
-      maxSize: 200,
+      maxSize: 100,
       runChildUpdate: true,
     })
   }
@@ -85,8 +85,7 @@ export default class BombController {
               if (tile != undefined && tile.index !== -1) {
                 // Remove the breakable wall
                 this.breakableWalls.removeTileAt(tile.x, tile.y)
-                
-                this.cardController = new CardController(this.scene!, ex, ey)
+                this.cardController?.spawnCard(ex, ey)
                 this.spawnExplosion(ex, ey)
                 break // Stop explosion in this direction
               }

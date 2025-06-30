@@ -34,6 +34,7 @@ export default class PlayerController {
       .setSize(40, 54)
       .setScale(1)
       .setOffset(15, 6)
+      .setDepth(1)
     this.socket = socket
     this.createKeyInputs(scene)
     this.setStates()
@@ -42,6 +43,7 @@ export default class PlayerController {
 
   create() {
     this.stateMachine?.setState(playerStates.idle)
+    
   }
 
   update(dt: number) {
