@@ -44,7 +44,9 @@ const {
 }>()
 
 const authstore = useAuthStore()
+
 const router = useRouter()
+
 const showSubMenu = ref<boolean>(false)
 
 const onMouseOver = () => {
@@ -85,7 +87,6 @@ const openProgram = () => {
 
 const signOut = () => {
   authstore.signOut()
-  authstore.$reset()
   router.push('/login')
 }
 </script>

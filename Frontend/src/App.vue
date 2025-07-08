@@ -18,7 +18,6 @@ const authstore = useAuthStore()
 const errorStore = useErrorStore()
 
 const { error } = storeToRefs(errorStore)
-
 const { cookies } = useCookies()
 
 onMounted(async () => {

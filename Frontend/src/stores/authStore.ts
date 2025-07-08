@@ -25,7 +25,7 @@ export const useAuthStore = defineStore('auth', () => {
     token.value = sessionStorage.getItem('token') ?? undefined
     userId.value = sessionStorage.getItem('userId') ?? undefined
 
-    if (userId.value !== undefined && token.value !== undefined) {
+    if (userId.value != undefined && token.value != undefined) {
       isLoggedIn.value = true
       checkedAuth.value = true
 

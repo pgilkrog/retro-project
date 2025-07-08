@@ -1,12 +1,11 @@
 <template>
   <div
     class="desktop-item flex flex-col items-center text-white m-1 text-center cursor-pointer"
-    v-bind="$attrs"
     @click="emit('generate-component')"
   >
     <ImageComponent
-      class="h-16 w-16"
       :id="image"
+      class="h-16 w-16"
       :source="icon"
     />
     <p

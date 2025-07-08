@@ -1,6 +1,6 @@
 <template>
   <div
-    @click="method({ item: 'yes' })"
+    @click="method({ item: { name: name, icon: icon } })"
     class="flex items-center gap-x-2 cursor-pointer"
   >
     <IconComponent :name="icon" />
@@ -11,6 +11,6 @@
 const { name, icon, method } = defineProps<{
   name: string
   icon: string
-  method: (item: any) => void
+  method: (item: object) => void
 }>()
 </script>

@@ -70,17 +70,17 @@ const {
 }>()
 
 const emit = defineEmits<{
-  (e: 'closeWindow'): void
+  closeWindow: []
 }>()
 
 const programsstore = programsStore()
 
-const isDragging = ref(false)
-const startX = ref(0)
-const startY = ref(0)
+const isDragging = ref<boolean>(false)
+const startX = ref<number>(0)
+const startY = ref<number>(0)
 
-const programX = ref(0)
-const programY = ref(0)
+const programX = ref<number>(0)
+const programY = ref<number>(0)
 
 const menuButtons = [
   {
@@ -125,12 +125,13 @@ const closeWindow = () => {
   programsstore.removeProgramFromActive(program)
 
   // If the window is not a program but a form of popup emit the close window
-  if (isNotProgram === true) emit('closeWindow')
+  if (isNotProgram === true) {
+    emit('closeWindow')
+  }
 }
 
 const setInactive = () => {
   // Set if the window should be hidden on screen, but visible in the taskbar.
-
   anime({
     targets: '.window-wrapper',
     translateX: 350,
@@ -139,6 +140,7 @@ const setInactive = () => {
     easing: 'easeInOutQuad',
     duration: 500,
   })
+
   programsstore.setProgramActiveState(program)
 }
 
@@ -176,7 +178,9 @@ const startDrag = (event: MouseEvent) => {
 }
 
 const onDrag = (event: MouseEvent) => {
-  if (isDragging.value === false) return
+  if (isDragging.value === false) {
+    return
+  }
 
   const deltaX = event.clientX - startX.value
   const deltaY = event.clientY - startY.value
