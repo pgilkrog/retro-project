@@ -85,7 +85,11 @@ export default class BombController {
               if (tile != undefined && tile.index !== -1) {
                 // Remove the breakable wall
                 this.breakableWalls.removeTileAt(tile.x, tile.y)
-                this.cardController?.spawnCard(ex, ey)
+                // spawn a card randomly
+                if (Math.random() < 0.5) {
+                  this.cardController?.spawnCard(ex, ey)
+                }
+
                 this.spawnExplosion(ex, ey)
                 break // Stop explosion in this direction
               }
@@ -96,8 +100,6 @@ export default class BombController {
         }
       },
     })
-
-    console.log('Activated bomb')
   }
 
   spawnExplosion = (x: number, y: number) => {

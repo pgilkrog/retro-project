@@ -1,5 +1,6 @@
 import StateMachine from '@/phaser/utils/StateMachine'
 import type { Socket } from 'socket.io-client'
+import { CardTypes } from '../models/ICard'
 
 enum playerStates {
   idle = 'player_idle',
@@ -21,11 +22,19 @@ export default class PlayerController {
   private socket: Socket | undefined
   public playerNumber: number = 0
 
+  public bombAmount: number = 1
+  public bombRange: number = 1
+
   private keyInputs: {
     [key: string]: Phaser.Input.Keyboard.Key
   } = {}
 
-  constructor(scene: Phaser.Scene, spawnX: number, spawnY: number, socket: Socket) {
+  constructor(
+    scene: Phaser.Scene, 
+    spawnX: number, 
+    spawnY: number, 
+    socket: Socket
+  ) {
     this.scene = scene
     this.id = socket.id
     this.stateMachine = new StateMachine(this, 'player')
@@ -43,7 +52,19 @@ export default class PlayerController {
 
   create() {
     this.stateMachine?.setState(playerStates.idle)
-    
+  }
+
+  public gotCard = (card: CardTypes) => {
+    switch (card) {
+      case CardTypes.ADD_BOMB:
+        this.bombAmount += 1
+        break
+      case CardTypes.LONGER_EXPLOSION:
+        this.bombRange += 1
+        break
+      default:
+        console.log('Unknown card type:', card)
+    }
   }
 
   update(dt: number) {
@@ -64,10 +85,6 @@ export default class PlayerController {
         onEnter: this.layBombOnEnter,
         onUpdate: this.layBombOnUpdate,
       })
-      .addState(playerStates.recharge, {
-        onEnter: this.rechargeOnEnter,
-        onUpdate: this.rechargeOnUpdate,
-      })
       .addState(playerStates.dead, {
         onEnter: this.deadOnEnter,
         onUpdate: this.deadOnUpdate,
@@ -78,15 +95,15 @@ export default class PlayerController {
   idleOnEnter() {}
   idleOnUpdate() {
     if (
-      this.keyInputs['keyRight'].isDown ||
-      this.keyInputs['keyLeft'].isDown ||
-      this.keyInputs['keyUp'].isDown ||
-      this.keyInputs['keyDown'].isDown
+      this.keyInputs['keyRight'].isDown === true ||
+      this.keyInputs['keyLeft'].isDown === true ||
+      this.keyInputs['keyUp'].isDown === true ||
+      this.keyInputs['keyDown'].isDown === true
     ) {
       this.stateMachine?.setState(playerStates.walk)
     }
 
-    if (this.keyInputs['keySpace'].isDown && this.canLayBomb) {
+    if (this.keyInputs['keySpace'].isDown === true && this.canLayBomb === true) {
       this.stateMachine?.setState(playerStates.lay_bomb)
     }
   }
@@ -94,14 +111,14 @@ export default class PlayerController {
   walkOnEnter() {}
   walkOnUpdate() {
     if (this.sprite != undefined) {
-      if (this.keyInputs['keyLeft'].isDown || this.keyInputs['keyRight'].isDown) {
+      if (this.keyInputs['keyLeft'].isDown === true || this.keyInputs['keyRight'].isDown === true) {
         const direction = this.keyInputs['keyRight'].isDown ? 1 : -1
         this.sprite.setVelocityX(this.speed * direction)
       } else {
         this.sprite.setVelocityX(0)
       }
 
-      if (this.keyInputs['keyUp'].isDown || this.keyInputs['keyDown'].isDown) {
+      if (this.keyInputs['keyUp'].isDown === true || this.keyInputs['keyDown'].isDown === true) {
         const direction = this.keyInputs['keyUp'].isDown ? -1 : 1
         this.sprite.setVelocityY(this.speed * direction)
       } else {
@@ -109,17 +126,17 @@ export default class PlayerController {
       }
 
       if (
-        !this.keyInputs['keyUp'].isDown &&
-        !this.keyInputs['keyDown'].isDown &&
-        !this.keyInputs['keyLeft'].isDown &&
-        !this.keyInputs['keyRight'].isDown
+        this.keyInputs['keyUp'].isDown === false &&
+        this.keyInputs['keyDown'].isDown === false &&
+        this.keyInputs['keyLeft'].isDown === false &&
+        this.keyInputs['keyRight'].isDown === false
       ) {
         this.sprite.setVelocityX(0)
         this.sprite.setVelocityY(0)
         this.stateMachine?.setState(playerStates.idle)
       }
 
-      if (this.keyInputs['keySpace'].isDown && this.canLayBomb) {
+      if (this.keyInputs['keySpace'].isDown === true && this.canLayBomb === true) {
         this.stateMachine?.setState(playerStates.lay_bomb)
       }
     }
@@ -129,9 +146,9 @@ export default class PlayerController {
 
   layBombOnEnter() {}
   layBombOnUpdate() {
-    if (this.canLayBomb) {
+    if (this.canLayBomb === true) {
       this.canLayBomb = false
-      this.socket?.emit('placeBomb', { x: this.sprite?.x, y: this.sprite?.y })
+      this.socket?.emit('placeBomb', { x: this.sprite?.x, y: this.sprite?.y, width: this.bombRange })
       this.stateMachine?.setState(playerStates.idle)
 
       this.scene?.time.addEvent({
@@ -146,9 +163,6 @@ export default class PlayerController {
       console.log('Cannot lay another bomb yet')
     }
   }
-
-  rechargeOnEnter() {}
-  rechargeOnUpdate() {}
 
   deadOnEnter() {
     this.sprite?.setTexture('bomb')
@@ -169,6 +183,5 @@ export default class PlayerController {
 
   public setPlayerNumber(playerNumber: number) {
     this.playerNumber = playerNumber
-    console.log('playerNUmber', playerNumber)
   }
 }

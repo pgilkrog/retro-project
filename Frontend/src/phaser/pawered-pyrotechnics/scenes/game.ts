@@ -120,6 +120,7 @@ export default class Game extends Scene {
 
     this.socket.on('startGame', () => {
       this.createWalls()
+
       this.map?.getObjectLayer('playerSpawns')?.objects.forEach((data) => {
         this.spawnPoints.push({ x: data.x ?? 0, y: data.y ?? 0 })
       })
@@ -157,7 +158,7 @@ export default class Game extends Scene {
 
         if (this.cardController != undefined && this.cardController.cards != undefined) {
           this.physics.add.collider(this.player.sprite, this.cardController?.cards, (body1, body2) => {
-            console.log('card collected', body1, body2)
+            this.player?.gotCard(body2.info.type)
             body2.destroy()
           })
         }
@@ -176,6 +177,7 @@ export default class Game extends Scene {
 
     this.socket.on('playerMoved', (data) => {
       const tempPlayer = this.playerList[data.id]
+
       if (tempPlayer != undefined && data.id != this.myId) {
         tempPlayer.sprite?.setPosition(data.x, data.y)
       }
@@ -189,7 +191,7 @@ export default class Game extends Scene {
       const getBomb = this.bombController?.getBomb(data.x, data.y)
 
       if (getBomb != undefined) {
-        this.bombController?.activateBomb(getBomb)
+        this.bombController?.activateBomb(getBomb, data.width)
       }
     })
 
@@ -202,7 +204,6 @@ export default class Game extends Scene {
     })
 
     this.socket.on('mapCords', (data) => {
-      console.log(data)
       this.mapCors = data
     })
 

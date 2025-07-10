@@ -22,12 +22,12 @@ const gameContainer = ref<HTMLDivElement>()
 const MAP_WIDTH = 64 * 15
 const WIDTH = document.body.offsetWidth
 const HEIGHT = 64 * 15
-const SHARED_CONFIG = {
+const SHARED_CONFIG: IConfig = {
   mapOffset: MAP_WIDTH > WIDTH ? MAP_WIDTH - WIDTH : 0,
   width: WIDTH,
   height: HEIGHT,
   zoomFactor: 1,
-} as IConfig
+} 
 
 onMounted(() => {
   new Phaser.Game({

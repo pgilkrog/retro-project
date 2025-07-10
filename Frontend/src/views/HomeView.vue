@@ -66,7 +66,7 @@
     <!-- <Salvatore /> -->
     <!-- TestStuff -->
     <!-- LaCosaNostra -->
-    <Game />
+    <!-- <Game /> -->
     <!-- <PingPong /> -->
     <!-- <Platformer /> -->
   </div>
@@ -87,7 +87,7 @@ import { storeToRefs } from 'pinia'
 // import PingPong from '@/phaser/ping-pong/PingPong.vue'
 // import Platformer from '@/phaser/first-game/Platformer.vue'
 // import Platformer from '@/phaser/ShooterPlatformer/ShooterPlatformer.vue'
-import Game from '@/phaser/pawered-pyrotechnics/Pawered-Pyrotechnics.vue'
+// import Game from '@/phaser/pawered-pyrotechnics/Pawered-Pyrotechnics.vue'
 
 const appStore = useAppStore()
 const programsstore = programsStore()
