@@ -4,7 +4,7 @@
       :program="program"
       :show-menu="false"
       :is-moveable="true"
-      @close-window="emit('close-loading')"
+      @close-window="emit('closeLoading')"
     >
       <div class="p-4">
         <div class="folder-animation flex justify-between">
@@ -45,7 +45,7 @@
           <ButtonComponent
             text="Close"
             v-if="loadingCompleted === true"
-            @clicked="emit('close-loading')"
+            @clicked="emit('closeLoading')"
           />
         </div>
       </div>
@@ -71,7 +71,7 @@
 import type { IProgram } from '@/models/index'
 
 const emit = defineEmits<{
-  'close-loading': []
+  closeLoading: []
 }>()
 
 const program: IProgram = {
@@ -137,7 +137,7 @@ const startInstallation = () => {
   }, installationTime)
 }
 
-const generateRandomString = () => {
+const generateRandomString = (): string => {
   const length = 8
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
   let result = ''

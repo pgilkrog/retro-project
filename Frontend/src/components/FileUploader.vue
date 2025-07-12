@@ -37,14 +37,18 @@ const selectFile = (event: Event) => {
 
   if (input.files != undefined && input.files.length > 0) {
     file.value = input.files[0]
+
     // Clean up previous preview
-    if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)
+    if (previewUrl.value) {
+      URL.revokeObjectURL(previewUrl.value)
+    }
+
     previewUrl.value = URL.createObjectURL(file.value)
   }
 }
 
 const uploadFile = () => {
-  if (file.value === null) {
+  if (file.value == null) {
     console.error('No file selected')
     return
   }
@@ -54,7 +58,10 @@ const uploadFile = () => {
 
   filestore.uploadFile(formData).then(() => {
     file.value = null
-    if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)
+    if (previewUrl.value) {
+      URL.revokeObjectURL(previewUrl.value)
+    }
+
     previewUrl.value = ''
   })
 }

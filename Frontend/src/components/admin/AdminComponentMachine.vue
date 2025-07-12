@@ -1,6 +1,6 @@
 <template>
   <Component
-    v-for="program in activePrograms"
+    v-for="program in programsstore.activePrograms"
     :key="program._id"
     :id="program.name"
     :is="
@@ -23,6 +23,4 @@ import ManagePrograms from './managePrograms/ManagePrograms.vue'
 import ManageUsers from './manageUsers/ManageUsers.vue'
 
 const programsstore = programsStore()
-
-const activePrograms = computed(() => programsstore.activePrograms)
 </script>

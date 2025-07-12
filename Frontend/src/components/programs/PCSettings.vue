@@ -141,6 +141,7 @@ const setImage = (file: IFile | undefined) => {
 
 const setTempImg = (img: IFile | undefined): void => {
   tempImg.value = undefined
+
   setTimeout(() => {
     tempImg.value = img
   }, 100)
