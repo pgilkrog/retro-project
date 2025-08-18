@@ -131,9 +131,9 @@ export default class Game extends Scene {
       )
 
       this.bombController = new BombController(
-        this, 
-        this.solidWalls, 
-        this.breakableWalls, 
+        this,
+        this.solidWalls,
+        this.breakableWalls,
         this.cardController
       )
 
@@ -157,10 +157,14 @@ export default class Game extends Scene {
         )
 
         if (this.cardController != undefined && this.cardController.cards != undefined) {
-          this.physics.add.collider(this.player.sprite, this.cardController?.cards, (body1, body2) => {
-            this.player?.gotCard(body2.info.type)
-            body2.destroy()
-          })
+          this.physics.add.collider(
+            this.player.sprite,
+            this.cardController?.cards,
+            (body1, body2) => {
+              // this.player?.gotCard(body2.info.type)
+              body2.destroy()
+            }
+          )
         }
       }
     })

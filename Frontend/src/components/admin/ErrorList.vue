@@ -1,10 +1,12 @@
 <template>
-  <div
-    class="error-item"
-    v-for="(error, key) in errorList"
-    :key
-  >
-    <p>{{ error.text }}</p>
+  <div class="h-80 overflow-y-auto">
+    <ul
+      class="error-item"
+      v-for="(error, key) in errorList"
+      :key
+    >
+      <li>{{ error.text }}</li>
+    </ul>
   </div>
 </template>
 

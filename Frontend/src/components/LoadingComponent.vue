@@ -16,7 +16,7 @@
           />
           <div
             class="box"
-            :class="loadingCompleted === true ? '' : 'move-anim'"
+            :class="{ 'move-anim': loadingCompleted === true }"
           >
             <IconComponent
               name="bi-file-earmark-fill"
@@ -33,7 +33,7 @@
         </div>
         <div
           class="loading-bar bg-shadow-inner mt-4 flex"
-          :class="[progressValues.length > 0 ? 'h-auto' : 'h-5']"
+          :class="[progressValues.length >= 0 ? 'h-auto' : 'h-10']"
         >
           <div
             class="loading-box bg-blue-500 h-5 w-5 mx-1"
@@ -43,8 +43,8 @@
         </div>
         <div class="flex justify-end mt-4">
           <ButtonComponent
-            text="Close"
             v-if="loadingCompleted === true"
+            text="Close"
             @clicked="emit('closeLoading')"
           />
         </div>
@@ -114,8 +114,8 @@ const addToArray = () => {
 }
 
 const startInstallation = () => {
-  const fileTypes = ['exe', 'dll', 'cfg', 'log']
-  const installationTime = 8000 // 5 seconds
+  const fileTypes = ['exe', 'dll', 'cfg', 'log', 'mui', 'txt']
+  const installationTime = 8000 
 
   const intervalId = setInterval(() => {
     if (progress.value >= 200) {
@@ -143,6 +143,7 @@ const generateRandomString = (): string => {
   let result = ''
 
   for (let i = 0; i < length; i++) {
+    // Append a random character from the characters string to the result
     result += characters.charAt(Math.floor(Math.random() * characters.length))
   }
 
@@ -150,13 +151,17 @@ const generateRandomString = (): string => {
 }
 </script>
 
-<style scoped lang="sass">
-.move-anim
+<style scoped >
+.move-anim {
   animation: move 2s ease-in-out infinite
+}
 
-@keyframes move
-  from
+@keyframes move {
+  from {
     left: 20px
-  to
+  }
+  to {
     left: calc(100% - 50px)
+  }
+}
 </style>

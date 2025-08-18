@@ -76,7 +76,7 @@ export default class Game extends Phaser.Scene {
       grid.push(rowData)
     })
     this.easystar.setGrid(grid)
-    this.easystar.setAcceptableTiles([1, 2, 3, 4, 5, 6, 7, 8]) // Adjust this based on your walkable tiles
+    this.easystar.setAcceptableTiles([1, 2, 3, 4, 5, 6, 7, 8])
   }
 
   private findPath(start: { x: number; y: number }, end: { x: number; y: number }) {

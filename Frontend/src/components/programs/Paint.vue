@@ -50,7 +50,7 @@
             size="small"
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"
-            @clicked="savePainting()"
+            @clicked="savePainting"
           />
           <ButtonComponent
             icon="fa-folder"
@@ -142,7 +142,9 @@ onMounted(() => {
 
 const initCanvas = () => {
   const canvas = canvasRef.value
-  if (canvas === undefined) return
+  if (canvas === undefined) {
+    return
+  }
 
   canvasHeight.value = tempCanvasHeight.value
   canvasWidth.value = tempCanvasWidth.value
@@ -152,15 +154,21 @@ const initCanvas = () => {
 }
 
 const draw = (event: MouseEvent) => {
-  if (drawing.value === false) return
+  if (drawing.value === false) {
+    return
+  }
 
   const canvas = canvasRef.value
-  if (canvas == undefined) return
+  if (canvas == undefined) {
+    return
+  }
 
   const ctx = canvas.getContext('2d')
-  if (ctx == undefined) return
+  if (ctx == undefined) {
+    return
+  }
 
-  // To center the brush on the mouse, you can use the canvas's getBoundingClientRect() method to calculate the difference between the canvas's top-left corner and the viewport's top-left corner, and then subtract that difference from the clientX and clientY values
+  // calculate the difference between the canvas's top-left corner and the viewport's top-left corner, and then subtract that difference from the clientX and clientY values
   const rect = canvas.getBoundingClientRect()
   const x = event.clientX - rect.left
   const y = event.clientY - rect.top
@@ -202,7 +210,9 @@ const draw = (event: MouseEvent) => {
 
 const savePainting = (text: string) => {
   const canvas = canvasRef.value
-  if (canvas === undefined) return
+  if (canvas === undefined) {
+    return
+  }
 
   const newPainting: IPainting = {
     _id: '',
@@ -218,10 +228,14 @@ const savePainting = (text: string) => {
 
 const loadPainting = (painting: string) => {
   const canvas = canvasRef.value
-  if (canvas == undefined) return
+  if (canvas == undefined) {
+    return
+  }
 
   const ctx = canvas.getContext('2d')
-  if (ctx == undefined) return
+  if (ctx == undefined) {
+    return
+  }
 
   const image = new Image()
   image.src = painting
@@ -230,7 +244,9 @@ const loadPainting = (painting: string) => {
     canvas.height = image.height
 
     const ctx = canvas.getContext('2d')
-    if (ctx == undefined) return
+    if (ctx == undefined) {
+      return
+    }
 
     ctx.drawImage(image, 0, 0)
   }

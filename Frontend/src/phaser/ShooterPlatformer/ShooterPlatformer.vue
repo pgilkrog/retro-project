@@ -25,7 +25,7 @@ const WIDTH = document.body.offsetWidth
 const HEIGHT = 32 * 100
 const SHARED_CONFIG = {
   mapOffset: MAP_WIDTH > WIDTH ? MAP_WIDTH - WIDTH : 0,
-  width: WIDTH,
+  width: MAP_WIDTH,
   height: HEIGHT,
   zoomFactor: 1,
 } as IConfig
@@ -37,13 +37,12 @@ const initScenes = () => Scenes.map(createScene)
 onMounted(() => {
   new Phaser.Game({
     type: Phaser.AUTO,
-    width: SHARED_CONFIG.width, // Fixed: Explicitly set width
-    height: SHARED_CONFIG.height, // Fixed: Explicitly set height
+    ...SHARED_CONFIG,
     pixelArt: true,
     parent: gameContainer.value,
     physics: {
       default: 'matter',
-      matter: { debug: true, setBounds: { left: true, right: true, top: true, bottom: true } },
+      matter: { debug: true },
     },
     scale: {
       parent: gameContainer.value,

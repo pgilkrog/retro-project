@@ -31,30 +31,8 @@
 
     <ComponentMachine />
     <MenuPopup
-      :list="[
-        {
-          name: 'hej',
-          method: () => {
-            thismehtod2()
-          },
-          icon: 'fa-house',
-        },
-        {
-          name: 'dav',
-          method: () => {
-            thismethod()
-          },
-          icon: 'fa-house',
-        },
-        {
-          name: 'check',
-          method: (item: object) => {
-            appStore.thismaybe(item)
-          },
-          icon: 'fa-house',
-        },
-      ]"
-      title=""
+      :list="appStore.myList"
+      title="min titel"
     />
     <TaskbarMenu v-if="showMenu === true" />
     <TaskbarComponent
@@ -112,13 +90,13 @@ const getImageUrl = (filename: string): string => {
   return `${import.meta.env.VITE_BASE_URL}/uploads/${filename}`
 }
 
-const thismethod = () => {
-  console.log('thismethod')
-}
+// const thismethod = () => {
+//   console.log('thismethod')
+// }
 
-const thismehtod2 = () => {
-  console.log('thismehtod2')
-}
+// const thismehtod2 = () => {
+//   console.log('thismehtod2')
+// }
 
 const changeShowMenu = (): void => {
   showMenu.value = !showMenu.value

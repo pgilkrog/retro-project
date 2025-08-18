@@ -15,7 +15,19 @@ const emit = defineEmits<{
   changeColor: [color: string]
 }>()
 
-const colors: string[] = ['#0000ff', '#00ff00', '#ff0000', '#ffff00', '#00ffff', '#ff00ff', '#ffffff', '#000000', '#f0f0f0', '#0ff00f', '#1ef0ae']
+const colors: string[] = [
+  '#0000ff', // Blue
+  '#00ff00', // Lime
+  '#ff0000', // Red
+  '#ffff00', // Yellow
+  '#00ffff', // Cyan
+  '#ff00ff', // Magenta
+  '#ffffff', // White
+  '#000000', // Black
+  '#f0f0f0', // Light Gray
+  '#0ff00f', // Bright Green
+  '#1ef0ae', // Aqua Green
+]
 
 const changeColor = (color: string) => {
   emit('changeColor', color)

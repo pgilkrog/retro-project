@@ -29,7 +29,7 @@
       v-model="info.phoneNumber"
       placeholder="Phone"
     />
-    <CheckComponent
+    <CheckboxComponent
       v-model="info.homeAddress"
       label="Home Address"
     />

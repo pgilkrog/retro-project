@@ -57,10 +57,10 @@
         </div>
       </form>
       <div class="buttons mt-4 flex justify-end w-full col-span-12">
-        <ButtonComponent
+        <!-- <ButtonComponent
           @clicked="devLogin()"
           text="Guest login"
-        />
+        /> -->
         <ButtonComponent
           @clicked="pressedOk()"
           text="OK"
@@ -149,13 +149,13 @@ const changePassword = (): void => {
 //   showHelp.value = !showHelp.value
 // }
 
-const devLogin = (): void => {
-  authstore.loginUser('check@check.com', 'hejsa1234').then(() => {
-    setTimeout(() => {
-      router.push('/')
-    }, 100)
-  })
-}
+// const devLogin = (): void => {
+//   authstore.loginUser('check@check.com', 'hejsa1234').then(() => {
+//     setTimeout(() => {
+//       router.push('/')
+//     }, 100)
+//   })
+// }
 
 const changeState = (stateVal: number): void => {
   if (stateVal === 1) {

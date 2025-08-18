@@ -1,8 +1,8 @@
 <template>
   <div>
     <ButtonComponent
-      @clicked="changeShowMenu()"
       :text="title"
+      @clicked="changeShowMenu()"
     />
     <div class="flex flex-col gap-y-2 mt-2">
       <MenuPopupItem
@@ -27,7 +27,7 @@ const { title = 'open', list = [] } = defineProps<{
   list: IListItem[]
 }>()
 
-const showMenu = ref(false)
+const showMenu = ref<boolean>(false)
 
 const changeShowMenu = () => {
   showMenu.value = !showMenu.value

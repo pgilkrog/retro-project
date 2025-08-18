@@ -1,7 +1,7 @@
 <template>
   <WindowFrame :program="program">
     <div class="paw-player">
-      <div class="h-[500px] w-[800px] bg-light">
+      <div class="h-[500px] w-[800px] bg-gray-50">
         <iframe
           height="500"
           width="800"
@@ -21,9 +21,9 @@
 <script setup lang="ts">
 import type { IProgram } from '@/models'
 
-const { program } = defineProps<{
+defineProps<{
   program: IProgram
 }>()
 
-const videoUrl = 'https://www.youtube.com/embed/Hmyn67dWBe4'
+const videoUrl = 'https://www.youtube.com/embed/cmDgfzpKw5w?si=77DhjPiK0eb2A5f4'
 </script>

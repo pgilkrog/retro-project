@@ -39,13 +39,13 @@
           v-if="state === 'addPrograms'"
           text="Install"
           :disabled="selectedProgram === undefined"
-          @clicked="installProgram()"
+          @clicked="addOrRemoveProgram(false)"
         />
         <ButtonComponent
           v-else
           text="Remove"
           :disabled="selectedProgram === undefined"
-          @clicked="removeProgram()"
+          @clicked="addOrRemoveProgram(true)"
         />
       </div>
     </div>
@@ -95,22 +95,16 @@ const menuButtons = [
   },
 ]
 
-const installProgram = async () => {
+const addOrRemoveProgram = async (isRemoving: boolean) => {
   isInstalling.value = true
-
+  
   if (selectedProgram.value != undefined) {
-    await programsstore.createInstalledProgram(selectedProgram.value._id)
-  }
-
-  isInstalling.value = false
-}
-
-const removeProgram = async () => {
-  isInstalling.value = true
-
-  if (selectedProgram.value != undefined) {
-    await programsstore.deleteInstalledProgram(selectedProgram.value._id)
-  }
+    if (isRemoving === true) {
+      await programsstore.deleteInstalledProgram(selectedProgram.value._id)
+    } else {
+      await programsstore.createInstalledProgram(selectedProgram.value._id)
+    }
+  }  
 }
 
 const changeState = (newState: string) => {

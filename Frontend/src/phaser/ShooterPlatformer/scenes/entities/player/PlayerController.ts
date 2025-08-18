@@ -181,14 +181,16 @@ export default class PlayerController extends Entity {
             isFlipped ? this.sprite?.x! - 30 : this.sprite?.x! + 50,
             this.sprite?.y! - 8
           )
+
           if (bullet != undefined) {
             bullet.fire(
               isFlipped ? this.sprite?.x! - 30 : this.sprite?.x! + 25,
               this.sprite?.y! - 8,
               isFlipped ? -100 : 100,
               0
-            ) // Adjust velocity as needed
+            )
           }
+
           this.bulletAmount -= 1
           this.canShoot = false
           events.emit('bullets-changed', this.bulletAmount)
