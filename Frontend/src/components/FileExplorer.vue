@@ -1,6 +1,6 @@
 <template>
   <WindowFrame
-    :program
+    :program="program"
     variant="warning"
     :is-not-program="true"
     :is-moveable="true"

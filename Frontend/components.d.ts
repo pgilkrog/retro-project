@@ -60,7 +60,6 @@ declare module 'vue' {
     TabsComponent: typeof import('./src/components/utils/TabsComponent.vue')['default']
     TaskbarComponent: typeof import('./src/components/taskbar/TaskbarComponent.vue')['default']
     TaskbarMenu: typeof import('./src/components/menuComponents/TaskbarMenu.vue')['default']
-    Testthis: typeof import('./src/components/programs/testthis/testthis.vue')['default']
     UserInfo: typeof import('./src/components/auth/UserInfo.vue')['default']
     UsersList: typeof import('./src/components/admin/manageUsers/UsersList.vue')['default']
     Validating: typeof import('./src/components/Validating.vue')['default']
