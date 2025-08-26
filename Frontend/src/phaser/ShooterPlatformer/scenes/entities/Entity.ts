@@ -3,7 +3,7 @@ import StateMachine from '../../../utils/StateMachine'
 export default class PlayerController {
   protected scene: Phaser.Scene | undefined
   protected stateMachine: StateMachine | undefined
-  protected sprite: Phaser.Physics.Matter.Sprite | undefined
+  public sprite: Phaser.Physics.Matter.Sprite | undefined
 
   protected speed: number
   protected health: number
@@ -18,14 +18,20 @@ export default class PlayerController {
   ) {
     this.scene = scene
     this.stateMachine = new StateMachine(this, entityName)
-    this.sprite = this.scene?.matter.add.sprite(spawnX, spawnY, entityName, '')
+    this.sprite = scene.matter.add.sprite(spawnX, spawnY, entityName, '')
     this.speed = speedValue
     this.health = healthValue
     this.create()
     this.setStates()
   }
 
-  create() {}
+  protected create() {}
 
-  setStates() {}
+  protected setStates() {}
+
+  public setState(state: string) {
+    if (this.stateMachine?.isCurrentState(state) === false) {
+      this.stateMachine?.setState(state)
+    }
+  }
 }

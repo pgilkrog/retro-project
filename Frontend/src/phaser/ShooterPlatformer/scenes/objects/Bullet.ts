@@ -31,9 +31,13 @@ export class Bullet extends Phaser.Physics.Matter.Sprite {
       this.x > Number(this.scene.sys.game.config.width)
     ) {
       console.log('bullet out of bounds')
-      this.setActive(false)
-      this.setVisible(false)
-      this.setVelocity(0, 0)
+      this.setInactive()
     }
+  }
+
+  setInactive() {
+    this.setActive(false)
+    this.setVisible(false)
+    this.setVelocity(0, 0)
   }
 }

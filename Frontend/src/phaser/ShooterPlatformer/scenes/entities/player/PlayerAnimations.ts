@@ -1,8 +1,12 @@
+import { playerAnims } from './playerEnums'
+
 export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
-  if (sprite == undefined) return
+  if (sprite == undefined) {
+    return
+  }
 
   sprite.anims.create({
-    key: 'player_idle',
+    key: playerAnims.player_idle,
     frames: sprite.anims.generateFrameNames('player', {
       start: 0,
       end: 5,
@@ -14,7 +18,7 @@ export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
   })
 
   sprite.anims.create({
-    key: 'player_walk',
+    key: playerAnims.player_walk,
     frames: sprite.anims.generateFrameNames('player', {
       start: 0,
       end: 9,
@@ -26,7 +30,7 @@ export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
   })
 
   sprite.anims.create({
-    key: 'player_run',
+    key: playerAnims.player_run,
     frames: sprite.anims.generateFrameNames('player', {
       start: 0,
       end: 9,
@@ -38,7 +42,7 @@ export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
   })
 
   sprite.anims.create({
-    key: 'player_jump',
+    key: playerAnims.player_jump,
     frames: sprite.anims.generateFrameNames('player', {
       start: 0,
       end: 9,
@@ -50,7 +54,7 @@ export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
   })
 
   sprite.anims.create({
-    key: 'player_shoot',
+    key: playerAnims.player_shoot,
     frames: sprite.anims.generateFrameNames('player', {
       start: 0,
       end: 3,
@@ -62,7 +66,19 @@ export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
   })
 
   sprite.anims.create({
-    key: 'player_recharge',
+    key: playerAnims.player_melee,
+    frames: sprite.anims.generateFrameNames('player', {
+      start: 0,
+      end: 2,
+      prefix: 'attack_',
+      suffix: '.png',
+    }),
+    frameRate: 10,
+    repeat: 0,
+  })
+
+  sprite.anims.create({
+    key: playerAnims.player_recharge,
     frames: sprite.anims.generateFrameNames('player', {
       start: 0,
       end: 16,
@@ -74,7 +90,7 @@ export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
   })
 
   sprite.anims.create({
-    key: 'player_falling',
+    key: playerAnims.player_falling,
     frames: sprite.anims.generateFrameNames('player', {
       start: 3,
       end: 5,

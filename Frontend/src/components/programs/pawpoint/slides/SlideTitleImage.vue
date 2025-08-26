@@ -1,12 +1,13 @@
 <template>
-  <div class="title d-flex justify-content-center align-items-center my-4">
+  <div class="title flex justify-center items-center my-4">
     <h1>
       {{ slide.title }}
     </h1>
   </div>
-  <div class="text d-flex justify-content-center align-items-center">
+  <div class="text flex justify-center items-center">
     <ImageComponent
       :id="slide.id.toString()"
+      class="h-[400px] w-auto"
       :source="slide.image"
       alt="image of things"
     />
@@ -19,7 +20,3 @@ const { slide } = defineProps<{
   slide: ISlide
 }>()
 </script>
-<style scoped lang="sass">
-img
-  max-width: 1000px
-</style>

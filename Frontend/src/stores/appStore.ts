@@ -23,6 +23,13 @@ export const useAppStore = defineStore('appStore', () => {
     {
       name: 'check',
       icon: 'fa-house',
+      method: (item: object) => {
+        thismaybe(item)
+      },
+    },
+    {
+      name: 'no method',
+      icon: 'fa-house',
     },
   ]
 

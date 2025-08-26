@@ -25,8 +25,8 @@ export default class PlayerController {
       this.bullets.getLength() < this.bulletAmount
     ) {
       bullet = new Bullet(this.scene, x, y)
-      this.bullets?.add(bullet)
-      console.log('bullet created', this.bullets?.getLength())
+      this.bullets.add(bullet)
+      console.log('bullet created', this.bullets.getLength())
     }
 
     return bullet

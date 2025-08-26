@@ -2,8 +2,10 @@ import Phaser from 'phaser'
 import PlayerController from './entities/player/PlayerController'
 import EnemyFighter from './entities/enemies/EnemyFigther'
 import BulletController from './objects/BulletController'
-import { debugDraw } from '@/phaser/utils/debug'
+import { Bullet } from './objects/Bullet'
+// import { debugDraw } from '@/phaser/utils/debug'
 import * as EasyStar from 'easystarjs'
+import { enemyStates } from './entities/enemies/EnemyEnums'
 
 export default class Game extends Phaser.Scene {
   private player: PlayerController | undefined
@@ -17,6 +19,7 @@ export default class Game extends Phaser.Scene {
 
   create() {
     this.scene.launch('ui')
+    this.bullets = new BulletController(this)
 
     const map = this.make.tilemap({ key: 'testMap' })
     const tileset = map.addTilesetImage('Tileset', 'tiles')
@@ -30,9 +33,12 @@ export default class Game extends Phaser.Scene {
       if (collideLayer != undefined) {
         this.matter.world.convertTilemapLayer(collideLayer)
       }
+
       map.createLayer('Walls', tileset)
       map.createLayer('Ground', tileset)
-      map.createLayer('Pathfinding', pathfindingTiles)
+      // map.createLayer('Pathfinding', pathfindingTiles)
+
+      // make bullet collide with enemies
     }
 
     const objectLayer = map.getObjectLayer('Objects')
@@ -46,13 +52,23 @@ export default class Game extends Phaser.Scene {
         }
 
         if (name === 'enemy_spawn_fighter') {
-          this.enemies.push(new EnemyFighter(this, x, y))
+          this.enemies.push(new EnemyFighter(this, x, y, 100))
         }
       })
     }
     // easyStarInit(map.getLayer('Pathfinding')?.data, this.enemies, this, map)
 
-    this.bullets = new BulletController(this)
+    this.enemies.forEach((enemy: EnemyFighter) => {
+      enemy.sprite?.setOnCollide((data: MatterJS.ICollisionPair) => {
+        const other = (data.bodyB as any).gameObject || (data.bodyA as any).gameObject
+
+        if (other instanceof Bullet) {
+          enemy.setState(enemyStates.enemy_dead)
+          other.setInactive()
+        }
+      })
+    })
+
     this.setupEasystar(map)
   }
 

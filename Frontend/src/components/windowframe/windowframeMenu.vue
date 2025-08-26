@@ -1,7 +1,7 @@
 <template>
   <div
-    class="menu-container flex mx-2 my-1 space-x-2"
     v-if="showMenu === true"
+    class="menu-container flex mx-2 my-1 space-x-6"
   >
     <p>File</p>
     <p>Edit</p>
@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-const { showMenu } = defineProps<{
+defineProps<{
   showMenu: boolean
 }>()
 </script>

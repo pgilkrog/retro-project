@@ -1,4 +1,3 @@
-import StateMachine from '@/phaser/utils/StateMachine'
 import { PlayerAnimations } from './PlayerAnimations'
 import Entity from '../Entity'
 import BulletController from '../../objects/BulletController'
@@ -109,10 +108,15 @@ export default class PlayerController extends Entity {
         onEnter: this.rechargeOnEnter,
         onUpdate: this.rechargeOnUpdate,
       })
+      .addState(playerStates.player_melee, {
+        onEnter: this.meleeOnEnter,
+        onUpdate: this.meleeOnUpdate,
+      })
       .setState(playerStates.player_idle)
   }
 
   idleOnEnter() {
+    console.log('entered idle state')
     this.sprite?.play(playerAnims.player_idle)
   }
   idleOnUpdate() {
@@ -126,6 +130,10 @@ export default class PlayerController extends Entity {
 
     if (this.scene?.input.activePointer.leftButtonDown()) {
       this.stateMachine?.setState(playerStates.player_shoot)
+    }
+
+    if (this.scene?.input.activePointer.rightButtonDown()) {
+      this.stateMachine?.setState(playerStates.player_melee)
     }
 
     if (this.keyInputs['keyR'].isDown) {
@@ -227,7 +235,7 @@ export default class PlayerController extends Entity {
   rechargeOnUpdate() {
     // Set a timer to reset canShoot after a delay
     this.scene?.time.addEvent({
-      delay: 1800, // delay in milliseconds
+      delay: 1800,
       callback: () => {
         this.stateMachine?.setState(playerStates.player_idle)
         events.emit('bullets-changed', 50)
@@ -237,31 +245,48 @@ export default class PlayerController extends Entity {
     this.bulletAmount = 50
   }
 
+  meleeOnEnter() {
+    this.sprite?.play(playerAnims.player_melee)
+    this.scene?.time.addEvent({
+      delay: 500,
+      callback: () => {
+        this.stateMachine?.setState(playerStates.player_idle)
+        console.log('melee attack finished')
+      },
+      callbackScope: this,
+    })
+  }
+  meleeOnUpdate() {}
+
   moveLeftAndRight() {
     if (this.sprite != undefined) {
       if (this.keyInputs['keyD'].isDown) {
-        this.sprite?.setVelocityX(this.speed)
+        this.sprite.setVelocityX(this.speed)
         this.sprite.flipX = false
       } else if (this.keyInputs['keyA'].isDown) {
-        this.sprite?.setVelocityX(-this.speed)
+        this.sprite.setVelocityX(-this.speed)
         this.sprite.flipX = true
       } else if (
         this.stateMachine?.isCurrentState(playerStates.player_falling) === false ||
         this.stateMachine?.isCurrentState(playerStates.player_jump) === false
       ) {
-        this.sprite?.setVelocityX(0)
+        this.sprite.setVelocityX(0)
       }
     }
   }
 
   private createKeyInputs(scene: Phaser.Scene) {
-    this.keyInputs['keyA'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A)
-    this.keyInputs['keyD'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D)
-    this.keyInputs['space'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
-    this.keyInputs['keyR'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.R)
+    if (scene.input.keyboard == undefined) {
+      return
+    }
+
+    this.keyInputs['keyA'] = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
+    this.keyInputs['keyD'] = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
+    this.keyInputs['space'] = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+    this.keyInputs['keyR'] = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)
+    this.keyInputs['keyE'] = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
 
     // this.keyInputs['keyW'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.W)
     // this.keyInputs['keyS'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S)
-    // this.keyInputs['keyE'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.E)
   }
 }

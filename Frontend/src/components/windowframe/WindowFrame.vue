@@ -2,7 +2,7 @@
   <Teleport to="#app">
     <div
       v-if="program?.isActive === true"
-      :id="program._id"
+      :id="'win-' + program._id"
       class="window-wrapper bg-shadow bg-gray-300 flex flex-col absolute p-2 px-2"
       :style="[
         isMoveable
@@ -49,7 +49,7 @@
 <script setup lang="ts">
 import type { IProgram } from '@/models/index'
 import { programsStore } from '@/stores/programsStore'
-import anime from 'animejs'
+import { animate } from 'animejs'
 
 const {
   showMenu = false,
@@ -108,14 +108,16 @@ onMounted(() => {
   programY.value = program.top
 
   if (isStatic === false) {
-    anime({
-      targets: '.window-wrapper',
-      translateX: 350,
-      translateY: 450,
-      scale: 0.01,
-      easing: 'easeInOutQuad',
-      direction: 'reverse',
-      duration: 200,
+    animate(`#win-${program._id}`, {
+      translateY: [window.innerHeight, programY.value],
+      translateX: [0, programX.value],
+      scale: {
+        to: [0.2, 1],
+        delay: 200,
+      },
+      opacity: [0, 1],
+      easing: 'easeOutBack',
+      duration: 500,
     })
   }
 })
@@ -132,16 +134,20 @@ const closeWindow = () => {
 
 const setInactive = () => {
   // Set if the window should be hidden on screen, but visible in the taskbar.
-  anime({
-    targets: '.window-wrapper',
-    translateX: 350,
-    translateY: 450,
-    scale: 0.01,
-    easing: 'easeInOutQuad',
+  animate(`#win-${program._id}`, {
+    translateY: [programY.value, window.innerHeight],
+    translateX: [programX.value, 0],
+    scale: {
+      to: [1, 0.3],
+      delay: 200,
+    },
+    opacity: [1, 0],
+    easing: 'easeInBack',
     duration: 500,
+    onComplete: () => {
+      programsstore.setProgramActiveState(program)
+    },
   })
-
-  programsstore.setProgramActiveState(program)
 }
 
 const handleMouseDown = (event: MouseEvent) => {
@@ -154,7 +160,7 @@ const handleMouseDown = (event: MouseEvent) => {
   }
 }
 
-const getBackgroundColor = (color: string) => {
+const getBackgroundColor = (color: string): string => {
   switch (color) {
     case 'yellow':
       return 'from-yellow-500 to-yellow-300'
