@@ -1,9 +1,9 @@
 import StateMachine from '../../../utils/StateMachine'
 
 export default class PlayerController {
-  protected scene: Phaser.Scene | undefined
-  protected stateMachine: StateMachine | undefined
-  public sprite: Phaser.Physics.Matter.Sprite | undefined
+  protected scene: Phaser.Scene
+  protected stateMachine: StateMachine
+  public sprite: Phaser.Physics.Matter.Sprite
 
   protected speed: number
   protected health: number
@@ -30,8 +30,27 @@ export default class PlayerController {
   protected setStates() {}
 
   public setState(state: string) {
-    if (this.stateMachine?.isCurrentState(state) === false) {
-      this.stateMachine?.setState(state)
+    if (this.stateMachine.isCurrentState(state) === false) {
+      this.stateMachine.setState(state)
+    }
+  }
+
+  public takeDamage(amount: number) {
+    this.health -= amount
+    if (this.health <= 0) {
+      this.health = 0
+      this.setState('dead')
+    }
+
+    if (this.sprite != undefined) {
+      this.scene.tweens.add({
+        targets: this.sprite,
+        duration: 100,
+        repeat: 0,
+        yoyo: true,
+        ease: 'Linear',
+        tint: { from: 0xffffff, to: 0xff0000 },
+      })
     }
   }
 }

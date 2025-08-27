@@ -10,7 +10,7 @@ export default class EnemyFighter extends Entity {
   }
 
   create() {
-    this.sprite?.setRectangle(24, 64).setFixedRotation().setFriction(0)
+    this.sprite?.setRectangle(24, 64).setFixedRotation().setFriction(0.5)
     this.createAnims()
   }
 
@@ -64,6 +64,8 @@ export default class EnemyFighter extends Entity {
   dieOnEnter() {
     this.sprite?.setVelocity(0, 0)
     this.sprite?.play('enemy_dead')
+    this.sprite?.setCollisionCategory(0)
+    this.sprite?.setIgnoreGravity(true)
     // this.sprite?.setCollisionCategory(0) // Disable collisions
     // this.sprite?.once(
     //   Phaser.Animations.Events.ANIMATION_COMPLETE,
@@ -75,7 +77,7 @@ export default class EnemyFighter extends Entity {
     // )
   }
 
-  die() {
+  hitByBullet() {
     this.stateMachine?.setState(enemyStates.enemy_dead)
   }
 

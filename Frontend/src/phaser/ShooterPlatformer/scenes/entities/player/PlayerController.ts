@@ -194,7 +194,7 @@ export default class PlayerController extends Entity {
             bullet.fire(
               isFlipped ? this.sprite?.x! - 30 : this.sprite?.x! + 25,
               this.sprite?.y! - 8,
-              isFlipped ? -100 : 100,
+              isFlipped ? -30 : 30,
               0
             )
           }

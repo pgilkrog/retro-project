@@ -7,10 +7,11 @@ export class Bullet extends Phaser.Physics.Matter.Sprite {
     this.setActive(false)
     this.setVisible(false)
     this.setScale(0.1)
+    this.setIgnoreGravity(true)
 
     this.setOnCollide((data: MatterJS.ICollisionPair) => {
-      this.setActive(false)
-      this.setVisible(false)
+      console.log('bullet collided', data)
+      this.setInactive()
     })
   }
 
@@ -36,8 +37,10 @@ export class Bullet extends Phaser.Physics.Matter.Sprite {
   }
 
   setInactive() {
+    console.log('set bullet inactive')
     this.setActive(false)
     this.setVisible(false)
     this.setVelocity(0, 0)
+    this.setPosition(-100, -100)
   }
 }

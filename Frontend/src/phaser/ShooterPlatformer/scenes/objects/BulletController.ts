@@ -16,7 +16,7 @@ export default class PlayerController {
   }
 
   getBullet(x: number, y: number) {
-    let bullet = this.bullets?.getFirstDead(false)
+    let bullet = this.bullets?.getFirstDead()
 
     if (
       bullet == undefined &&

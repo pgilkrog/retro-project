@@ -52,22 +52,25 @@ export default class Game extends Phaser.Scene {
         }
 
         if (name === 'enemy_spawn_fighter') {
-          this.enemies.push(new EnemyFighter(this, x, y, 100))
+          const newEnemy = new EnemyFighter(this, x, y, 100)
+
+          newEnemy.sprite?.setOnCollide((data: MatterJS.ICollisionPair) => {
+            const other = (data.bodyB as any).gameObject || (data.bodyA as any).gameObject
+
+            if (other instanceof Bullet) {
+              newEnemy.takeDamage(25)
+            }
+          })
+
+          this.enemies.push(newEnemy)
         }
       })
     }
     // easyStarInit(map.getLayer('Pathfinding')?.data, this.enemies, this, map)
 
-    this.enemies.forEach((enemy: EnemyFighter) => {
-      enemy.sprite?.setOnCollide((data: MatterJS.ICollisionPair) => {
-        const other = (data.bodyB as any).gameObject || (data.bodyA as any).gameObject
-
-        if (other instanceof Bullet) {
-          enemy.setState(enemyStates.enemy_dead)
-          other.setInactive()
-        }
-      })
-    })
+    // this.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
+    //   console.log('collision', event, bodyA, bodyB)
+    // })
 
     this.setupEasystar(map)
   }
