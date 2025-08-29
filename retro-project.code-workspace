@@ -7,4 +7,70 @@
   ],
   "settings": {
   }
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": [
+          "comment", // main comment text
+          "punctuation.definition.comment" // the //, #, or /* */
+        ],
+        "settings": {
+          "foreground": "#50fa7b" // pick your Dracula color here
+        }
+      }
+    ]
+  },
+  "prettier.semi": false,
+  "editor.formatOnSave": true,
+  "better-comments.tags": [
+    {
+      "tag": "!",
+      "color": "#FF5555",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "?",
+      "color": "#8be9fd",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "//",
+      "color": "#474747",
+      "strikethrough": true,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "todo",
+      "color": "#ffb86c",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "*",
+      "color": "#f1fa8c",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    }
+  ],
+  "better-comments.highlightPlainText": true,
+  "better-comments.fullHighlight": true
+}
+
 }
