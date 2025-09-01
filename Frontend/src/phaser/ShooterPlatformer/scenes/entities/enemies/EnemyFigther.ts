@@ -1,56 +1,46 @@
 import Entity from '../Entity'
-import { enemyAnims, enemyStates } from './EnemyEnums'
+import EnemyController from './EnemyController'
+import { enemyAnims, enemyStates } from '../../../interfaces/enums/EnemyEnums'
 
-export default class EnemyFighter extends Entity {
+export default class EnemyFighter extends EnemyController {
   private walkDirection: number = 2
   private changeDirectionTimer: number = 0
 
   constructor(scene: Phaser.Scene, x: number, y: number, health: number) {
-    super(scene, 'enemy_fighter', x, y, undefined, health)
+    super(scene, 'enemy_fighter', x, y, health)
   }
 
   create() {
-    this.sprite?.setRectangle(24, 64).setFixedRotation().setFriction(0.5)
-    this.createAnims()
+    super.create()
+    this.sprite.setRectangle(24, 64).setFixedRotation().setFriction(0.5)
   }
 
   update(dt: number) {
-    this.stateMachine?.update(dt)
-    this.sprite?.setDisplayOrigin(60, 96)
+    this.stateMachine.update(dt)
+    this.sprite.setDisplayOrigin(60, 96)
   }
 
   setStates(): void {
-    this.stateMachine
-      ?.addState(enemyStates.enemy_idle, {
-        onEnter: this.idleOnEnter,
-        onUpdate: this.idleOnUpdate,
-      })
-      .addState(enemyStates.enemy_walk, {
-        onEnter: this.walkOnEnter,
-        onUpdate: this.walkOnUpdate,
-      })
-      .addState(enemyStates.enemy_dead, {
-        onEnter: this.dieOnEnter,
-      })
-      .setState(enemyStates.enemy_walk)
+    super.setStates()
   }
 
   idleOnEnter() {
-    this.sprite?.setVelocityX(0)
-    this.sprite?.play('enemy_idle_2')
+    this.sprite.setVelocityX(0)
+    this.sprite.play(enemyAnims.enemy_idle)
     this.walkDirection = Phaser.Math.Between(-1, 1)
-    this.sprite?.setFlipX(this.walkDirection < 0)
+    this.sprite.setFlipX(this.walkDirection < 0)
     this.changeDirectionTimer = 0
   }
   idleOnUpdate(dt: number) {
     this.changeDirectionTimer += dt
+
     if (this.changeDirectionTimer >= 2000) {
-      this.stateMachine?.setState(enemyStates.enemy_walk)
+      this.stateMachine.setState(enemyStates.enemy_walk)
     }
   }
 
   walkOnEnter() {
-    this.sprite?.play('enemy_walk')
+    this.sprite?.play(enemyAnims.enemy_walk)
     this.changeDirectionTimer = 0
   }
   walkOnUpdate(dt: number) {
@@ -61,31 +51,15 @@ export default class EnemyFighter extends Entity {
     }
   }
 
-  dieOnEnter() {
-    this.sprite?.setVelocity(0, 0)
-    this.sprite?.play('enemy_dead')
-    this.sprite?.setCollisionCategory(0)
-    this.sprite?.setIgnoreGravity(true)
-    // this.sprite?.setCollisionCategory(0) // Disable collisions
-    // this.sprite?.once(
-    //   Phaser.Animations.Events.ANIMATION_COMPLETE,
-    //   () => {
-    //     this.sprite?.destroy() // Remove sprite from scene
-    //     // Optionally: remove from enemies array in the game scene
-    //   },
-    //   this
-    // )
-  }
-
   hitByBullet() {
-    this.stateMachine?.setState(enemyStates.enemy_dead)
+    this.stateMachine.setState(enemyStates.enemy_dead)
   }
 
   // make the npc walk along the path
   startWalkAnimation(path: any) {}
 
-  createAnims() {
-    this.sprite?.anims.create({
+  createAnimations() {
+    this.sprite.anims.create({
       key: enemyAnims.enemy_idle,
       frames: this.sprite?.anims.generateFrameNames('enemy_fighter', {
         start: 0,
@@ -97,7 +71,7 @@ export default class EnemyFighter extends Entity {
       frameRate: 10,
     })
 
-    this.sprite?.anims.create({
+    this.sprite.anims.create({
       key: enemyAnims.enemy_walk,
       frames: this.sprite?.anims.generateFrameNames('enemy_fighter', {
         start: 0,
@@ -109,7 +83,7 @@ export default class EnemyFighter extends Entity {
       frameRate: 10,
     })
 
-    this.sprite?.anims.create({
+    this.sprite.anims.create({
       key: enemyAnims.enemy_dead,
       frames: this.sprite?.anims.generateFrameNames('enemy_fighter', {
         start: 0,

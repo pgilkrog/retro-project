@@ -2,12 +2,14 @@ import { PlayerAnimations } from './PlayerAnimations'
 import Entity from '../Entity'
 import BulletController from '../../objects/BulletController'
 import { sharedInstance as events } from '../../EventCenter'
-import { playerStates, playerAnims } from './playerEnums'
+import { playerStates, playerAnims } from '../../../interfaces/enums/playerEnums'
+import { createKeyInputs } from '../../../helpers/keyInputs'
+import { collisionCategories } from '../../../helpers/collisionCategories'
 
 export default class PlayerController extends Entity {
   private inAir: boolean = false
   private fallingDelayTimer: Phaser.Time.TimerEvent | undefined
-  private bulletController: BulletController | undefined
+  private bulletController: BulletController
   private canShoot: boolean = true
   private bulletAmount: number = 50
 
@@ -19,44 +21,49 @@ export default class PlayerController extends Entity {
     super(scene, 'player', spawnX, spawnY)
 
     this.bulletController = new BulletController(scene)
-    this.createKeyInputs(scene)
+    this.keyInputs = createKeyInputs(scene)
 
-    scene.cameras.main.startFollow(this.sprite!)
+    // TODO maybe make some cool camera effect when moving, with a bit of a delay
+    scene.cameras.main.startFollow(this.sprite)
     scene.cameras.main.setZoom(1.5)
   }
 
   create() {
-    if (this.sprite != undefined) {
-      this.sprite.setRectangle(24, 64).setFixedRotation().setFriction(0)
-      PlayerAnimations(this.sprite)
+    this.sprite.setRectangle(24, 64).setFixedRotation().setFriction(0)
 
-      this.sprite.setOnCollide((data: MatterJS.ICollisionPair) => {
-        const body = data.bodyA as MatterJS.BodyType
-        const gameObject = body.gameObject
-        const body2 = data.bodyB as MatterJS.BodyType
-        const gameObject2 = body2.gameObject
+    this.sprite.setOnCollide((data: MatterJS.ICollisionPair) => {
+      const body = data.bodyA as MatterJS.BodyType
+      const gameObject = body.gameObject
+      const body2 = data.bodyB as MatterJS.BodyType
+      const gameObject2 = body2.gameObject
 
+      if (
+        gameObject instanceof Phaser.Physics.Matter.TileBody ||
+        gameObject2 instanceof Phaser.Physics.Matter.TileBody
+      ) {
         if (
-          gameObject instanceof Phaser.Physics.Matter.TileBody ||
-          gameObject2 instanceof Phaser.Physics.Matter.TileBody
+          (this.stateMachine.isCurrentState(playerStates.player_jump) ||
+            this.stateMachine.isCurrentState(playerStates.player_falling)) &&
+          data.collision.normal.y >= 1
         ) {
-          if (
-            (this.stateMachine?.isCurrentState(playerStates.player_jump) ||
-              this.stateMachine?.isCurrentState(playerStates.player_falling)) &&
-            data.collision.normal.y >= 1
-          ) {
-            this.stateMachine.setState(playerStates.player_idle)
-            this.sprite?.setVelocity(0, 0)
-            this.inAir = false
-          }
+          this.stateMachine.setState(playerStates.player_idle)
+          this.sprite.setVelocity(0, 0)
+          this.inAir = false
         }
-      })
-    }
+      }
+    })
+
+    this.sprite.setCollisionCategory(collisionCategories.player)
+    this.sprite.setCollidesWith([1])
+  }
+
+  createAnimations() {
+    PlayerAnimations(this.sprite)
   }
 
   update(dt: number) {
-    this.stateMachine?.update(dt)
-    this.sprite?.setDisplayOrigin(60, 96)
+    this.stateMachine.update(dt)
+    this.sprite.setDisplayOrigin(60, 96)
 
     const velocityY = this.sprite?.body?.velocity.y
     const threshold = 1e-10
@@ -66,10 +73,10 @@ export default class PlayerController extends Entity {
         Math.abs(velocityY) > threshold &&
         velocityY > 0 &&
         this.inAir === false &&
-        this.fallingDelayTimer === undefined
+        this.fallingDelayTimer == undefined
       ) {
         this.fallingDelayTimer = this.scene?.time.addEvent({
-          delay: 200, // delay in milliseconds
+          delay: 200,
           callback: () => {
             if (velocityY > 0) {
               this.stateMachine?.setState(playerStates.player_falling)
@@ -83,14 +90,11 @@ export default class PlayerController extends Entity {
   }
 
   setStates() {
+    super.setStates()
     this.stateMachine
-      ?.addState(playerStates.player_idle, {
-        onEnter: this.idleOnEnter,
-        onUpdate: this.idleOnUpdate,
-      })
-      .addState(playerStates.player_walk, {
-        onEnter: this.walkOnEnter,
-        onUpdate: this.walkOnUpdate,
+      .addState(playerStates.player_run, {
+        onEnter: this.runOnEnter,
+        onUpdate: this.runOnUpdate,
       })
       .addState(playerStates.player_jump, {
         onEnter: this.jumpOnEnter,
@@ -145,21 +149,44 @@ export default class PlayerController extends Entity {
     this.sprite?.play(playerAnims.player_walk)
   }
   walkOnUpdate() {
-    if (this.sprite != undefined) {
-      if (this.keyInputs['keyD'].isDown || this.keyInputs['keyA'].isDown) {
-        this.moveLeftAndRight()
-      } else {
-        this.sprite?.setVelocityX(0)
-        this.stateMachine?.setState(playerStates.player_idle)
-      }
+    if (this.keyInputs['keyD'].isDown || this.keyInputs['keyA'].isDown) {
+      this.moveLeftAndRight(this.speed)
+    } else {
+      this.sprite?.setVelocityX(0)
+      this.stateMachine?.setState(playerStates.player_idle)
+    }
 
-      if (this.keyInputs['space'].isDown && this.inAir === false) {
-        this.stateMachine?.setState(playerStates.player_jump)
-      }
+    if (this.keyInputs['keyShift'].isDown) {
+      this.stateMachine?.setState(playerStates.player_run)
+    }
 
-      if (this.scene?.input.activePointer.leftButtonDown()) {
-        this.stateMachine?.setState(playerStates.player_shoot)
-      }
+    if (this.keyInputs['space'].isDown && this.inAir === false) {
+      this.stateMachine?.setState(playerStates.player_jump)
+    }
+
+    if (this.scene?.input.activePointer.leftButtonDown()) {
+      this.stateMachine?.setState(playerStates.player_shoot)
+    }
+  }
+
+  runOnEnter() {
+    console.log('entered run state')
+    this.sprite.play(playerAnims.player_run)
+  }
+  runOnUpdate() {
+    if (this.keyInputs['keyD'].isDown || this.keyInputs['keyA'].isDown) {
+      this.moveLeftAndRight(this.runSpeed)
+    } else {
+      this.sprite?.setVelocityX(0)
+      this.stateMachine?.setState(playerStates.player_idle)
+    }
+
+    if (this.keyInputs['space'].isDown && this.inAir === false) {
+      this.stateMachine?.setState(playerStates.player_jump)
+    }
+
+    if (this.keyInputs['keyShift'].isUp) {
+      this.stateMachine?.setState(playerStates.player_walk)
     }
   }
 
@@ -169,14 +196,15 @@ export default class PlayerController extends Entity {
     this.inAir = true
   }
   jumpOnUpdate() {
-    this.moveLeftAndRight()
+    let speed = this.keyInputs['keyShift'].isDown ? this.runSpeed : this.speed
+    this.moveLeftAndRight(speed)
   }
 
   shootOnEnter() {
     this.sprite?.play(playerAnims.player_shoot)
   }
   shootOnUpdate() {
-    this.moveLeftAndRight()
+    this.moveLeftAndRight(this.speed / 1.5)
 
     if (this.scene?.input.activePointer.isDown === false) {
       this.stateMachine?.setState(playerStates.player_idle)
@@ -221,10 +249,14 @@ export default class PlayerController extends Entity {
     this.sprite?.play(playerAnims.player_falling)
   }
   fallingOnUpdate() {
-    this.moveLeftAndRight()
+    this.moveLeftAndRight(this.speed / 1.5)
 
-    if (this.sprite?.body?.velocity.y! <= 0 && this.inAir === true) {
-      this.stateMachine?.setState(playerStates.player_idle)
+    if (
+      this.sprite.body?.velocity.y != undefined &&
+      this.sprite.body?.velocity.y <= 0 &&
+      this.inAir === true
+    ) {
+      this.stateMachine.setState(playerStates.player_idle)
       this.inAir = false
     }
   }
@@ -246,11 +278,11 @@ export default class PlayerController extends Entity {
   }
 
   meleeOnEnter() {
-    this.sprite?.play(playerAnims.player_melee)
-    this.scene?.time.addEvent({
+    this.sprite.play(playerAnims.player_melee)
+    this.scene.time.addEvent({
       delay: 500,
       callback: () => {
-        this.stateMachine?.setState(playerStates.player_idle)
+        this.stateMachine.setState(playerStates.player_idle)
         console.log('melee attack finished')
       },
       callbackScope: this,
@@ -258,35 +290,18 @@ export default class PlayerController extends Entity {
   }
   meleeOnUpdate() {}
 
-  moveLeftAndRight() {
-    if (this.sprite != undefined) {
-      if (this.keyInputs['keyD'].isDown) {
-        this.sprite.setVelocityX(this.speed)
-        this.sprite.flipX = false
-      } else if (this.keyInputs['keyA'].isDown) {
-        this.sprite.setVelocityX(-this.speed)
-        this.sprite.flipX = true
-      } else if (
-        this.stateMachine?.isCurrentState(playerStates.player_falling) === false ||
-        this.stateMachine?.isCurrentState(playerStates.player_jump) === false
-      ) {
-        this.sprite.setVelocityX(0)
-      }
+  moveLeftAndRight(speed: number) {
+    if (this.keyInputs['keyD'].isDown) {
+      this.sprite.setVelocityX(speed)
+      this.sprite.flipX = false
+    } else if (this.keyInputs['keyA'].isDown) {
+      this.sprite.setVelocityX(-speed)
+      this.sprite.flipX = true
+    } else if (
+      this.stateMachine.isCurrentState(playerStates.player_falling) === false ||
+      this.stateMachine.isCurrentState(playerStates.player_jump) === false
+    ) {
+      this.sprite.setVelocityX(0)
     }
-  }
-
-  private createKeyInputs(scene: Phaser.Scene) {
-    if (scene.input.keyboard == undefined) {
-      return
-    }
-
-    this.keyInputs['keyA'] = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
-    this.keyInputs['keyD'] = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
-    this.keyInputs['space'] = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
-    this.keyInputs['keyR'] = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)
-    this.keyInputs['keyE'] = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
-
-    // this.keyInputs['keyW'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.W)
-    // this.keyInputs['keyS'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S)
   }
 }

@@ -1,8 +1,8 @@
 import { Bullet } from './Bullet'
 
 export default class PlayerController {
-  private scene: Phaser.Scene | undefined
-  private bullets: Phaser.GameObjects.Group | undefined
+  private scene: Phaser.Scene
+  private bullets: Phaser.GameObjects.Group
   private bulletAmount: number = 100
 
   constructor(scene: Phaser.Scene) {
@@ -16,7 +16,7 @@ export default class PlayerController {
   }
 
   getBullet(x: number, y: number) {
-    let bullet = this.bullets?.getFirstDead()
+    let bullet = this.bullets.getFirstDead()
 
     if (
       bullet == undefined &&

@@ -1,17 +1,15 @@
 import Phaser from 'phaser'
 import PlayerController from './entities/player/PlayerController'
 import EnemyFighter from './entities/enemies/EnemyFigther'
-import BulletController from './objects/BulletController'
 import { Bullet } from './objects/Bullet'
+import NPCController from './entities/npcs/NPCController'
+import EnemyController from './entities/enemies/EnemyController'
 // import { debugDraw } from '@/phaser/utils/debug'
-import * as EasyStar from 'easystarjs'
-import { enemyStates } from './entities/enemies/EnemyEnums'
 
 export default class Game extends Phaser.Scene {
   private player: PlayerController | undefined
-  private enemies: EnemyFighter[] = []
-  private bullets: BulletController | undefined
-  private easystar = new EasyStar.js()
+  private enemies: EnemyController[] = []
+  private npcs: NPCController[] = []
 
   constructor() {
     super({ key: 'PlayScene' })
@@ -19,7 +17,6 @@ export default class Game extends Phaser.Scene {
 
   create() {
     this.scene.launch('ui')
-    this.bullets = new BulletController(this)
 
     const map = this.make.tilemap({ key: 'testMap' })
     const tileset = map.addTilesetImage('Tileset', 'tiles')
@@ -36,9 +33,6 @@ export default class Game extends Phaser.Scene {
 
       map.createLayer('Walls', tileset)
       map.createLayer('Ground', tileset)
-      // map.createLayer('Pathfinding', pathfindingTiles)
-
-      // make bullet collide with enemies
     }
 
     const objectLayer = map.getObjectLayer('Objects')
@@ -49,9 +43,7 @@ export default class Game extends Phaser.Scene {
 
         if (name === 'player-spawn') {
           this.player = new PlayerController(this, x, y)
-        }
-
-        if (name === 'enemy_spawn_fighter') {
+        } else if (name === 'enemy_spawn_fighter') {
           const newEnemy = new EnemyFighter(this, x, y, 100)
 
           newEnemy.sprite?.setOnCollide((data: MatterJS.ICollisionPair) => {
@@ -63,50 +55,21 @@ export default class Game extends Phaser.Scene {
           })
 
           this.enemies.push(newEnemy)
+        } else if (name === 'npc_spawn') {
+          const newNPC = new NPCController(this, 'enemy_fighter', x, y, 100)
+          this.npcs.push(newNPC)
         }
       })
     }
-    // easyStarInit(map.getLayer('Pathfinding')?.data, this.enemies, this, map)
 
     // this.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
     //   console.log('collision', event, bodyA, bodyB)
     // })
-
-    this.setupEasystar(map)
   }
 
   update(t: number, dt: number) {
     this.player?.update(dt)
     this.enemies.forEach((enemy) => enemy.update(dt))
-  }
-
-  private setupEasystar(map: any) {
-    const grid: number[][] = []
-    // Loop through all tiles in the layer
-    map.getLayer('Pathfinding').data.forEach((row: any) => {
-      const rowData: any[] = []
-      row.forEach((tile: any) => {
-        // Sets the cost of the tile
-        const isWalkable = tile.properties ? tile.properties.cost : -1
-        rowData.push(isWalkable === undefined ? -1 : isWalkable)
-        // Set tile cost accordingly
-        this.easystar.setTileCost(isWalkable, isWalkable)
-      })
-      grid.push(rowData)
-    })
-    this.easystar.setGrid(grid)
-    this.easystar.setAcceptableTiles([1, 2, 3, 4, 5, 6, 7, 8])
-  }
-
-  private findPath(start: { x: number; y: number }, end: { x: number; y: number }) {
-    this.easystar.findPath(start.x, start.y, end.x, end.y, (path: any) => {
-      if (path) {
-        console.log('Path found:', path)
-        // Use the path to move your NPC
-      } else {
-        console.log('Path not found')
-      }
-    })
-    this.easystar.calculate()
+    this.npcs.forEach((enemy) => enemy.update(dt))
   }
 }

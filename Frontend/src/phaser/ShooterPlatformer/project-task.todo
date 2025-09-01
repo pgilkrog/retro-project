@@ -1,0 +1,38 @@
+BUGS: 
+
+Player:
+  [ ] Shoot in all directions, where the mouse is
+  [ ] Throw molotov cocktail
+  [ ] Talk to NP
+  [ ] Hit enemy
+
+Levels:
+  [ ] Ladders
+  [ ] Doors
+
+NPCS:
+  [ ] Create simple NPC
+    [ ] Talk to player
+    [ ] Sprites animations
+
+Enemies:
+  [ ] Attack player
+  [ ] Aggressive behavior
+  [ ] On Alert behavior
+
+UI:
+  [ ] Conversation box for NPCs
+  [ ] Speech bubble for NPCs
+
+Objects:
+  [ ] Health pack
+    [ ] Pickup animation
+    [ ] Heal player
+  [ ] Ammo pack
+    [ ] Pickup animation
+    [ ] Refill ammo
+
+Weapons:
+  [ ] Molotov cocktail
+    [ ] Fire animation
+    [ ] Damage over time

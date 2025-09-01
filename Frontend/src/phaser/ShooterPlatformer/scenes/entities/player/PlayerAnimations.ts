@@ -1,10 +1,6 @@
-import { playerAnims } from './playerEnums'
+import { playerAnims } from '../../../interfaces/enums/playerEnums'
 
 export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
-  if (sprite == undefined) {
-    return
-  }
-
   sprite.anims.create({
     key: playerAnims.player_idle,
     frames: sprite.anims.generateFrameNames('player', {
