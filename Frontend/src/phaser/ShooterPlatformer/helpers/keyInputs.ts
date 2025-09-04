@@ -1,11 +1,11 @@
+let keyInputs: {
+  [key: string]: Phaser.Input.Keyboard.Key
+} = {}
+
 export const createKeyInputs = (scene: Phaser.Scene) => {
   if (scene.input.keyboard == undefined) {
     throw new Error('Keyboard input is not available on this scene.')
   }
-
-  let keyInputs: {
-    [key: string]: Phaser.Input.Keyboard.Key
-  } = {}
 
   keyInputs['keyA'] = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
   keyInputs['keyD'] = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
@@ -16,6 +16,8 @@ export const createKeyInputs = (scene: Phaser.Scene) => {
 
   // this.keyInputs['keyW'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.W)
   // this.keyInputs['keyS'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S)
+}
 
+export const getKeyInputs = () => {
   return keyInputs
 }

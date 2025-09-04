@@ -1,9 +1,9 @@
 import { PlayerAnimations } from './PlayerAnimations'
 import Entity from '../Entity'
 import BulletController from '../../objects/BulletController'
-import { sharedInstance as events } from '../../EventCenter'
+import { CUSTOM_EVENTS, sharedInstance as events } from '../../EventCenter'
 import { playerStates, playerAnims } from '../../../interfaces/enums/playerEnums'
-import { createKeyInputs } from '../../../helpers/keyInputs'
+import { createKeyInputs, getKeyInputs } from '../../../helpers/keyInputs'
 import { collisionCategories } from '../../../helpers/collisionCategories'
 
 export default class PlayerController extends Entity {
@@ -21,7 +21,7 @@ export default class PlayerController extends Entity {
     super(scene, 'player', spawnX, spawnY)
 
     this.bulletController = new BulletController(scene)
-    this.keyInputs = createKeyInputs(scene)
+    this.keyInputs = getKeyInputs()
 
     // TODO maybe make some cool camera effect when moving, with a bit of a delay
     scene.cameras.main.startFollow(this.sprite)
@@ -229,7 +229,7 @@ export default class PlayerController extends Entity {
 
           this.bulletAmount -= 1
           this.canShoot = false
-          events.emit('bullets-changed', this.bulletAmount)
+          events.emit(CUSTOM_EVENTS.BULLETS_CHANGED, this.bulletAmount)
 
           // Set a timer to reset canShoot after a delay
           this.scene?.time.addEvent({
@@ -270,7 +270,7 @@ export default class PlayerController extends Entity {
       delay: 1800,
       callback: () => {
         this.stateMachine?.setState(playerStates.player_idle)
-        events.emit('bullets-changed', 50)
+        events.emit(CUSTOM_EVENTS.BULLETS_CHANGED, 50)
       },
       callbackScope: this,
     })

@@ -1,15 +1,18 @@
 import Phaser from 'phaser'
 import PlayerController from './entities/player/PlayerController'
-import EnemyFighter from './entities/enemies/EnemyFigther'
 import { Bullet } from './objects/Bullet'
 import NPCController from './entities/npcs/NPCController'
 import EnemyController from './entities/enemies/EnemyController'
+import DialogController from '../Dialog/DialogController'
+import { createKeyInputs, getKeyInputs } from '../helpers/keyInputs'
+import { sharedInstance as events, CUSTOM_EVENTS } from './EventCenter'
 // import { debugDraw } from '@/phaser/utils/debug'
 
 export default class Game extends Phaser.Scene {
   private player: PlayerController | undefined
   private enemies: EnemyController[] = []
   private npcs: NPCController[] = []
+  private dialog: DialogController
 
   constructor() {
     super({ key: 'PlayScene' })
@@ -17,6 +20,8 @@ export default class Game extends Phaser.Scene {
 
   create() {
     this.scene.launch('ui')
+    this.scene.launch('dialog')
+    createKeyInputs(this)
 
     const map = this.make.tilemap({ key: 'testMap' })
     const tileset = map.addTilesetImage('Tileset', 'tiles')
@@ -44,7 +49,7 @@ export default class Game extends Phaser.Scene {
         if (name === 'player-spawn') {
           this.player = new PlayerController(this, x, y)
         } else if (name === 'enemy_spawn_fighter') {
-          const newEnemy = new EnemyFighter(this, x, y, 100)
+          const newEnemy = new EnemyController(this, 'enemy_fighter', x, y, 100)
 
           newEnemy.sprite?.setOnCollide((data: MatterJS.ICollisionPair) => {
             const other = (data.bodyB as any).gameObject || (data.bodyA as any).gameObject
@@ -65,11 +70,29 @@ export default class Game extends Phaser.Scene {
     // this.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
     //   console.log('collision', event, bodyA, bodyB)
     // })
+    // this.dialog = new DialogController(this)
   }
 
   update(t: number, dt: number) {
     this.player?.update(dt)
     this.enemies.forEach((enemy) => enemy.update(dt))
     this.npcs.forEach((enemy) => enemy.update(dt))
+
+    // if (this.dialog.isDialogActive()) {
+    //   // Freeze player during dialog
+    //   this.player?.sprite.setVelocity(0)
+    //   return
+    // }
+
+    // // Overlap detection
+    if (getKeyInputs()['keyE'].isDown === true) {
+      events.emit(CUSTOM_EVENTS.SHOW_DIALOG, 'Bungorno Salvatore')
+
+      // this.dialog.startDialog([
+      //   'Hello, traveler!',
+      //   'It’s dangerous to go alone.',
+      //   'Take this sword with you.',
+      // ])
+    }
   }
 }

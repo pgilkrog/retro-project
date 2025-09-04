@@ -11,6 +11,7 @@ import Phaser from 'phaser'
 import Loader from './scenes/loader'
 import Game from './scenes/Game'
 import UI from './scenes/UI'
+import DialogController from './Dialog/DialogController'
 
 export interface IConfig {
   mapOffset: number
@@ -30,7 +31,7 @@ const SHARED_CONFIG = {
   zoomFactor: 1,
 } as IConfig
 
-const Scenes = [Loader, Game, UI]
+const Scenes = [Loader, Game, UI, DialogController]
 const createScene = (Scene: any) => new Scene(SHARED_CONFIG)
 const initScenes = () => Scenes.map(createScene)
 

@@ -1,5 +1,5 @@
 import Phaser, { Scene } from 'phaser'
-import { sharedInstance as events } from '@/phaser/ShooterPlatformer/scenes/EventCenter'
+import { sharedInstance as events, CUSTOM_EVENTS } from './EventCenter'
 
 export default class UI extends Scene {
   private bulletsAmount: Phaser.GameObjects.Text
@@ -20,7 +20,11 @@ export default class UI extends Scene {
       fontSize: '32px',
     })
 
-    events.on('bullets-changed', this.handleBulletsChange, this)
+    events.on(CUSTOM_EVENTS.BULLETS_CHANGED, this.handleBulletsChange, this)
+
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      events.off(CUSTOM_EVENTS.BULLETS_CHANGED, this.handleBulletsChange, this)
+    })
   }
 
   private setHealthBar(value: number) {

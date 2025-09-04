@@ -1,6 +1,6 @@
-import Entity from '../Entity'
 import EnemyController from './EnemyController'
 import { enemyAnims, enemyStates } from '../../../interfaces/enums/EnemyEnums'
+import { collisionCategories } from '../../../helpers/collisionCategories'
 
 export default class EnemyFighter extends EnemyController {
   private walkDirection: number = 2
@@ -46,6 +46,7 @@ export default class EnemyFighter extends EnemyController {
   walkOnUpdate(dt: number) {
     this.changeDirectionTimer += dt
     this.sprite?.setVelocityX(this.walkDirection)
+
     if (this.changeDirectionTimer >= 2000) {
       this.stateMachine?.setState(enemyStates.enemy_idle)
     }

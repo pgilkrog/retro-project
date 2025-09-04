@@ -1,0 +1,14 @@
+{
+  "npc": {
+    "greetings": ["Hi there!", "Hello", "Good day"],
+    "farewells": ["Goodbye!", "See you later!", "Take care!"]
+  },
+  "gangster": {
+    "greetings": ["What do you want?", "Get lost!", "I'm warning you!"],
+    "farewells": ["You better watch yourself!", "This isn't over!", "Stay out of my way!"]
+  },
+  "merchant": {
+    "greetings": ["Welcome to my shop!", "Looking for something special?", "Take your time!"],
+    "farewells": ["Thanks for stopping by!", "Come back soon!", "Safe travels!"]
+  }
+}

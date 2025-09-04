@@ -14,6 +14,8 @@ import collideImg from '@/phaser/ShooterPlatformer/assets/testmap/colliderImg.pn
 
 import bullet from '@/phaser/ShooterPlatformer/assets/reticle.png'
 
+import dialogTree from '../Dialog/DialogTree.json'
+
 export default class Loader extends Scene {
   constructor() {
     super({ key: 'Loader' })
@@ -29,6 +31,8 @@ export default class Loader extends Scene {
     this.load.atlas('enemy_fighter', enemy1PNG, enemy1Json)
 
     this.load.image('bullet', bullet)
+
+    this.load.json('dialogs', dialogTree)
   }
 
   create() {

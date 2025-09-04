@@ -1,9 +1,10 @@
 BUGS: 
+  [x] fix collision between player and enemy
 
 Player:
   [ ] Shoot in all directions, where the mouse is
   [ ] Throw molotov cocktail
-  [ ] Talk to NP
+  [ ] Talk to NPC
   [ ] Hit enemy
 
 Levels:
