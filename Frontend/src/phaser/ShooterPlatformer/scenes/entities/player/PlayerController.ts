@@ -206,22 +206,22 @@ export default class PlayerController extends Entity {
   shootOnUpdate() {
     this.moveLeftAndRight(this.speed / 1.5)
 
-    if (this.scene?.input.activePointer.isDown === false) {
-      this.stateMachine?.setState(playerStates.player_idle)
+    if (this.scene.input.activePointer.isDown === false) {
+      this.stateMachine.setState(playerStates.player_idle)
     } else {
       if (this.bulletController != undefined) {
         if (this.canShoot === true && this.bulletAmount > 0) {
-          const isFlipped = this.sprite?.flipX === true
+          const isFlipped = this.sprite.flipX === true
 
           let bullet = this.bulletController.getBullet(
-            isFlipped ? this.sprite?.x! - 30 : this.sprite?.x! + 50,
-            this.sprite?.y! - 8
+            isFlipped ? this.sprite.x! - 30 : this.sprite.x! + 50,
+            this.sprite.y! - 8
           )
 
           if (bullet != undefined) {
             bullet.fire(
-              isFlipped ? this.sprite?.x! - 30 : this.sprite?.x! + 25,
-              this.sprite?.y! - 8,
+              isFlipped ? this.sprite.x! - 30 : this.sprite.x! + 25,
+              this.sprite.y! - 8,
               isFlipped ? -30 : 30,
               0
             )

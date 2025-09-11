@@ -1,11 +1,25 @@
 {
   "npc": {
-    "greetings": ["Hi there!", "Hello", "Good day"],
-    "farewells": ["Goodbye!", "See you later!", "Take care!"]
+    "greetings": {
+      "start": ["Hi there!", "Hello", "Good day"],
+      "responses": ["Hello"],
+      "next": "farewells"
+    },
+    "farewells": {
+      "start": ["Goodbye!", "See you later!", "Take care!"],
+      "responses": ["Goodbye"]
+    }
   },
   "gangster": {
-    "greetings": ["What do you want?", "Get lost!", "I'm warning you!"],
-    "farewells": ["You better watch yourself!", "This isn't over!", "Stay out of my way!"]
+    "greetings": {
+      "start": ["What do you want?", "Get lost!", "I'm warning you!"],
+      "responses": ["Hello"],
+      "next": "farewells"
+    },
+    "farewells": {
+      "start": ["You better watch yourself!", "This isn't over!", "Stay out of my way!"],
+      "responses": []
+    }
   },
   "merchant": {
     "greetings": ["Welcome to my shop!", "Looking for something special?", "Take your time!"],

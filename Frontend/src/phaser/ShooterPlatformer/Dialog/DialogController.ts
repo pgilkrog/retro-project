@@ -1,38 +1,42 @@
-import { Scene } from 'phaser'
 import { sharedInstance as events, CUSTOM_EVENTS } from '../scenes/EventCenter'
 
-export default class DialogController extends Scene {
-  private dialogContainer: Phaser.GameObjects.Container
-  private dialogText: Phaser.GameObjects.Text
+export default class DialogController {
+  static #instance
 
   private dialogTree
+  private scene: Phaser.Scene
 
-  constructor() {
-    super({ key: 'dialog' })
+  constructor(scene: Phaser.Scene) {
+    if (DialogController.#instance) {
+      throw new Error('Use GameManager.getInstance() instead of new')
+    }
+
+    this.scene = scene
+  }
+
+  static getInstance(scene: Phaser.Scene) {
+    if (DialogController.#instance == undefined) {
+      DialogController.#instance = new DialogController(scene)
+    }
+    return DialogController.#instance
   }
 
   create() {
-    this.dialogContainer = this.add.container(400, 550, [
-      this.add.rectangle(0, 0, 780, 100, 0x000000, 0.7).setOrigin(0),
-    ])
-
-    this.dialogText = this.add.text(16, 16, '', {}).setOrigin(0)
-    this.dialogContainer.add(this.dialogText)
-    this.dialogContainer.setVisible(false)
-
-    events.on(CUSTOM_EVENTS.SHOW_DIALOG, this.showDialog, this)
-    events.on(CUSTOM_EVENTS.CLOSE_DIALOG, this.showDialog, this)
-
-    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
-      events.off(CUSTOM_EVENTS.SHOW_DIALOG, this.showDialog, this)
-      events.off(CUSTOM_EVENTS.CLOSE_DIALOG, this.showDialog, this)
-    })
-    this.dialogTree = this.cache.json.get('dialogs')
-    console.log(this.dialogTree.npc.greetings[0])
+    this.dialogTree = this.scene.cache.json.get('dialogs')
   }
 
-  showDialog(text: string) {
-    this.dialogContainer.setVisible(true)
-    this.dialogText.setText(text)
+  getDialogTree() {
+    return this.dialogTree
+  }
+
+  getDialogNode(id: string) {
+    return this.dialogTree[id]
+  }
+
+  public callDialog(id: string) {
+    var node = this.getDialogNode(id)
+    var dialog = node.greetings
+    events.emit(CUSTOM_EVENTS.SHOW_DIALOG, dialog)
+    console.log(node.greetings.start[0])
   }
 }

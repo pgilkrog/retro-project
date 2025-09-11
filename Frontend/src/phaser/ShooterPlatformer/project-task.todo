@@ -13,8 +13,7 @@ Levels:
 
 NPCS:
   [ ] Create simple NPC
-    [ ] Talk to player
-    [ ] Sprites animations
+  [ ] Sprites animations
 
 Enemies:
   [ ] Attack player

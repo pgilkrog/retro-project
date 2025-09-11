@@ -3,25 +3,28 @@ import PlayerController from './entities/player/PlayerController'
 import { Bullet } from './objects/Bullet'
 import NPCController from './entities/npcs/NPCController'
 import EnemyController from './entities/enemies/EnemyController'
-import DialogController from '../Dialog/DialogController'
 import { createKeyInputs, getKeyInputs } from '../helpers/keyInputs'
 import { sharedInstance as events, CUSTOM_EVENTS } from './EventCenter'
+import DialogController from '../Dialog/DialogController'
 // import { debugDraw } from '@/phaser/utils/debug'
 
 export default class Game extends Phaser.Scene {
   private player: PlayerController | undefined
   private enemies: EnemyController[] = []
   private npcs: NPCController[] = []
-  private dialog: DialogController
+  private dialogIsActive: boolean = false
+  private dialogController: DialogController
 
   constructor() {
     super({ key: 'PlayScene' })
+    this.dialogController = DialogController.getInstance(this)
   }
 
   create() {
     this.scene.launch('ui')
     this.scene.launch('dialog')
     createKeyInputs(this)
+    this.dialogController.create()
 
     const map = this.make.tilemap({ key: 'testMap' })
     const tileset = map.addTilesetImage('Tileset', 'tiles')
@@ -51,7 +54,7 @@ export default class Game extends Phaser.Scene {
         } else if (name === 'enemy_spawn_fighter') {
           const newEnemy = new EnemyController(this, 'enemy_fighter', x, y, 100)
 
-          newEnemy.sprite?.setOnCollide((data: MatterJS.ICollisionPair) => {
+          newEnemy.sprite.setOnCollide((data: MatterJS.ICollisionPair) => {
             const other = (data.bodyB as any).gameObject || (data.bodyA as any).gameObject
 
             if (other instanceof Bullet) {
@@ -66,11 +69,6 @@ export default class Game extends Phaser.Scene {
         }
       })
     }
-
-    // this.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
-    //   console.log('collision', event, bodyA, bodyB)
-    // })
-    // this.dialog = new DialogController(this)
   }
 
   update(t: number, dt: number) {
@@ -78,21 +76,37 @@ export default class Game extends Phaser.Scene {
     this.enemies.forEach((enemy) => enemy.update(dt))
     this.npcs.forEach((enemy) => enemy.update(dt))
 
-    // if (this.dialog.isDialogActive()) {
-    //   // Freeze player during dialog
-    //   this.player?.sprite.setVelocity(0)
-    //   return
-    // }
+    this.npcs.forEach((npc: NPCController) => {
+      if (
+        Phaser.Math.Distance.Between(
+          this.player?.sprite.x ?? 1000,
+          this.player?.sprite.y ?? 100,
+          npc.sprite.x,
+          npc.sprite.y
+        ) < 50
+      ) {
+        if (getKeyInputs()['keyE'].isDown === true && this.dialogIsActive === false) {
+          this.dialogIsActive = true
+          this.dialogController.callDialog('npc')
+        }
+      }
+    })
 
-    // // Overlap detection
-    if (getKeyInputs()['keyE'].isDown === true) {
-      events.emit(CUSTOM_EVENTS.SHOW_DIALOG, 'Bungorno Salvatore')
-
-      // this.dialog.startDialog([
-      //   'Hello, traveler!',
-      //   'It’s dangerous to go alone.',
-      //   'Take this sword with you.',
-      // ])
-    }
+    this.enemies.forEach((enemy: EnemyController) => {
+      if (
+        Phaser.Math.Distance.Between(
+          this.player?.sprite.x ?? 1000,
+          this.player?.sprite.y ?? 100,
+          enemy.sprite.x,
+          enemy.sprite.y
+        ) < 50
+      ) {
+        if (getKeyInputs()['keyE'].isDown === true && this.dialogIsActive === false) {
+          this.dialogIsActive = true
+          console.log('enemy dialog called')
+          this.dialogController.callDialog('gangster')
+        }
+      }
+    })
   }
 }
