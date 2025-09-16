@@ -3,22 +3,28 @@
     "greetings": {
       "start": ["Hi there!", "Hello", "Good day"],
       "responses": ["Hello"],
-      "next": "farewells"
+      "next": "farewells",
+      "effect": ""
     },
     "farewells": {
       "start": ["Goodbye!", "See you later!", "Take care!"],
-      "responses": ["Goodbye"]
+      "responses": ["Goodbye"],
+      "next": "close dialog",
+      "effect": ""
     }
   },
   "gangster": {
     "greetings": {
       "start": ["What do you want?", "Get lost!", "I'm warning you!"],
       "responses": ["Hello"],
-      "next": "farewells"
+      "next": "farewells",
+      "effect": ""
     },
     "farewells": {
       "start": ["You better watch yourself!", "This isn't over!", "Stay out of my way!"],
-      "responses": []
+      "responses": ["Goodbye"],
+      "next": "close dialog",
+      "effect": ""
     }
   },
   "merchant": {

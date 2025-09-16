@@ -1,0 +1,11 @@
+{
+  "description": "Mafia ranks, particularly in the Italian-American Mafia, typically form a hierarchical structure from the bottom up: Associates are non-initiated individuals working for the family, Soldiers are 'made men' who have taken an oath of silence, Caporegimes lead crews of soldiers, the Consigliere serves as the boss's advisor, the Underboss is the second-in-command, and the Boss (or Don) is the undisputed leader.",
+  "ranks": {
+    "Associate": "The lowest level of engagement, where non-initiated individuals work for made members, performing various criminal tasks in exchange for protection or a share of the profits.",
+    "Soldier": "An initiated member who has taken the omertà (oath of silence). Soldiers are the foundation of the crime family and are tasked with executing criminal operations.",
+    "Captain": "A leader who commands a 'crew' or 'regime' of soldiers, overseeing their daily operations and reporting to the underboss or boss.",
+    "Consigliere": "A trusted advisor to the boss, acting as a confidant and counselor. They often serve as a mediator of disputes and may even challenge the boss to ensure sound decisions.",
+    "Underboss": "The second-in-command who often runs the day-to-day operations of the family, overseeing the distribution of money and power from the Caporegimes. ",
+    "Don": "The ultimate leader of the Mafia family, holding dictatorial power and receiving a cut of all family operations. "
+  }
+}

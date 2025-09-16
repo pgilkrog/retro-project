@@ -5,12 +5,13 @@ import DialogController from './DialogController'
 export default class DialogScene extends Scene {
   private dialogContainer: Phaser.GameObjects.Container
   private dialogText: Phaser.GameObjects.Text
-  private dialogSelectionText: Phaser.GameObjects.Text
+  private dialogSelectionText: Phaser.GameObjects.Text[]
   private dialogController: DialogController
 
   constructor() {
+    console.log('dialogScene ran')
     super({ key: 'dialog' })
-    this.dialogController = DialogController.getInstance(this)
+    this.dialogController = DialogController.getInstance(undefined)
   }
 
   create() {
@@ -47,17 +48,22 @@ export default class DialogScene extends Scene {
   }
 
   showDialog(dialog) {
+    if (this.dialogSelectionText != undefined) {
+      this.dialogSelectionText.forEach((text) => text.destroy())
+      this.dialogSelectionText = []
+    }
+
     this.dialogContainer.setVisible(true)
     this.dialogText.setText(this.getRandomTextFromArray(dialog.start))
+
     this.dialogSelectionText = dialog.responses.map((response, index) => {
-      let btn = this.add
+      return this.add
         .text(-780 / 2 + 16, -100 + 48, response, {})
         .setOrigin(0)
         .setInteractive()
         .on('pointerdown', () => {
-          this.showDialog(response.next)
+          this.dialogController.callNextDialog(dialog.next)
         })
-      return btn
     })
 
     this.dialogContainer.add(this.dialogSelectionText)

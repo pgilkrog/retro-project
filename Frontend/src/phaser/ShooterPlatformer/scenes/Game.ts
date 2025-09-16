@@ -4,7 +4,6 @@ import { Bullet } from './objects/Bullet'
 import NPCController from './entities/npcs/NPCController'
 import EnemyController from './entities/enemies/EnemyController'
 import { createKeyInputs, getKeyInputs } from '../helpers/keyInputs'
-import { sharedInstance as events, CUSTOM_EVENTS } from './EventCenter'
 import DialogController from '../Dialog/DialogController'
 // import { debugDraw } from '@/phaser/utils/debug'
 
@@ -12,10 +11,10 @@ export default class Game extends Phaser.Scene {
   private player: PlayerController | undefined
   private enemies: EnemyController[] = []
   private npcs: NPCController[] = []
-  private dialogIsActive: boolean = false
   private dialogController: DialogController
 
   constructor() {
+    console.log('gamescene ran')
     super({ key: 'PlayScene' })
     this.dialogController = DialogController.getInstance(this)
   }
@@ -85,9 +84,11 @@ export default class Game extends Phaser.Scene {
           npc.sprite.y
         ) < 50
       ) {
-        if (getKeyInputs()['keyE'].isDown === true && this.dialogIsActive === false) {
-          this.dialogIsActive = true
-          this.dialogController.callDialog('npc')
+        if (
+          getKeyInputs()['keyE'].isDown === true &&
+          this.dialogController.getDialogIsActive() === false
+        ) {
+          this.dialogController.initiateDialog('npc')
         }
       }
     })
@@ -101,10 +102,12 @@ export default class Game extends Phaser.Scene {
           enemy.sprite.y
         ) < 50
       ) {
-        if (getKeyInputs()['keyE'].isDown === true && this.dialogIsActive === false) {
-          this.dialogIsActive = true
+        if (
+          getKeyInputs()['keyE'].isDown === true &&
+          this.dialogController.getDialogIsActive() === false
+        ) {
           console.log('enemy dialog called')
-          this.dialogController.callDialog('gangster')
+          this.dialogController.initiateDialog('gangster')
         }
       }
     })

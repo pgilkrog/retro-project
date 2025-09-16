@@ -1,11 +1,22 @@
+[X] x is green
+[-] - is red
+
+
 BUGS: 
-  [x] fix collision between player and enemy
+  [X] fix collision between player and enemy
 
 Player:
   [ ] Shoot in all directions, where the mouse is
   [ ] Throw molotov cocktail
-  [ ] Talk to NPC
+  [X] Talk to NPC
   [ ] Hit enemy
+  Rank in family:
+    [ ] No affiliasion
+    [ ] Associate
+    [ ] Soldier
+    [ ] Captain
+    [ ] Under boss
+    [ ] Don (maybe not)
 
 Levels:
   [ ] Ladders
@@ -14,14 +25,36 @@ Levels:
 NPCS:
   [ ] Create simple NPC
   [ ] Sprites animations
+    NPC Types: 
+      [ ] Merchant
+      [ ] Bartender
+      [ ] Citizen
+    Animals:
+      [ ] Dogs
+      [ ] Cats
+      [ ] Birds
+      [ ] Rats
+
+Family:
+  [ ] Gangsters
+  [ ] Captains
+  [ ] The Don
 
 Enemies:
   [ ] Attack player
-  [ ] Aggressive behavior
-  [ ] On Alert behavior
+  [ ] Aggressive State on being attacked
+  [ ] On Alert State when player is close
+  [ ] Create different Enemies
+    Gangsters:
+      [ ] Soldiers
+      [ ] Captains
+      [ ] Bosses
+    Animals: 
+      [ ] Dogs
+      [ ] Rats
 
 UI:
-  [ ] Conversation box for NPCs
+  [X] Conversation box for NPCs
   [ ] Speech bubble for NPCs
 
 Objects:
