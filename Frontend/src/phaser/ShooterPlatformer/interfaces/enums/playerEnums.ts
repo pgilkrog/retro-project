@@ -7,6 +7,8 @@ export enum playerStates {
   player_recharge = 'recharge',
   player_falling = 'falling',
   player_melee = 'melee',
+  player_dead = 'dead',
+  player_hurt = 'hurt',
 }
 
 export enum playerAnims {
@@ -18,4 +20,6 @@ export enum playerAnims {
   player_recharge = 'recharge',
   player_falling = 'falling',
   player_melee = 'melee',
+  player_dead = 'dead',
+  player_hurt = 'hurt',
 }

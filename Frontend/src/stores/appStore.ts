@@ -9,14 +9,14 @@ export const useAppStore = defineStore('appStore', () => {
     {
       name: 'asdfgæk',
       method: () => {
-        thismehtod2()
+        thismethod()
       },
       icon: 'fa-house',
     },
     {
       name: 'sdfælkj',
       method: () => {
-        thismethod()
+        thismehtod2()
       },
       icon: 'fa-house',
     },

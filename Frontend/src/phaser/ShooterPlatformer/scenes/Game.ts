@@ -12,6 +12,7 @@ export default class Game extends Phaser.Scene {
   private enemies: EnemyController[] = []
   private npcs: NPCController[] = []
   private dialogController: DialogController
+  private testKeyPressed: boolean = false
 
   constructor() {
     console.log('gamescene ran')
@@ -25,6 +26,10 @@ export default class Game extends Phaser.Scene {
     createKeyInputs(this)
     this.dialogController.create()
 
+    this.generateLevel()
+  }
+
+  generateLevel() {
     const map = this.make.tilemap({ key: 'testMap' })
     const tileset = map.addTilesetImage('Tileset', 'tiles')
     const tilesetCollider = map.addTilesetImage('colliderImg', 'collide')
@@ -32,9 +37,9 @@ export default class Game extends Phaser.Scene {
 
     if (tileset != undefined && tilesetCollider != undefined && pathfindingTiles != undefined) {
       const collideLayer = map.createLayer('Collider', tilesetCollider)
-      collideLayer?.setCollisionByProperty({ Collide: true })
 
       if (collideLayer != undefined) {
+        collideLayer.setCollisionByProperty({ Collide: true })
         this.matter.world.convertTilemapLayer(collideLayer)
       }
 
@@ -48,26 +53,44 @@ export default class Game extends Phaser.Scene {
       objectLayer.objects.forEach((objectData) => {
         const { x = 0, y = 0, name = '' } = objectData
 
-        if (name === 'player-spawn') {
-          this.player = new PlayerController(this, x, y)
-        } else if (name === 'enemy_spawn_fighter') {
-          const newEnemy = new EnemyController(this, 'enemy_fighter', x, y, 100)
-
-          newEnemy.sprite.setOnCollide((data: MatterJS.ICollisionPair) => {
-            const other = (data.bodyB as any).gameObject || (data.bodyA as any).gameObject
-
-            if (other instanceof Bullet) {
-              newEnemy.takeDamage(25)
-            }
-          })
-
-          this.enemies.push(newEnemy)
-        } else if (name === 'npc_spawn') {
-          const newNPC = new NPCController(this, 'enemy_fighter', x, y, 100)
-          this.npcs.push(newNPC)
+        switch (name) {
+          case 'player-spawn':
+            this.createPlayer(x, y)
+            break
+          case 'enemy_spawn_fighter':
+            this.createEnemy(x, y)
+            break
+          case 'npc_spawn':
+            this.createNPC(x, y)
+            break
         }
       })
     }
+  }
+
+  createPlayer(x: number, y: number) {
+    this.player = new PlayerController(this, x, y)
+  }
+
+  createEnemy(x: number, y: number) {
+    const newEnemy = new EnemyController(this, 'enemy_fighter', x, y, 100)
+
+    newEnemy.sprite.setOnCollide((data: MatterJS.ICollisionPair) => {
+      const other = (data.bodyB as any).gameObject || (data.bodyA as any).gameObject
+
+      if (other instanceof Bullet && other.getOwner() === 'player') {
+        console.log('enemy hit by bullet')
+        newEnemy.takeDamage(25)
+        // newEnemy.setState('hurt')
+      }
+    })
+
+    this.enemies.push(newEnemy)
+  }
+
+  createNPC(x: number, y: number) {
+    const newNPC = new NPCController(this, 'enemy_fighter', x, y, 100)
+    this.npcs.push(newNPC)
   }
 
   update(t: number, dt: number) {
@@ -111,5 +134,10 @@ export default class Game extends Phaser.Scene {
         }
       }
     })
+
+    if (getKeyInputs()['keyK'].isDown === true && this.testKeyPressed === false) {
+      this.testKeyPressed = true
+      this.player?.takeDamage(100)
+    }
   }
 }

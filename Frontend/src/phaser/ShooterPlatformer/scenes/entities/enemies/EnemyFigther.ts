@@ -52,10 +52,6 @@ export default class EnemyFighter extends EnemyController {
     }
   }
 
-  hitByBullet() {
-    this.stateMachine.setState(enemyStates.enemy_dead)
-  }
-
   // make the npc walk along the path
   startWalkAnimation(path: any) {}
 

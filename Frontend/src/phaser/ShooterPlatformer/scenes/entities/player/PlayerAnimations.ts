@@ -96,4 +96,28 @@ export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
     frameRate: 10,
     repeat: 0,
   })
+
+  sprite.anims.create({
+    key: playerAnims.player_dead,
+    frames: sprite.anims.generateFrameNames('player', {
+      start: 0,
+      end: 4,
+      prefix: 'dead_',
+      suffix: '.png',
+    }),
+    frameRate: 10,
+    repeat: 0,
+  })
+
+  sprite.anims.create({
+    key: playerAnims.player_hurt,
+    frames: sprite.anims.generateFrameNames('player', {
+      start: 0,
+      end: 4,
+      prefix: 'hurt_',
+      suffix: '.png',
+    }),
+    frameRate: 10,
+    repeat: 0,
+  })
 }

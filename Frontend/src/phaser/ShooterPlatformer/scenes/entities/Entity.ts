@@ -51,6 +51,10 @@ export default class EntityController {
         onEnter: this.walkOnEnter,
         onUpdate: this.walkOnUpdate,
       })
+      .addState('hurt', {
+        onEnter: this.hurtOnEnter,
+        onUpdate: this.hurtOnUpdate,
+      })
       .addState('dead', {
         onEnter: this.deadOnEnter,
       })
@@ -63,27 +67,40 @@ export default class EntityController {
   }
 
   public takeDamage(amount: number) {
+    console.log(this.health, amount)
     this.health -= amount
+    this.setState('hurt')
 
-    if (this.health <= 0) {
-      this.health = 0
-      this.setState('dead')
-    }
+    // if (this.health <= 0) {
+    //   this.health = 0
+    //   this.setState('dead')
+    // }
 
-    this.scene.tweens.add({
-      targets: this.sprite,
-      duration: 100,
-      repeat: 0,
-      yoyo: true,
-      ease: 'Linear',
-      tint: { from: 0xffffff, to: 0xff0000 },
-    })
+    // this.scene.tweens.add({
+    //   targets: this.sprite,
+    //   duration: 100,
+    //   repeat: 0,
+    //   yoyo: true,
+    //   ease: 'Linear',
+    //   tint: { from: 0xffffff, to: 0xff0000 },
+    // })
   }
 
   idleOnEnter() {}
   idleOnUpdate(dt: number) {}
   walkOnEnter() {}
   walkOnUpdate(dt: number) {}
+
+  hurtOnEnter() {
+    this.sprite.play('hurt').once('animationcomplete', () => {
+      if (this.health <= 0) {
+        this.stateMachine.setState('dead')
+      } else {
+        this.stateMachine.setState('idle')
+      }
+    })
+  }
+  hurtOnUpdate() {}
   deadOnEnter() {
     this.sprite.setVelocity(0, 0)
     this.sprite.play('dead')

@@ -16,6 +16,7 @@ export const createKeyInputs = (scene: Phaser.Scene) => {
 
   // this.keyInputs['keyW'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.W)
   // this.keyInputs['keyS'] = scene.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S)
+  keyInputs['keyK'] = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K)
 }
 
 export const getKeyInputs = () => {

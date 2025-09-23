@@ -5,6 +5,7 @@ import Entity from '../Entity'
 export default class EnemyController extends Entity {
   private walkDirection: number = 2
   private changeDirectionTimer: number = 0
+
   constructor(scene: Phaser.Scene, sprite: string, x: number, y: number, health: number) {
     super(scene, sprite, x, y, undefined, health)
   }
@@ -16,13 +17,17 @@ export default class EnemyController extends Entity {
     this.sprite.setCollidesWith([1, collisionCategories.bullet])
   }
 
-  setStates() {
-    super.setStates()
-  }
-
   update(dt: number) {
     this.stateMachine.update(dt)
     this.sprite.setDisplayOrigin(60, 96)
+  }
+
+  setStates() {
+    super.setStates()
+    this.stateMachine.addState(enemyStates.enemy_alert, {
+      onEnter: this.alertOnEnter,
+      onUpdate: this.alertOnUpdate,
+    })
   }
 
   idleOnEnter() {
@@ -53,9 +58,22 @@ export default class EnemyController extends Entity {
     }
   }
 
-  hitByBullet() {
-    this.stateMachine.setState(enemyStates.enemy_dead)
+  alertOnEnter() {}
+  alertOnUpdate() {}
+
+  aggresiveOnEnter() {}
+  aggresiveOnUpdate() {}
+
+  hurtOnEnter() {
+    this.sprite.play(enemyAnims.enemy_hurt).once('animationcomplete', () => {
+      if (this.health <= 0) {
+        this.stateMachine.setState(enemyStates.enemy_dead)
+      } else {
+        this.stateMachine.setState(enemyStates.enemy_idle)
+      }
+    })
   }
+  hurtOnUpdate() {}
 
   // make the npc walk along the path
   startWalkAnimation(path: any) {}
@@ -91,6 +109,18 @@ export default class EnemyController extends Entity {
         start: 0,
         end: 4,
         prefix: 'dead_',
+        suffix: '.png',
+      }),
+      repeat: 0,
+      frameRate: 10,
+    })
+
+    this.sprite.anims.create({
+      key: enemyAnims.enemy_hurt,
+      frames: this.sprite?.anims.generateFrameNames('enemy_fighter', {
+        start: 0,
+        end: 3,
+        prefix: 'hurt_',
         suffix: '.png',
       }),
       repeat: 0,

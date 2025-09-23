@@ -1,8 +1,12 @@
 import { collisionCategories } from '../../helpers/collisionCategories'
 
 export class Bullet extends Phaser.Physics.Matter.Sprite {
-  constructor(scene: Phaser.Scene, x: number, y: number) {
+  private bulletOwner: string
+
+  constructor(scene: Phaser.Scene, x: number, y: number, owner?: string) {
     super(scene.matter.world, x, y, 'bullet')
+
+    this.bulletOwner = owner ?? 'none'
 
     this.scene = scene
     this.scene.add.existing(this)
@@ -44,5 +48,9 @@ export class Bullet extends Phaser.Physics.Matter.Sprite {
     this.setVisible(false)
     this.setVelocity(0, 0)
     this.setPosition(-100, -100)
+  }
+
+  getOwner() {
+    return this.bulletOwner
   }
 }

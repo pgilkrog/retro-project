@@ -46,7 +46,7 @@
     <!-- LaCosaNostra -->
     <!-- <Game /> -->
     <!-- <PingPong /> -->
-    <Platformer />
+    <!-- <Platformer /> -->
   </div>
 </template>
 

@@ -20,7 +20,7 @@ export default class PlayerController extends Entity {
   constructor(scene: Phaser.Scene, spawnX: number, spawnY: number) {
     super(scene, 'player', spawnX, spawnY)
 
-    this.bulletController = new BulletController(scene)
+    this.bulletController = new BulletController(scene, 'player')
     this.keyInputs = getKeyInputs()
 
     // TODO maybe make some cool camera effect when moving, with a bit of a delay
@@ -91,6 +91,7 @@ export default class PlayerController extends Entity {
 
   setStates() {
     super.setStates()
+
     this.stateMachine
       .addState(playerStates.player_run, {
         onEnter: this.runOnEnter,
@@ -278,15 +279,18 @@ export default class PlayerController extends Entity {
   }
 
   meleeOnEnter() {
-    this.sprite.play(playerAnims.player_melee)
-    this.scene.time.addEvent({
-      delay: 500,
-      callback: () => {
-        this.stateMachine.setState(playerStates.player_idle)
-        console.log('melee attack finished')
-      },
-      callbackScope: this,
+    this.sprite.play(playerAnims.player_melee).once('animationcomplete', () => {
+      this.stateMachine.setState(playerStates.player_idle)
     })
+
+    // this.scene.time.addEvent({
+    //   delay: 500,
+    //   callback: () => {
+    //     this.stateMachine.setState(playerStates.player_idle)
+    //     console.log('melee attack finished')
+    //   },
+    //   callbackScope: this,
+    // })
   }
   meleeOnUpdate() {}
 

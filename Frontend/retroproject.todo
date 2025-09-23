@@ -1,0 +1,29 @@
+Images:
+  [ ] Upload image, downgrade size if more than 1MB
+
+Programs:
+  [ ] Game list
+  [ ] Add Path to program, so program file can be in folder
+
+Screensavers:
+  [ ] Add to settings program
+  Settings:
+    [ ] choose screensaver
+    [ ] diasble screensaver
+    [ ] time to wait before start
+  Add more screensavers:
+    [ ] Maze, can it even be done?
+    [ ] Waves
+    [ ] Big Clock
+  
+Icons:
+  [ ] Paw Point
+  [ ] Chat
+
+BUGS:
+  [ ] Opening program sometimes takes to long
+
+Games:
+  [ ] Snake clone
+  [ ] Pacman clone
+  [ ] 

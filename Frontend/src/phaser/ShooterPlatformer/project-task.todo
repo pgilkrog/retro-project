@@ -1,7 +1,3 @@
-[X] x is green
-[-] - is red
-
-
 BUGS: 
   [X] fix collision between player and enemy
 
@@ -25,7 +21,7 @@ Levels:
 NPCS:
   [ ] Create simple NPC
   [ ] Sprites animations
-    NPC Types: 
+    NPC Types:
       [ ] Merchant
       [ ] Bartender
       [ ] Citizen
@@ -49,7 +45,7 @@ Enemies:
       [ ] Soldiers
       [ ] Captains
       [ ] Bosses
-    Animals: 
+    Animals:
       [ ] Dogs
       [ ] Rats
 

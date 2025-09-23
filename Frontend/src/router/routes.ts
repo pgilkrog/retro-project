@@ -1,19 +1,8 @@
-const HomeView = () => import('@/views/HomeView.vue')
-const PingPong = () => import('@/phaser/ping-pong/PingPong.vue')
-const FlappyDisc = () => import('@/phaser/flappy-disk/FlappyDisk.vue')
-const SpaceInvaders = () => import('@/phaser/space-invaders/SpaceInvaders.vue')
-const ShutDown = () => import('@/views/ShutDown.vue')
-const StartingUp = () => import('@/views/StartingUp.vue')
-const adminView = () => import('@/views/AdminView.vue')
-const SalvatoreGame = () => import('@/phaser/salvatore/SalvatoreGame.vue')
-const LoginView = () => import('@/views/LoginView.vue')
-const TestStuff = () => import('@/phaser/test-stuff/TestStuff.vue')
-
 export default [
   {
     path: '/',
     name: 'home',
-    component: HomeView,
+    component: () => import('@/views/HomeView.vue'),
     meta: {
       requiresAuth: true,
       roles: ['user', 'admin'],
@@ -22,7 +11,7 @@ export default [
   {
     path: '/login',
     name: 'login',
-    component: LoginView,
+    component: () => import('@/views/LoginView.vue'),
     meta: {
       requiresAuth: false,
       roles: [],
@@ -31,17 +20,17 @@ export default [
   {
     path: '/startup',
     name: 'startup',
-    component: StartingUp,
+    component: () => import('@/views/StartingUp.vue'),
   },
   {
     path: '/shutdown',
     name: 'shutdown',
-    component: ShutDown,
+    component: () => import('@/views/ShutDown.vue'),
   },
   {
     path: '/pingpong',
     name: 'pingpong',
-    component: PingPong,
+    component: () => import('@/phaser/ping-pong/PingPong.vue'),
     meta: {
       requiresAuth: true,
       roles: ['user', 'admin'],
@@ -50,7 +39,7 @@ export default [
   {
     path: '/flappydisk',
     name: 'flappydisk',
-    component: FlappyDisc,
+    component: () => import('@/phaser/flappy-disk/FlappyDisk.vue'),
     meta: {
       requiresAuth: true,
       roles: ['user', 'admin'],
@@ -59,7 +48,7 @@ export default [
   {
     path: '/spaceinvaders',
     name: 'spaceinvaders',
-    component: SpaceInvaders,
+    component: () => import('@/phaser/space-invaders/SpaceInvaders.vue'),
     meta: {
       requiresAuth: true,
       roles: ['user', 'admin'],
@@ -68,7 +57,7 @@ export default [
   {
     path: '/salvatore',
     name: 'platformer',
-    component: SalvatoreGame,
+    component: () => import('@/phaser/salvatore/SalvatoreGame.vue'),
     meta: {
       requiresAuth: false,
       roles: ['user', 'admin'],
@@ -77,7 +66,7 @@ export default [
   {
     path: '/teststuff',
     name: 'teststuff',
-    component: TestStuff,
+    component: () => import('@/phaser/test-stuff/TestStuff.vue'),
     meta: {
       requireAuth: false,
       roles: ['user', 'admin'],
@@ -86,7 +75,7 @@ export default [
   {
     path: '/admin',
     name: 'admin',
-    component: adminView,
+    component: () => import('@/views/AdminView.vue'),
     meta: {
       requiresAuth: true,
       roles: ['admin'],
