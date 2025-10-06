@@ -1,9 +1,11 @@
 import { playerAnims } from '../../../interfaces/enums/playerEnums'
 
+const player = 'player'
+
 export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
   sprite.anims.create({
     key: playerAnims.player_idle,
-    frames: sprite.anims.generateFrameNames('player', {
+    frames: sprite.anims.generateFrameNames(player, {
       start: 0,
       end: 5,
       prefix: 'idle_',
@@ -15,7 +17,7 @@ export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
 
   sprite.anims.create({
     key: playerAnims.player_walk,
-    frames: sprite.anims.generateFrameNames('player', {
+    frames: sprite.anims.generateFrameNames(player, {
       start: 0,
       end: 9,
       prefix: 'walk_',
@@ -27,7 +29,7 @@ export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
 
   sprite.anims.create({
     key: playerAnims.player_run,
-    frames: sprite.anims.generateFrameNames('player', {
+    frames: sprite.anims.generateFrameNames(player, {
       start: 0,
       end: 9,
       prefix: 'run_',
@@ -39,7 +41,7 @@ export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
 
   sprite.anims.create({
     key: playerAnims.player_jump,
-    frames: sprite.anims.generateFrameNames('player', {
+    frames: sprite.anims.generateFrameNames(player, {
       start: 0,
       end: 9,
       prefix: 'jump_',
@@ -51,7 +53,7 @@ export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
 
   sprite.anims.create({
     key: playerAnims.player_shoot,
-    frames: sprite.anims.generateFrameNames('player', {
+    frames: sprite.anims.generateFrameNames(player, {
       start: 0,
       end: 3,
       prefix: 'tile00',
@@ -63,7 +65,7 @@ export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
 
   sprite.anims.create({
     key: playerAnims.player_melee,
-    frames: sprite.anims.generateFrameNames('player', {
+    frames: sprite.anims.generateFrameNames(player, {
       start: 0,
       end: 2,
       prefix: 'attack_',
@@ -75,7 +77,7 @@ export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
 
   sprite.anims.create({
     key: playerAnims.player_recharge,
-    frames: sprite.anims.generateFrameNames('player', {
+    frames: sprite.anims.generateFrameNames(player, {
       start: 0,
       end: 16,
       prefix: 'recharge_',
@@ -87,7 +89,7 @@ export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
 
   sprite.anims.create({
     key: playerAnims.player_falling,
-    frames: sprite.anims.generateFrameNames('player', {
+    frames: sprite.anims.generateFrameNames(player, {
       start: 3,
       end: 5,
       prefix: 'jump_',
@@ -99,7 +101,7 @@ export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
 
   sprite.anims.create({
     key: playerAnims.player_dead,
-    frames: sprite.anims.generateFrameNames('player', {
+    frames: sprite.anims.generateFrameNames(player, {
       start: 0,
       end: 4,
       prefix: 'dead_',
@@ -111,7 +113,7 @@ export const PlayerAnimations = (sprite: Phaser.Physics.Matter.Sprite) => {
 
   sprite.anims.create({
     key: playerAnims.player_hurt,
-    frames: sprite.anims.generateFrameNames('player', {
+    frames: sprite.anims.generateFrameNames(player, {
       start: 0,
       end: 4,
       prefix: 'hurt_',

@@ -149,9 +149,9 @@ export default class PlayerController extends Entity {
   walkOnEnter() {
     this.sprite?.play(playerAnims.player_walk)
   }
-  walkOnUpdate() {
+  walkOnUpdate(dt: number) {
     if (this.keyInputs['keyD'].isDown || this.keyInputs['keyA'].isDown) {
-      this.moveLeftAndRight(this.speed)
+      this.moveLeftAndRight(this.speed, dt)
     } else {
       this.sprite?.setVelocityX(0)
       this.stateMachine?.setState(playerStates.player_idle)
@@ -174,9 +174,9 @@ export default class PlayerController extends Entity {
     console.log('entered run state')
     this.sprite.play(playerAnims.player_run)
   }
-  runOnUpdate() {
+  runOnUpdate(dt: number) {
     if (this.keyInputs['keyD'].isDown || this.keyInputs['keyA'].isDown) {
-      this.moveLeftAndRight(this.runSpeed)
+      this.moveLeftAndRight(this.runSpeed, dt)
     } else {
       this.sprite?.setVelocityX(0)
       this.stateMachine?.setState(playerStates.player_idle)
@@ -196,16 +196,16 @@ export default class PlayerController extends Entity {
     this.sprite?.setVelocityY(-10)
     this.inAir = true
   }
-  jumpOnUpdate() {
+  jumpOnUpdate(dt: number) {
     let speed = this.keyInputs['keyShift'].isDown ? this.runSpeed : this.speed
-    this.moveLeftAndRight(speed)
+    this.moveLeftAndRight(speed, dt)
   }
 
   shootOnEnter() {
     this.sprite?.play(playerAnims.player_shoot)
   }
-  shootOnUpdate() {
-    this.moveLeftAndRight(this.speed / 1.5)
+  shootOnUpdate(dt: number) {
+    this.moveLeftAndRight(this.speed / 1.5, dt)
 
     if (this.scene.input.activePointer.isDown === false) {
       this.stateMachine.setState(playerStates.player_idle)
@@ -249,8 +249,8 @@ export default class PlayerController extends Entity {
     this.inAir = true
     this.sprite?.play(playerAnims.player_falling)
   }
-  fallingOnUpdate() {
-    this.moveLeftAndRight(this.speed / 1.5)
+  fallingOnUpdate(dt: number) {
+    this.moveLeftAndRight(this.speed / 1.5, dt)
 
     if (
       this.sprite.body?.velocity.y != undefined &&
@@ -294,12 +294,14 @@ export default class PlayerController extends Entity {
   }
   meleeOnUpdate() {}
 
-  moveLeftAndRight(speed: number) {
+  moveLeftAndRight(speed: number, dt: number) {
+    const velocity = speed * dt
+
     if (this.keyInputs['keyD'].isDown) {
-      this.sprite.setVelocityX(speed)
+      this.sprite.setVelocityX(velocity)
       this.sprite.flipX = false
     } else if (this.keyInputs['keyA'].isDown) {
-      this.sprite.setVelocityX(-speed)
+      this.sprite.setVelocityX(-velocity)
       this.sprite.flipX = true
     } else if (
       this.stateMachine.isCurrentState(playerStates.player_falling) === false ||

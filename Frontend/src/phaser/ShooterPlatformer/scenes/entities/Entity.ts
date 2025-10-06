@@ -16,8 +16,8 @@ export default class EntityController {
     entityName: string,
     spawnX: number,
     spawnY: number,
-    speedValue: number = 6,
-    runSpeedValue: number = 10,
+    speedValue: number = 0.4,
+    runSpeedValue: number = 0.6,
     healthValue: number = 100
   ) {
     this.scene = scene

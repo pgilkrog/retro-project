@@ -80,8 +80,8 @@ export default class Game extends Phaser.Scene {
 
       if (other instanceof Bullet && other.getOwner() === 'player') {
         console.log('enemy hit by bullet')
+        newEnemy.setTarget(this.player?.sprite as Phaser.Physics.Matter.Sprite)
         newEnemy.takeDamage(25)
-        // newEnemy.setState('hurt')
       }
     })
 
