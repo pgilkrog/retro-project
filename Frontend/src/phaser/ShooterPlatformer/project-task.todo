@@ -6,6 +6,7 @@ Player:
   [ ] Throw molotov cocktail
   [X] Talk to NPC
   [ ] Hit enemy
+  [ ] Take fall damage
   Rank in family:
     [ ] No affiliasion
     [ ] Associate
@@ -19,7 +20,7 @@ Levels:
   [ ] Doors
 
 NPCS:
-  [ ] Create simple NPC
+  [X] Create simple NPC
   [ ] Sprites animations
     NPC Types:
       [ ] Merchant
@@ -38,7 +39,7 @@ Family:
 
 Enemies:
   [ ] Attack player
-  [ ] Aggressive State on being attacked
+  [X] Aggressive State on being attacked
   [ ] On Alert State when player is close
   [ ] Create different Enemies
     Gangsters:

@@ -21,6 +21,7 @@ export default class UI extends Scene {
     })
 
     events.on(CUSTOM_EVENTS.BULLETS_CHANGED, this.handleBulletsChange, this)
+    events.on(CUSTOM_EVENTS.HEALTH_CHANGED, this.handleHealthChanged, this)
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       events.off(CUSTOM_EVENTS.BULLETS_CHANGED, this.handleBulletsChange, this)
@@ -43,5 +44,20 @@ export default class UI extends Scene {
 
   handleBulletsChange(value: number) {
     this.bulletsAmount.setText(`Bullets: ${value}`)
+  }
+
+  handleHealthChanged(value: number) {
+    this.tweens.addCounter({
+      from: this.currentHealth,
+      to: value,
+      duration: 200,
+      ease: Phaser.Math.Easing.Sine.InOut,
+      onUpdate: (tween) => {
+        const value = tween.getValue()
+        this.setHealthBar(Number(value))
+      },
+    })
+
+    this.currentHealth = value
   }
 }

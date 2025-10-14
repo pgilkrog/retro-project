@@ -2,15 +2,13 @@ import { collisionCategories } from '../../../helpers/collisionCategories'
 import { enemyAnims, enemyStates } from '../../../interfaces/enums'
 import Entity from '../Entity'
 
-const enemy_fighter = 'enemy_fighter'
-
 export default class EnemyController extends Entity {
-  private walkDirection: number = 2
-  private changeDirectionTimer: number = 0
-  private target: Phaser.Physics.Matter.Sprite
+  public walkDirection: number = 2
+  public changeDirectionTimer: number = 0
+  public target: Phaser.Physics.Matter.Sprite
 
   constructor(scene: Phaser.Scene, sprite: string, x: number, y: number, health: number) {
-    super(scene, sprite, x, y, undefined, health)
+    super(scene, sprite, x, y, undefined, undefined, health)
   }
 
   create() {
@@ -32,6 +30,7 @@ export default class EnemyController extends Entity {
 
   setStates() {
     super.setStates()
+
     this.stateMachine
       .addState(enemyStates.enemy_alert, {
         onEnter: this.alertOnEnter,
@@ -81,7 +80,7 @@ export default class EnemyController extends Entity {
   }
   aggresiveOnUpdate(dt: number) {
     const direction = this.target.x - this.sprite.x
-    this.sprite.setVelocityX((Math.sign(direction) * this.runSpeed) / dt)
+    this.sprite.setVelocityX(Math.sign(direction) * this.runSpeed * (dt / 1.1))
   }
 
   hurtOnEnter() {
@@ -97,78 +96,4 @@ export default class EnemyController extends Entity {
 
   // make the npc walk along the path
   startWalkAnimation(path: any) {}
-
-  createAnimations() {
-    this.sprite.anims.create({
-      key: enemyAnims.enemy_idle,
-      frames: this.sprite?.anims.generateFrameNames(enemy_fighter, {
-        start: 0,
-        end: 12,
-        prefix: 'idle_2_',
-        suffix: '.png',
-      }),
-      repeat: -1,
-      frameRate: 10,
-    })
-
-    this.sprite.anims.create({
-      key: enemyAnims.enemy_walk,
-      frames: this.sprite?.anims.generateFrameNames(enemy_fighter, {
-        start: 0,
-        end: 9,
-        prefix: 'walk_',
-        suffix: '.png',
-      }),
-      repeat: -1,
-      frameRate: 10,
-    })
-
-    this.sprite.anims.create({
-      key: enemyAnims.enemy_run,
-      frames: this.sprite?.anims.generateFrameNames(enemy_fighter, {
-        start: 0,
-        end: 9,
-        prefix: 'run_',
-        suffix: '.png',
-      }),
-      repeat: -1,
-      frameRate: 10,
-    })
-
-    this.sprite.anims.create({
-      key: enemyAnims.enemy_dead,
-      frames: this.sprite?.anims.generateFrameNames(enemy_fighter, {
-        start: 0,
-        end: 4,
-        prefix: 'dead_',
-        suffix: '.png',
-      }),
-      repeat: 0,
-      frameRate: 10,
-    })
-
-    this.sprite.anims.create({
-      key: enemyAnims.enemy_hurt,
-      frames: this.sprite?.anims.generateFrameNames(enemy_fighter, {
-        start: 0,
-        end: 3,
-        prefix: 'hurt_',
-        suffix: '.png',
-      }),
-      repeat: 0,
-      frameRate: 10,
-    })
-
-    this.sprite.anims.create({
-      key: 'attack',
-      frames: this.sprite?.anims.generateFrameNames(enemy_fighter, {
-        start: 0,
-        end: 5,
-        prefix: 'attack_1_',
-        suffix: '.png',
-      }),
-      repeat: 0,
-      frameRate: 10,
-    })
-  }
 }

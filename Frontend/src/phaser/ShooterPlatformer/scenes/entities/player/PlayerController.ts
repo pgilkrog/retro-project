@@ -23,7 +23,6 @@ export default class PlayerController extends Entity {
     this.bulletController = new BulletController(scene, 'player')
     this.keyInputs = getKeyInputs()
 
-    // TODO maybe make some cool camera effect when moving, with a bit of a delay
     scene.cameras.main.startFollow(this.sprite)
     scene.cameras.main.setZoom(1.5)
   }
@@ -76,7 +75,7 @@ export default class PlayerController extends Entity {
         this.fallingDelayTimer == undefined
       ) {
         this.fallingDelayTimer = this.scene?.time.addEvent({
-          delay: 200,
+          delay: 50,
           callback: () => {
             if (velocityY > 0) {
               this.stateMachine?.setState(playerStates.player_falling)
@@ -87,6 +86,11 @@ export default class PlayerController extends Entity {
         })
       }
     }
+  }
+
+  takeDamage(amount: number) {
+    super.takeDamage(amount)
+    events.emit(CUSTOM_EVENTS.HEALTH_CHANGED, amount)
   }
 
   setStates() {
@@ -121,7 +125,6 @@ export default class PlayerController extends Entity {
   }
 
   idleOnEnter() {
-    console.log('entered idle state')
     this.sprite?.play(playerAnims.player_idle)
   }
   idleOnUpdate() {
@@ -199,6 +202,12 @@ export default class PlayerController extends Entity {
   jumpOnUpdate(dt: number) {
     let speed = this.keyInputs['keyShift'].isDown ? this.runSpeed : this.speed
     this.moveLeftAndRight(speed, dt)
+
+    // take damage if falling to far
+    if (this.sprite.body?.velocity.y != undefined && this.sprite.body?.velocity.y >= 15) {
+      this.stateMachine.setState(playerStates.player_falling)
+      this.inAir = true
+    }
   }
 
   shootOnEnter() {
@@ -246,6 +255,7 @@ export default class PlayerController extends Entity {
   }
 
   fallingOnEnter() {
+    console.log('entered falling state')
     this.inAir = true
     this.sprite?.play(playerAnims.player_falling)
   }
@@ -257,8 +267,10 @@ export default class PlayerController extends Entity {
       this.sprite.body?.velocity.y <= 0 &&
       this.inAir === true
     ) {
+      debugger
       this.stateMachine.setState(playerStates.player_idle)
       this.inAir = false
+      this.takeDamage(10)
     }
   }
 

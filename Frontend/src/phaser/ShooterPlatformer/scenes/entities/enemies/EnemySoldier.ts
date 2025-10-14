@@ -1,7 +1,7 @@
 import { enemyAnims } from '../../../interfaces/enums'
 import EnemyController from './EnemyController'
 
-const enemy_soldier = 'enemy_soldier'
+const enemy_soldier = 'enemy_fighter'
 
 export default class EnemySoldier extends EnemyController {
   constructor(scene: Phaser.Scene, sprite: string, x: number, y: number, health: number) {
@@ -14,6 +14,10 @@ export default class EnemySoldier extends EnemyController {
 
   update(dt: number) {
     super.update(dt)
+  }
+
+  setStates() {
+    super.setStates()
   }
 
   createAnimations() {

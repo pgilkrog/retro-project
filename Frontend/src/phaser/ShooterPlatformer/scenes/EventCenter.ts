@@ -4,6 +4,7 @@ const sharedInstance = new Phaser.Events.EventEmitter()
 
 const CUSTOM_EVENTS = {
   BULLETS_CHANGED: 'bullets-changed',
+  HEALTH_CHANGED: 'health-changed',
   SHOW_DIALOG: 'show-dialog',
   CLOSE_DIALOG: 'close-dialog',
 }

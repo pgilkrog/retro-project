@@ -188,7 +188,7 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":1279.33333333333,
+                 "x":1279.33,
                  "y":464
                 }, 
                 {
@@ -200,8 +200,20 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":2303.33333333333,
-                 "y":402.666666666667
+                 "x":2303.33,
+                 "y":402.667
+                }, 
+                {
+                 "height":0,
+                 "id":8,
+                 "name":"enemy_spawn_captain",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1794.66666666667,
+                 "y":574.666666666667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -210,7 +222,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":8,
+ "nextobjectid":9,
  "orientation":"orthogonal",
  "renderorder":"left-up",
  "tiledversion":"1.11.2",

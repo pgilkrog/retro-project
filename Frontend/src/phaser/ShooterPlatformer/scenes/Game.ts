@@ -5,7 +5,11 @@ import NPCController from './entities/npcs/NPCController'
 import EnemyController from './entities/enemies/EnemyController'
 import { createKeyInputs, getKeyInputs } from '../helpers/keyInputs'
 import DialogController from '../Dialog/DialogController'
+import EnemySoldier from './entities/enemies/EnemySoldier'
+import EnemyCaptain from './entities/enemies/EnemyCaptain'
 // import { debugDraw } from '@/phaser/utils/debug'
+
+type MatterSprite = Phaser.Physics.Matter.Sprite
 
 export default class Game extends Phaser.Scene {
   private player: PlayerController | undefined
@@ -60,6 +64,9 @@ export default class Game extends Phaser.Scene {
           case 'enemy_spawn_fighter':
             this.createEnemy(x, y)
             break
+          case 'enemy_spawn_captain':
+            this.createEnemy(x, y, 'captain')
+            break
           case 'npc_spawn':
             this.createNPC(x, y)
             break
@@ -72,8 +79,14 @@ export default class Game extends Phaser.Scene {
     this.player = new PlayerController(this, x, y)
   }
 
-  createEnemy(x: number, y: number) {
-    const newEnemy = new EnemyController(this, 'enemy_fighter', x, y, 100)
+  createEnemy(x: number, y: number, type: string = 'fighter') {
+    let newEnemy
+
+    if (type === 'captain') {
+      newEnemy = new EnemyCaptain(this, 'enemy_fighter', x, y, 200)
+    } else {
+      newEnemy = new EnemySoldier(this, 'enemy_fighter', x, y, 100)
+    }
 
     newEnemy.sprite.setOnCollide((data: MatterJS.ICollisionPair) => {
       const other = (data.bodyB as any).gameObject || (data.bodyA as any).gameObject
@@ -99,14 +112,7 @@ export default class Game extends Phaser.Scene {
     this.npcs.forEach((enemy) => enemy.update(dt))
 
     this.npcs.forEach((npc: NPCController) => {
-      if (
-        Phaser.Math.Distance.Between(
-          this.player?.sprite.x ?? 1000,
-          this.player?.sprite.y ?? 100,
-          npc.sprite.x,
-          npc.sprite.y
-        ) < 50
-      ) {
+      if (this.distanceBetweenSprites(this.player?.sprite, npc.sprite) < 50) {
         if (
           getKeyInputs()['keyE'].isDown === true &&
           this.dialogController.getDialogIsActive() === false
@@ -118,26 +124,29 @@ export default class Game extends Phaser.Scene {
 
     this.enemies.forEach((enemy: EnemyController) => {
       if (
-        Phaser.Math.Distance.Between(
-          this.player?.sprite.x ?? 1000,
-          this.player?.sprite.y ?? 100,
-          enemy.sprite.x,
-          enemy.sprite.y
-        ) < 50
+        this.distanceBetweenSprites(this.player?.sprite, enemy.sprite) < 50 &&
+        getKeyInputs()['keyE'].isDown === true &&
+        this.dialogController.getDialogIsActive() === false
       ) {
-        if (
-          getKeyInputs()['keyE'].isDown === true &&
-          this.dialogController.getDialogIsActive() === false
-        ) {
-          console.log('enemy dialog called')
-          this.dialogController.initiateDialog('gangster')
+        if (enemy instanceof EnemySoldier) {
+          this.dialogController.initiateDialog('soldier')
+        } else if (enemy instanceof EnemyCaptain) {
+          this.dialogController.initiateDialog('captain')
         }
       }
     })
 
     if (getKeyInputs()['keyK'].isDown === true && this.testKeyPressed === false) {
       this.testKeyPressed = true
-      this.player?.takeDamage(100)
+      this.player?.takeDamage(25)
     }
+  }
+
+  distanceBetweenSprites(spriteA?: MatterSprite, spriteB?: MatterSprite): number {
+    if (spriteA == undefined || spriteB == undefined) {
+      return 10000
+    }
+
+    return Phaser.Math.Distance.Between(spriteA.x, spriteA.y, spriteB.x, spriteB.y)
   }
 }

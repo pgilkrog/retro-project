@@ -13,7 +13,21 @@
       "effect": ""
     }
   },
-  "gangster": {
+  "soldier": {
+    "greetings": {
+      "start": ["What do you want?", "Get lost!", "I'm warning you!"],
+      "responses": ["Hello"],
+      "next": "farewells",
+      "effect": ""
+    },
+    "farewells": {
+      "start": ["You better watch yourself!", "This isn't over!", "Stay out of my way!"],
+      "responses": ["Goodbye"],
+      "next": "close dialog",
+      "effect": ""
+    }
+  },
+  "captain": {
     "greetings": {
       "start": ["What do you want?", "Get lost!", "I'm warning you!"],
       "responses": ["Hello"],
