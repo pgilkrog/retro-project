@@ -2,20 +2,18 @@
   <Teleport to="#app">
     <div
       v-if="program?.isActive === true"
-      :id="'win-' + program._id"
-      class="window-wrapper bg-shadow bg-gray-300 flex flex-col absolute p-2 px-2"
-      :style="[
-        isMoveable
-          ? { top: programY + 'px', left: programX + 'px' }
-          : { top: '40%', left: '50%', transform: 'translate(-50%, -50%)' },
+      :id="`win-${program._id}`"
+      class="window-frame absolute bg-gray-300 p-2 bg-shadow flex flex-col"
+      :class="[
+        {
+          'w-full screen-minus-taskbar inset-0': isFullscreen === true,
+        },
       ]"
-      v-bind="$attrs"
+      :style="getStyle"
     >
       <header
-        :class="[
-          'top-bar flex flex-col-reverse sm:flex-row justify-between items-center mb-1 py-2 px-4  bg-gradient-to-r',
-          getBackgroundColor(variant),
-        ]"
+        class="top-bar flex flex-col-reverse sm:flex-row justify-between items-center mb-1 py-2 px-4 bg-gradient-to-r"
+        :class="getBackgroundColor()"
         @mousedown="handleMouseDown"
       >
         <div class="flex items-center content-center pointer-events-none mt-6 sm:mt-0">
@@ -32,10 +30,11 @@
           <ButtonComponent
             v-for="(button, key) in menuButtons"
             :key="key"
+            v-bind="button"
             :icon="button.icon"
-            :size="'small'"
+            size="small"
             :disabled="disableButtons"
-            @clicked="button.clicked()"
+            @clicked="button.action?.() ?? console.log('No action defined for this button')"
           />
         </div>
       </header>
@@ -47,7 +46,7 @@
   </Teleport>
 </template>
 <script setup lang="ts">
-import type { IProgram } from '@/models/index'
+import type { IButtonComponent, IProgram } from '@/models/index'
 import { programsStore } from '@/stores/programsStore'
 import { animate } from 'animejs'
 
@@ -75,6 +74,7 @@ const emit = defineEmits<{
 
 const programsstore = programsStore()
 
+const isFullscreen = ref<boolean>(false)
 const isDragging = ref<boolean>(false)
 const startX = ref<number>(0)
 const startY = ref<number>(0)
@@ -82,43 +82,51 @@ const startY = ref<number>(0)
 const programX = ref<number>(0)
 const programY = ref<number>(0)
 
-const menuButtons = [
+const menuButtons: IButtonComponent[] = [
   {
     icon: 'fa-window-minimize',
-    clicked: () => {
+    action: () => {
       setInactive()
     },
   },
   {
     icon: 'fa-square',
-    clicked: () => {
-      console.log('hjfdgkh')
+    action: () => {
+      setFullscreen()
     },
   },
   {
     icon: 'fa-xmark',
-    clicked: () => {
+    action: () => {
       closeWindow()
     },
   },
 ]
+
+const getStyle = computed(() =>
+  isMoveable === true
+    ? isFullscreen.value === true
+      ? { top: '0px', left: '0px' }
+      : { top: `${String(programY.value)}px`, left: `${String(programX.value)}px` }
+    : { top: '40%', left: '50%', transform: 'translate(-50%, -50%)' }
+)
 
 onMounted(() => {
   programX.value = program.left
   programY.value = program.top
 
   if (isStatic === false) {
-    animate(`#win-${program._id}`, {
-      translateY: [window.innerHeight, programY.value],
-      translateX: [0, programX.value],
-      scale: {
-        to: [0.2, 1],
-        delay: 200,
-      },
-      opacity: [0, 1],
-      easing: 'easeOutBack',
-      duration: 500,
-    })
+    // animate(`#win-${program._id}`, {
+    //   translateY: [window.innerHeight, programY.value],
+    //   translateX: [0, programX.value],
+    //   scale: {
+    //     to: [0.2, 1],
+    //     delay: 200,
+    //   },
+    //   opacity: [0, 1],
+    //   easing: 'easeOutBack',
+    //   duration: 500,
+    // })
   }
 })
 
@@ -150,8 +158,12 @@ const setInactive = () => {
   })
 }
 
+const setFullscreen = () => {
+  isFullscreen.value = !isFullscreen.value
+}
+
 const handleMouseDown = (event: MouseEvent) => {
-  if (isMoveable === true) {
+  if (isMoveable === true && isFullscreen.value === false) {
     const target = event.target as HTMLElement
 
     if (target.classList.contains('top-bar')) {
@@ -160,8 +172,8 @@ const handleMouseDown = (event: MouseEvent) => {
   }
 }
 
-const getBackgroundColor = (color: string): string => {
-  switch (color) {
+const getBackgroundColor = (): string => {
+  switch (variant) {
     case 'yellow':
       return 'from-yellow-500 to-yellow-300'
     case 'red':

@@ -6,4 +6,5 @@ export interface IButtonComponent {
   disabled?: boolean
   color?: string
   isLoading?: boolean
+  action?: () => void
 }

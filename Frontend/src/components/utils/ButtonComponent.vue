@@ -2,12 +2,8 @@
   <button
     type="button"
     :disabled
-    :class="[
-      'bg-gray-300 border  flex content-center justify-center items-center px-4 py-2',
-      'bg-' + color + '-300',
-      active ? 'bg-shadow-inner btn-active' : ' bg-shadow',
-      { 'bg-gray-200 cursor-not-allowed text-gray-500': disabled === true },
-    ]"
+    class="bg-gray-300 border flex content-center justify-center items-center px-4 py-2"
+    :class="getClass"
     @click="emit('clicked')"
   >
     <template v-if="isLoading == false">
@@ -19,7 +15,7 @@
       />
       <p
         v-if="text !== ''"
-        :class="[size]"
+        :class="size"
       >
         {{ text }}
       </p>
@@ -51,4 +47,10 @@ const {
 const emit = defineEmits<{
   clicked: []
 }>()
+
+const getClass = computed(() => [
+  `bg-${color}-300`,
+  active ? 'bg-shadow-inner btn-active' : ' bg-shadow',
+  { 'bg-gray-200 cursor-not-allowed text-gray-500': disabled === true },
+])
 </script>
