@@ -30,23 +30,26 @@ export const programsStore = defineStore('programs', () => {
   }
 
   const addProgramToActive = (program: IProgram) => {
-    const newProgram = { ...program, isActive: true, left: 40, top: 40 }
-    if (activePrograms.value.find((x) => x._id === newProgram._id) === undefined) {
+    const findProgram = activePrograms.value.find((activeProgram) => activeProgram._id === program._id)
+    
+    if (findProgram == undefined) {
+      const newProgram = { ...program, isActive: true, left: 40, top: 40 }
       activePrograms.value.push(newProgram)
     }
   }
 
   const removeProgramFromActive = (program: IProgram): void => {
-    const index = activePrograms.value.findIndex((p) => p._id === program._id)
+    const index = activePrograms.value.findIndex((activeProgram) => activeProgram._id === program._id)
+
     if (index !== -1) {
       activePrograms.value.splice(index, 1)
     }
   }
 
   const setProgramActiveState = (program: IProgram): void => {
-    activePrograms.value.find((x: IProgram) => {
-      if (x._id === program._id) {
-        x.isActive = !x.isActive
+    activePrograms.value.find((activeProgram: IProgram) => {
+      if (activeProgram._id === program._id) {
+        activeProgram.isActive = !activeProgram.isActive
         return true
       }
     })
@@ -64,6 +67,7 @@ export const programsStore = defineStore('programs', () => {
   const deleteProgram = async (program: IProgram): Promise<void> => {
     await del(url + '/' + program._id)
     const index = allPrograms.value.findIndex((p) => p._id === program._id)
+
     if (index !== -1) {
       allPrograms.value.splice(index, 1)
     }
@@ -76,13 +80,15 @@ export const programsStore = defineStore('programs', () => {
 
   //** Installed Program */
   const setInstalledPrograms = async () => {
-    if (userstore.userData === undefined) return
+    if (userstore.userData == undefined) {
+      return
+    }
 
     installedPrograms.value = []
     notInstalledPrograms.value = []
 
     const programs = await get<IInstalledProgramDB[]>(
-      url + '/installedProgram/' + userstore.userData._id
+      `${url}/installedProgram/${userstore.userData._id}`
     )
 
     allPrograms.value.forEach((program) => {
@@ -104,7 +110,7 @@ export const programsStore = defineStore('programs', () => {
   const createInstalledProgram = async (programId: string) => {
     const gridPos = findAvailableGridPosition()
 
-    await post(url + '/installedProgram', {
+    await post(`${url}/installedProgram`, {
       programId: programId,
       userId: userstore.userData?._id,
       gridPosition: gridPos,
@@ -120,7 +126,7 @@ export const programsStore = defineStore('programs', () => {
     )
 
     if (installedProgram != undefined) {
-      await del(url + '/installedProgram/' + installedProgram._id)
+      await del(`${url}/installedProgram/${installedProgram._id}`)
       await setInstalledPrograms()
       generateGridPositions()
     }
@@ -128,7 +134,7 @@ export const programsStore = defineStore('programs', () => {
 
   const updateInstalledProgram = async (installedProgam: IInstalledProgramDB | undefined) => {
     if (installedProgam != undefined) {
-      await put(url + '/installedProgram/' + installedProgam._id, installedProgam)
+      await put(`${url}/installedProgram/${installedProgam._id}`, installedProgam)
     }
   }
 

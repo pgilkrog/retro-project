@@ -66,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IProgram } from '../../models/index'
+import type { IProgram } from '../../../models/index'
 import { userStore } from '@/stores/userStore'
 import { chatStore } from '@/stores/chatStore'
 

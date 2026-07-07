@@ -40,14 +40,8 @@
       @change-show-menu="changeShowMenu"
     />
     <ScreensaverMachine v-show="appStore.showScreensaver === true" />
-    <!-- CarouselComponent -->
-    <!-- <Salvatore /> -->
-    <!-- TestStuff -->
-    <!-- LaCosaNostra -->
-    <!-- <Game /> -->
-    <!-- <PingPong /> -->
-    <!-- <Platformer /> -->
   </div>
+  <GameWorld />
 </template>
 
 <script setup lang="ts">
@@ -55,17 +49,7 @@ import type { IProgram, IInstalledProgram } from '@/models/index'
 import { userStore } from '@/stores/userStore'
 import { useAppStore } from '@/stores/appStore'
 import { programsStore } from '@/stores/programsStore'
-import ScreensaverMachine from '@/components/programs/ScreensaverMachine.vue'
 import { storeToRefs } from 'pinia'
-// import Platformer from '@/phaser/first-game/Platformer.vue'
-// import Salvatore from '@/phaser/salvatore/SalvatoreGame.vue'
-// import TestStuff from '@/phaser/test-stuff/TestStuff.vue'
-// import LaCosaNostra from '@/phaser/la-cosa-nostra/LaCosaNostraGame.vue'
-// import Game from '@/phaser/space-invaders/SpaceInvaders.vue'
-// import PingPong from '@/phaser/ping-pong/PingPong.vue'
-// import Platformer from '@/phaser/first-game/Platformer.vue'
-// import Platformer from '@/phaser/ShooterPlatformer/ShooterPlatformer.vue'
-// import Game from '@/phaser/pawered-pyrotechnics/Pawered-Pyrotechnics.vue'
 
 const appStore = useAppStore()
 const programsstore = programsStore()

@@ -74,9 +74,9 @@
 </template>
 
 <script setup lang="ts">
-import type { IFile, IProgram } from '../../models/index'
-import { userStore } from '../../stores/userStore'
-import { fileStore } from '../../stores/fileStore'
+import type { IFile, IProgram } from '../../../models/index'
+import { userStore } from '../../../stores/userStore'
+import { fileStore } from '../../../stores/fileStore'
 import { storeToRefs } from 'pinia'
 
 const { program } = defineProps<{

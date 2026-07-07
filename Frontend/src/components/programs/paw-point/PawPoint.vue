@@ -12,11 +12,7 @@
       >
         <Component
           v-if="loadingSlide === false && activeSlide != undefined && activeSlide.type != undefined"
-          :is="
-            defineAsyncComponent(
-              () => import(`@/components/programs/pawpoint/slides/${activeSlide?.type}.vue`)
-            )
-          "
+          :is="defineAsyncComponent(() => import(`./slides/${activeSlide?.type}.vue`))"
           :slide="activeSlide"
         ></Component>
         <span v-else>

@@ -3,13 +3,12 @@
     <div
       v-for="(item, key) in list"
       :key
-      class="nav-item"
-      @click="emit('tabClick', key)"
+      class="nav-item py-2 px-4 cursor-pointer"
       :class="[
-        'py-2 px-4 cursor-pointer',
         activeTab === key ? 'border border-black border-b-0 ' : 'border-b border-black',
         'px-4 py-2 ',
       ]"
+      @click="emit('tabClick', key)"
     >
       {{ item }}
     </div>
