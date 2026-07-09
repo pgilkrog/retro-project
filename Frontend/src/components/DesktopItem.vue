@@ -1,7 +1,7 @@
 <template>
   <div
     class="desktop-item flex flex-col items-center text-white m-1 text-center cursor-pointer"
-    @click="emit('generateComponent')"
+    @click="emit('itemClicked')"
   >
     <ImageComponent
       :id="image"
@@ -28,7 +28,7 @@ const { image = 'fa-house', backgroundColor = '#047857' } = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  generateComponent: []
+  itemClicked: []
 }>()
 
 const icons = import.meta.glob('@/assets/icons/*', { eager: true, import: 'default' })

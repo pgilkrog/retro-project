@@ -8,9 +8,10 @@
         draggable="true"
         @dragstart="startDrag(index)"
         @dragend="endDrag($event)"
+        @click="emit('itemClicked', program)"
       >
         <slot
-          v-if="program !== undefined && program.program !== undefined"
+          v-if="program != undefined && program.program != undefined"
           :id="index"
           name="listItem"
           class="flex-grow"
@@ -33,15 +34,21 @@ import { programsStore } from '@/stores'
 
 const { list } = defineProps<{ list: IInstalledProgram[] }>()
 
+const emit = defineEmits<{
+  itemClicked: [program: IInstalledProgram]
+}>()
+
 const programsstore = programsStore()
-let dragStartIndex: number | null = null
+
+const dragStartIndex = ref<number | null>(null)
 
 const startDrag = (index: number) => {
-  dragStartIndex = index
+  console.log(index)
+  dragStartIndex.value = index
 }
 
 const endDrag = async (event: DragEvent) => {
-  if (dragStartIndex == undefined) {
+  if (dragStartIndex.value == undefined) {
     return
   }
 
@@ -62,19 +69,20 @@ const endDrag = async (event: DragEvent) => {
   if (dropTarget != undefined && hasClass === true && dropTarget !== target) {
     const dropIndex = +dropTarget.id
 
-    const item1 = list[dragStartIndex]
+    const item1 = list[dragStartIndex.value]
     const item2 = list[dropIndex]
 
     await programsstore.changeInstalledProgramGridPosition({
       program: item2,
-      gridPosition: dragStartIndex,
+      gridPosition: dragStartIndex.value,
     })
+
     await programsstore.changeInstalledProgramGridPosition({
       program: item1,
       gridPosition: dropIndex,
     })
 
-    dragStartIndex = null // Reset drag state
+    dragStartIndex.value = null // Reset drag state
   }
 }
 </script>

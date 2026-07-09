@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import type { IProgram } from '@/models'
-import MinesweeperBlock from './minesweeper/MinesweeperBlock.vue'
+import MinesweeperBlock from '../minesweeper/MinesweeperBlock.vue'
 
 const { program } = defineProps<{
   program: IProgram

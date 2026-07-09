@@ -8,7 +8,7 @@
         :display-name="program.displayName"
         :color="program.color"
         :name="program.image"
-        @generate-component="generateComponent(program)"
+        @item-clicked="() => generateComponent(program)"
       />
     </div>
     <AdminComponentMachine />

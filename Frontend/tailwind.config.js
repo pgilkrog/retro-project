@@ -17,7 +17,17 @@ module.exports = {
     'text-indigo-500',
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        blink: 'blink 1s steps(1, start) infinite',
+      },
+      keyframes: {
+        blink: {
+          '0%, 100%': { backgroundColor: 'transparent', color: '#ffffff' },
+          '50%': { backgroundColor: '#ffffff', color: '#000000' }, // Change to your color
+        },
+      },
+    },
   },
   plugins: ['prettier-plugin-tailwindcss'],
 }

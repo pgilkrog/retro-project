@@ -11,15 +11,19 @@
     @click="leftClick()"
     @contextmenu="rightClick($event)"
   >
-    <DesktopGrid :list="positionedList">
+    <DesktopGrid
+      :list="positionedList"
+      @item-clicked="
+        (installedProgram: IInstalledProgram) => handleItemClicked(installedProgram.program)
+      "
+    >
       <template #listItem="program">
         <DesktopItem
           v-if="program.listItem != undefined"
           :key="program.listItem._id"
-          :id="program.id"
+          :class="{ 'border-2 border-gray-300 p-2': activeItem?._id === program.listItem._id }"
           v-bind="program.listItem"
           :background-color="userData.settings?.backgroundColour"
-          @generate-component="generateComponent(program.listItem)"
         />
       </template>
     </DesktopGrid>
@@ -29,7 +33,6 @@
       :position="contextMenuPosition"
     />
 
-    <ComponentMachine />
     <MenuPopup
       :list="appStore.myList"
       title="min titel"
@@ -40,8 +43,8 @@
       @change-show-menu="changeShowMenu"
     />
     <ScreensaverMachine v-show="appStore.showScreensaver === true" />
+    <ComponentMachine />
   </div>
-  <GameWorld />
 </template>
 
 <script setup lang="ts">
@@ -59,6 +62,7 @@ const showMenu = ref<boolean>(false)
 const positionedList = computed<IInstalledProgram[]>(() => programsstore.positionedList)
 const showContextMenu = ref<boolean>(false)
 const contextMenuPosition = ref<{ x: number; y: number }>({ x: 0, y: 0 })
+const activeItem = ref<IProgram | undefined>()
 
 const { userData } = storeToRefs(userstore)
 
@@ -66,8 +70,12 @@ onMounted(async () => {
   await programsstore.programStoreInit()
 })
 
-const generateComponent = (program: IProgram): void => {
-  programsstore.addProgramToActive({ ...program })
+const handleItemClicked = (program: IProgram | undefined): void => {
+  if (program === activeItem.value && program != undefined) {
+    programsstore.addProgramToActive({ ...program })
+  }
+
+  activeItem.value = program
 }
 
 const getImageUrl = (filename: string): string => {

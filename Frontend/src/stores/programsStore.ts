@@ -30,8 +30,10 @@ export const programsStore = defineStore('programs', () => {
   }
 
   const addProgramToActive = (program: IProgram) => {
-    const findProgram = activePrograms.value.find((activeProgram) => activeProgram._id === program._id)
-    
+    const findProgram = activePrograms.value.find(
+      (activeProgram) => activeProgram._id === program._id
+    )
+
     if (findProgram == undefined) {
       const newProgram = { ...program, isActive: true, left: 40, top: 40 }
       activePrograms.value.push(newProgram)
@@ -39,7 +41,9 @@ export const programsStore = defineStore('programs', () => {
   }
 
   const removeProgramFromActive = (program: IProgram): void => {
-    const index = activePrograms.value.findIndex((activeProgram) => activeProgram._id === program._id)
+    const index = activePrograms.value.findIndex(
+      (activeProgram) => activeProgram._id === program._id
+    )
 
     if (index !== -1) {
       activePrograms.value.splice(index, 1)

@@ -34,10 +34,12 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const loginUser = async (email: string, password: string): Promise<void> => {
-    const response = await post<IAuthResponse>(url + '/login/', {
+    const params = {
       email: email,
       password: password,
-    })
+    }
+
+    const response = await post<IAuthResponse>(url + '/login/', params)
 
     const { token, resUser } = response.data
 

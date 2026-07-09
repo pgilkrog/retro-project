@@ -6,7 +6,7 @@
       class="window-frame absolute bg-gray-300 p-2 bg-shadow flex flex-col"
       :class="[
         {
-          'w-full screen-minus-taskbar inset-0': isFullscreen === true,
+          'w-full screen-minus-taskbar top-0 left-0 bottom-[56px] right-0': isFullscreen === true,
         },
       ]"
       :style="getStyle"
@@ -39,7 +39,7 @@
         </div>
       </header>
       <windowframeMenu :show-menu="showMenu" />
-      <div class="bg-gray-300 bg-shadow-inner">
+      <div class="bg-gray-300 bg-shadow-inner flex grow">
         <slot />
       </div>
     </div>
@@ -106,7 +106,7 @@ const menuButtons: IButtonComponent[] = [
 const getStyle = computed(() =>
   isMoveable === true
     ? isFullscreen.value === true
-      ? { top: '0px', left: '0px' }
+      ? {}
       : { top: `${String(programY.value)}px`, left: `${String(programX.value)}px` }
     : { top: '40%', left: '50%', transform: 'translate(-50%, -50%)' }
 )

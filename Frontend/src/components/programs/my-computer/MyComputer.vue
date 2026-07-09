@@ -6,20 +6,20 @@
   >
     <div class="">
       <ButtonComponent
-        @clicked="setTeleport('#box1')"
         text="Teleport to box1"
+        @clicked="setTeleport('#box1')"
       />
       <ButtonComponent
-        @clicked="setTeleport('#box2')"
         text="Teleport to box2"
+        @clicked="setTeleport('#box2')"
       />
       <ButtonComponent
-        @clicked="setTeleport('#app')"
         text="Teleport to app"
+        @clicked="setTeleport('#app')"
       />
       <ButtonComponent
-        @clicked="setTeleport('body')"
         text="Teleport to body"
+        @clicked="setTeleport('body')"
       />
       <div id="firstbox"></div>
       <div
