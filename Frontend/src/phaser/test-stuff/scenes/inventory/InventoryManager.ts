@@ -3,7 +3,7 @@ import ContextMenu from './ItemMenu'
 import { InventoryItem } from './models/InventoryItem'
 import { Item } from './models/Item'
 import type { inventoryTypes } from './models/Enums'
-import {ItemsManager} from './ItemManager'
+import { ItemsManager } from './ItemManager'
 
 export default class InventoryManger {
   private inventoryType: inventoryTypes
@@ -13,7 +13,7 @@ export default class InventoryManger {
   private cols: number
   private readonly squareSize = 100
   private graphics: Phaser.GameObjects.Graphics | undefined
-  private isDraggingItem: boolean  = false
+  private isDraggingItem: boolean = false
   private contextMenu: any
   private inventoryContainer: Phaser.GameObjects.Container | undefined
   private x: number
@@ -21,17 +21,17 @@ export default class InventoryManger {
   private itemsManager
   private itemBeingDragged: InventoryItem | undefined
 
-  // Set Colors 
-  private readonly TINT_COLOR: number = 0x00FF00
+  // Set Colors
+  private readonly TINT_COLOR: number = 0x00ff00
   private readonly WHITE_COLOR: string = '#FFFFFF'
   private readonly FONT_COLOR: string = '#000000'
 
   constructor(
-    invOwner: inventoryTypes, 
-    scene: Phaser.Scene, 
-    x: number, 
-    y: number, 
-    rows: number, 
+    invOwner: inventoryTypes,
+    scene: Phaser.Scene,
+    x: number,
+    y: number,
+    rows: number,
     cols: number
   ) {
     this.inventoryType = invOwner
@@ -40,24 +40,26 @@ export default class InventoryManger {
     this.y = y
     this.rows = rows
     this.cols = cols
-    this.inventoryGrid = new Array(rows).fill([]).map(() =>
-      new Array(cols).fill(
-        new InventoryItem(
-          new Item(0, '', null, '', 1, 1, 0, null, false, false),
-          -1,
-          -1,
-          false,
-          0
+    this.inventoryGrid = new Array(rows)
+      .fill([])
+      .map(() =>
+        new Array(cols).fill(
+          new InventoryItem(
+            new Item(0, '', null, '', 1, 1, 0, null, false, false),
+            -1,
+            -1,
+            false,
+            0
+          )
         )
       )
-    )
     this.itemsManager = new ItemsManager(this.scene)
   }
 
   create() {
     // Disable the browsers right click menu
     this.scene.input.mouse?.disableContextMenu()
-    
+
     this.graphics = this.scene.add.graphics()
     // Create the inventory container and its contents here
     this.inventoryContainer = this.scene.add.container(this.x, this.y)
@@ -75,12 +77,15 @@ export default class InventoryManger {
   }
 
   addItemToGrid(row: number, col: number, item: Item, amount: number) {
-    if (this.isValidGridPosition(row, col) && !this.isGridOccupied(row, col, item.width, item.height)) {
+    if (
+      this.isValidGridPosition(row, col) &&
+      !this.isGridOccupied(row, col, item.width, item.height)
+    ) {
       // Check if the item is already present in the specified position
       if (!this.inventoryGrid[row][col].item.sprite) {
         // Create only one sprite for the entire item
         this.createInventoryItem(row, col, item, amount)
-  
+
         // Mark the occupied positions
         for (let i = 0; i < item.height; i++) {
           for (let j = 0; j < item.width; j++) {
@@ -101,7 +106,7 @@ export default class InventoryManger {
 
     const newX = newCol * this.squareSize + offsetX
     const newY = newRow * this.squareSize + offsetY
-    
+
     text?.setPosition(newX + offsetX - 30, newY + offsetY - 30)
     sprite?.setPosition(newX, newY)
 
@@ -118,7 +123,8 @@ export default class InventoryManger {
     this.graphics?.clear()
 
     // Add text to be displayed on top of inventory
-    this.scene.add.text(this.x + 10, this.y - 50, this.inventoryType) 
+    this.scene.add
+      .text(this.x + 10, this.y - 50, this.inventoryType)
       .setFont('32px Arial')
       .setStroke(this.WHITE_COLOR, 2)
       .setColor(this.FONT_COLOR)
@@ -127,7 +133,12 @@ export default class InventoryManger {
     this.inventoryGrid.forEach((row, rowIndex) => {
       row.forEach((_, colIndex) => {
         this.graphics?.lineStyle(1, 0xffffff, 1)
-        this.graphics?.strokeRect(this.x + (colIndex * this.squareSize), this.y + (rowIndex * this.squareSize), this.squareSize, this.squareSize)
+        this.graphics?.strokeRect(
+          this.x + colIndex * this.squareSize,
+          this.y + rowIndex * this.squareSize,
+          this.squareSize,
+          this.squareSize
+        )
       })
     })
   }
@@ -135,11 +146,11 @@ export default class InventoryManger {
   createInventoryItem(row: number, col: number, item: Item, amount: number) {
     // Calculate the offsetX and offsetY based on item size
     const { offsetX, offsetY } = this.createOffsets(item.height, item.width)
-  
+
     // Calculate the actual position based on the container's position
     const itemX = col * this.squareSize + offsetX
     const itemY = row * this.squareSize + offsetY
-  
+
     // Create the actual item for the slot in the grid
     let inventoryItem = {
       item: {
@@ -152,20 +163,22 @@ export default class InventoryManger {
         description: item.description,
         text: item.text,
         isEquippable: item.isEquippable,
-        isUseable: item.isUseable
+        isUseable: item.isUseable,
       },
       col: col,
       row: row,
       isDragging: false,
-      amount: amount
+      amount: amount,
     }
 
     const xOff = amount > 9 ? 50 : 35
 
-    inventoryItem.item.text?.setPosition(itemX + offsetX - xOff, itemY + offsetY - 30).setText(amount > 1 ? 'x'+amount.toString() : '')
+    inventoryItem.item.text
+      ?.setPosition(itemX + offsetX - xOff, itemY + offsetY - 30)
+      .setText(amount > 1 ? 'x' + amount : '')
 
     inventoryItem.item.sprite?.setPosition(itemX, itemY)
-  
+
     this.inventoryGrid[row][col] = inventoryItem
     this.initActions(inventoryItem)
     inventoryItem.item.sprite?.setInteractive({ draggable: true })
@@ -186,7 +199,7 @@ export default class InventoryManger {
         }
       }
     }
-  
+
     // If no available spot was found, throw error
     console.error(`No available spot found for ${item.name}.`)
     return false
@@ -194,18 +207,21 @@ export default class InventoryManger {
 
   removeItemFromInventory(props: any) {
     if (props.inventoryItem.row >= 0 && props.inventoryItem.col >= 0) {
-      if(props.inventoryItem.amount <= props.amount) {
-        this.clearGridOccupied(props.inventoryItem.item.height, props.inventoryItem.item.width, props.inventoryItem.col, props.inventoryItem.row)  
+      if (props.inventoryItem.amount <= props.amount) {
+        this.clearGridOccupied(
+          props.inventoryItem.item.height,
+          props.inventoryItem.item.width,
+          props.inventoryItem.col,
+          props.inventoryItem.row
+        )
         // Check if sprite exists and destroy the sprite
-        if (props.inventoryItem.item.sprite) 
-          props.inventoryItem.item.sprite.destroy()
-        if (props.inventoryItem.item.text) 
-          props.inventoryItem.item.text?.destroy()
+        if (props.inventoryItem.item.sprite) props.inventoryItem.item.sprite.destroy()
+        if (props.inventoryItem.item.text) props.inventoryItem.item.text?.destroy()
       } else {
         props.inventoryItem.amount -= props.amount
         if (props.inventoryItem.amount > 1)
-        props.inventoryItem.item.text?.setText('x'+ props.inventoryItem.amount)
-        else {   
+          props.inventoryItem.item.text?.setText('x' + props.inventoryItem.amount)
+        else {
           props.inventoryItem.item.text?.destroy()
         }
       }
@@ -217,18 +233,18 @@ export default class InventoryManger {
 
     const oldRow = inventoryItem.row
     const oldCol = inventoryItem.col
-  
+
     // Calculate the new width and height after rotation
     const newWidth = height
     const newHeight = width
-  
+
     // Update the item's width and height
     inventoryItem.item.width = newWidth
     inventoryItem.item.height = newHeight
-  
+
     // Rotate the item's sprite by 90 degrees
     inventoryItem.item.sprite?.setAngle(inventoryItem.item.sprite.angle + 90)
-  
+
     // Calculate the new position of the item's sprite to keep it centered while rotating
     const { offsetX, offsetY } = this.createOffsets(height, width)
 
@@ -246,27 +262,30 @@ export default class InventoryManger {
       for (let col = 0; col < this.inventoryGrid[0].length; col++) {
         inventoryItem = this.inventoryGrid[row][col]
 
-        if (inventoryItem.item.id === itemId && inventoryItem.amount < inventoryItem.item.maxStack) {
+        if (
+          inventoryItem.item.id === itemId &&
+          inventoryItem.amount < inventoryItem.item.maxStack
+        ) {
           // Calculate the remaining amount
           const remaining = inventoryItem.amount + amount - inventoryItem.item.maxStack
-    
+
           if (remaining > 0) {
             inventoryItem.amount = inventoryItem.item.maxStack
             inventoryItem.item.text?.setText('x' + inventoryItem.amount)
             this.checkItemInInventory(inventoryItem.item.id, remaining)
           } else {
             inventoryItem.amount += amount
-            inventoryItem.item.text?.setText('x' + inventoryItem.amount.toString())
+            inventoryItem.item.text?.setText('x' + inventoryItem.amount)
           }
-          
+
           return { itemCanBeMoved: true, amount: amount }
         }
       }
     }
-    
+
     const newItem = this.itemsManager.getItem(itemId)
     if (amount <= 0 || newItem == undefined) return
-   
+
     if (newItem.maxStack > amount) {
       itemCanBeMoved = this.addItemToInventory(newItem, amount)
     } else {
@@ -276,7 +295,7 @@ export default class InventoryManger {
     }
 
     if (itemCanBeMoved === false) {
-      newItem.sprite?.destroy()  
+      newItem.sprite?.destroy()
       newItem.text?.destroy()
     }
 
@@ -289,10 +308,10 @@ export default class InventoryManger {
     const newItem = this.itemsManager.getItem(props.item.item.id)
     const check = this.addItemToInventory(newItem!, props.amountToSplit)
     if (check) {
-      props.item.amount -= props.amountToSplit      
-      props.item.item.text.setText('x'+props.item.amount.toString())      
+      props.item.amount -= props.amountToSplit
+      props.item.item.text.setText('x' + props.item.amount)
     } else {
-      newItem!.sprite?.destroy()  
+      newItem!.sprite?.destroy()
       newItem!.text?.destroy()
     }
   }
@@ -306,7 +325,10 @@ export default class InventoryManger {
       for (let j = 0; j < width; j++) {
         const newRow = startRow + i
         const newCol = startCol + j
-        if (!this.isValidGridPosition(newRow, newCol) || this.inventoryGrid[newRow][newCol].item.name !== '') {
+        if (
+          !this.isValidGridPosition(newRow, newCol) ||
+          this.inventoryGrid[newRow][newCol].item.name !== ''
+        ) {
           return true
         }
       }
@@ -315,34 +337,44 @@ export default class InventoryManger {
     return false
   }
 
-  StackItems(startRow: number, startCol: number, width: number, height: number, item: InventoryItem) {
+  StackItems(
+    startRow: number,
+    startCol: number,
+    width: number,
+    height: number,
+    item: InventoryItem
+  ) {
     for (let i = 0; i < height; i++) {
       for (let j = 0; j < width; j++) {
         const newRow = startRow + i
         const newCol = startCol + j
         if (this.inventoryGrid[newRow] && this.inventoryGrid[newRow][newCol]) {
           let invItem = this.inventoryGrid[newRow][newCol]
-          if (!this.isValidGridPosition(newRow, newCol) || this.inventoryGrid[newRow][newCol].item.name !== '') {
+          if (
+            !this.isValidGridPosition(newRow, newCol) ||
+            this.inventoryGrid[newRow][newCol].item.name !== ''
+          ) {
             if (invItem.item.name === item.item.name) {
               if (item.amount + invItem.amount <= invItem.item.maxStack) {
                 item.amount += this.inventoryGrid[newRow][newCol].amount
-                item.item.text?.setText('x'+item.amount)
-                this.removeItemFromInventory({inventoryItem: this.inventoryGrid[newRow][newCol], amount: this.inventoryGrid[newRow][newCol].amount})
+                item.item.text?.setText('x' + item.amount)
+                this.removeItemFromInventory({
+                  inventoryItem: this.inventoryGrid[newRow][newCol],
+                  amount: this.inventoryGrid[newRow][newCol].amount,
+                })
               } else {
                 const remaining = invItem.amount + item.amount - invItem.item.maxStack
                 invItem.amount = invItem.item.maxStack
-                invItem.item.text?.setText('x'+invItem.amount)
+                invItem.item.text?.setText('x' + invItem.amount)
                 item.amount = remaining
-                item.item.text?.setText('x'+item.amount)
+                item.item.text?.setText('x' + item.amount)
                 this.moveItem(item, item.row, item.col)
               }
               return true
-            }
-            else 
-              return false
+            } else return false
           } else {
             return false
-          } 
+          }
         } else {
           return false
         }
@@ -358,12 +390,24 @@ export default class InventoryManger {
   clearGridOccupied(height: number, width: number, col: number, row: number) {
     for (let i = 0; i < height; i++) {
       for (let j = 0; j < width; j++) {
-        this.inventoryGrid[row + i][col + j] = new InventoryItem(new Item(0, '', null, '', 1, 1, 0, null, false, false), row, col, false, 0)
+        this.inventoryGrid[row + i][col + j] = new InventoryItem(
+          new Item(0, '', null, '', 1, 1, 0, null, false, false),
+          row,
+          col,
+          false,
+          0
+        )
       }
     }
   }
 
-  setGridOccupied(height: number, width: number, col: number, row: number, inventoryItem: InventoryItem) {
+  setGridOccupied(
+    height: number,
+    width: number,
+    col: number,
+    row: number,
+    inventoryItem: InventoryItem
+  ) {
     for (let i = 0; i < height; i++) {
       for (let j = 0; j < width; j++) {
         this.inventoryGrid[row + i][col + j] = inventoryItem
@@ -374,8 +418,8 @@ export default class InventoryManger {
   createOffsets(height: number, width: number) {
     return {
       offsetX: (width * this.squareSize) / 2,
-      offsetY: (height * this.squareSize) / 2
-    } 
+      offsetY: (height * this.squareSize) / 2,
+    }
   }
 
   setPosition(x: number, y: number) {
@@ -394,7 +438,7 @@ export default class InventoryManger {
       // Listen for the right mouse button down event
       sprite.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
         if (pointer.rightButtonDown()) {
-          this.contextMenu.showMenu({x: pointer.x, y: pointer.y}, inventoryItem)
+          this.contextMenu.showMenu({ x: pointer.x, y: pointer.y }, inventoryItem)
           // Prevent the default behavior to avoid the browser's context menu
           pointer.event.preventDefault()
         }
@@ -413,7 +457,7 @@ export default class InventoryManger {
 
       sprite.on('drag', (pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
         const { offsetX, offsetY } = this.createOffsets(height, width)
-        
+
         text?.setPosition(dragX + offsetX - 30, dragY + offsetY - 30)
         sprite?.setPosition(dragX, dragY)
       })
@@ -423,32 +467,34 @@ export default class InventoryManger {
           this.isDraggingItem = false
           inventoryItem.isDragging = false
           sprite?.setDepth(0)
-      
-          const isSmallItem = (width === 1 && height === 1)
 
-          let newCol = Math.floor(pointer.x / this.squareSize) - Math.floor(this.x / this.squareSize)
-          let newRow = Math.floor(pointer.y / this.squareSize) - Math.floor(this.y / this.squareSize)
+          const isSmallItem = width === 1 && height === 1
+
+          let newCol =
+            Math.floor(pointer.x / this.squareSize) - Math.floor(this.x / this.squareSize)
+          let newRow =
+            Math.floor(pointer.y / this.squareSize) - Math.floor(this.y / this.squareSize)
 
           if (!isSmallItem) {
             // For larger items, adjust the new position based on item width and height
             newCol -= Math.floor((width - 1) / 2)
             newRow -= Math.floor((height - 1) / 2)
           }
-      
+
           const validGridPosition = this.isValidGridPosition(newRow, newCol)
           const isGridOccupied = this.isGridOccupied(newRow, newCol, width, height)
-      
+
           if (validGridPosition && !isGridOccupied) {
-            console.log("IS MOVING TO NEW POSITION")
+            console.log('IS MOVING TO NEW POSITION')
             // Move the item to the new grid position
             this.moveItem(inventoryItem, newRow, newCol)
             sprite?.clearTint()
             this.itemBeingDragged = undefined
           } else {
             if (!this.StackItems(newRow, newCol, width, height, inventoryItem)) {
-              console.log("IS MOVING BACK TO OLD POSITION")
+              console.log('IS MOVING BACK TO OLD POSITION')
               this.moveItem(inventoryItem, inventoryItem.row, inventoryItem.col)
-              sprite?.clearTint() 
+              sprite?.clearTint()
               this.itemBeingDragged = undefined
             }
           }

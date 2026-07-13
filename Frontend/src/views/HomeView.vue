@@ -2,14 +2,10 @@
   <div
     v-if="userData != undefined"
     class="home-wrapper flex h-full w-full absolute bg-center bg-no-repeat bg-cover overflow-hidden"
-    :style="[
-      userData.settings?.useBackground === true
-        ? { 'background-image': 'url(' + getImageUrl(userData.settings?.backgroundImage) + ')' }
-        : { 'background-color': userData.settings?.backgroundColour },
-    ]"
+    :style="getStyle"
     @mousemove="registerMouseMovement"
-    @click="leftClick()"
-    @contextmenu="rightClick($event)"
+    @click="() => leftClick()"
+    @contextmenu="(payload: PointerEvent) => rightClick(payload)"
   >
     <DesktopGrid
       :list="positionedList"
@@ -58,13 +54,19 @@ const appStore = useAppStore()
 const programsstore = programsStore()
 const userstore = userStore()
 
+const { userData } = storeToRefs(userstore)
+
 const showMenu = ref<boolean>(false)
 const positionedList = computed<IInstalledProgram[]>(() => programsstore.positionedList)
 const showContextMenu = ref<boolean>(false)
 const contextMenuPosition = ref<{ x: number; y: number }>({ x: 0, y: 0 })
 const activeItem = ref<IProgram | undefined>()
 
-const { userData } = storeToRefs(userstore)
+const getStyle = computed(() =>
+  userData.value?.settings.useBackground === true
+    ? { 'background-image': 'url(' + getImageUrl(userData.value.settings.backgroundImage) + ')' }
+    : { 'background-color': userData.value?.settings.backgroundColour }
+)
 
 onMounted(async () => {
   await programsstore.programStoreInit()

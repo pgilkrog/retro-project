@@ -22,12 +22,30 @@
           </div>
         </div>
       </div>
-      <div
-        v-for="(game, key) in disGames"
-        :key
-        :class="{ 'bg-white text-black animate-blink': activeInList === key }"
-      >
-        {{ key + 1 }}: {{ game.name }}
+      <div class="grid grid-cols-6 gap-4">
+        <div class="col-span-2">
+          <div
+            v-for="(game, key) in mappedGames"
+            :key
+            :class="{ 'bg-white text-black animate-blink': activeInList === key }"
+          >
+            {{ key + 1 }}: {{ game.name }}
+          </div>
+        </div>
+        <div class="bg-teal-400 text-black p-2 col-span-4">
+          <div class="border border-black p-1">
+            <div class="border border-black p-4">
+              <div>
+                <image-component
+                  id="game-icon"
+                  source="https://win98icons.alexmeub.com/icons/png/cd_drive-0.png"
+                />
+              </div>
+              <h1>{{ selectedGame.name }}fdg</h1>
+              <p>{{ selectedGame.description }}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </window-frame>
@@ -45,27 +63,64 @@ import ShooterPlatformer from '@/phaser/ShooterPlatformer/ShooterPlatformer.vue'
 import Pyrotechnics from '@/phaser/pawered-pyrotechnics/Pawered-Pyrotechnics.vue'
 import WindowFrame from '@/components/windowframe/WindowFrame.vue'
 import type { IProgram } from '@/models'
+import ImageComponent from '@/components/utils/ImageComponent.vue'
 
 const { program } = defineProps<{
   program: IProgram
 }>()
 
-const gameComponents: Record<string, Component> = {
-  Platformer: Platformer as Component,
-  Salvatore: Salvatore as Component,
-  TestStuff: TestStuff as Component,
-  SpaceInvaders: SpaceInvaders as Component,
-  PingPong: PingPong as Component,
-  ShooterPlatformer: ShooterPlatformer as Component,
-  'Pawered-Pyrotechnics': Pyrotechnics as Component,
+interface GameComponent {
+  name: string
+  description: string
+  component: Component
 }
 
-const disGames = Object.keys(gameComponents).map((key) => ({
+const gameComponents: Record<string, GameComponent> = {
+  Platformer: {
+    name: 'Platformer',
+    description: 'A classic platformer game',
+    component: Platformer as Component,
+  },
+  Salvatore: {
+    name: 'Salvatore',
+    description: 'An exciting adventure game',
+    component: Salvatore as Component,
+  },
+  TestStuff: {
+    name: 'Test Stuff',
+    description: 'A simple test game',
+    component: TestStuff as Component,
+  },
+  'Space Invaders': {
+    name: 'Space Invaders',
+    description: 'A classic arcade game',
+    component: SpaceInvaders as Component,
+  },
+  'Ping Pong': {
+    name: 'Ping Pong',
+    description: 'A classic paddle game',
+    component: PingPong as Component,
+  },
+  'Shooter Platformer': {
+    name: 'Shooter Platformer',
+    description: 'A blend of shooting and platforming',
+    component: ShooterPlatformer as Component,
+  },
+  'Pawered Pyrotechnics': {
+    name: 'Pawered Pyrotechnics',
+    description: 'A fireworks display game',
+    component: Pyrotechnics as Component,
+  },
+}
+
+const mappedGames = Object.keys(gameComponents).map((key) => ({
   name: key,
+  description: gameComponents[key].description,
   component: gameComponents[key],
 }))
 
 const activeGame = shallowRef<Component | null>(null)
+const selectedGame = ref<GameComponent>(mappedGames[0])
 const activeInList = ref<number>(0)
 
 onMounted(() => {
@@ -74,7 +129,7 @@ onMounted(() => {
 
 const setActiveGame = (gameName: string) => {
   if (gameName in gameComponents) {
-    activeGame.value = gameComponents[gameName]
+    activeGame.value = gameComponents[gameName].component
     return
   }
 
@@ -84,11 +139,13 @@ const setActiveGame = (gameName: string) => {
 addEventListener('keydown', (event: KeyboardEvent) => {
   if (event.key === 'ArrowUp') {
     activeInList.value = Math.max(0, activeInList.value - 1)
+    selectedGame.value = mappedGames[activeInList.value]
   } else if (event.key === 'ArrowDown') {
-    activeInList.value = Math.min(disGames.length - 1, activeInList.value + 1)
+    activeInList.value = Math.min(mappedGames.length - 1, activeInList.value + 1)
+    selectedGame.value = mappedGames[activeInList.value]
   } else if (event.key === 'Enter') {
-    const selectedGame = disGames[activeInList.value]
-    setActiveGame(selectedGame.name)
+    selectedGame.value = mappedGames[activeInList.value]
+    setActiveGame(selectedGame.value.name)
   }
 })
 </script>

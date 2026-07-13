@@ -6,7 +6,7 @@
   </div>
   <div class="text flex justify-center items-center">
     <ImageComponent
-      :id="slide.id.toString()"
+      :id="slide.id"
       class="h-[400px] w-auto"
       :source="slide.image"
       alt="image of things"

@@ -7,10 +7,14 @@ const url = '/files'
 
 export const fileStore = defineStore('filestore', () => {
   const userstore = userStore()
+
   const allFiles = ref<IFile[]>([])
   const userFiles = ref<IFile[]>([])
+  const isUploading = ref<boolean>(false)
 
   const uploadFile = async (formData: FormData) => {
+    isUploading.value = true
+
     const response = await post<{
       data: {
         file: {
@@ -37,6 +41,9 @@ export const fileStore = defineStore('filestore', () => {
 
     await post(url, fileToStore)
     await getAllFiles()
+
+    isUploading.value = false
+    return true
   }
 
   const getAllFiles = async () => {
@@ -53,6 +60,7 @@ export const fileStore = defineStore('filestore', () => {
 
   return {
     allFiles,
+    isUploading,
     userFiles,
     uploadFile,
     getAllFiles,

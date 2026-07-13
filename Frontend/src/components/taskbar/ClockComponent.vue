@@ -19,7 +19,7 @@ const zeroPadding = (num: number, digit: number): string => {
     zero += '0'
   }
 
-  return (zero + num.toString()).slice(-digit)
+  return (zero + String(num)).slice(-digit)
 }
 
 onMounted(() => {

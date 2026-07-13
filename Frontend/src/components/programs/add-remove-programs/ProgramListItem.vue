@@ -21,6 +21,6 @@ const { color, displayName, image } = defineProps<{
 }>()
 
 const getSize = computed(() => {
-  return `size: ${(Math.round(Math.random() * 1000)).toString()}kb`
+  return `size: ${String(Math.round(Math.random() * 1000))}kb`
 })
 </script>

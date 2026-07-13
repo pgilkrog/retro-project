@@ -6,43 +6,43 @@
     :is-not-program="false"
     :show-menu="true"
   >
-    <div class="pawpoint flex flex-col justify-between">
+    <div class="pawpoint flex flex-col justify-between grow">
       <div
         class="active-slide h-full flex bg-blue-500 flex-col m-4 justify-center items-center cursor-pointer text-white"
       >
-        <Component
+        <component
           v-if="loadingSlide === false && activeSlide != undefined && activeSlide.type != undefined"
           :is="defineAsyncComponent(() => import(`./slides/${activeSlide?.type}.vue`))"
           :slide="activeSlide"
-        ></Component>
+        />
         <span v-else>
           <div class="title flex justify-center items-center my-4">
             <div class="spinner-border"></div>
           </div>
         </span>
       </div>
-      <div class="group-slides flex">
+      <div class="flex">
         <div
-          class="group-slides-item m-4 flex cursor-pointer"
           v-for="slide in slides"
           :key="slide.id"
+          class="p-4 flex cursor-pointer"
           @click="setActiveSlide(slide)"
         >
           <div
             :class="[
-              'flex bg-blue-500 text-white w-full justify-center items-center',
+              'flex bg-blue-500 text-white justify-center items-center',
               { 'border border-danger': activeSlide?.title === slide.title },
             ]"
           >
             <h1>{{ slide.id }}</h1>
           </div>
         </div>
-        <div class="group-slides-item m-4 flex cursor-pointer">
+        <div class="m-4 flex cursor-pointer">
           <div class="flex bg-green-500 text-white w-full justify-center items-center">
             <IconComponent
               name="fa-plus"
               color="light"
-            ></IconComponent>
+            />
           </div>
         </div>
       </div>
@@ -114,18 +114,3 @@ const setActiveSlide = (slide: ISlide) => {
   loadingSlide.value = false
 }
 </script>
-
-<style scoped lang="sass">
-.pawpoint
-  width: 90vw !important
-  height: 80vh !important
-  max-width: 1500px
-  .active-slide
-    width: -webkit-fill-available
-    height: -webkit-fill-available
-  .group-slides
-    height: fit-content
-    .group-slides-item
-      height: 100px
-      width: 100px
-</style>

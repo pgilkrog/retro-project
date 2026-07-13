@@ -57,13 +57,13 @@
         </div>
       </form>
       <div class="buttons mt-4 flex justify-end w-full col-span-12">
-        <!-- <ButtonComponent
-          @clicked="devLogin()"
-          text="Guest login"
-        /> -->
         <ButtonComponent
-          @clicked="pressedOk()"
+          @clicked="() => devLogin()"
+          text="Guest login"
+        />
+        <ButtonComponent
           text="OK"
+          @clicked="() => pressedOk()"
         />
         <!-- Uncomment below if needed -->
         <!-- <button-component @clicked="changeShowHelp()" text="Help" :active="showHelp"></button-component> -->
@@ -76,20 +76,20 @@
       <p>Some helping info and stuff</p>
       <div class="flex justify-center mt-4">
         <ButtonComponent
-          class="me-4"
-          @clicked="changeState(2)"
           v-if="state === 1"
-          text="Create User"
-        />
-        <ButtonComponent
           class="me-4"
-          @clicked="changeState(1)"
-          v-else
-          text="Login"
+          text="Create User"
+          @clicked="() => changeState(2)"
         />
         <ButtonComponent
-          @clicked="changeState(3)"
+          v-else
+          class="me-4"
+          text="Login"
+          @clicked="() => changeState(1)"
+        />
+        <ButtonComponent
           text="Forgot password"
+          @clicked="() => changeState(3)"
         />
       </div>
     </div>
@@ -110,7 +110,8 @@ const password2 = ref<string>('')
 const info = ref<string>('info')
 const infoText = ref<string>('Type a email and password to log in')
 const showHelp = ref<boolean>(false)
-const program = ref<IProgram>({
+
+const program: IProgram = {
   _id: 'LoginScreenProgram',
   name: 'LogInNow',
   isActive: true,
@@ -121,12 +122,16 @@ const program = ref<IProgram>({
   type: 'Program',
   top: 200,
   left: 200,
-})
+}
 
 const pressedOk = (): void => {
-  if (state.value === 1) confirmLogin()
-  else if (state.value === 2) registerUser()
-  else changePassword()
+  if (state.value === 1) {
+    confirmLogin()
+  } else if (state.value === 2) {
+    registerUser()
+  } else {
+    changePassword()
+  }
 }
 
 const confirmLogin = (): void => {
@@ -138,7 +143,9 @@ const confirmLogin = (): void => {
 }
 
 const registerUser = (): void => {
-  if (password.value === password2.value) authstore.registerUser(username.value, password.value)
+  if (password.value === password2.value) {
+    authstore.registerUser(username.value, password.value)
+  }
 }
 
 const changePassword = (): void => {
@@ -149,29 +156,29 @@ const changePassword = (): void => {
 //   showHelp.value = !showHelp.value
 // }
 
-// const devLogin = (): void => {
-//   authstore.loginUser('check@check.com', 'hejsa1234').then(() => {
-//     setTimeout(() => {
-//       router.push('/')
-//     }, 100)
-//   })
-// }
+const devLogin = (): void => {
+  authstore.loginUser('check@check.com', 'hejsa1234').then(() => {
+    setTimeout(() => {
+      router.push('/')
+    }, 100)
+  })
+}
 
 const changeState = (stateVal: number): void => {
   if (stateVal === 1) {
     state.value = 1
     info.value = 'blue'
-    program.value.name = 'Log in now'
+    program.name = 'Log in now'
     infoText.value = 'Type a email and password to log into Windows'
   } else if (stateVal === 2) {
     state.value = 2
     info.value = 'yellow'
-    program.value.name = 'Register user'
+    program.name = 'Register user'
     infoText.value = 'Type a email and password to create a user'
   } else if (stateVal === 3) {
     state.value = 3
     info.value = 'green'
-    program.value.name = 'Reset password'
+    program.name = 'Reset password'
     infoText.value = 'Type a email to send an reset email notification'
   }
 }

@@ -31,7 +31,6 @@
             v-for="(button, key) in menuButtons"
             :key="key"
             v-bind="button"
-            :icon="button.icon"
             size="small"
             :disabled="disableButtons"
             @clicked="button.action?.() ?? console.log('No action defined for this button')"
@@ -46,7 +45,8 @@
   </Teleport>
 </template>
 <script setup lang="ts">
-import type { IButtonComponent, IProgram } from '@/models/index'
+import type { IWindowFrame } from '@/definitions/interfaces'
+import type { IButtonComponent } from '@/models/index'
 import { programsStore } from '@/stores/programsStore'
 import { animate } from 'animejs'
 
@@ -58,15 +58,7 @@ const {
   isNotProgram = false,
   isMoveable = true,
   isStatic = false,
-} = defineProps<{
-  showMenu?: boolean
-  disableButtons?: boolean
-  program: IProgram
-  variant?: string
-  isNotProgram?: boolean
-  isMoveable?: boolean
-  isStatic?: boolean
-}>()
+} = defineProps<IWindowFrame>()
 
 const emit = defineEmits<{
   closeWindow: []
@@ -106,7 +98,7 @@ const menuButtons: IButtonComponent[] = [
 const getStyle = computed(() =>
   isMoveable === true
     ? isFullscreen.value === true
-      ? {}
+      ? { top: '', left: '', transform: 'translate(0, 0)' }
       : { top: `${String(programY.value)}px`, left: `${String(programX.value)}px` }
     : { top: '40%', left: '50%', transform: 'translate(-50%, -50%)' }
 )
@@ -116,17 +108,17 @@ onMounted(() => {
   programY.value = program.top
 
   if (isStatic === false) {
-    // animate(`#win-${program._id}`, {
-    //   translateY: [window.innerHeight, programY.value],
-    //   translateX: [0, programX.value],
-    //   scale: {
-    //     to: [0.2, 1],
-    //     delay: 200,
-    //   },
-    //   opacity: [0, 1],
-    //   easing: 'easeOutBack',
-    //   duration: 500,
-    // })
+    animate(`#win-${program._id}`, {
+      translateY: [window.innerHeight, programY.value],
+      translateX: [0, programX.value],
+      scale: {
+        to: [0.2, 1],
+        delay: 200,
+      },
+      opacity: [0, 1],
+      easing: 'easeOutBack',
+      duration: 500,
+    })
   }
 })
 

@@ -19,7 +19,7 @@
         />
         <div
           v-else
-          :id="index.toString()"
+          :id="String(index)"
           class="flex-grow desktop-item w-full h-full"
           draggable="true"
         />

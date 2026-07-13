@@ -5,64 +5,65 @@
     :variant="program.color"
     :show-menu="false"
   >
-    <div class="top flex justify-between bg-shadow p-2 mb-1">
-      <IconComponent
-        name="fa-user-plus"
-        color="success"
-        size="40"
-        rotate="0"
-      />
-      <IconComponent
-        name="fa-comment"
-        color="success"
-        size="40"
-        rotate="0"
-      />
-      <IconComponent
-        name="fa-phone"
-        color="success"
-        size="40"
-        rotate="0"
-      />
-    </div>
+    <div class="chattiechat">
+      <div class="top flex justify-between bg-shadow p-2 mb-1">
+        <IconComponent
+          name="fa-user-plus"
+          color="success"
+          size="40"
+          rotate="0"
+        />
+        <IconComponent
+          name="fa-comment"
+          color="success"
+          size="40"
+          rotate="0"
+        />
+        <IconComponent
+          name="fa-phone"
+          color="success"
+          size="40"
+          rotate="0"
+        />
+      </div>
 
-    <div class="friends-list flex flex-col bg-gray-300 bg-shadow-inner">
-      <span
-        v-for="user in userstore.allUsers"
-        :key="user._id"
-      >
-        <div
-          v-if="user.email !== userstore.userData?.email"
-          class="item p-2 m-1 flex items-center"
-          @click="activateRoom(user.email)"
+      <div class="friends-list flex flex-col bg-gray-300 bg-shadow-inner">
+        <span
+          v-for="user in userstore.allUsers"
+          :key="user._id"
         >
-          <IconComponent
-            name="fa-user"
-            size="20"
-            :color="chatstore.onlineUsers.includes(user.email) ? 'green' : 'red'"
-          />
           <div
-            v-if="chatstore.onlineUsers.includes(user.email)"
-            class="ms-4 text-green-500"
+            v-if="user.email !== userstore.userData?.email"
+            class="item p-2 m-1 flex items-center"
+            @click="activateRoom(user.email)"
           >
-            {{ user.email }}
+            <IconComponent
+              name="fa-user"
+              size="20"
+              :color="chatstore.onlineUsers.includes(user.email) ? 'green' : 'red'"
+            />
+            <div
+              v-if="chatstore.onlineUsers.includes(user.email)"
+              class="ms-4 text-green-500"
+            >
+              {{ user.email }}
+            </div>
+            <div
+              v-else
+              class="ms-4 text-red-500"
+            >
+              {{ user.email }}
+            </div>
           </div>
-          <div
-            v-else
-            class="ms-4 text-red-500"
-          >
-            {{ user.email }}
-          </div>
-        </div>
-      </span>
+        </span>
+      </div>
     </div>
-
-    <ChatWindow
-      v-for="(chat, index) in chatstore.activeRooms"
-      :key="index"
-      :active-chat="chat"
-    />
   </WindowFrame>
+  <ChatWindow
+    v-for="(chat, index) in chatstore.activeRooms"
+    :key="index"
+    :active-chat="chat"
+  />
 </template>
 
 <script setup lang="ts">

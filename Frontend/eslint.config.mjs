@@ -29,6 +29,7 @@ export default tseslint.config(
       },
     },
     rules: {
+      '@typescript-eslint/no-useless-default-assignment': 'off',
       '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'off',
       '@typescript-eslint/no-confusing-non-null-assertion': 'error',
       '@typescript-eslint/no-empty-function': 'error',

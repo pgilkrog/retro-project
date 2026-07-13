@@ -50,7 +50,7 @@ const emit = defineEmits<{
 
 const getClass = computed(() => [
   `bg-${color}-300`,
-  active ? 'bg-shadow-inner btn-active' : ' bg-shadow',
+  active === true ? 'bg-shadow-inner btn-active' : ' bg-shadow',
   { 'bg-gray-200 cursor-not-allowed text-gray-500': disabled === true },
 ])
 </script>

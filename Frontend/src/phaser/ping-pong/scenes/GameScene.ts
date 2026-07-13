@@ -1,9 +1,11 @@
 import Phaser, { Scene } from 'phaser'
 
+type Sprite = Phaser.Physics.Arcade.Sprite
+
 export default class Game extends Scene {
-  private ball: Phaser.Physics.Arcade.Sprite | undefined = undefined
-  private paddle1: Phaser.Physics.Arcade.Sprite | undefined = undefined
-  private paddle2: Phaser.Physics.Arcade.Sprite | undefined = undefined
+  private ball: Sprite | undefined = undefined
+  private paddle1: Sprite | undefined = undefined
+  private paddle2: Sprite | undefined = undefined
 
   private keyW: any
   private keyS: any
@@ -19,6 +21,7 @@ export default class Game extends Scene {
   private hitSound!: any
   private pointUp!: any
 
+  private ballInitialSpeed: number = 400
   private targetVelocity = 1000
   private acceleration = 300
   private speedChange = 10
@@ -32,7 +35,7 @@ export default class Game extends Scene {
     this.ball = this.physics.add
       .sprite(50, 50, 'ball')
       .setCollideWorldBounds(true)
-      .setVelocity(200, 200)
+      .setVelocity(this.ballInitialSpeed, this.ballInitialSpeed)
     this.ball.setBounce(1)
 
     this.paddle1 = this.physics.add
@@ -63,24 +66,15 @@ export default class Game extends Scene {
 
   update(time: number, delta: number): void {
     if (this.ball?.body && this.paddle1?.body && this.paddle2?.body) {
-      // const fixedDelta = 1 / 60
-      // this.physics.world.update(time, fixedDelta)
       this.paddle1.setVelocityY(0)
       this.paddle2.setVelocityY(0)
 
-      // Adjust as needed
-      // this.ball.setVelocityX(this.ball.body.velocity.x * this.damping);
-      // this.ball.setVelocityY(this.ball.body.velocity.y * this.damping);
+      let vy =
+        this.paddle1.body.velocity.y +
+        (this.keyW.isDown ? -this.acceleration : this.keyS.isDown ? this.acceleration : 0)
 
-      if (this.keyW.isDown) {
-        this.paddle1.setVelocityY(
-          Math.min(this.paddle1.body.velocity.y - this.acceleration, this.targetVelocity)
-        )
-      } else if (this.keyS.isDown) {
-        this.paddle1.setVelocityY(
-          Math.max(this.paddle1.body.velocity.y + this.acceleration, -this.targetVelocity)
-        )
-      }
+      vy = Phaser.Math.Clamp(vy, -this.targetVelocity, this.targetVelocity)
+      this.paddle1.setVelocityY(vy)
 
       if (this.keyO.isDown) {
         this.paddle2.setVelocityY(-300)
@@ -102,29 +96,47 @@ export default class Game extends Scene {
         this.p2Points++
         this.scoreText2.setText(`${this.p2Points}`)
         this.pointUp.play()
+        this.resetBall(false)
       }
       if (this.ball.x >= 790) {
         this.p1Points++
         this.scoreText1.setText(`${this.p1Points}`)
         this.pointUp.play()
+        this.resetBall(true)
       }
     }
   }
 
   hitBall = () => {
-    // Increase the ball velocity by 50 units each time it hits a paddle
     if (this.ball && this.ball.body && this.ball.body.velocity) {
-      this.ball.setVelocityX(this.ball.body.velocity.x + this.speedChange)
-      this.ball.setVelocityY(this.ball.body.velocity.y + this.speedChange)
+      const vx = this.ball.body.velocity.x ?? 0
+      const vy = this.ball.body.velocity.y ?? 0
+
+      const signX = Math.sign(vx) || 1
+      const signY = Math.sign(vy) || 1
+
+      this.ball.setVelocityX(vx + signX * this.speedChange)
+      this.ball.setVelocityY(vy + signY * this.speedChange)
+
       this.hitSound.play()
     }
   }
 
   createScores() {
     this.scoreText1 = this.add.text(10, 10, `${this.p1Points}`, { fontSize: '32px', color: '#fff' })
-    this.scoreText2 = this.add.text(770, 10, `${this.p1Points}`, {
+    this.scoreText2 = this.add.text(770, 10, `${this.p2Points}`, {
       fontSize: '32px',
       color: '#fff',
     })
+  }
+
+  resetBall(servingToRight = true) {
+    const centerX = this.cameras.main.width / 2
+    const centerY = this.cameras.main.height / 2
+    this.ball?.setPosition(centerX, centerY)
+    this.ball?.setVelocity(
+      servingToRight ? this.ballInitialSpeed : -this.ballInitialSpeed,
+      Phaser.Math.Between(-50, 50)
+    )
   }
 }

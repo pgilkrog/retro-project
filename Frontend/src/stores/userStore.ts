@@ -11,7 +11,10 @@ export const userStore = defineStore('user', () => {
   const chatstore = chatStore()
 
   const allUsers = ref<IUser[]>()
-  const userData = ref<IUser>()
+  const userData = ref<IUser | undefined>(undefined)
+
+  const userSettings = computed(() => userData.value?.settings)
+  const userInstalledPrograms = computed(() => userData.value?.installedPrograms)
 
   const getAllUsers = async (): Promise<void> => {
     setAuthToken(sessionStorage.getItem('token') ?? '')
@@ -19,12 +22,10 @@ export const userStore = defineStore('user', () => {
     const response = await get<{ users: IUser[]; status: boolean }>(url)
 
     if (response.status == true) {
-      const users = response.users.map(
-        (user: IUser): UserWithOnlineStatus => ({
-          ...user,
-          online: chatstore.onlineUsers.includes(user.email),
-        })
-      )
+      const users = response.users.map((user: IUser): UserWithOnlineStatus => ({
+        ...user,
+        online: chatstore.onlineUsers.includes(user.email),
+      }))
 
       setAllUsers(users)
     }
@@ -63,11 +64,16 @@ export const userStore = defineStore('user', () => {
   }
 
   return {
+    // States
     allUsers,
+    userInstalledPrograms,
     userData,
+    userSettings,
+
+    // Actions
     getAllUsers,
-    setUserData,
     getUserById,
+    setUserData,
     updateUser,
     updateUserSettings,
   }

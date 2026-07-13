@@ -25,10 +25,11 @@ export default class AmountMenu {
     this.createMinusButton(x, y)
     // this.createTakeButton(x, y)
 
-    this.amountText = this.scene.add.text(x + 10, y + 10, this.amount.toString()) 
-    .setFont('32px Arial')
-    .setStroke('#FFFFFF', 2)
-    .setColor('#00FF00')
+    this.amountText = this.scene.add
+      .text(x + 10, y + 10, String(this.amount))
+      .setFont('32px Arial')
+      .setStroke('#FFFFFF', 2)
+      .setColor('#00FF00')
 
     this.menuGroup.add(this.amountText)
   }
@@ -48,20 +49,20 @@ export default class AmountMenu {
     const plusButton = this.createButtonBasics('+', x + 60, y + 10)
     plusButton.on('pointerdown', () => {
       console.log('Info button clicked')
-      if(this.amount + 1 < item.amount) {
+      if (this.amount + 1 < item.amount) {
         this.amount += 1
-        this.reRenderText()        
+        this.reRenderText()
       }
     })
   }
-  
+
   createMinusButton(x: number, y: number) {
     const minusButton = this.createButtonBasics('-', x + 60, y + 40)
     minusButton.on('pointerdown', () => {
       console.log('Info button clicked')
-      if(this.amount >= 1) {
+      if (this.amount >= 1) {
         this.amount -= 1
-        this.reRenderText()        
+        this.reRenderText()
       }
     })
   }
@@ -74,7 +75,7 @@ export default class AmountMenu {
   }
 
   createButtonBasics(name: string, x: number, y: number) {
-    const button = this.scene.add.text(x + 5, y, name, { color: this.WHITE }) 
+    const button = this.scene.add.text(x + 5, y, name, { color: this.WHITE })
     button.setInteractive()
     this.menuGroup.add(button)
     return button
@@ -85,6 +86,6 @@ export default class AmountMenu {
   }
 
   reRenderText() {
-    this.amountText.setText(this.amount.toString())
+    this.amountText.setText(this.amount)
   }
 }

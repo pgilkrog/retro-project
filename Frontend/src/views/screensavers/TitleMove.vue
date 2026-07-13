@@ -1,20 +1,21 @@
 <template>
   <div class="screen-saver absolute z-50 w-full h-full bg-gray-900">
-    <span 
-      ref="textEl" 
-      :class="['absolute text-2xl', textColor]"
+    <span
+      ref="textEl"
+      class="absolute text-2xl"
+      :class="textColor"
     >
-      Text yo
+      TEXT MOVES AROUND AND BOUNCES OFF THE WALLS
     </span>
   </div>
 </template>
 
 <script setup lang="ts">
 const textEl = ref<HTMLElement | null>(null)
-const x = ref(1)
-const y = ref(1)
-const xVel = ref(2)
-const yVel = ref(2)
+const x = ref<number>(1)
+const y = ref<number>(1)
+const xVel = ref<number>(2)
+const yVel = ref<number>(2)
 
 const textColor = ref('text-white')
 const colors = [
@@ -51,7 +52,7 @@ onMounted(() => {
     handleBounce()
 
     if (textEl.value != undefined) {
-      textEl.value.style.transform = `translate(${x.value.toString()}px, ${y.value.toString()}px)`
+      textEl.value.style.transform = `translate(${String(x.value)}px, ${String(y.value)}px)`
     }
   }, 10)
 })

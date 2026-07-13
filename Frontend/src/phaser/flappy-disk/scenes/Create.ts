@@ -1,11 +1,11 @@
-import BaseScene from "./BaseScene"
+import BaseScene from './BaseScene'
 
 export default class Create extends BaseScene {
-  private bird!: Phaser.Physics.Arcade.Sprite 
+  private bird!: Phaser.Physics.Arcade.Sprite
   private pipes: any
   private pause!: any
-  private upperPipe!: Phaser.Physics.Arcade.Sprite 
-  private lowerPipe!: Phaser.Physics.Arcade.Sprite 
+  private upperPipe!: Phaser.Physics.Arcade.Sprite
+  private lowerPipe!: Phaser.Physics.Arcade.Sprite
 
   private pipeVerticalDistanceRange = [100, 250]
   private pipeHorizontalDistanceRange = [400, 500]
@@ -14,7 +14,7 @@ export default class Create extends BaseScene {
   private PIPES_TO_RENDER = 4
   private space: any
   private esc: any
-  private initialBirdPosition = { x: 800 * 0.1, y: 600 / 2}
+  private initialBirdPosition = { x: 800 * 0.1, y: 600 / 2 }
 
   private rightMostX: any
 
@@ -34,12 +34,14 @@ export default class Create extends BaseScene {
 
   create() {
     super.create()
-    this.bird = this.physics.add.sprite(this.initialBirdPosition.x, this.initialBirdPosition.y, 'bird')
+    this.bird = this.physics.add
+      .sprite(this.initialBirdPosition.x, this.initialBirdPosition.y, 'bird')
       .setOrigin(0)
       .setGravityY(600)
       .setCollideWorldBounds(true)
-    
-    this.pause = this.add.image(800 - 10, 600 - 10, 'pause')
+
+    this.pause = this.add
+      .image(800 - 10, 600 - 10, 'pause')
       .setScale(3)
       .setOrigin(1)
 
@@ -47,7 +49,7 @@ export default class Create extends BaseScene {
 
     for (let i = 0; i < this.PIPES_TO_RENDER; i++) {
       this.upperPipe = this.pipes.create(0, 0, 'pipe').setImmovable(true).setOrigin(0, 1)
-      this.lowerPipe = this.pipes.create(0, 0, 'pipe').setImmovable(true).setOrigin(0, 0)      
+      this.lowerPipe = this.pipes.create(0, 0, 'pipe').setImmovable(true).setOrigin(0, 0)
 
       this.placePipe(this.upperPipe, this.lowerPipe)
     }
@@ -63,17 +65,12 @@ export default class Create extends BaseScene {
   }
 
   update(time: number, delta: number) {
-    if(this.bird === undefined)
-      return
+    if (this.bird === undefined) return
 
-    if(this.bird.getBounds().bottom >= 600 || this.bird.y <= 0)
-      this.gameOver()
+    if (this.bird.getBounds().bottom >= 600 || this.bird.y <= 0) this.gameOver()
 
-    if(this.space.isDown)
-      this.flap()
-
-    else if (this.esc.isDown)
-      this.pauseGame()
+    if (this.space.isDown) this.flap()
+    else if (this.esc.isDown) this.pauseGame()
 
     this.recyclePipes()
   }
@@ -91,17 +88,23 @@ export default class Create extends BaseScene {
   }
 
   saveBestScore() {
-    const bestScoreText = localStorage.getItem('bestScore') || ""
+    const bestScoreText = localStorage.getItem('bestScore') || ''
     this.bestScore = parseInt(bestScoreText, 10)
     if (!this.bestScore || this.score > this.bestScore)
-      localStorage.setItem('bestScore', this.score.toString())
+      localStorage.setItem('bestScore', String(this.score))
   }
 
   placePipe(uPipe: any, lPipe: any) {
     this.rightMostX = this.getRightMostPipes()
-    let pipeVerticalDistance = Phaser.Math.Between(this.pipeVerticalDistanceRange[0], this.pipeVerticalDistanceRange[1])
-    let pipeVerticalPosition = Phaser.Math.Between(0 + 20, 600 - 20 - pipeVerticalDistance) 
-    let pipeHorizontalDistance = Phaser.Math.Between(this.pipeHorizontalDistanceRange[0], this.pipeHorizontalDistanceRange[1])
+    let pipeVerticalDistance = Phaser.Math.Between(
+      this.pipeVerticalDistanceRange[0],
+      this.pipeVerticalDistanceRange[1]
+    )
+    let pipeVerticalPosition = Phaser.Math.Between(0 + 20, 600 - 20 - pipeVerticalDistance)
+    let pipeHorizontalDistance = Phaser.Math.Between(
+      this.pipeHorizontalDistanceRange[0],
+      this.pipeHorizontalDistanceRange[1]
+    )
 
     uPipe.x = this.rightMostX + pipeHorizontalDistance
     uPipe.y = pipeVerticalPosition
@@ -115,8 +118,8 @@ export default class Create extends BaseScene {
     this.pipes.getChildren().forEach((pipe: any) => {
       if (pipe.getBounds().right <= 0) {
         tempPipes.push(pipe)
-        if(tempPipes.length === 2) {
-          this.placePipe(tempPipes[0], tempPipes [1])
+        if (tempPipes.length === 2) {
+          this.placePipe(tempPipes[0], tempPipes[1])
           this.increaseScore()
           this.saveBestScore()
         }
@@ -127,7 +130,7 @@ export default class Create extends BaseScene {
   getRightMostPipes() {
     let rightMostX = 0
 
-    this.pipes.getChildren().forEach(function(pipe: any) {
+    this.pipes.getChildren().forEach(function (pipe: any) {
       rightMostX = Math.max(pipe.x, rightMostX)
     })
 
@@ -141,33 +144,42 @@ export default class Create extends BaseScene {
   }
 
   listenToEvents() {
-    if(this.pauseEvent) {return}
+    if (this.pauseEvent) {
+      return
+    }
 
     this.pauseEvent = this.events.on('resume', () => {
-      this.initialTime = 3;
-      this.countDownText = this.add.text(this.screenCenter[0],this.screenCenter[1], 'Fly in: ' + this.initialTime, this.fontOptions).setOrigin(0.5);
+      this.initialTime = 3
+      this.countDownText = this.add
+        .text(
+          this.screenCenter[0],
+          this.screenCenter[1],
+          'Fly in: ' + this.initialTime,
+          this.fontOptions
+        )
+        .setOrigin(0.5)
       this.timedEvent = this.time.addEvent({
         delay: 1000,
         callback: () => this.countDown(),
         callbackScope: this,
-        loop: true
+        loop: true,
       })
     })
   }
 
   countDown() {
-    this.initialTime--;
-    this.countDownText.setText('Fly in: ' + this.initialTime);
+    this.initialTime--
+    this.countDownText.setText('Fly in: ' + this.initialTime)
     if (this.initialTime <= 0) {
-      this.countDownText.setText('');
-      this.physics.resume();
-      this.timedEvent.remove();
+      this.countDownText.setText('')
+      this.physics.resume()
+      this.timedEvent.remove()
     }
   }
 
   gameOver() {
     this.physics.pause()
-    this.bird.setTint(0xEE4824)
+    this.bird.setTint(0xee4824)
     this.saveBestScore()
 
     this.time.addEvent({
@@ -175,7 +187,7 @@ export default class Create extends BaseScene {
       callback: () => {
         this.scene.restart()
       },
-      loop: false
+      loop: false,
     })
   }
 

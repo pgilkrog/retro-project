@@ -96,9 +96,9 @@ export default class Game extends Scene {
     )
     this.physics.add.collider(this.aliens, this.barriers, this.collideAlienBarrier)
 
-    this.keyA = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A)
-    this.keyD = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D)
-    this.keySpace = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+    this.keyA = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.A)
+    this.keyD = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.D)
+    this.keySpace = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
 
     this.highScoreText = this.add
       .text(10, 10, `SCORE: ${this.highScore}`, { fontSize: '42px', color: '#000000' })
@@ -143,7 +143,7 @@ export default class Game extends Scene {
     const bullet = this.bullets?.get(this.player?.x! - 20, this.player?.y! - 40)
     const bullet2 = this.bullets2?.get(this.player?.x! + 20, this.player?.y! - 40)
 
-    if (bullet) {
+    if (bullet != undefined) {
       bullet
         .setActive(true)
         .setVisible(true)
@@ -151,7 +151,7 @@ export default class Game extends Scene {
         .setVelocityX(0)
         .setTexture('bullet')
         .setSize(8, 20)
-      if (bullet2)
+      if (bullet2 != undefined)
         bullet2
           .setActive(true)
           .setVisible(true)
