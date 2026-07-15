@@ -23,7 +23,7 @@ export const useErrorStore = defineStore('errorStore', () => {
 
   const setError = (text: string) => {
     error.value = {
-      icon: 'bi bi-bug-fill',
+      icon: 'fa fa-bug',
       text: text,
       show: true,
       timeStamp: new Date(),
@@ -47,9 +47,12 @@ export const useErrorStore = defineStore('errorStore', () => {
   }
 
   return {
+    // States
     error,
     errorList,
     errors,
+
+    // Actions
     getErrors,
     setErrorList,
     setError,

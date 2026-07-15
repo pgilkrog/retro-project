@@ -4,7 +4,7 @@ import { userStore } from './userStore'
 import type { IChatMessage, IChatRoom } from '@/models'
 import { get } from '@/helpers/httpHelper'
 
-export const chatStore = defineStore('chat', () => {
+export const useChatStore = defineStore('chatStore', () => {
   const userstore = userStore()
   const socket = io(import.meta.env.VITE_BASE_URL.replace('/api', ''))
 
@@ -46,7 +46,8 @@ export const chatStore = defineStore('chat', () => {
   }
 
   const joinRoom = (users: string[]) => {
-    const sortedUsers = users.sort((a: string, b: string) => a.localeCompare(b))
+    const sortedUsers = users.sort((user1: string, user2: string) => user1.localeCompare(user2))
+
     socket.emit('joinRoom', sortedUsers)
 
     const room: IChatRoom = {
@@ -71,8 +72,11 @@ export const chatStore = defineStore('chat', () => {
   }
 
   return {
+    // States
     onlineUsers,
     activeRooms,
+
+    // Actions
     init,
     joinRoom,
     sendMessage,

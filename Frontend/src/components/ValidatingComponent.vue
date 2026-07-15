@@ -13,12 +13,12 @@
           class="me-2"
           text="Ok"
           size="wide"
-          @clicked="emit('ok')"
+          @clicked="() => emit('ok')"
         />
         <ButtonComponent
           text="Cancel"
           size="wide"
-          @clicked="emit('cancel')"
+          @clicked="() => emit('cancel')"
         />
       </div>
     </div>

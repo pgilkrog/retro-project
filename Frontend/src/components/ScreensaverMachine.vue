@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import TitleMove from '@/views/screensavers/TitleMove.vue'
 // import TitleRotate from '@/views/screensavers/TitleRotate.vue'
+// import StarField from './programs/paw-point/slides/StarField.vue'
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 const currentScreensaver = shallowRef<any>(TitleMove)

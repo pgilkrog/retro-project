@@ -2,11 +2,12 @@
   <div
     ref="gameContainer"
     class="game-container"
-  ></div>
+  />
 </template>
 
 <script setup lang="ts">
 import Phaser from 'phaser'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 
 import Loader from './scenes/loader'
 import Game from './scenes/Game'
@@ -20,40 +21,56 @@ export interface IConfig {
   zoomFactor: number
 }
 
-const gameContainer = ref<HTMLDivElement>()
-const MAP_WIDTH = 32 * 100
-const WIDTH = document.body.offsetWidth
-const HEIGHT = 32 * 100
-const SHARED_CONFIG = {
-  mapOffset: MAP_WIDTH > WIDTH ? MAP_WIDTH - WIDTH : 0,
-  width: MAP_WIDTH,
-  height: HEIGHT,
+const gameContainer = ref<HTMLDivElement | null>(null)
+let game: Phaser.Game | null = null
+
+const BASE_WIDTH = window.innerWidth
+const BASE_HEIGHT = window.innerHeight
+
+const SHARED_CONFIG: IConfig = {
+  mapOffset: 0,
+  width: BASE_WIDTH,
+  height: BASE_HEIGHT,
   zoomFactor: 1,
-} as IConfig
+}
 
 const Scenes = [Loader, Game, UI, DialogScene]
 const createScene = (Scene: any) => new Scene(SHARED_CONFIG)
 const initScenes = () => Scenes.map(createScene)
 
-onMounted(() => {
-  new Phaser.Game({
+const createGame = () => {
+  const container = gameContainer.value
+
+  if (!container) {
+    return
+  }
+
+  game = new Phaser.Game({
     type: Phaser.AUTO,
     ...SHARED_CONFIG,
     pixelArt: true,
-    parent: gameContainer.value,
+    parent: container,
     physics: {
       default: 'matter',
       matter: { debug: false },
     },
     scale: {
-      parent: gameContainer.value,
+      parent: container,
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH,
-      width: '100%',
-      height: '100%',
+      width: BASE_WIDTH,
+      height: BASE_HEIGHT,
       fullscreenTarget: 'body',
     },
     scene: initScenes(),
   })
+}
+
+onMounted(() => {
+  createGame()
+})
+
+onBeforeUnmount(() => {
+  game?.destroy(true)
 })
 </script>

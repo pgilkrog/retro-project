@@ -13,7 +13,7 @@
     :aria-label="alt"
   >
     <iconComponent
-      :name="imageIsLoading === true ? 'fa-spinner' : 'bi-image'"
+      :name="imageIsLoading === true ? 'fa-spinner' : 'fa-image'"
       :class="imageIsLoading === true ? 'animate-spin' : ''"
       color="dark"
       size="34"

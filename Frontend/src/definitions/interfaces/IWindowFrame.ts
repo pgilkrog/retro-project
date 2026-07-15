@@ -1,9 +1,9 @@
 import type { IProgram } from '@/models'
 
 export interface IWindowFrame {
+  program: IProgram
   showMenu?: boolean
   disableButtons?: boolean
-  program: IProgram
   variant?: string
   isNotProgram?: boolean
   isMoveable?: boolean

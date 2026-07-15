@@ -5,8 +5,8 @@
     :variant="program.color"
     :show-menu="false"
   >
-    <div class="chattiechat">
-      <div class="top flex justify-between bg-shadow p-2 mb-1">
+    <div class="chattiechat bg-white w-full h-full">
+      <div class="top flex justify-between bg-gray-200 bg-shadow p-2 mb-1">
         <IconComponent
           name="fa-user-plus"
           color="success"
@@ -27,69 +27,59 @@
         />
       </div>
 
-      <div class="friends-list flex flex-col bg-gray-300 bg-shadow-inner">
-        <span
-          v-for="user in userstore.allUsers"
-          :key="user._id"
-        >
-          <div
-            v-if="user.email !== userstore.userData?.email"
-            class="item p-2 m-1 flex items-center"
-            @click="activateRoom(user.email)"
-          >
-            <IconComponent
-              name="fa-user"
-              size="20"
-              :color="chatstore.onlineUsers.includes(user.email) ? 'green' : 'red'"
-            />
-            <div
-              v-if="chatstore.onlineUsers.includes(user.email)"
-              class="ms-4 text-green-500"
-            >
-              {{ user.email }}
-            </div>
-            <div
-              v-else
-              class="ms-4 text-red-500"
-            >
-              {{ user.email }}
-            </div>
-          </div>
-        </span>
+      <div class="mt-8 px-4">
+        <FriendsList
+          titel="Online users"
+          :user-list="onlineUsers"
+          :is-online="true"
+        />
+        <FriendsList
+          titel="Offline users"
+          :user-list="offlineUsers"
+          :is-online="false"
+        />
       </div>
     </div>
   </WindowFrame>
   <ChatWindow
-    v-for="(chat, index) in chatstore.activeRooms"
+    v-for="(chat, index) in chatStore.activeRooms"
     :key="index"
     :active-chat="chat"
   />
 </template>
 
 <script setup lang="ts">
-import type { IProgram } from '../../../models/index'
+import type { IProgram, IUser } from '../../../models/index'
 import { userStore } from '@/stores/userStore'
-import { chatStore } from '@/stores/chatStore'
+import { useChatStore } from '@/stores/chatStore'
+import FriendsList from './FriendsList.vue'
 
 const { program } = defineProps<{
   program: IProgram
 }>()
 
-const chatstore = chatStore()
+const chatStore = useChatStore()
 const userstore = userStore()
 
+const onlineUsers = computed(() => getUserList(true))
+const offlineUsers = computed(() => getUserList(false))
+
 onMounted(async () => {
-  await chatstore.init()
+  await chatStore.init()
   await userstore.getAllUsers()
 })
 
 onUnmounted(() => {
-  chatstore.chatDisconnect()
+  chatStore.chatDisconnect()
 })
 
-const activateRoom = (user: string) => {
-  if (userstore.userData != undefined) {
-    chatstore.joinRoom([user, userstore.userData.email])
-  }
+const getUserList = (bool: boolean) => {
+  return (
+    userstore.allUsers?.filter(
+      (user: IUser) =>
+        chatStore.onlineUsers.includes(user.email) === bool &&
+        user.email !== userstore.userData?.email
+    ) ?? []
+  )
 }
 </script>

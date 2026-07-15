@@ -43,11 +43,12 @@
     <p>postcode {{ info.postcode }}</p>
     <p>phone {{ info.phoneNumber }}</p>
     <p>is Homeaddress {{ info.homeAddress }}</p>
+    <pre>{{ info }}</pre>
   </div>
   <ButtonComponent
     text="Print"
-    @clicked="printInfo()"
     size="full"
+    @clicked="() => printInfo()"
   />
 </template>
 

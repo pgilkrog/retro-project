@@ -1,6 +1,6 @@
 <template>
   <WindowFrame
-    :program
+    :program="program"
     :is-moveable="true"
     :variant="program.color"
     :show-menu="false"
@@ -12,14 +12,14 @@
       >
         <span
           v-if="item.sender !== userstore.userData?.email"
-          style="text-align: right"
+          class="text-right"
         >
           <p class="text-blue-500">{{ item.sender }}</p>
           <p v-html="item.text" />
         </span>
         <span
-          class="text-left"
           v-else
+          class="text-left"
         >
           <p class="text-green-500">{{ item.sender }}</p>
           <p v-html="item.text" />
@@ -29,35 +29,36 @@
     <div class="flex bg-shadow p-2">
       <InputComponent
         v-model="messageText"
-        @keydown.enter="sendMessage()"
+        @keydown.enter="() => sendMessage()"
       />
       <ButtonComponent
         text="Send"
-        @clicked="sendMessage()"
+        @clicked="() => sendMessage()"
       />
     </div>
   </WindowFrame>
 </template>
 
 <script setup lang="ts">
-import { userStore, chatStore } from '@/stores'
+import { userStore, useChatStore } from '@/stores'
 import type { IChatMessage, IChatRoom } from '@/models'
 
 const { activeChat } = defineProps<{
   activeChat: IChatRoom
 }>()
 
+const userstore = userStore()
+const chatStore = useChatStore()
+
+const messageText = ref<string>('')
+
 const program = {
   name: 'ChatWindow',
   displayName: 'Chat window',
   color: 'success',
-  image: 'bi-wechat',
+  image: 'fa-comment',
   isActive: true,
 }
-
-const userstore = userStore()
-const chatstore = chatStore()
-const messageText = ref<string>('')
 
 const sendMessage = () => {
   const idOfMessage = activeChat.messages.length
@@ -69,7 +70,7 @@ const sendMessage = () => {
     room: activeChat.participants.join('-'),
   }
 
-  chatstore.sendMessage(message, activeChat)
+  chatStore.sendMessage(message, activeChat)
   messageText.value = ''
 }
 </script>

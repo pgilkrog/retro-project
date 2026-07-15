@@ -29,8 +29,8 @@
           />
         </div>
         <div
-          class="mt-2"
           v-if="state === 2 || state === 1"
+          class="mt-2"
         >
           <div class="col-span-12">
             <input-component
@@ -42,8 +42,8 @@
           </div>
         </div>
         <div
-          class="mt-2"
           v-if="state === 2"
+          class="mt-2"
         >
           <div class="col-span-12 flex items-center">
             <div class="login-text">Password:</div>
@@ -58,8 +58,8 @@
       </form>
       <div class="buttons mt-4 flex justify-end w-full col-span-12">
         <ButtonComponent
-          @clicked="() => devLogin()"
           text="Guest login"
+          @clicked="() => devLogin()"
         />
         <ButtonComponent
           text="OK"

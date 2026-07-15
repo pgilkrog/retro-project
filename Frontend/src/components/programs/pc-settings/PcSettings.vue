@@ -44,7 +44,6 @@
     </div>
   </WindowFrame>
 </template>
-
 <script setup lang="ts">
 import type { IFile, IProgram } from '../../../models/index'
 import { userStore } from '../../../stores/userStore'
@@ -90,13 +89,16 @@ const saveUserInfo = async () => {
 }
 
 const setImage = (file: IFile | undefined) => {
-  const url = file === undefined ? '' : file.name
-  const tempUserData = userData.value
+  const url = file == undefined ? '' : file.name
 
-  if (tempUserData != undefined) {
-    tempUserData.settings.backgroundImage = url
-    tempUserData.settings.useBackground = file == undefined ? false : true
-    userstore.setUserData(tempUserData)
+  if (userData.value == undefined) {
+    return
   }
+
+  const tempUserData = { ...userData.value }
+
+  tempUserData.settings.backgroundImage = url
+  tempUserData.settings.useBackground = file == undefined ? false : true
+  userstore.setUserData(tempUserData)
 }
 </script>

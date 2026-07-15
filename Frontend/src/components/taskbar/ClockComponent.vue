@@ -7,9 +7,18 @@
 <script setup lang="ts">
 const time = ref<string>('')
 
+onMounted(() => {
+  updateTime()
+
+  setInterval(() => {
+    updateTime()
+  }, 3000)
+})
+
 const updateTime = () => {
-  const cd = new Date()
-  time.value = zeroPadding(cd.getHours(), 2) + ':' + zeroPadding(cd.getMinutes(), 2)
+  const currentDate = new Date()
+  time.value =
+    zeroPadding(currentDate.getHours(), 2) + ':' + zeroPadding(currentDate.getMinutes(), 2)
 }
 
 const zeroPadding = (num: number, digit: number): string => {
@@ -21,12 +30,4 @@ const zeroPadding = (num: number, digit: number): string => {
 
   return (zero + String(num)).slice(-digit)
 }
-
-onMounted(() => {
-  updateTime()
-
-  setInterval(() => {
-    updateTime()
-  }, 3000)
-})
 </script>

@@ -8,17 +8,17 @@
     @close-window="closeWindow()"
   >
     <div
-      class="my-4 flex justify-around"
       v-if="isLoading === false"
+      class="my-4 flex justify-around"
     >
       <div
-        class="flex flex-col items-center cursor-pointer"
         v-for="(item, index) in files"
         :key="index"
+        class="flex flex-col items-center cursor-pointer"
         @click="itemClicked(item)"
       >
         <IconComponent
-          name="bi-file-earmark"
+          name="fa-file"
           size="28"
         />
         <p>{{ item.name }}</p>
@@ -57,7 +57,7 @@ const program = {
   _id: 245,
   name: 'FileExplorer',
   displayName: 'File explorer',
-  image: 'bi-joystick',
+  image: 'fa-gamepad',
   isActive: true,
   color: 'warning',
 }

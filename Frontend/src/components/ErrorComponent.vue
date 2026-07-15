@@ -7,7 +7,7 @@
     <div class="error-component m-4 flex flex-col items-center space-y-4">
       <div class="flex space-x-4 items-center">
         <IconComponent
-          name="bi-exclamation-octagon-fill"
+          name="fa-circle-exclamation"
           color="red"
           size="40"
         />

@@ -62,12 +62,12 @@ const ismounted = ref<boolean>(false)
 const teleportTarget = ref<string>('#firstbox')
 
 // const array = [
-//   { displayName: '3½ Floppy (A:)', image: 'bi-joystick' },
-//   { displayName: '(C:)', image: 'bi-joystick' },
-//   { displayName: 'New (D:)', image: 'bi-joystick' },
-//   { displayName: 'Control Panel', image: 'bi-joystick' },
-//   { displayName: 'Printers', image: 'bi-joystick' },
-//   { displayName: 'Dial-Up Networking', image: 'bi-joystick' },
+//   { displayName: '3½ Floppy (A:)', image: 'fa-gamepad' },
+//   { displayName: '(C:)', image: 'fa-gamepad' },
+//   { displayName: 'New (D:)', image: 'fa-gamepad' },
+//   { displayName: 'Control Panel', image: 'fa-gamepad' },
+//   { displayName: 'Printers', image: 'fa-gamepad' },
+//   { displayName: 'Dial-Up Networking', image: 'fa-gamepad' },
 // ]
 
 const seconds = ref(0)

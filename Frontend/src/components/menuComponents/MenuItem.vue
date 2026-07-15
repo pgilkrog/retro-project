@@ -32,7 +32,7 @@ import MenuList from './MenuList.vue'
 import type { IMenuItem } from '@/models'
 
 const {
-  img = 'bi-folder',
+  img = 'fa-folder',
   title,
   color = 'black',
   list = [],

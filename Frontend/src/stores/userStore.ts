@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { chatStore } from './chatStore'
+import { useChatStore } from './chatStore'
 import type { IUser, IUserResponse, IUserSettings } from '@/models'
 import setAuthToken from '@/helpers/setAuthToken'
 import { get, put } from '@/helpers/httpHelper'
@@ -8,7 +8,7 @@ const url = '/user'
 type UserWithOnlineStatus = IUser & { online: boolean } // Add online status type
 
 export const userStore = defineStore('user', () => {
-  const chatstore = chatStore()
+  const chatStore = useChatStore()
 
   const allUsers = ref<IUser[]>()
   const userData = ref<IUser | undefined>(undefined)
@@ -24,7 +24,7 @@ export const userStore = defineStore('user', () => {
     if (response.status == true) {
       const users = response.users.map((user: IUser): UserWithOnlineStatus => ({
         ...user,
-        online: chatstore.onlineUsers.includes(user.email),
+        online: chatStore.onlineUsers.includes(user.email),
       }))
 
       setAllUsers(users)

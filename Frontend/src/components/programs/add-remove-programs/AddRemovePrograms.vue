@@ -10,10 +10,10 @@
       <div class="flex flex-col pe-3 gap-y-2">
         <ButtonComponent
           v-for="(button, key) in menuButtons"
-          :key
+          :key="key"
           v-bind="button"
           :active="state === button.active"
-          @clicked="button.clicked"
+          @clicked="() => button.clicked()"
         />
       </div>
       <div class="program-list bg-gray-300 p-4 bg-shadow-inner">
@@ -39,19 +39,19 @@
           v-if="state === 'addPrograms'"
           text="Install"
           :disabled="selectedProgram === undefined"
-          @clicked="addOrRemoveProgram(false)"
+          @clicked="() => addOrRemoveProgram(false)"
         />
         <ButtonComponent
-          v-else
+          v-else-if="state === 'removePrograms'"
           text="Remove"
           :disabled="selectedProgram === undefined"
-          @clicked="addOrRemoveProgram(true)"
+          @clicked="() => addOrRemoveProgram(true)"
         />
       </div>
     </div>
     <LoadingComponent
       v-if="isInstalling === true"
-      @close-loading="closeLoading()"
+      @close-loading="() => closeLoading()"
     />
   </WindowFrame>
 </template>
@@ -97,14 +97,14 @@ const menuButtons = [
 
 const addOrRemoveProgram = async (isRemoving: boolean) => {
   isInstalling.value = true
-  
+
   if (selectedProgram.value != undefined) {
     if (isRemoving === true) {
       await programsstore.deleteInstalledProgram(selectedProgram.value._id)
     } else {
       await programsstore.createInstalledProgram(selectedProgram.value._id)
     }
-  }  
+  }
 }
 
 const changeState = (newState: string) => {

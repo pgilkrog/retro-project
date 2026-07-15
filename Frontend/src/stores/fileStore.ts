@@ -5,6 +5,18 @@ import { post, get } from '@/helpers/httpHelper'
 
 const url = '/files'
 
+interface IData {
+  data: {
+    file: {
+      filename: string
+      originalname: string
+      size: number
+      fieldname: string
+      path: string
+    }
+  }
+}
+
 export const fileStore = defineStore('filestore', () => {
   const userstore = userStore()
 
@@ -15,18 +27,15 @@ export const fileStore = defineStore('filestore', () => {
   const uploadFile = async (formData: FormData) => {
     isUploading.value = true
 
-    const response = await post<{
-      data: {
-        file: {
-          filename: string
-          originalname: string
-          size: number
-          fieldname: string
-          path: string
-        }
-      }
-    }>(url + '/upload', formData)
+    const response = await post<IData>(url + '/upload', formData)
 
+    await postFileInfo(response)
+
+    isUploading.value = false
+    return true
+  }
+
+  const postFileInfo = async (response: IData) => {
     const { filename, originalname, size, fieldname, path } = response.data.file
     const fileToStore: IFile = {
       _id: '',
@@ -41,9 +50,6 @@ export const fileStore = defineStore('filestore', () => {
 
     await post(url, fileToStore)
     await getAllFiles()
-
-    isUploading.value = false
-    return true
   }
 
   const getAllFiles = async () => {
@@ -59,11 +65,14 @@ export const fileStore = defineStore('filestore', () => {
   }
 
   return {
+    // States
     allFiles,
     isUploading,
     userFiles,
-    uploadFile,
+
+    // Actions
     getAllFiles,
     getFilesByUserId,
+    uploadFile,
   }
 })

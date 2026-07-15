@@ -6,7 +6,6 @@ import App from './App.vue'
 import router from './router'
 
 import './main.sass'
-import 'bootstrap-icons/font/bootstrap-icons.css'
 
 globalCookiesConfig({
   expireTimes: '30d',

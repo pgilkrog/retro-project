@@ -6,7 +6,7 @@ import type {
   IInstalledProgram,
   IInstalledProgramDB,
   IProgram,
-} from '../models/IProgram'
+} from '../definitions/interfaces/program/'
 
 const url: string = '/program'
 
@@ -58,30 +58,6 @@ export const programsStore = defineStore('programs', () => {
       }
     })
   }
-
-  const updateProgram = async (program: IProgram): Promise<void> => {
-    const updatedProgram: IProgram = await put(url + '/' + program._id, { params: program })
-    const index = allPrograms.value.findIndex((p) => p._id === updatedProgram._id)
-
-    if (index !== -1) {
-      allPrograms.value[index] = updatedProgram
-    }
-  }
-
-  const deleteProgram = async (program: IProgram): Promise<void> => {
-    await del(url + '/' + program._id)
-    const index = allPrograms.value.findIndex((p) => p._id === program._id)
-
-    if (index !== -1) {
-      allPrograms.value.splice(index, 1)
-    }
-  }
-
-  const createProgram = async (program: IProgram): Promise<void> => {
-    const newProgram: IProgram = await post(url, program)
-    allPrograms.value.push(newProgram)
-  }
-
   //** Installed Program */
   const setInstalledPrograms = async () => {
     if (userstore.userData == undefined) {
@@ -186,12 +162,38 @@ export const programsStore = defineStore('programs', () => {
     await updateInstalledProgram(installedProgramToUpdate)
   }
 
+  const updateProgram = async (program: IProgram): Promise<void> => {
+    const updatedProgram: IProgram = await put(url + '/' + program._id, { params: program })
+    const index = allPrograms.value.findIndex((p) => p._id === updatedProgram._id)
+
+    if (index !== -1) {
+      allPrograms.value[index] = updatedProgram
+    }
+  }
+
+  const deleteProgram = async (program: IProgram): Promise<void> => {
+    await del(url + '/' + program._id)
+    const index = allPrograms.value.findIndex((p) => p._id === program._id)
+
+    if (index !== -1) {
+      allPrograms.value.splice(index, 1)
+    }
+  }
+
+  const createProgram = async (program: IProgram): Promise<void> => {
+    const newProgram: IProgram = await post(url, program)
+    allPrograms.value.push(newProgram)
+  }
+
   return {
+    // States
     activePrograms,
     allPrograms,
     installedPrograms,
     notInstalledPrograms,
     positionedList,
+
+    // Actions
     programStoreInit,
     getProgramsFromDB,
     addProgramToActive,

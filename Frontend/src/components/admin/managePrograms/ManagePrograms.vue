@@ -7,14 +7,14 @@
       <div class="wrapper flex flex-col m-2">
         <ButtonComponent
           class="mb-4"
-          @clicked="setEmptyProgram()"
           text="Add new program"
           size="full"
+          @clicked="() => setEmptyProgram()"
         />
         <div
-          class="hover hover:bg-gray-200 flex bg-shadow p-1 justify-between cursor-pointer mt-1"
           v-for="aProgram in allPrograms"
           :key="aProgram._id"
+          class="hover hover:bg-gray-200 flex bg-shadow p-1 justify-between cursor-pointer mt-1"
         >
           <div class="flex items-center">
             <IconComponent
@@ -22,87 +22,34 @@
               name="fa-pencil"
               color="yellow"
               size="25"
-              @click.prevent="setUpdateState(true, aProgram)"
+              @click.prevent="() => setUpdateState(true, aProgram)"
             />
             <p class="mx-2">
               {{ `${aProgram.sortOrder}: ${aProgram.name}` }}
             </p>
           </div>
           <IconComponent
-            name="bi-trash-fill"
+            name="fa-trash"
             color="red"
             size="25"
-            @click="deleteProgram(aProgram)"
+            @click="() => deleteProgram(aProgram)"
           />
         </div>
       </div>
     </WindowFrame>
 
-    <WindowFrame
-      v-if="showManageProgram"
-      :program="manageProgramProgram"
-      :is-moveable="true"
-    >
-      <div
-        v-if="programInfo !== undefined"
-        class="add-program flex flex-col p-4"
-      >
-        <InputComponent
-          v-model="programInfo.name"
-          label="Name"
-          placeholder="name"
-        />
-        <InputComponent
-          v-model="programInfo.displayName"
-          label="Display name"
-          placeholder="displayName"
-        />
-        <InputComponent
-          v-model="programInfo.image"
-          label="Image"
-          placeholder="image"
-        />
-        <InputComponent
-          v-model="programInfo.color"
-          label="Color"
-          placeholder="color"
-        />
-        <InputComponent
-          v-model="programInfo.sortOrder"
-          label="Sort Order"
-          type="number"
-        />
-        <InputComponent
-          v-model="programInfo.type"
-          label="Type"
-          placeholder="type"
-        />
-        <div class="flex mt-3 justify-center">
-          <ButtonComponent
-            @clicked="changeShowManageProgram(false)"
-            text="Cancel"
-          />
-          <template v-if="updateState === true">
-            <ButtonComponent
-              @clicked="updateProgram()"
-              text="Update"
-            />
-          </template>
-          <template v-else>
-            <ButtonComponent
-              @clicked="addProgram()"
-              text="Add Program"
-            />
-          </template>
-        </div>
-      </div>
-    </WindowFrame>
+    <edit-create-program
+      v-if="showManageProgram === true && programInfo != undefined"
+      :update-state="updateState"
+      :program-to-manage="programInfo"
+      @change-show-manage-program="(bool: boolean) => changeShowManageProgram(bool)"
+    />
 
-    <Validating
+    <ValidatingComponent
       v-if="showValidation === true"
       :text="'Delete program: ' + programInfo?.displayName"
-      @ok="ok()"
-      @cancel="cancel()"
+      @ok="() => ok()"
+      @cancel="() => cancel()"
     />
   </div>
 </template>
@@ -111,69 +58,37 @@
 import { programsStore } from '@/stores'
 import type { IProgram } from '@/models'
 import { storeToRefs } from 'pinia'
+import EditCreateProgram from './EditCreateProgram.vue'
 
 const { program } = defineProps<{
   program: IProgram
 }>()
 
 const programsstore = programsStore()
+
 const { allPrograms } = storeToRefs(programsstore)
 
-const showManageProgram = ref(false)
-const updateState = ref(false)
-
 const programInfo = ref<IProgram | undefined>()
-
-const showValidation = ref(false)
-
-const manageProgramProgram = {
-  name: 'ManageProgram',
-  displayName: 'Manage Program',
-  color: 'warning',
-  image: 'fa-pencil',
-  isActive: true,
-}
-
-onMounted(() => {
-  console.log('ManagePrograms mounted')
-})
-
-const addProgram = async () => {
-  if (
-    programInfo.value !== undefined &&
-    programInfo.value.name !== '' &&
-    programInfo.value.image !== '' &&
-    programInfo.value.displayName !== ''
-  ) {
-    await programsstore.createProgram(programInfo.value)
-    resetInputs()
-  }
-}
+const showManageProgram = ref<boolean>(false)
+const updateState = ref<boolean>(false)
+const showValidation = ref<boolean>(false)
 
 const deleteProgram = (program: IProgram) => {
   programInfo.value = program
   showValidation.value = true
 }
 
-const updateProgram = async () => {
-  if (programInfo.value !== undefined) {
-    await programsstore.updateProgram(programInfo.value)
-  }
-}
-
-const resetInputs = () => {
-  programInfo.value = undefined
-  programInfo.value = undefined
-}
-
 const ok = async () => {
-  if (programInfo.value === undefined) return
-  else await programsstore.deleteProgram(programInfo.value)
+  if (programInfo.value === undefined) {
+    return
+  }
+
+  await programsstore.deleteProgram(programInfo.value)
 }
 
 const cancel = () => {
   showValidation.value = false
-  resetInputs()
+  programInfo.value = undefined
 }
 
 const setUpdateState = (state: boolean, program: IProgram | undefined) => {
@@ -182,9 +97,8 @@ const setUpdateState = (state: boolean, program: IProgram | undefined) => {
 
   if (state === true) {
     programInfo.value = program
-    programInfo.value = program
   } else {
-    resetInputs()
+    programInfo.value = undefined
   }
 }
 

@@ -9,7 +9,7 @@
       <div class="p-4">
         <div class="folder-animation flex justify-between">
           <IconComponent
-            name="bi-folder-fill"
+            name="fa-folder"
             color="yellow"
             size="32"
             class="z-20"
@@ -19,13 +19,13 @@
             :class="{ 'move-anim': loadingCompleted === true }"
           >
             <IconComponent
-              name="bi-file-earmark-fill"
+              name="fa-file"
               class="text-white z-10"
               size="32"
             />
           </div>
           <IconComponent
-            name="bi-folder-fill"
+            name="fa-folder"
             color="yellow"
             size="32"
             class="z-20"
@@ -80,7 +80,7 @@ const program: IProgram = {
   displayName: 'Loading',
   color: 'blue',
   isActive: true,
-  image: 'bi-archive',
+  image: 'fa-file',
   left: 40,
   top: 40,
   sortOrder: 0,
@@ -115,7 +115,7 @@ const addToArray = () => {
 
 const startInstallation = () => {
   const fileTypes = ['exe', 'dll', 'cfg', 'log', 'mui', 'txt']
-  const installationTime = 8000 
+  const installationTime = 8000
 
   const intervalId = setInterval(() => {
     if (progress.value >= 200) {
@@ -151,17 +151,17 @@ const generateRandomString = (): string => {
 }
 </script>
 
-<style scoped >
+<style scoped>
 .move-anim {
-  animation: move 2s ease-in-out infinite
+  animation: move 2s ease-in-out infinite;
 }
 
 @keyframes move {
   from {
-    left: 20px
+    left: 20px;
   }
   to {
-    left: calc(100% - 50px)
+    left: calc(100% - 50px);
   }
 }
 </style>
