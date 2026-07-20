@@ -76,6 +76,16 @@ interface GameComponent {
 }
 
 const gameComponents: Record<string, GameComponent> = {
+  'Ping Pong': {
+    name: 'Ping Pong',
+    description: 'A classic paddle game',
+    component: PingPong as Component,
+  },
+  'Space Invaders': {
+    name: 'Space Invaders',
+    description: 'A classic arcade game',
+    component: SpaceInvaders as Component,
+  },
   Platformer: {
     name: 'Platformer',
     description: 'A classic platformer game',
@@ -90,16 +100,6 @@ const gameComponents: Record<string, GameComponent> = {
     name: 'Test Stuff',
     description: 'A simple test game',
     component: TestStuff as Component,
-  },
-  'Space Invaders': {
-    name: 'Space Invaders',
-    description: 'A classic arcade game',
-    component: SpaceInvaders as Component,
-  },
-  'Ping Pong': {
-    name: 'Ping Pong',
-    description: 'A classic paddle game',
-    component: PingPong as Component,
   },
   'Shooter Platformer': {
     name: 'Shooter Platformer',

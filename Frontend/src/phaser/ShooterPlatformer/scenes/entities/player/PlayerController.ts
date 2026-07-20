@@ -3,7 +3,7 @@ import Entity from '../Entity'
 import BulletController from '../../objects/BulletController'
 import { CUSTOM_EVENTS, sharedInstance as events } from '../../EventCenter'
 import { playerStates, playerAnims } from '../../../interfaces/enums/playerEnums'
-import { createKeyInputs, getKeyInputs } from '../../../helpers/keyInputs'
+import { getKeyInputs } from '../../../helpers/keyInputs'
 import { collisionCategories } from '../../../helpers/collisionCategories'
 
 export default class PlayerController extends Entity {

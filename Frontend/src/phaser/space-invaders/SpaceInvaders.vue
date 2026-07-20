@@ -17,19 +17,27 @@ export interface IConfig {
   zoomFactor: number
 }
 
-const gameContainer = ref<HTMLDivElement>()
-const MAP_WIDTH = 32 * 100
-const WIDTH = document.body.offsetWidth
-const HEIGHT = 32 * 100
+const gameContainer = ref<HTMLDivElement | null>(null)
+let game: Phaser.Game | null = null
+
+const BASE_WIDTH = window.innerWidth
+const BASE_HEIGHT = window.innerHeight
+
 const SHARED_CONFIG = {
-  mapOffset: MAP_WIDTH > WIDTH ? MAP_WIDTH - WIDTH : 0,
-  width: WIDTH,
-  height: HEIGHT,
+  mapOffset: 0,
+  width: BASE_WIDTH,
+  height: BASE_HEIGHT,
   zoomFactor: 1,
 } as IConfig
 
-onMounted(() => {
-  new Phaser.Game({
+const createGame = () => {
+  const container = gameContainer.value
+
+  if (!container) {
+    return
+  }
+
+  game = new Phaser.Game({
     type: Phaser.AUTO,
     ...SHARED_CONFIG,
     pixelArt: true,
@@ -42,11 +50,11 @@ onMounted(() => {
       },
     },
     scale: {
-      parent: gameContainer.value,
+      parent: container,
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH,
-      width: '100%',
-      height: '100%',
+      width: BASE_WIDTH,
+      height: BASE_HEIGHT,
       fullscreenTarget: 'body',
     },
     scene: [Loader, GameScene],
@@ -54,5 +62,13 @@ onMounted(() => {
       disableWebAudio: false,
     },
   })
+}
+
+onMounted(() => {
+  createGame()
+})
+
+onBeforeUnmount(() => {
+  game?.destroy(true)
 })
 </script>

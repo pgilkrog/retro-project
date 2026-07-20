@@ -8,10 +8,10 @@
   >
     <div class="pawpoint flex flex-col justify-between grow">
       <div
-        class="active-slide h-full flex bg-blue-500 flex-col m-4 justify-center items-center cursor-pointer text-white"
+        class="active-slide flex bg-blue-500 h-[800px] w-[1200px] flex-col m-4 justify-center items-center cursor-pointer text-white"
       >
         <component
-          v-if="loadingSlide === false && activeSlide != undefined && activeSlide.type != undefined"
+          v-if="checkComponent"
           :is="defineAsyncComponent(() => import(`./slides/${activeSlide?.type}.vue`))"
           :slide="activeSlide"
         />
@@ -26,11 +26,11 @@
           v-for="slide in slides"
           :key="slide.id"
           class="p-4 flex cursor-pointer"
-          @click="setActiveSlide(slide)"
+          @click="() => setActiveSlide(slide)"
         >
           <div
             :class="[
-              'flex bg-blue-500 text-white justify-center items-center',
+              'flex bg-blue-500 text-white justify-center items-center h-[50px] w-[50px]',
               { 'border border-danger': activeSlide?.title === slide.title },
             ]"
           >
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="m-4 flex cursor-pointer">
-          <div class="flex bg-green-500 text-white w-full justify-center items-center">
+          <div class="flex bg-green-500 text-white justify-center items-center h-[50px] w-[50px]">
             <IconComponent
               name="fa-plus"
               color="light"
@@ -57,6 +57,10 @@ import { defineAsyncComponent } from 'vue'
 const { program } = defineProps<{
   program: IProgram
 }>()
+
+const checkComponent = computed(
+  () => loadingSlide.value === false && activeSlide.value != undefined
+)
 
 const loadingSlide = ref<boolean>(false)
 const slides = ref<ISlide[]>([

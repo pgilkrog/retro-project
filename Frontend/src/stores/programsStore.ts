@@ -67,12 +67,12 @@ export const programsStore = defineStore('programs', () => {
     installedPrograms.value = []
     notInstalledPrograms.value = []
 
-    const programs = await get<IInstalledProgramDB[]>(
+    const userInstalledPrograms = await get<IInstalledProgramDB[]>(
       `${url}/installedProgram/${userstore.userData._id}`
     )
 
     allPrograms.value.forEach((program) => {
-      const findProgram = programs.find((pro) => pro.programId === program._id)
+      const findProgram = userInstalledPrograms.find((pro) => pro.programId === program._id)
 
       if (findProgram != undefined) {
         installedPrograms.value.push({

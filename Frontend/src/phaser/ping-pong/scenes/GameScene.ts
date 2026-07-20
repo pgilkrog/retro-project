@@ -15,17 +15,16 @@ export default class Game extends Scene {
   private p1Points: number = 0
   private p2Points: number = 0
 
-  private scoreText1!: Phaser.GameObjects.Text
-  private scoreText2!: Phaser.GameObjects.Text
+  private scoreText1: Phaser.GameObjects.Text | undefined
+  private scoreText2: Phaser.GameObjects.Text | undefined
 
-  private hitSound!: any
-  private pointUp!: any
+  private hitSound: any
+  private pointUp: any
 
   private ballInitialSpeed: number = 400
   private targetVelocity = 1000
   private acceleration = 300
   private speedChange = 10
-  private damping = 0.95
 
   constructor() {
     super({ key: 'GameScene' })
@@ -94,13 +93,13 @@ export default class Game extends Scene {
 
       if (this.ball.x <= 10) {
         this.p2Points++
-        this.scoreText2.setText(`${this.p2Points}`)
+        this.scoreText2?.setText(`${this.p2Points}`)
         this.pointUp.play()
         this.resetBall(false)
       }
       if (this.ball.x >= 790) {
         this.p1Points++
-        this.scoreText1.setText(`${this.p1Points}`)
+        this.scoreText1?.setText(`${this.p1Points}`)
         this.pointUp.play()
         this.resetBall(true)
       }

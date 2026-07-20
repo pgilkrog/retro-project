@@ -8,7 +8,7 @@
       />
       <p>{{ displayName }}</P>
     </span>
-    <p class="just">
+    <p class="pl-8">
       {{ getSize }}
     </p>
   </div>

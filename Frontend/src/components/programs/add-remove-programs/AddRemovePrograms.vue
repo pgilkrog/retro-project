@@ -18,14 +18,14 @@
       </div>
       <div class="program-list bg-gray-300 p-4 bg-shadow-inner">
         <ProgramsList
-          v-if="state === 'removePrograms'"
+          v-if="state === states.REMOVE_PROGRAM"
           title="Installed programs"
           :program-list="installedPrograms"
           :selected-program-id="selectedProgram?._id"
           @change-selected-program="(program: IProgram) => changeSelectedProgram(program)"
         />
         <ProgramsList
-          v-else-if="state === 'addPrograms'"
+          v-else-if="state === states.ADD_PRROGAM"
           title="Not installed programs"
           :program-list="notInstalledPrograms"
           :selected-program-id="selectedProgram?._id"
@@ -36,13 +36,13 @@
     <div class="row p-2">
       <div class="flex justify-end">
         <ButtonComponent
-          v-if="state === 'addPrograms'"
+          v-if="state === states.ADD_PRROGAM"
           text="Install"
           :disabled="selectedProgram === undefined"
           @clicked="() => addOrRemoveProgram(false)"
         />
         <ButtonComponent
-          v-else-if="state === 'removePrograms'"
+          v-else-if="state === states.REMOVE_PROGRAM"
           text="Remove"
           :disabled="selectedProgram === undefined"
           @clicked="() => addOrRemoveProgram(true)"
@@ -61,6 +61,11 @@ import { programsStore } from '@/stores/programsStore'
 import type { IProgram } from '@/models'
 import { storeToRefs } from 'pinia'
 
+enum states {
+  ADD_PRROGAM,
+  REMOVE_PROGRAM,
+}
+
 const { program } = defineProps<{
   program: IProgram
 }>()
@@ -68,30 +73,32 @@ const { program } = defineProps<{
 const programsstore = programsStore()
 const { notInstalledPrograms } = storeToRefs(programsstore)
 
-const state = ref<string>('removePrograms')
+const state = ref<states>(states.REMOVE_PROGRAM)
 const isInstalling = ref<boolean>(false)
 const selectedProgram = ref<IProgram | undefined>()
 
 const installedPrograms = computed(() =>
-  programsstore.installedPrograms.map((IPro) => IPro.program)
+  programsstore.installedPrograms
+    .map((installedProgram) => installedProgram.program)
+    .filter((installedPrograms) => installedPrograms?._id !== '645be25c282005257c879cbc')
 )
 
 const menuButtons = [
   {
     clicked: () => {
-      changeState('removePrograms')
+      changeState(states.REMOVE_PROGRAM)
     },
     text: 'Remove Program',
     icon: 'fa-computer',
-    active: 'removePrograms',
+    active: states.REMOVE_PROGRAM,
   },
   {
     clicked: () => {
-      changeState('addPrograms')
+      changeState(states.ADD_PRROGAM)
     },
     text: 'Add Program',
     icon: 'fa-folder-plus',
-    active: 'addPrograms',
+    active: states.ADD_PRROGAM,
   },
 ]
 
@@ -107,7 +114,7 @@ const addOrRemoveProgram = async (isRemoving: boolean) => {
   }
 }
 
-const changeState = (newState: string) => {
+const changeState = (newState: states) => {
   state.value = newState
   selectedProgram.value = undefined
 }

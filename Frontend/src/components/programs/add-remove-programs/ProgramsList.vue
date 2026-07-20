@@ -4,13 +4,11 @@
   </h2>
   <div class="programs-list divide-y-2 divide-gray-400">
     <ProgramListItem
-      v-for="program in programList.filter(
-        (program: IProgram) => program.name !== 'AddOrRemovePrograms'
-      )"
+      v-for="program in filteredList"
       :key="program._id"
       v-bind="program"
       :class="{ 'bg-blue-600 text-white': program._id === selectedProgramId }"
-      @click="emit('changeSelectedProgram', program)"
+      @click="() => emit('changeSelectedProgram', program)"
     />
   </div>
 </template>
@@ -27,4 +25,8 @@ const { programList, title, selectedProgramId } = defineProps<{
 const emit = defineEmits<{
   changeSelectedProgram: [program: IProgram]
 }>()
+
+const filteredList = computed(() =>
+  programList.filter((program: IProgram) => program.name !== 'AddOrRemovePrograms')
+)
 </script>
