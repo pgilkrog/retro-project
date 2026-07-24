@@ -6,7 +6,7 @@
     <ImageComponent
       :id="image"
       class="h-12 w-12"
-      :source="icon"
+      :source="appStore.getIcon(image)"
     />
     <p
       class="mt-2 line-clamp-2 px-1 py-0.5"
@@ -18,6 +18,8 @@
 </template>
 
 <script setup lang="ts">
+import { useAppStore } from '@/stores'
+
 const { image = 'fa-house', backgroundColor = '#047857' } = defineProps<{
   color?: string
   image?: string
@@ -29,11 +31,6 @@ const emit = defineEmits<{
   itemClicked: []
 }>()
 
-const icons = import.meta.glob('@/assets/icons/*', { eager: true, import: 'default' })
 
-const icon = computed(() => {
-  const found = icons[`/src/assets/icons/${image}.png`]
-
-  return typeof found === 'string' ? found : (icons['/src/assets/icons/retropcicon.png'] as string)
-})
+const appStore = useAppStore()
 </script>

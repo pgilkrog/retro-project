@@ -57,6 +57,7 @@ declare module 'vue' {
     PcSettings: typeof import('./src/components/programs/pc-settings/PcSettings.vue')['default']
     ProgramListItem: typeof import('./src/components/programs/add-remove-programs/ProgramListItem.vue')['default']
     ProgramsList: typeof import('./src/components/programs/add-remove-programs/ProgramsList.vue')['default']
+    RetroIcons: typeof import('./src/components/utils/RetroIcons.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     ScreensaverMachine: typeof import('./src/components/ScreensaverMachine.vue')['default']

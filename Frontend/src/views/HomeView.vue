@@ -29,16 +29,12 @@
       :position="contextMenuPosition"
     />
 
-    <MenuPopup
-      :list="appStore.myList"
-      title="min titel"
-    />
     <TaskbarMenu v-if="showMenu === true" />
     <TaskbarComponent
       :show-menu="showMenu"
       @change-show-menu="changeShowMenu"
     />
-    <ScreensaverMachine v-show="appStore.showScreensaver === true" />
+    <ScreensaverMachine v-show="showScreensaver === true" />
     <ComponentMachine />
   </div>
 </template>
@@ -55,6 +51,7 @@ const programsstore = programsStore()
 const userstore = userStore()
 
 const { userData } = storeToRefs(userstore)
+const { showScreensaver } = storeToRefs(appStore)
 
 const showMenu = ref<boolean>(false)
 const positionedList = computed<IInstalledProgram[]>(() => programsstore.positionedList)
@@ -83,14 +80,6 @@ const handleItemClicked = (program: IProgram | undefined): void => {
 const getImageUrl = (filename: string): string => {
   return `${import.meta.env.VITE_BASE_URL}/uploads/${filename}`
 }
-
-// const thismethod = () => {
-//   console.log('thismethod')
-// }
-
-// const thismehtod2 = () => {
-//   console.log('thismehtod2')
-// }
 
 const changeShowMenu = (): void => {
   showMenu.value = !showMenu.value

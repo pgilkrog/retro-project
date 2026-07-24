@@ -1,4 +1,4 @@
-export type * from '../definitions/interfaces/program/IProgram'
+export type * from '../definitions/interfaces/program'
 export type * from './IMenuItem'
 export type * from './IErrorItem'
 export type * from './IPainting'

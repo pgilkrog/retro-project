@@ -1,19 +1,18 @@
 <template>
   <WindowFrame
+    variant="blue"
     :program="program"
     :show-menu="false"
-    variant="blue"
     :is-moveable="false"
     :disable-buttons="true"
     :is-static="true"
   >
     <div class="login-screen grid py-2 px-4">
       <div class="col-span-4 text-center">
-        <icon-component
-          name="fa-key"
-          color="yellow"
-          size="30"
-          rotate="0"
+        <ImageComponent
+          :id="'retrokeyicon'"
+          class="h-12 w-12"
+          :source="appStore.getIcon('retrokeyicon')"
         />
       </div>
       <div class="col-span-8 flex items-center px-4">
@@ -65,8 +64,7 @@
           text="OK"
           @clicked="() => pressedOk()"
         />
-        <!-- Uncomment below if needed -->
-        <!-- <button-component @clicked="changeShowHelp()" text="Help" :active="showHelp"></button-component> -->
+        <button-component @clicked="changeShowHelp()" text="Help" :active="showHelp"></button-component>
       </div>
     </div>
     <div
@@ -100,8 +98,10 @@
 import { useAuthStore } from '@/stores/authStore'
 import type { IProgram } from '@/models/index'
 import router from '@/router'
+import { useAppStore } from '@/stores'
 
 const authstore = useAuthStore()
+const appStore = useAppStore()
 
 const state = ref<number>(1)
 const username = ref<string>('')
@@ -152,9 +152,9 @@ const changePassword = (): void => {
   // authstore.changePassword(password.value)
 }
 
-// const changeShowHelp = (): void => {
-//   showHelp.value = !showHelp.value
-// }
+const changeShowHelp = (): void => {
+  showHelp.value = !showHelp.value
+}
 
 const devLogin = (): void => {
   authstore.loginUser('check@check.com', 'hejsa1234').then(() => {

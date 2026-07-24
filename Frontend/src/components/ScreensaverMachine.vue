@@ -1,6 +1,6 @@
 <template>
   <component
-    v-if="currentScreensaver"
+    v-if="currentScreensaver != undefined"
     :is="currentScreensaver"
   />
 </template>

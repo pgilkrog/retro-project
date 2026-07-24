@@ -28,8 +28,3 @@ const iconClass = () => {
   }
 }
 </script>
-
-<style scoped lang="sass">
-// .bi:before
-//   vertical-align: 0 !important
-</style>
